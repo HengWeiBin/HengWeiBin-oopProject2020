@@ -1,32 +1,33 @@
-namespace game_framework {
-	/////////////////////////////////////////////////////////////////////////////
-	// ³o­Óclass´£¨Ñ¥i¥H¥ÎÁä½L©Î·Æ¹«±±¨îªºÀ¿¤l
-	// ¬ÝÀ´´N¥i¥H§ï¼g¦¨¦Û¤vªºµ{¦¡¤F
-	/////////////////////////////////////////////////////////////////////////////
+namespace game_framework
+{
+/////////////////////////////////////////////////////////////////////////////
+// ï¿½oï¿½ï¿½classï¿½ï¿½ï¿½Ñ¥iï¿½Hï¿½ï¿½ï¿½ï¿½Lï¿½Î·Æ¹ï¿½ï¿½ï¿½ï¿½îªºï¿½ï¿½ï¿½l
+// ï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½iï¿½Hï¿½ï¿½gï¿½ï¿½ï¿½Û¤vï¿½ï¿½ï¿½{ï¿½ï¿½ï¿½F
+/////////////////////////////////////////////////////////////////////////////
 
-	class CEraser
-	{
-	public:
-		CEraser();
-		int  GetX1();					// À¿¤l¥ª¤W¨¤ x ®y¼Ð
-		int  GetY1();					// À¿¤l¥ª¤W¨¤ y ®y¼Ð
-		int  GetX2();					// À¿¤l¥k¤U¨¤ x ®y¼Ð
-		int  GetY2();					// À¿¤l¥k¤U¨¤ y ®y¼Ð
-		void Initialize();				// ³]©wÀ¿¤l¬°ªì©l­È
-		void LoadBitmap();				// ¸ü¤J¹Ï§Î
-		void OnMove();					// ²¾°ÊÀ¿¤l
-		void OnShow();					// ±NÀ¿¤l¹Ï§Î¶K¨ìµe­±
-		void SetMovingDown(bool flag);	// ³]©w¬O§_¥¿¦b©¹¤U²¾°Ê
-		void SetMovingLeft(bool flag);	// ³]©w¬O§_¥¿¦b©¹¥ª²¾°Ê
-		void SetMovingRight(bool flag); // ³]©w¬O§_¥¿¦b©¹¥k²¾°Ê
-		void SetMovingUp(bool flag);	// ³]©w¬O§_¥¿¦b©¹¤W²¾°Ê
-		void SetXY(int nx, int ny);		// ³]©wÀ¿¤l¥ª¤W¨¤®y¼Ð
-	protected:
-		CAnimation animation;		// À¿¤lªº°Êµe
-		int x, y;					// À¿¤l¥ª¤W¨¤®y¼Ð
-		bool isMovingDown;			// ¬O§_¥¿¦b©¹¤U²¾°Ê
-		bool isMovingLeft;			// ¬O§_¥¿¦b©¹¥ª²¾°Ê
-		bool isMovingRight;			// ¬O§_¥¿¦b©¹¥k²¾°Ê
-		bool isMovingUp;			// ¬O§_¥¿¦b©¹¤W²¾°Ê
-	};
+class CEraser
+{
+    public:
+        CEraser();
+        int  GetX1();					// ï¿½ï¿½ï¿½lï¿½ï¿½ï¿½Wï¿½ï¿½ x ï¿½yï¿½ï¿½
+        int  GetY1();					// ï¿½ï¿½ï¿½lï¿½ï¿½ï¿½Wï¿½ï¿½ y ï¿½yï¿½ï¿½
+        int  GetX2();					// ï¿½ï¿½ï¿½lï¿½kï¿½Uï¿½ï¿½ x ï¿½yï¿½ï¿½
+        int  GetY2();					// ï¿½ï¿½ï¿½lï¿½kï¿½Uï¿½ï¿½ y ï¿½yï¿½ï¿½
+        void Initialize();				// ï¿½]ï¿½wï¿½ï¿½ï¿½lï¿½ï¿½ï¿½ï¿½lï¿½ï¿½
+        void LoadBitmap();				// ï¿½ï¿½ï¿½Jï¿½Ï§ï¿½
+        void OnMove();					// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½l
+        void OnShow();					// ï¿½Nï¿½ï¿½ï¿½lï¿½Ï§Î¶Kï¿½ï¿½eï¿½ï¿½
+        void SetMovingDown(bool flag);	// ï¿½]ï¿½wï¿½Oï¿½_ï¿½ï¿½ï¿½bï¿½ï¿½ï¿½Uï¿½ï¿½ï¿½ï¿½
+        void SetMovingLeft(bool flag);	// ï¿½]ï¿½wï¿½Oï¿½_ï¿½ï¿½ï¿½bï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        void SetMovingRight(bool flag); // ï¿½]ï¿½wï¿½Oï¿½_ï¿½ï¿½ï¿½bï¿½ï¿½ï¿½kï¿½ï¿½ï¿½ï¿½
+        void SetMovingUp(bool flag);	// ï¿½]ï¿½wï¿½Oï¿½_ï¿½ï¿½ï¿½bï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½
+        void SetXY(int nx, int ny);		// ï¿½]ï¿½wï¿½ï¿½ï¿½lï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½yï¿½ï¿½
+    protected:
+        CAnimation animation;		// ï¿½ï¿½ï¿½lï¿½ï¿½ï¿½Êµe
+        int x, y;					// ï¿½ï¿½ï¿½lï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½yï¿½ï¿½
+        bool isMovingDown;			// ï¿½Oï¿½_ï¿½ï¿½ï¿½bï¿½ï¿½ï¿½Uï¿½ï¿½ï¿½ï¿½
+        bool isMovingLeft;			// ï¿½Oï¿½_ï¿½ï¿½ï¿½bï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        bool isMovingRight;			// ï¿½Oï¿½_ï¿½ï¿½ï¿½bï¿½ï¿½ï¿½kï¿½ï¿½ï¿½ï¿½
+        bool isMovingUp;			// ï¿½Oï¿½_ï¿½ï¿½ï¿½bï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½
+};
 }

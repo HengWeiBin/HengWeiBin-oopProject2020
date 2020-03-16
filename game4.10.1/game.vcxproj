@@ -331,6 +331,7 @@
     <Image Include="Bitmaps\InitBackground.bmp" />
     <Image Include="Bitmaps\PlayButton.bmp" />
     <Image Include="Bitmaps\ProfileButton.bmp" />
+    <Image Include="Bitmaps\WoodBackground.bmp" />
     <Image Include="res\bitmap3.bmp" />
     <Image Include="res\bitmap4.bmp" />
     <Image Include="res\bmp00001.bmp" />
