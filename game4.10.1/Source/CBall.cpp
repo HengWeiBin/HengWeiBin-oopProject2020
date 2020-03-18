@@ -20,19 +20,19 @@ namespace game_framework {
 
 	bool CBall::HitEraser(CEraser *eraser)
 	{
-		// �˴����l�Һc�����x�άO�_�I��y
+		// 檢測擦子所構成的矩形是否碰到球
 		return HitRectangle(eraser->GetX1(), eraser->GetY1(),
 			eraser->GetX2(), eraser->GetY2());
 	}
 
 	bool CBall::HitRectangle(int tx1, int ty1, int tx2, int ty2)
 	{
-		int x1 = x + dx;				// �y�����W��x�y��
-		int y1 = y + dy;				// �y�����W��y�y��
-		int x2 = x1 + bmp.Width();	// �y���k�U��x�y��
-		int y2 = y1 + bmp.Height();	// �y���k�U��y�y��
+		int x1 = x + dx;				// 球的左上角x座標
+		int y1 = y + dy;				// 球的左上角y座標
+		int x2 = x1 + bmp.Width();	// 球的右下角x座標
+		int y2 = y1 + bmp.Height();	// 球的右下角y座標
 									//
-									// �˴��y���x�λP�ѼƯx�άO�_���涰
+									// 檢測球的矩形與參數矩形是否有交集
 									//
 		return (tx2 >= x1 && tx1 <= x2 && ty2 >= y1 && ty1 <= y2);
 	}
@@ -44,8 +44,8 @@ namespace game_framework {
 
 	void CBall::LoadBitmap()
 	{
-		bmp.LoadBitmap(IDB_BALL, RGB(0, 0, 0));			// ���J�y���ϧ�
-		bmp_center.LoadBitmap(IDB_CENTER, RGB(0, 0, 0));	// ���J�y��ߪ��ϧ�
+		bmp.LoadBitmap(IDB_BALL, RGB(0, 0, 0));			// 載入球的圖形
+		bmp_center.LoadBitmap(IDB_CENTER, RGB(0, 0, 0));	// 載入球圓心的圖形
 	}
 
 	void CBall::OnMove()
@@ -56,7 +56,7 @@ namespace game_framework {
 		if (delay_counter < 0) {
 			delay_counter = delay;
 			//
-			// �p��y�V����ߪ��첾�qdx, dy
+			// 計算球向對於圓心的位移量dx, dy
 			//
 			const int STEPS = 18;
 			static const int DIFFX[] = { 35, 32, 26, 17, 6, -6, -17, -26, -32, -34, -32, -26, -17, -6, 6, 17, 26, 32, };
