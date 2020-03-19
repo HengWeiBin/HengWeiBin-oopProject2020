@@ -9,5 +9,12 @@
 
 namespace game_framework
 {
+	GameArea::GameArea() :x(280), y(35), candies(NULL)
+	{	}
 
+	GameArea::~GameArea()
+	{
+		if (candies != NULL)
+			delete[] candies;
+	}
 }

@@ -3,7 +3,7 @@
 	class Candy
 	{
 	public:
-		Candy();
+		Candy(int, int, int);
 		~Candy();
 		void LoadBitmap();
 		void OnMove();
@@ -13,6 +13,7 @@
 		void SetAlive(bool);
 	private:
 		CMovingBitmap bmp;
+		int style;
 		bool alive;
 		int x, y;
 	};
