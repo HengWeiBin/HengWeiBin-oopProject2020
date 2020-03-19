@@ -13,10 +13,10 @@ namespace game_framework {
 
 	CBouncingBall::CBouncingBall()
 	{
-		const int INITIAL_VELOCITY = 20;	// ��l�W�ɳt��
-		const int FLOOR = 400;				// �a�O�y��
+		const int INITIAL_VELOCITY = 20;	// 初始上升速度
+		const int FLOOR = 400;				// 地板座標
 		floor = FLOOR;
-		x = 95; y = FLOOR - 1;				// y�y�Ф�a�O��1�I(���b�a�O�W)
+		x = 95; y = FLOOR - 1;				// y座標比地板高1點(站在地板上)
 		rising = true;
 		initial_velocity = INITIAL_VELOCITY;
 		velocity = initial_velocity;
@@ -25,34 +25,34 @@ namespace game_framework {
 	void CBouncingBall::LoadBitmap()
 	{
 		char *filename[4] = { ".\\bitmaps\\ball1.bmp",".\\bitmaps\\ball2.bmp",".\\bitmaps\\ball3.bmp",".\\bitmaps\\ball4.bmp" };
-		for (int i = 0; i < 4; i++)	// ���J�ʵe(��4�i�ϧκc��)
+		for (int i = 0; i < 4; i++)	// 載入動畫(由4張圖形構成)
 			animation.AddBitmap(filename[i], RGB(0, 0, 0));
 	}
 
 	void CBouncingBall::OnMove()
 	{
-		if (rising) {			// �W�ɪ��A
+		if (rising) {			// 上升狀態
 			if (velocity > 0) {
-				y -= velocity;	// ��t�� > 0�ɡAy�b�W��(����velocity���I�Avelocity����쬰 �I/��)
-				velocity--;		// �����O�v�T�A�U�����W�ɳt�׭��C
+				y -= velocity;	// 當速度 > 0時，y軸上升(移動velocity個點，velocity的單位為 點/次)
+				velocity--;		// 受重力影響，下次的上升速度降低
 			}
 			else {
-				rising = false; // ��t�� <= 0�A�W�ɲפ�A�U���אּ�U��
-				velocity = 1;	// �U������t(velocity)��1
+				rising = false; // 當速度 <= 0，上升終止，下次改為下降
+				velocity = 1;	// 下降的初速(velocity)為1
 			}
 		}
-		else {				// �U�����A
-			if (y < floor - 1) {  // ��y�y���٨S�I��a�O
-				y += velocity;	// y�b�U��(����velocity���I�Avelocity����쬰 �I/��)
-				velocity++;		// �����O�v�T�A�U�����U���t�׼W�[
+		else {				// 下降狀態
+			if (y < floor - 1) {  // 當y座標還沒碰到地板
+				y += velocity;	// y軸下降(移動velocity個點，velocity的單位為 點/次)
+				velocity++;		// 受重力影響，下次的下降速度增加
 			}
 			else {
-				y = floor - 1;  // ��y�y�ЧC��a�O�A�󥿬��a�O�W
-				rising = true;	// �����ϼu�A�U���אּ�W��
-				velocity = initial_velocity; // ���]�W�ɪ�l�t��
+				y = floor - 1;  // 當y座標低於地板，更正為地板上
+				rising = true;	// 探底反彈，下次改為上升
+				velocity = initial_velocity; // 重設上升初始速度
 			}
 		}
-		animation.OnMove();		// ����@��animation.OnMove()�Aanimation�~�|����
+		animation.OnMove();		// 執行一次animation.OnMove()，animation才會換圖
 	}
 
 	void CBouncingBall::OnShow()

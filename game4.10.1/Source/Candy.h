@@ -4,6 +4,7 @@
 	{
 	public:
 		Candy(int, int, int);
+		Candy();
 		~Candy();
 		void LoadBitmap();
 		void OnMove();
