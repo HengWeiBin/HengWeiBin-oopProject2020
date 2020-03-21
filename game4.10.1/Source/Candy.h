@@ -1,4 +1,7 @@
-﻿namespace game_framework
+﻿#ifndef CANDY_H
+#define CANDY_H
+
+namespace game_framework
 {
 	class Candy
 	{
@@ -9,14 +12,17 @@
 		void LoadBitmap();
 		void OnMove();
 		void OnShow();
-		void SetXY(int, int);
+		void SetDestination(int, int);
 		bool IsAlive();
 		void SetAlive(bool);
+		int GetStyle();
 	private:
 		CMovingBitmap bmp;
-		int style;
+		int style;				//0 = non-exist
 		bool alive;
-		int x, y;
+		int x, y;				//current coordinate
+		int dx, dy;				//destination coordinate 
 	};
 }
 
+#endif

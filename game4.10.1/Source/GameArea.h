@@ -1,4 +1,7 @@
-﻿namespace game_framework
+﻿#ifndef GAMEAREA_H
+#define GAMEAREA_H
+
+namespace game_framework
 {
 	class GameArea
 	{
@@ -17,6 +20,8 @@
 	private:
 		int map[13][20];
 		int x, y;	
-		Candy candies[13][20];
+		Candy** candies;
 	};
 }
+
+#endif

@@ -198,9 +198,6 @@
     <Image Include="res\bmp00002.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="..\..\Documents\GitHub\OOP-project-2020\OOP_CandyCrush\Bitmaps\GreenCandy.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="Bitmaps\inGameBG1.bmp">
       <Filter>Resource Files</Filter>
     </Image>
@@ -220,6 +217,21 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Bitmaps\WoodBackground.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\OrangeCandy.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\PurpleCandy.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\RedCandy.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\SuperCandy.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\BlueCandy.bmp">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

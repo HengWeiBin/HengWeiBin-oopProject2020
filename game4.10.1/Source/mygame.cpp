@@ -270,6 +270,7 @@ namespace game_framework {
 		gamemap.OnMove();
 		Practice.SetTopLeft(picX, picY);
 		c_practice.OnMove();
+		gameArea.OnMove();
 	}
 
 	void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
@@ -310,6 +311,10 @@ namespace game_framework {
 		c_practice.LoadBitmap();
 		//Practice.LoadBitmap("Bitmaps\\GreenCandy.bmp");
 		gamemap.LoadBitmap();
+
+		//Initiate gamearea
+		gameArea.InitCandy();
+		gameArea.LoadBitmap();
 	}
 
 	void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -397,6 +402,7 @@ namespace game_framework {
 		corner.ShowBitmap();
 		c_practice.OnShow();
 		Practice.ShowBitmap();
+		gameArea.OnShow();
 	}
 	CPractice::CPractice()
 	{

@@ -8,7 +8,7 @@
 
 namespace game_framework
 {
-	Candy::Candy(int id, int x, int y): style(id), x(x), y(y), alive(1)
+	Candy::Candy(int id, int x, int y): style(id), x(x), y(y), dx(x), dy(y), alive(1)
 	{
 
 	}
@@ -25,28 +25,28 @@ namespace game_framework
 
 	void Candy::LoadBitmap()
 	{
-		string BitmapDir;
+		char BitmapDir[50];
 		switch (style)
 		{
 		case 1:
-			BitmapDir = ".\\Bitmaps\\RedCandy.bmp";
+			strcpy(BitmapDir, ".\\Bitmaps\\RedCandy.bmp");
 			break;
 		case 2:
-			BitmapDir = ".\\Bitmaps\\OrangeCandy.bmp";
+			strcpy(BitmapDir, ".\\Bitmaps\\OrangeCandy.bmp");
 			break;
 		case 3:
-			BitmapDir = ".\\Bitmaps\\GreenCandy.bmp";
+			strcpy(BitmapDir, ".\\Bitmaps\\GreenCandy.bmp");
 			break;
 		case 4:
-			BitmapDir = ".\\Bitmaps\\BlueCandy.bmp";
+			strcpy(BitmapDir, ".\\Bitmaps\\BlueCandy.bmp");
 			break;
 		case 5:
-			BitmapDir = ".\\Bitmaps\\PurpleCandy.bmp";
+			strcpy(BitmapDir, ".\\Bitmaps\\PurpleCandy.bmp");
 			break;
 		/////////////////////////////////////////////////////////
 		//	Special Candy: Vertical
 		/////////////////////////////////////////////////////////
-		case 10:
+		/*case 10:
 			BitmapDir = ".\\Bitmaps\\VPowRedCandy.bmp";
 			break;
 		case 20:
@@ -60,13 +60,17 @@ namespace game_framework
 			break;
 		case 50:
 			BitmapDir = ".\\Bitmaps\\VPowPurpleCandy.bmp";
-			break;
+			break;*/
 		}
+		bmp.LoadBitmap(BitmapDir, RGB(255, 255, 255));
 	}
 
 	void Candy::OnMove()
 	{
-
+		if (x != dx)
+			x > dx ? x-- : x++;
+		if (y != dy)
+			y > dy ? y-- : y++;
 	}
 
 	void Candy::OnShow()
@@ -78,13 +82,13 @@ namespace game_framework
 		}
 	}
 
-	void Candy::SetXY(int x, int y)
+	void Candy::SetDestination(int x, int y)
 	{
-		this->x = x;
-		this->y = y;
+		dx = x;
+		dy = y;
 	}
 
-	inline bool Candy::IsAlive()
+	bool Candy::IsAlive()
 	{
 		return alive;
 	}
@@ -92,5 +96,10 @@ namespace game_framework
 	void Candy::SetAlive(bool alive)
 	{
 		this->alive = alive;
+	}
+
+	int Candy::GetStyle()
+	{
+		return style;
 	}
 }

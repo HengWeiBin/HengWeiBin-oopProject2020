@@ -329,12 +329,16 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\Documents\GitHub\OOP-project-2020\OOP_CandyCrush\Bitmaps\GreenCandy.bmp" />
+    <Image Include="Bitmaps\BlueCandy.bmp" />
     <Image Include="Bitmaps\GreenCandy.bmp" />
     <Image Include="Bitmaps\inGameBG1.bmp" />
     <Image Include="Bitmaps\InitBackground.bmp" />
+    <Image Include="Bitmaps\OrangeCandy.bmp" />
     <Image Include="Bitmaps\PlayButton.bmp" />
     <Image Include="Bitmaps\ProfileButton.bmp" />
+    <Image Include="Bitmaps\PurpleCandy.bmp" />
+    <Image Include="Bitmaps\RedCandy.bmp" />
+    <Image Include="Bitmaps\SuperCandy.bmp" />
     <Image Include="Bitmaps\WoodBackground.bmp" />
     <Image Include="res\bitmap3.bmp" />
     <Image Include="res\bitmap4.bmp" />

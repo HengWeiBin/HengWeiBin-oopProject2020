@@ -10,17 +10,45 @@
 namespace game_framework
 {
 	GameArea::GameArea() :x(280), y(35)
-	{	}
+	{
+		candies = new Candy*[13];
+		for (int i = 0; i < 13; i++)
+		{
+			candies[i] = new Candy[20];
+		}
+
+		//////////////////////Temp
+		for (int i = 0; i < 13; i++)
+		{
+			for (int j = 0; j < 20; j++)
+			{
+				if (i == 0 || i == 12 || j == 0 || j == 19)
+					map[i][j] = 0;
+				else
+					map[i][j] = 1;
+			}
+		}
+	}
 
 	GameArea::~GameArea()
 	{
-		if (candies != NULL)
-			delete[] candies;
+		for (int i = 0; i < 13; i++)
+		{
+			delete[] candies[i];
+		}
+		delete[] candies;
 	}
 
 	void GameArea::LoadBitmap()
 	{
-
+		for (int i = 0; i < 13; i++)
+		{
+			for (int j = 0; j < 20; j++)
+			{
+				if (candies[i][j].GetStyle() != 0)
+					candies[i][j].LoadBitmap();
+			}
+		}
 	}
 
 	void GameArea::LoadStage()
@@ -30,11 +58,29 @@ namespace game_framework
 
 	void GameArea::OnShow()
 	{
+		///////////////////////////////////////////
+		// Show gamearea						///
+		///////////////////////////////////////////
+		/*
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		*/
+		///////////////////////////////////////////
+		// Show all candy						///
+		///////////////////////////////////////////
 		for (int i = 0; i < 13; i++)
 		{
 			for (int j = 0; j < 20; j++)
 			{
-				candies[i][j].OnShow();		//Show all Candies
+				if (candies[i][j].GetStyle() != 0)
+					candies[i][j].OnShow();
 			}
 		}
 
@@ -42,7 +88,14 @@ namespace game_framework
 
 	void GameArea::OnMove()
 	{
-
+		for (int i = 0; i < 13; i++)
+		{
+			for (int j = 0; j < 20; j++)
+			{
+				if (candies[i][j].GetStyle() != 0)
+					candies[i][j].OnMove();
+			}
+		}
 	}
 
 	void GameArea::OnLButtonDown(UINT nFlags, CPoint point)
@@ -74,15 +127,15 @@ namespace game_framework
 					break;
 				case 1: 
 					int id = rand() % MAX_RAND_NUM + 1;
-					candies[i][j] = Candy(id, j * 50, i * 50);
+					candies[i][j] = Candy(id, j * 50 + x, i * 50 + y);
 				}
 			}
 		}
 	}
 
+
 	void GameArea::CheckCombo()
 	{
-
 	}
 
 }
