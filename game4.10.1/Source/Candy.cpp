@@ -26,42 +26,7 @@ namespace game_framework
 	void Candy::LoadBitmap()
 	{
 		char BitmapDir[50];
-		switch (style)
-		{
-		case 1:
-			strcpy(BitmapDir, ".\\Bitmaps\\RedCandy.bmp");
-			break;
-		case 2:
-			strcpy(BitmapDir, ".\\Bitmaps\\OrangeCandy.bmp");
-			break;
-		case 3:
-			strcpy(BitmapDir, ".\\Bitmaps\\GreenCandy.bmp");
-			break;
-		case 4:
-			strcpy(BitmapDir, ".\\Bitmaps\\BlueCandy.bmp");
-			break;
-		case 5:
-			strcpy(BitmapDir, ".\\Bitmaps\\PurpleCandy.bmp");
-			break;
-		/////////////////////////////////////////////////////////
-		//	Special Candy: Vertical
-		/////////////////////////////////////////////////////////
-		/*case 10:
-			BitmapDir = ".\\Bitmaps\\VPowRedCandy.bmp";
-			break;
-		case 20:
-			BitmapDir = ".\\Bitmaps\\VPowOrangeCandy.bmp";
-			break;
-		case 30:
-			BitmapDir = ".\\Bitmaps\\VPowGreenCandy.bmp";
-			break;
-		case 40:
-			BitmapDir = ".\\Bitmaps\\VPowBlueCandy.bmp";
-			break;
-		case 50:
-			BitmapDir = ".\\Bitmaps\\VPowPurpleCandy.bmp";
-			break;*/
-		}
+		GetBitmapDirectory(style, BitmapDir);
 		bmp.LoadBitmap(BitmapDir, RGB(255, 255, 255));
 	}
 
@@ -101,5 +66,45 @@ namespace game_framework
 	int Candy::GetStyle()
 	{
 		return style;
+	}
+
+	void Candy::GetBitmapDirectory(int style, char* BitmapDir)
+	{
+		switch (style)
+		{
+		case 1:
+			strcpy(BitmapDir, ".\\Bitmaps\\RedCandy.bmp");
+			break;
+		case 2:
+			strcpy(BitmapDir, ".\\Bitmaps\\OrangeCandy.bmp");
+			break;
+		case 3:
+			strcpy(BitmapDir, ".\\Bitmaps\\GreenCandy.bmp");
+			break;
+		case 4:
+			strcpy(BitmapDir, ".\\Bitmaps\\BlueCandy.bmp");
+			break;
+		case 5:
+			strcpy(BitmapDir, ".\\Bitmaps\\PurpleCandy.bmp");
+			break;
+		/////////////////////////////////////////////////////////
+		//	Special Candy: Vertical
+		/////////////////////////////////////////////////////////
+		/*case 10:
+			BitmapDir = ".\\Bitmaps\\VPowRedCandy.bmp";
+			break;
+		case 20:
+			BitmapDir = ".\\Bitmaps\\VPowOrangeCandy.bmp";
+			break;
+		case 30:
+			BitmapDir = ".\\Bitmaps\\VPowGreenCandy.bmp";
+			break;
+		case 40:
+			BitmapDir = ".\\Bitmaps\\VPowBlueCandy.bmp";
+			break;
+		case 50:
+			BitmapDir = ".\\Bitmaps\\VPowPurpleCandy.bmp";
+			break;*/
+		}
 	}
 }

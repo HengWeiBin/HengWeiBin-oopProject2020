@@ -17,17 +17,18 @@ namespace game_framework
 			candies[i] = new Candy[20];
 		}
 
-		//////////////////////Temp
+		////////////////////////////////////////////////////////////
 		for (int i = 0; i < 13; i++)
 		{
 			for (int j = 0; j < 20; j++)
 			{
-				if (i == 0 || i == 12 || j == 0 || j == 19)
+				if (i == 0 || i == 12 || j == 0 || j == 19)		//for temporary use
 					map[i][j] = 0;
 				else
 					map[i][j] = 1;
 			}
 		}
+		////////////////////////////////////////////////////////////
 	}
 
 	GameArea::~GameArea()
@@ -115,7 +116,7 @@ namespace game_framework
 
 	void GameArea::InitCandy()
 	{
-		const int MAX_RAND_NUM = 5;		//There are five type of candy(temporary)
+		const int MAX_RAND_NUM = 5;		//There are five basic type of candy
 		for (int i = 0; i < 13; i++)
 		{
 			for (int j = 0; j < 20; j++)
@@ -136,6 +137,50 @@ namespace game_framework
 
 	void GameArea::CheckCombo()
 	{
+		int accumulateStyle = 0;
+		vector<Candy*> accumulateCandy;
+		for (int i = 0; i < 13; i++)
+		{
+			for (int j = 0; j < 20; j++)
+			{
+				KillCombo(accumulateStyle, accumulateCandy, i, j);
+			}
+		}
+		for (int i = 0; i < 20; i++)
+		{
+			for (int j = 0; j < 13; j++)
+			{
+				KillCombo(accumulateStyle, accumulateCandy, j, i);
+			}
+		}
 	}
 
+	void GameArea::KillCombo(int& accumulateStyle, vector<Candy*>& accumulateCandy, int i, int j)
+	{
+		int currentStyle = candies[i][j].GetStyle();
+		if (currentStyle == 0)
+		{
+			KillCandy(accumulateCandy);
+			return;
+		}
+		if (currentStyle == accumulateStyle)
+		{
+			accumulateCandy.push_back(&candies[i][j]);
+		}
+		else
+		{
+			KillCandy(accumulateCandy);
+			accumulateStyle = currentStyle;
+		}
+	}
+
+	void GameArea::KillCandy(vector<Candy*>& candies)
+	{
+		if (candies.size() >= 3)
+		{
+			//for (int i = 0; i < candies.size(); i++)
+			//	candies[i]->SetAlive(0);
+		}
+		candies.clear();
+	}
 }

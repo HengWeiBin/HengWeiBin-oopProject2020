@@ -16,6 +16,7 @@ namespace game_framework
 		bool IsAlive();
 		void SetAlive(bool);
 		int GetStyle();
+		void GetBitmapDirectory(int, char*);
 	private:
 		CMovingBitmap bmp;
 		int style;				//0 = non-exist
