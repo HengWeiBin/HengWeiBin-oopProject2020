@@ -283,7 +283,7 @@ namespace game_framework {
 
 	void CInteger::ShowBitmap()
 	{
-		GAME_ASSERT(isBmpLoaded, "CInteger: 請先執行LoadBitmap，然後才能ShowBitmap");
+		//GAME_ASSERT(isBmpLoaded, "CInteger: 請先執行LoadBitmap，然後才能ShowBitmap");
 		int nx;		// 待顯示位數的 x 座標
 		int MSB;	// 最左邊(含符號)的位數的數值
 		if (n >= 0) {

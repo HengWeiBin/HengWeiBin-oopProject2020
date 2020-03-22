@@ -1,6 +1,8 @@
 ﻿#include "stdafx.h"
 #include "Resource.h"
 #include <mmsystem.h>
+#include <fstream>
+#include <string>
 #include <ddraw.h>
 #include "audio.h"
 #include "gamelib.h"
@@ -183,4 +185,23 @@ namespace game_framework
 		}
 		candies.clear();
 	}
+	int* GameArea::ContainerCandy()
+	{
+		int Container_Map[13][20];
+		fstream InputStage;
+		InputStage.open("Text.txt");
+		if (InputStage) {
+			string firstline;
+			getline(InputStage, firstline);
+			char firstline_array[21];
+			for (int i = 0; i <= 13; i++) {
+				strcpy_s(firstline_array, firstline.c_str());
+				for (int j = 0; j <= 20; j++) {
+					firstline_array[j] == '1' ? Container_Map[i][j] = 1 : Container_Map[i][j] = 0;
+				}
+			}
+		}
+		InputStage.close();
+		return Container_Map;
+	
 }
