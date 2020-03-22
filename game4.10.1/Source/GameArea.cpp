@@ -58,7 +58,6 @@ namespace game_framework
 
 	void GameArea::LoadStage()
 	{
-
 		
 	}
 
