@@ -271,6 +271,7 @@ namespace game_framework {
 		Practice.SetTopLeft(picX, picY);
 		c_practice.OnMove();
 		gameArea.OnMove();
+		
 	}
 
 	void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
@@ -442,7 +443,7 @@ namespace game_framework {
 								{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 								{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 								{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-								{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} };
+								{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1} };
 		for (int i = 0; i < 8; i++)
 		{
 			for (int j = 0; j < 16; j++)

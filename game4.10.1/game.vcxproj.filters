@@ -234,5 +234,8 @@
     <Image Include="Bitmaps\BlueCandy.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="container.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

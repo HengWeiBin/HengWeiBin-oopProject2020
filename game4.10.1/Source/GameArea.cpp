@@ -19,6 +19,7 @@ namespace game_framework
 			candies[i] = new Candy[20];
 		}
 
+		
 		////////////////////////////////////////////////////////////
 		for (int i = 0; i < 13; i++)
 		{
@@ -52,29 +53,32 @@ namespace game_framework
 					candies[i][j].LoadBitmap();
 			}
 		}
+
 	}
 
 	void GameArea::LoadStage()
 	{
 
+		
 	}
+
+	
 
 	void GameArea::OnShow()
 	{
 		///////////////////////////////////////////
 		// Show gamearea						///
 		///////////////////////////////////////////
-		/*
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		*/
+		/////////////////////////////////////////////////////////////
+		for (int i = 0; i < 13; i++)
+		{
+			for (int j = 0; j < 20; j++)
+			{
+				if (ContainerMap[i][j] == 1)
+					Area.LoadBitmap("container.bmp");
+			}
+		}
+
 		///////////////////////////////////////////
 		// Show all candy						///
 		///////////////////////////////////////////
@@ -185,11 +189,11 @@ namespace game_framework
 		}
 		candies.clear();
 	}
-	int* GameArea::ContainerCandy()
+	int *GameArea::ContainerCandy()
 	{
-		int Container_Map[13][20];
+		int *Container_map;
 		fstream InputStage;
-		InputStage.open("Text.txt");
+		InputStage.open("cnt_stage1.txt");
 		if (InputStage) {
 			string firstline;
 			getline(InputStage, firstline);
@@ -197,11 +201,14 @@ namespace game_framework
 			for (int i = 0; i <= 13; i++) {
 				strcpy_s(firstline_array, firstline.c_str());
 				for (int j = 0; j <= 20; j++) {
-					firstline_array[j] == '1' ? Container_Map[i][j] = 1 : Container_Map[i][j] = 0;
+					firstline_array[j] == '1' ? ContainerMap[i][j] = 1 : ContainerMap[i][j] = 0;
+
 				}
 			}
 		}
+		Container_map = *ContainerMap;
 		InputStage.close();
-		return Container_Map;
+		return Container_map;
+	}
 	
 }
