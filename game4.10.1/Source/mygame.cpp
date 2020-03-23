@@ -271,7 +271,6 @@ namespace game_framework {
 		Practice.SetTopLeft(picX, picY);
 		c_practice.OnMove();
 		gameArea.OnMove();
-		
 	}
 
 	void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
@@ -400,10 +399,10 @@ namespace game_framework {
 		corner.SetTopLeft(0, 0);
 		corner.ShowBitmap();
 		corner.SetTopLeft(SIZE_X - corner.Width(), SIZE_Y - corner.Height());
-		corner.ShowBitmap();
-		c_practice.OnShow();
-		Practice.ShowBitmap();*/
+		corner.ShowBitmap();*/
 		background.ShowBitmap();			// 貼上背景圖
+		c_practice.OnShow();
+		Practice.ShowBitmap();
 		gameArea.OnShow();
 	}
 	CPractice::CPractice()

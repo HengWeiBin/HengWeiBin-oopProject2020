@@ -17,8 +17,10 @@ namespace game_framework
 		void SetAlive(bool);
 		int GetStyle();
 		void GetBitmapDirectory(int, char*);
+		int GetTopLeftX();
+		int GetTopLeftY();
 	private:
-		CMovingBitmap bmp;
+		CMovingBitmap bmp;		//candy's bitmap
 		int style;				//0 = non-exist
 		bool alive;
 		int x, y;				//current coordinate

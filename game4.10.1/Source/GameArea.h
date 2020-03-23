@@ -19,7 +19,7 @@ namespace game_framework
 		void CheckCombo();
 		void KillCombo(int&, vector<Candy*>&, int, int);
 		void KillCandy(vector<Candy*>&);
-		void ContainerCandy();
+		void DropCandy();
 	private:
 		int map[13][20];
 		int x, y;	

@@ -33,9 +33,9 @@ namespace game_framework
 	void Candy::OnMove()
 	{
 		if (x != dx)
-			x > dx ? x-- : x++;
+			x > dx ? x-= 5 : x+= 5;
 		if (y != dy)
-			y > dy ? y-- : y++;
+			y > dy ? y-= 5 : y+= 5;
 	}
 
 	void Candy::OnShow()
@@ -106,5 +106,15 @@ namespace game_framework
 			BitmapDir = ".\\Bitmaps\\VPowPurpleCandy.bmp";
 			break;*/
 		}
+	}
+
+	int Candy::GetTopLeftX()
+	{
+		return x;
+	}
+
+	int Candy::GetTopLeftY()
+	{
+		return y;
 	}
 }

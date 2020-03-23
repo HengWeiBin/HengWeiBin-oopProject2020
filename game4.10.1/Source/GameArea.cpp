@@ -19,7 +19,7 @@ namespace game_framework
 			candies[i] = new Candy[20];
 		}
 
-		ContainerCandy();
+		LoadStage();
 	}
 
 	GameArea::~GameArea()
@@ -48,10 +48,19 @@ namespace game_framework
 
 	void GameArea::LoadStage()
 	{
-		
+		fstream InputStage;
+		InputStage.open(".\\Stages\\cnt_stage1.txt");
+		if (InputStage) {
+			string firstline;
+			getline(InputStage, firstline);
+			for (int i = 0; i < 13; i++) {
+				for (int j = 0; j < 20; j++) {
+					map[i][j] = firstline[j] == '1' ? 1 : 0;
+				}
+			}
+		}
+		InputStage.close();
 	}
-
-	
 
 	void GameArea::OnShow()
 	{
@@ -64,7 +73,7 @@ namespace game_framework
 			{
 				if (map[i][j] == 1)
 					Area.SetTopLeft(j * 50 + x, i * 50 + y);
-					Area.ShowBitmap();
+				Area.ShowBitmap();
 			}
 		}
 
@@ -89,9 +98,20 @@ namespace game_framework
 			for (int j = 0; j < 20; j++)
 			{
 				if (candies[i][j].GetStyle() != 0)
-					candies[i][j].OnMove();
+					if (i + 1 < 13 && !candies[i + 1][j].IsAlive())
+					{
+						int currentX = candies[i][j].GetTopLeftX();
+						int currentY = candies[i][j].GetTopLeftY();
+						candies[i][j].SetDestination(currentX, currentY + 50);
+
+						candies[i + 1][j] = candies[i][j];
+						candies[i][j].SetAlive(0);
+					}
+				candies[i][j].OnMove();
 			}
 		}
+		CheckCombo();
+		//DropCandy();
 	}
 
 	void GameArea::OnLButtonDown(UINT nFlags, CPoint point)
@@ -118,12 +138,12 @@ namespace game_framework
 			{
 				switch (map[i][j])
 				{
-				case 0: 
+				case 0:
 					candies[i][j] = Candy();
 					break;
-				case 1: 
-					int id = rand() % MAX_RAND_NUM + 1;
-					candies[i][j] = Candy(id, j * 50 + x, i * 50 + y);
+				case 1:
+					int id = rand() % MAX_RAND_NUM + 1;					//random type of Candy
+					candies[i][j] = Candy(id, j * 50 + x, i * 50 + y);	//Set candy
 				}
 			}
 		}
@@ -173,26 +193,22 @@ namespace game_framework
 	{
 		if (candies.size() >= 3)
 		{
-			//for (int i = 0; i < candies.size(); i++)
-			//	candies[i]->SetAlive(0);
+			for (unsigned int i = 0; i < candies.size(); i++)
+				candies[i]->SetAlive(0);
 		}
 		candies.clear();
 	}
-	void GameArea::ContainerCandy()
-	{
-		fstream InputStage;
-		InputStage.open(".\\Stages\\cnt_stage1.txt");
-		if (InputStage) {
-			string firstline;
-			getline(InputStage, firstline);
-			for (int i = 0; i < 13; i++) {
-				for (int j = 0; j < 20; j++) {
-					map[i][j] = firstline[j] == '1' ? 1 : 0;
 
-				}
+	void GameArea::DropCandy()
+	{
+		for (int i = 0; i < 20; i++)
+		{
+			if (!candies[0][i].IsAlive())
+			{
+				int id = rand() % 5 + 1;
+				candies[0][i] = Candy(id, i * 50 + x, 50 + y);
+				candies[0][i].LoadBitmap();
 			}
 		}
-		InputStage.close();
 	}
-	
 }
