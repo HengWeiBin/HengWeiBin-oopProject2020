@@ -378,7 +378,7 @@ namespace game_framework {
 
 	void CGameStateRun::OnShow()
 	{
-		gamemap.OnShow();
+		/*gamemap.OnShow();
 		//
 		//  注意：Show裡面千萬不要移動任何物件的座標，移動座標的工作應由Move做才對，
 		//        否則當視窗重新繪圖時(OnDraw)，物件就會移動，看起來會很怪。換個術語
@@ -387,7 +387,7 @@ namespace game_framework {
 		//
 		//  貼上背景圖、撞擊數、球、擦子、彈跳的球
 		//
-		background.ShowBitmap();			// 貼上背景圖
+		
 		help.ShowBitmap();					// 貼上說明圖
 		hits_left.ShowBitmap();
 		for (int i = 0; i < NUMBALLS; i++)
@@ -402,7 +402,8 @@ namespace game_framework {
 		corner.SetTopLeft(SIZE_X - corner.Width(), SIZE_Y - corner.Height());
 		corner.ShowBitmap();
 		c_practice.OnShow();
-		Practice.ShowBitmap();
+		Practice.ShowBitmap();*/
+		background.ShowBitmap();			// 貼上背景圖
 		gameArea.OnShow();
 	}
 	CPractice::CPractice()

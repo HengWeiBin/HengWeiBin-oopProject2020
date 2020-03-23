@@ -19,10 +19,9 @@ namespace game_framework
 		void CheckCombo();
 		void KillCombo(int&, vector<Candy*>&, int, int);
 		void KillCandy(vector<Candy*>&);
-		int *ContainerCandy();
+		void ContainerCandy();
 	private:
 		int map[13][20];
-		int ContainerMap[13][20];
 		int x, y;	
 		Candy** candies;
 		CMovingBitmap Area;

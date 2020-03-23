@@ -19,19 +19,7 @@ namespace game_framework
 			candies[i] = new Candy[20];
 		}
 
-		
-		////////////////////////////////////////////////////////////
-		for (int i = 0; i < 13; i++)
-		{
-			for (int j = 0; j < 20; j++)
-			{
-				if (i == 0 || i == 12 || j == 0 || j == 19)		//for temporary use
-					map[i][j] = 0;
-				else
-					map[i][j] = 1;
-			}
-		}
-		////////////////////////////////////////////////////////////
+		ContainerCandy();
 	}
 
 	GameArea::~GameArea()
@@ -45,6 +33,8 @@ namespace game_framework
 
 	void GameArea::LoadBitmap()
 	{
+		Area.LoadBitmap(".\\Bitmaps\\container.bmp");
+
 		for (int i = 0; i < 13; i++)
 		{
 			for (int j = 0; j < 20; j++)
@@ -68,13 +58,13 @@ namespace game_framework
 		///////////////////////////////////////////
 		// Show gamearea						///
 		///////////////////////////////////////////
-		/////////////////////////////////////////////////////////////
 		for (int i = 0; i < 13; i++)
 		{
 			for (int j = 0; j < 20; j++)
 			{
-				if (ContainerMap[i][j] == 1)
-					Area.LoadBitmap("container.bmp");
+				if (map[i][j] == 1)
+					Area.SetTopLeft(j * 50 + x, i * 50 + y);
+					Area.ShowBitmap();
 			}
 		}
 
@@ -188,26 +178,21 @@ namespace game_framework
 		}
 		candies.clear();
 	}
-	int *GameArea::ContainerCandy()
+	void GameArea::ContainerCandy()
 	{
-		int *Container_map;
 		fstream InputStage;
-		InputStage.open("cnt_stage1.txt");
+		InputStage.open(".\\Stages\\cnt_stage1.txt");
 		if (InputStage) {
 			string firstline;
 			getline(InputStage, firstline);
-			char firstline_array[21];
-			for (int i = 0; i <= 13; i++) {
-				strcpy_s(firstline_array, firstline.c_str());
-				for (int j = 0; j <= 20; j++) {
-					firstline_array[j] == '1' ? ContainerMap[i][j] = 1 : ContainerMap[i][j] = 0;
+			for (int i = 0; i < 13; i++) {
+				for (int j = 0; j < 20; j++) {
+					map[i][j] = firstline[j] == '1' ? 1 : 0;
 
 				}
 			}
 		}
-		Container_map = *ContainerMap;
 		InputStage.close();
-		return Container_map;
 	}
 	
 }
