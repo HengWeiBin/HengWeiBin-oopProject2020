@@ -52,10 +52,14 @@ namespace game_framework
 		InputStage.open(".\\Stages\\cnt_stage1.txt");
 		if (InputStage) {
 			string firstline;
-			getline(InputStage, firstline);
 			for (int i = 0; i < 13; i++) {
+				getline(InputStage, firstline);
 				for (int j = 0; j < 20; j++) {
-					map[i][j] = firstline[j] == '1' ? 1 : 0;
+					switch (firstline[j])
+					{
+					case '0': map[i][j] = 0; break;
+					case '1': map[i][j] = 1; break;
+					}
 				}
 			}
 		}
@@ -110,8 +114,12 @@ namespace game_framework
 				candies[i][j].OnMove();
 			}
 		}
-		CheckCombo();
-		//DropCandy();
+		if (IsDropDone())
+		{
+			CheckCombo();
+			DropCandy();
+		}
+			
 	}
 
 	void GameArea::OnLButtonDown(UINT nFlags, CPoint point)
@@ -175,28 +183,28 @@ namespace game_framework
 		int currentStyle = candies[i][j].GetStyle();
 		if (currentStyle == 0)
 		{
-			KillCandy(accumulateCandy);
-			return;
+			KillCandy(accumulateCandy, i, j);
 		}
-		if (currentStyle == accumulateStyle)
+		else if (currentStyle == accumulateStyle)
 		{
 			accumulateCandy.push_back(&candies[i][j]);
 		}
 		else
 		{
-			KillCandy(accumulateCandy);
+			KillCandy(accumulateCandy,i ,j);
 			accumulateStyle = currentStyle;
 		}
 	}
 
-	void GameArea::KillCandy(vector<Candy*>& candies)
+	void GameArea::KillCandy(vector<Candy*>& candies, int i, int j)
 	{
 		if (candies.size() >= 3)
 		{
 			for (unsigned int i = 0; i < candies.size(); i++)
-				candies[i]->SetAlive(0);
+				candies[i]->SetAlive(false);
 		}
 		candies.clear();
+		candies.push_back(&(this->candies[i][j]));
 	}
 
 	void GameArea::DropCandy()
@@ -210,5 +218,14 @@ namespace game_framework
 				candies[0][i].LoadBitmap();
 			}
 		}
+	}
+
+	bool GameArea::IsDropDone()
+	{
+		for (int i = 0; i < 13; i++)
+			for (int j = 0; j < 20; j++)
+				if (candies[i][j].IsMoving()) 
+					return false;
+		return true;
 	}
 }

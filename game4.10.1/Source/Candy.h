@@ -19,6 +19,7 @@ namespace game_framework
 		void GetBitmapDirectory(int, char*);
 		int GetTopLeftX();
 		int GetTopLeftY();
+		bool IsMoving();
 	private:
 		CMovingBitmap bmp;		//candy's bitmap
 		int style;				//0 = non-exist

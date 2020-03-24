@@ -117,4 +117,10 @@ namespace game_framework
 	{
 		return y;
 	}
+
+	bool Candy::IsMoving()
+	{
+		if (style == 0) return 0;
+		return !(x == dx && y == dy);
+	}
 }
