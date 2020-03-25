@@ -16,6 +16,7 @@ namespace game_framework
 		bool IsAlive();
 		void SetAlive(bool);
 		int GetStyle();
+		void SetStyle(int);
 		void GetBitmapDirectory(int, char*);
 		int GetTopLeftX();
 		int GetTopLeftY();

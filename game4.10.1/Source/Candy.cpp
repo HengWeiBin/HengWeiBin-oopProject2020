@@ -68,6 +68,11 @@ namespace game_framework
 		return style;
 	}
 
+	void Candy::SetStyle(int style)
+	{
+		this->style = style;
+	}
+
 	void Candy::GetBitmapDirectory(int style, char* BitmapDir)
 	{
 		switch (style)

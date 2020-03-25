@@ -16,11 +16,13 @@ namespace game_framework
 		void OnLButtonUp(UINT nFlags, CPoint point);
 		void OnMouseMove(UINT nFlags, CPoint point);
 		void InitCandy();
-		void CheckCombo();
-		void KillCombo(int&, vector<Candy*>&, int, int);
-		void KillCandy(vector<Candy*>&, int, int);
-		void DropCandy();
-		bool IsDropDone();
+		void ClearCombo();
+		//void KillCombo(int&, vector<Candy*>&, int, int);
+		//void KillCandy(vector<Candy*>&, int, int);
+		void GetCombo(vector<Candy*>&, int, int);
+		void clearCandies(vector<Candy*>&);
+		void PutCandy();
+		bool IsDropping();
 	private:
 		int map[13][20];
 		int x, y;	
