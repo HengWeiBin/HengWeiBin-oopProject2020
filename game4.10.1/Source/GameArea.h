@@ -1,6 +1,9 @@
 ﻿#ifndef GAMEAREA_H
 #define GAMEAREA_H
 
+#define MaxHeight 13
+#define MaxWidth 20
+
 namespace game_framework
 {
 	class GameArea
@@ -9,24 +12,22 @@ namespace game_framework
 		GameArea();										
 		~GameArea();
 		void LoadBitmap();								//load game area's background
-		void LoadStage();								
+		void LoadStage();								//read map from file
 		void OnShow();									//Display game area and candy
 		void OnMove();
-		void OnLButtonDown(UINT nFlags, CPoint point);
-		void OnLButtonUp(UINT nFlags, CPoint point);
-		void OnMouseMove(UINT nFlags, CPoint point);
-		void InitCandy();
-		void ClearCombo();
-		//void KillCombo(int&, vector<Candy*>&, int, int);
-		//void KillCandy(vector<Candy*>&, int, int);
-		void GetCombo(vector<Candy*>&, int, int);
-		void clearCandies(vector<Candy*>&);
-		void PutCandy();
-		bool IsDropping();
+		void OnLButtonDown(UINT nFlags, CPoint point);	//handle mouse click
+		void OnLButtonUp(UINT nFlags, CPoint point);	//handle mouse unclick
+		void OnMouseMove(UINT nFlags, CPoint point);	//handle mouse move
+		void InitCandy();								//spawn all candies randomly
+		void ClearCombo();								//search and delete all combo
+		void GetCombo(vector<Candy*>&, int, int);		//get continuous candies
+		void clearCandies(vector<Candy*>&);				//analyze and delete combo
+		void PutCandy();								//spawn candies at spawning area
+		bool IsDropping();								//check gameArea isMoving
 	private:
-		int map[13][20];
-		int x, y;	
-		Candy** candies;
+		int map[MaxHeight][MaxWidth];
+		int x, y;										//top left x,y of gameArea
+		Candy candies[MaxHeight][MaxWidth];
 		CMovingBitmap Area;
 
 	};
