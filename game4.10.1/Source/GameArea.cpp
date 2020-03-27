@@ -102,21 +102,27 @@ namespace game_framework
 		{
 			for (int j = 0; j < MaxWidth; j++)
 			{
-				if (candies[i][j].GetStyle())
-					if (i + 1 < MaxHeight && map[i + 1][j] == 1 && !candies[i + 1][j].IsAlive())
-					{
-						int toX = candies[i + 1][j].GetTopLeftX();
-						int toY = candies[i + 1][j].GetTopLeftY();
-						candies[i][j].SetDestination(toX, toY);
+				/*if (candies[i][j].GetStyle() != 0 && map[i + 1][j] != 0 && candies[i + 1][j].GetStyle() == 0)
+				{
+					candies[i][j].SetDestination(candies[i][j].GetTopLeftY() + 50);
 
-						candies[i + 1][j] = candies[i][j];
-						candies[i][j].SetStyle(0);
-					}
+					candies[i + 1][j] = candies[i][j];
+					candies[i][j].SetAlive(false);
+					candies[i][j].SetStyle(0);
+				}*/
+			}
+		}
+
+		for (int i = 0; i < MaxHeight; i++)
+		{
+			for (int j = 0; j < MaxWidth; j++)
+			{
 				candies[i][j].OnMove();
 			}
 		}
 		if (!IsDropping())
 		{
+			Sleep(1000);
 			ClearCombo();
 			//PutCandy();
 		}
@@ -170,37 +176,37 @@ namespace game_framework
 			{
 				if (!candies[i][j].GetStyle()) continue;
 				accumulateCandy.push_back(&candies[i][j]);
-				GetCombo(accumulateCandy, i, j);
+				GetCombo(accumulateCandy, i, j, candies[i][j].GetStyle());
 				clearCandies(accumulateCandy);
 			}
 		}
 	}
 
-	void GameArea::GetCombo(vector<Candy*>& accumulateCandy, int i, int j)
+	void GameArea::GetCombo(vector<Candy*>& accumulateCandy, int i, int j, int checkStyle)
 	{
-		candies[i][j].SetAlive(false);
-		int currentStyle = accumulateCandy[0]->GetStyle();
-		if (j + 1 < MaxWidth && candies[i][j + 1].IsAlive() && candies[i][j + 1].GetStyle() == currentStyle)
+		int currentStyle = candies[i][j].GetStyle();
+		candies[i][j].SetStyle(0);
+		if (j + 1 < MaxWidth && candies[i][j + 1].GetStyle() == checkStyle)
 		{//check to the right
 			accumulateCandy.push_back(&candies[i][j + 1]);
-			return GetCombo(accumulateCandy, i, j + 1);
+			GetCombo(accumulateCandy, i, j + 1, checkStyle);
 		}
-		if (i + 1 < MaxHeight && candies[i + 1][j].IsAlive() && candies[i + 1][j].GetStyle() == currentStyle)
+		if (i + 1 < MaxHeight && candies[i + 1][j].GetStyle() == checkStyle)
 		{//Check downward
 			accumulateCandy.push_back(&candies[i + 1][j]);
-			return GetCombo(accumulateCandy, i + 1, j);
+			GetCombo(accumulateCandy, i + 1, j, checkStyle);
 		}
-		if (j - 1 >= 0 && candies[i][j - 1].IsAlive() && candies[i][j - 1].GetStyle() == currentStyle)
+		if (j - 1 >= 0 && candies[i][j - 1].GetStyle() == checkStyle)
 		{//Check to the left
 			accumulateCandy.push_back(&candies[i][j - 1]);
-			return GetCombo(accumulateCandy, i, j - 1);
+			GetCombo(accumulateCandy, i, j - 1, checkStyle);
 		}
-		if (i - 1 >= 0 && candies[i - 1][j].IsAlive() && candies[i - 1][j].GetStyle() == currentStyle)
+		if (i - 1 >= 0 && candies[i - 1][j].GetStyle() == checkStyle)
 		{//Check upward
 			accumulateCandy.push_back(&candies[i - 1][j]);
-			return GetCombo(accumulateCandy, i - 1, j);
+			GetCombo(accumulateCandy, i - 1, j, checkStyle);
 		}
-		candies[i][j].SetAlive(true);
+		candies[i][j].SetStyle(currentStyle);
 	}
 
 	void GameArea::clearCandies(vector<Candy*>&accumulateCandy)
@@ -222,7 +228,10 @@ namespace game_framework
 				toDelete.push_back(accumulateCandy[i]);
 		}
 		for (unsigned int i = 0; i < toDelete.size(); i++)
-			toDelete[i]->SetAlive(0);
+		{
+			//toDelete[i]->SetAlive(false);
+			toDelete[i]->SetStyle(0);
+		}
 		accumulateCandy.clear();
 	}
 
@@ -230,7 +239,7 @@ namespace game_framework
 	{
 		for (int i = 0; i < MaxWidth; i++)
 		{
-			if (!candies[0][i].IsAlive())
+			//if (!candies[0][i].IsAlive())
 			{
 				int id = rand() % 5 + 1;
 				candies[0][i] = Candy(id, i * 50 + x, 50 + y);

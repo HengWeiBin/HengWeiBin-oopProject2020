@@ -13,8 +13,9 @@ namespace game_framework
 		void OnMove();
 		void OnShow();
 		void SetDestination(int, int);
-		bool IsAlive();
-		void SetAlive(bool);
+		void SetDestination(int);
+		//bool IsAlive();
+		//void SetAlive(bool);
 		int GetStyle();
 		void SetStyle(int);
 		void GetBitmapDirectory(int, char*);
@@ -24,7 +25,7 @@ namespace game_framework
 	private:
 		CMovingBitmap bmp;		//candy's bitmap
 		int style;				//0 = non-exist
-		bool alive;
+		//bool alive;
 		int x, y;				//current coordinate
 		int dx, dy;				//destination coordinate 
 	};

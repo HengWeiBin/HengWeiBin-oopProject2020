@@ -8,7 +8,7 @@
 
 namespace game_framework
 {
-	Candy::Candy(int id, int x, int y): style(id), x(x), y(y), dx(x), dy(y), alive(1)
+	Candy::Candy(int id, int x, int y): style(id), x(x), y(y), dx(x), dy(y)//, alive(1)
 	{
 
 	}
@@ -40,7 +40,7 @@ namespace game_framework
 
 	void Candy::OnShow()
 	{
-		if (IsAlive())
+		//if (IsAlive())
 		{
 			bmp.SetTopLeft(x, y);
 			bmp.ShowBitmap();
@@ -53,15 +53,20 @@ namespace game_framework
 		dy = y;
 	}
 
-	bool Candy::IsAlive()
+	void Candy::SetDestination(int y)
 	{
-		return alive;
+		dy = y;
 	}
 
-	void Candy::SetAlive(bool alive)
+	/*bool Candy::IsAlive()
+	{
+		return alive;
+	}*/
+
+	/*void Candy::SetAlive(bool alive)
 	{
 		this->alive = alive;
-	}
+	}*/
 
 	int Candy::GetStyle()
 	{
@@ -115,12 +120,12 @@ namespace game_framework
 
 	int Candy::GetTopLeftX()
 	{
-		return x;
+		return dx;
 	}
 
 	int Candy::GetTopLeftY()
 	{
-		return y;
+		return dy;
 	}
 
 	bool Candy::IsMoving()

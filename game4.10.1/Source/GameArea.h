@@ -20,7 +20,7 @@ namespace game_framework
 		void OnMouseMove(UINT nFlags, CPoint point);	//handle mouse move
 		void InitCandy();								//spawn all candies randomly
 		void ClearCombo();								//search and delete all combo
-		void GetCombo(vector<Candy*>&, int, int);		//get continuous candies
+		void GetCombo(vector<Candy*>&, int, int, int);		//get continuous candies
 		void clearCandies(vector<Candy*>&);				//analyze and delete combo
 		void PutCandy();								//spawn candies at spawning area
 		bool IsDropping();								//check gameArea isMoving

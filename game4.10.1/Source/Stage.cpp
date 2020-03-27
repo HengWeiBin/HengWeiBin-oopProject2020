@@ -1,8 +1,10 @@
-
+﻿
 #include "stdafx.h"
 #include "Stage.h"
 #include <fstream>
 #include <string>
+
+using namespace std;
 
 game_framework::Stage::Stage()
 {
