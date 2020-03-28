@@ -4,6 +4,7 @@
 #include <fstream>
 #include <string>
 #include <ddraw.h>
+#include <algorithm>
 #include "audio.h"
 #include "gamelib.h"
 #include "Candy.h"
@@ -102,14 +103,13 @@ namespace game_framework
 		{
 			for (int j = 0; j < MaxWidth; j++)
 			{
-				/*if (candies[i][j].GetStyle() != 0 && map[i + 1][j] != 0 && candies[i + 1][j].GetStyle() == 0)
+				if (candies[i][j].GetStyle() != 0 && map[i + 1][j] != 0 && candies[i + 1][j].GetStyle() == 0)
 				{
 					candies[i][j].SetDestination(candies[i][j].GetTopLeftY() + 50);
 
 					candies[i + 1][j] = candies[i][j];
-					candies[i][j].SetAlive(false);
 					candies[i][j].SetStyle(0);
-				}*/
+				}
 			}
 		}
 
@@ -122,7 +122,7 @@ namespace game_framework
 		}
 		if (!IsDropping())
 		{
-			Sleep(1000);
+			Sleep(100);
 			ClearCombo();
 			//PutCandy();
 		}
@@ -235,15 +235,36 @@ namespace game_framework
 		accumulateCandy.clear();
 	}
 
+	void GameArea::RemoveNonCont(vector<int>& integers)
+	{
+		/*sort(integers.begin(), integers.end());
+		vector<int> result;
+		int count = 1;
+		for (unsigned int i = 0; i < integers.size() - 1; i++)
+		{
+			if (integers[i] + 1 == integers[i + 1]) count++;
+			else
+			{
+				if (count < 3) count = 1;
+				else
+				{
+					for (int j = i - count; j < i; j++)
+						result.push_back(integers[j]);
+					count = 1;
+				}
+			}
+		}*/
+	}
+
 	void GameArea::PutCandy()
 	{
-		for (int i = 0; i < MaxWidth; i++)
+		for (int i = 0; i < 16; i++)
 		{
-			//if (!candies[0][i].IsAlive())
+			if (!candies[3][i].GetStyle())
 			{
 				int id = rand() % 5 + 1;
-				candies[0][i] = Candy(id, i * 50 + x, 50 + y);
-				candies[0][i].LoadBitmap();
+				candies[3][i] = Candy(id, i * 50 + x, 100 + y);
+				candies[3][i].LoadBitmap();
 			}
 		}
 	}
