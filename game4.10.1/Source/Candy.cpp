@@ -40,11 +40,8 @@ namespace game_framework
 
 	void Candy::OnShow()
 	{
-		//if (IsAlive())
-		{
-			bmp.SetTopLeft(x, y);
-			bmp.ShowBitmap();
-		}
+		bmp.SetTopLeft(x, y);
+		bmp.ShowBitmap();
 	}
 
 	void Candy::SetDestination(int x, int y)
@@ -126,6 +123,26 @@ namespace game_framework
 	int Candy::GetTopLeftY()
 	{
 		return dy;
+	}
+
+	int Candy::GetTopLeft(char c)
+	{
+		switch (c)
+		{
+		case 'x': return GetTopLeftX();
+		case 'y': return GetTopLeftY();
+		default: return 0;
+		}
+	}
+
+	int Candy::GetCurrentX()
+	{
+		return x;
+	}
+
+	int Candy::GetCurrentY()
+	{
+		return y;
 	}
 
 	bool Candy::IsMoving()

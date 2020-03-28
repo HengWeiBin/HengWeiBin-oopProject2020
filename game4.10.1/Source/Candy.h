@@ -14,13 +14,14 @@ namespace game_framework
 		void OnShow();
 		void SetDestination(int, int);
 		void SetDestination(int);
-		//bool IsAlive();
-		//void SetAlive(bool);
 		int GetStyle();
 		void SetStyle(int);
 		void GetBitmapDirectory(int, char*);
 		int GetTopLeftX();
 		int GetTopLeftY();
+		int GetTopLeft(char c);
+		int GetCurrentX();
+		int GetCurrentY();
 		bool IsMoving();
 	private:
 		CMovingBitmap bmp;		//candy's bitmap

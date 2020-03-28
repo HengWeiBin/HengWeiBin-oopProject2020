@@ -22,7 +22,9 @@ namespace game_framework
 		void ClearCombo();								//search and delete all combo
 		void GetCombo(vector<Candy*>&, int, int, int);	//get continuous candies
 		void clearCandies(vector<Candy*>&);				//analyze and delete combo
-		void RemoveNonCont(vector<int> &);				//Remove non-continuous numbers
+		void RemoveContinuous(vector<Candy*>&, char, bool(game_framework::GameArea::*Compare)(Candy*, Candy*));			//Remove non-continuous numbers
+		bool CompareX(Candy*, Candy*);
+		bool CompareY(Candy*, Candy*);
 		void PutCandy();								//spawn candies at spawning area
 		bool IsDropping();								//check gameArea isMoving
 	private:

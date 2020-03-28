@@ -40,7 +40,7 @@ namespace game_framework
 		{
 			for (int j = 0; j < MaxWidth; j++)
 			{
-				if (candies[i][j].GetStyle() != 0)
+				if (candies[i][j].GetStyle())
 					candies[i][j].LoadBitmap();
 			}
 		}
@@ -60,7 +60,7 @@ namespace game_framework
 					{
 					case '0': map[i][j] = 0; break;		//0 = none, !0 = gameArea
 					case '1': map[i][j] = 1; break;		//1 = normalArea
-					case '2': map[i][j] = 1; break;		//2 = candy spawning area
+					case '2': map[i][j] = 2; break;		//2 = candy spawning area
 					}
 				}
 			}
@@ -77,7 +77,7 @@ namespace game_framework
 		{
 			for (int j = 0; j < MaxWidth; j++)
 			{
-				if (map[i][j] == 1)
+				if (map[i][j])
 					Area.SetTopLeft(j * 50 + x, i * 50 + y);
 				Area.ShowBitmap();
 			}
@@ -112,7 +112,7 @@ namespace game_framework
 				}
 			}
 		}
-
+		PutCandy();
 		for (int i = 0; i < MaxHeight; i++)
 		{
 			for (int j = 0; j < MaxWidth; j++)
@@ -124,7 +124,6 @@ namespace game_framework
 		{
 			Sleep(100);
 			ClearCombo();
-			//PutCandy();
 		}
 			
 	}
@@ -229,42 +228,60 @@ namespace game_framework
 		}
 		for (unsigned int i = 0; i < toDelete.size(); i++)
 		{
-			//toDelete[i]->SetAlive(false);
 			toDelete[i]->SetStyle(0);
 		}
+		//RemoveContinuous(accumulateCandy, 'x', &GameArea::CompareX);
+		//RemoveContinuous(accumulateCandy, 'y', &GameArea::CompareY);
 		accumulateCandy.clear();
 	}
 
-	void GameArea::RemoveNonCont(vector<int>& integers)
+	void GameArea::RemoveContinuous(vector<Candy*>& accumulateCandy, char c, bool(GameArea::*Compare)(Candy*, Candy*))
 	{
-		/*sort(integers.begin(), integers.end());
-		vector<int> result;
+		//stable_sort(accumulateCandy.begin(), accumulateCandy.end(), Compare);
 		int count = 1;
-		for (unsigned int i = 0; i < integers.size() - 1; i++)
+		for (unsigned int i = 0; i < accumulateCandy.size() - 1; i++)
 		{
-			if (integers[i] + 1 == integers[i + 1]) count++;
+			if (accumulateCandy[i]->GetTopLeft(c) + 1 == accumulateCandy[i + 1]->GetTopLeft(c)) count++;
 			else
 			{
 				if (count < 3) count = 1;
 				else
 				{
-					for (int j = i - count; j < i; j++)
-						result.push_back(integers[j]);
+					for (unsigned int j = i - count; j < i; j++)
+						accumulateCandy[j]->SetStyle(0);
 					count = 1;
 				}
 			}
-		}*/
+		}
+		//if (count >= 3)
+		//	for (int j = accumulateCandy.size() - count; j < accumulateCandy.size(); j++)
+		//		accumulateCandy[j]->SetStyle(0);
+	}
+
+	bool GameArea::CompareX(Candy* candy1, Candy* candy2)
+	{
+		return (candy1->GetTopLeftX() < candy2->GetTopLeftX());
+	}
+
+	bool GameArea::CompareY(Candy* candy1, Candy* candy2)
+	{
+		return candy1->GetTopLeftY() < candy2->GetTopLeftY();
 	}
 
 	void GameArea::PutCandy()
 	{
-		for (int i = 0; i < 16; i++)
+		for (int i = 0; i < MaxHeight; i++)
 		{
-			if (!candies[3][i].GetStyle())
+			for (int j = 0; j < MaxWidth; j++)
 			{
-				int id = rand() % 5 + 1;
-				candies[3][i] = Candy(id, i * 50 + x, 100 + y);
-				candies[3][i].LoadBitmap();
+				if (map[i][j] == 2 && candies[i][j].GetStyle() == 0)
+				{
+					int id = rand() % 5 + 1;									//random type of Candy
+					int offset = candies[i + 1][j].GetCurrentY();
+					candies[i][j] = Candy(id, j * 50 + x, offset - 50);
+					candies[i][j].LoadBitmap();
+					candies[i][j].SetDestination(i * 50 + y);
+				}
 			}
 		}
 	}
