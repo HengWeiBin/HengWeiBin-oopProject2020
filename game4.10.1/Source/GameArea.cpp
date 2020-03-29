@@ -5,6 +5,7 @@
 #include <string>
 #include <ddraw.h>
 #include <algorithm>
+#include <set>
 #include "audio.h"
 #include "gamelib.h"
 #include "Candy.h"
@@ -14,23 +15,12 @@ namespace game_framework
 {
 	GameArea::GameArea() :x(280), y(35)
 	{
-		/*candies = new Candy*[MaxHeight];
-		for (int i = 0; i < MaxHeight; i++)
-		{
-			candies[i] = new Candy[MaxWidth];
-		}*/
-
+		MAX_RAND_NUM = 5;
 		LoadStage();
 	}
 
 	GameArea::~GameArea()
-	{
-		/*for (int i = 0; i < MaxHeight; i++)
-		{
-			delete[] candies[i];
-		}
-		delete[] candies;*/
-	}
+	{	}
 
 	void GameArea::LoadBitmap()
 	{
@@ -113,17 +103,15 @@ namespace game_framework
 			}
 		}
 		PutCandy();
+
 		for (int i = 0; i < MaxHeight; i++)
-		{
 			for (int j = 0; j < MaxWidth; j++)
-			{
 				candies[i][j].OnMove();
-			}
-		}
+
 		if (!IsDropping())
 		{
-			Sleep(100);
 			ClearCombo();
+			Sleep(100);
 		}
 			
 	}
@@ -144,8 +132,7 @@ namespace game_framework
 	}
 
 	void GameArea::InitCandy()
-	{
-		const int MAX_RAND_NUM = 5;										//There are five basic type of candy
+	{									//There are five basic type of candy
 		for (int i = 0; i < MaxHeight; i++)
 		{
 			for (int j = 0; j < MaxWidth; j++)
@@ -168,104 +155,127 @@ namespace game_framework
 
 	void GameArea::ClearCombo()
 	{
-		vector<Candy*> accumulateCandy;
+		set<Candy*> accumulateCandy;
 		for (int i = 0; i < MaxHeight; i++)
 		{
 			for (int j = 0; j < MaxWidth; j++)
 			{
 				if (!candies[i][j].GetStyle()) continue;
-				accumulateCandy.push_back(&candies[i][j]);
-				GetCombo(accumulateCandy, i, j, candies[i][j].GetStyle());
-				clearCandies(accumulateCandy);
+				accumulateCandy.insert(&candies[i][j]);						//put the first candy into set
+				GetCandies(accumulateCandy, i, j, candies[i][j].GetStyle());//collect all similar candies that follow-up with first
+				ClearCombo(accumulateCandy);								//delete all combo
 			}
 		}
 	}
 
-	void GameArea::GetCombo(vector<Candy*>& accumulateCandy, int i, int j, int checkStyle)
-	{
+	void GameArea::GetCandies(set<Candy*>& accumulateCandy, int i, int j, int checkStyle)
+	{	//Recursive condition: there is(are) same candy(ies) nearby
 		int currentStyle = candies[i][j].GetStyle();
 		candies[i][j].SetStyle(0);
 		if (j + 1 < MaxWidth && candies[i][j + 1].GetStyle() == checkStyle)
 		{//check to the right
-			accumulateCandy.push_back(&candies[i][j + 1]);
-			GetCombo(accumulateCandy, i, j + 1, checkStyle);
+			accumulateCandy.insert(&candies[i][j + 1]);
+			GetCandies(accumulateCandy, i, j + 1, checkStyle);
 		}
 		if (i + 1 < MaxHeight && candies[i + 1][j].GetStyle() == checkStyle)
 		{//Check downward
-			accumulateCandy.push_back(&candies[i + 1][j]);
-			GetCombo(accumulateCandy, i + 1, j, checkStyle);
+			accumulateCandy.insert(&candies[i + 1][j]);
+			GetCandies(accumulateCandy, i + 1, j, checkStyle);
 		}
 		if (j - 1 >= 0 && candies[i][j - 1].GetStyle() == checkStyle)
 		{//Check to the left
-			accumulateCandy.push_back(&candies[i][j - 1]);
-			GetCombo(accumulateCandy, i, j - 1, checkStyle);
+			accumulateCandy.insert(&candies[i][j - 1]);
+			GetCandies(accumulateCandy, i, j - 1, checkStyle);
 		}
 		if (i - 1 >= 0 && candies[i - 1][j].GetStyle() == checkStyle)
 		{//Check upward
-			accumulateCandy.push_back(&candies[i - 1][j]);
-			GetCombo(accumulateCandy, i - 1, j, checkStyle);
+			accumulateCandy.insert(&candies[i - 1][j]);
+			GetCandies(accumulateCandy, i - 1, j, checkStyle);
 		}
 		candies[i][j].SetStyle(currentStyle);
 	}
 
-	void GameArea::clearCandies(vector<Candy*>&accumulateCandy)
+	//Functions CompareX() and CompareY() are used by stable_sort
+	bool CompareX(Candy* candy1, Candy* candy2)					//
+	{															//
+		return (candy1->GetTopLeftX() < candy2->GetTopLeftX());	//
+	}															//
+																//
+	bool CompareY(Candy* candy1, Candy* candy2)					//
+	{															//
+		return candy1->GetTopLeftY() < candy2->GetTopLeftY();	//
+	}															//
+	//==========================================================//
+
+	void GameArea::ClearCombo(set<Candy*>&accumulateCandy)
 	{
+		if (accumulateCandy.size() < 3)
+		{	//Pass
+			accumulateCandy.clear();
+			return;
+		}
+
 		vector<int> x, y;
 		vector<Candy*> toDelete;
-		for (unsigned int i = 0; i < accumulateCandy.size(); i++)
+		for (auto i = accumulateCandy.begin(); i != accumulateCandy.end(); i++)
 		{
-			x.push_back(accumulateCandy[i]->GetTopLeftX());
-			y.push_back(accumulateCandy[i]->GetTopLeftY());
+			x.push_back((*i)->GetTopLeftX());
+			y.push_back((*i)->GetTopLeftY());
 		}
-		for (unsigned int i = 0; i < accumulateCandy.size(); i++)
-		{
-			/*delete if more than 3 candies on a vertical line*/
-			if (count(x.begin(), x.end(), accumulateCandy[i]->GetTopLeftX()) >= 3)
-				toDelete.push_back(accumulateCandy[i]);
-			/*delete if more than 3 candies on a horizontal line*/
-			if (count(y.begin(), y.end(), accumulateCandy[i]->GetTopLeftY()) >= 3)
-				toDelete.push_back(accumulateCandy[i]);
+		for (auto i = accumulateCandy.begin(); i != accumulateCandy.end(); i++)
+		{	/*delete if more than 3 candies on a vertical line*/
+			if (count(x.begin(), x.end(), (*i)->GetTopLeftX()) >= 3)
+				toDelete.push_back(*i);
 		}
-		for (unsigned int i = 0; i < toDelete.size(); i++)
-		{
-			toDelete[i]->SetStyle(0);
+		RemoveContinuous(toDelete, 'y', &CompareY);
+		for (auto i = accumulateCandy.begin(); i != accumulateCandy.end(); i++)
+		{	/*delete if more than 3 candies on a horizontal line*/
+			if (count(y.begin(), y.end(), (*i)->GetTopLeftY()) >= 3)
+				toDelete.push_back(*i);
 		}
-		//RemoveContinuous(accumulateCandy, 'x', &GameArea::CompareX);
-		//RemoveContinuous(accumulateCandy, 'y', &GameArea::CompareY);
+		RemoveContinuous(toDelete, 'x', &CompareX);
 		accumulateCandy.clear();
 	}
 
-	void GameArea::RemoveContinuous(vector<Candy*>& accumulateCandy, char c, bool(GameArea::*Compare)(Candy*, Candy*))
+	void GameArea::RemoveContinuous(vector<Candy*>& toDelete, char c, bool(*Compare)(Candy*, Candy*))
 	{
-		//stable_sort(accumulateCandy.begin(), accumulateCandy.end(), Compare);
-		int count = 1;
-		for (unsigned int i = 0; i < accumulateCandy.size() - 1; i++)
-		{
-			if (accumulateCandy[i]->GetTopLeft(c) + 1 == accumulateCandy[i + 1]->GetTopLeft(c)) count++;
-			else
+		if (!toDelete.size()) return; //pass
+
+		vector<Candy*> line;
+		char check = c == 'x' ? 'y' : 'x';
+		while(1)
+		{	//collect candies on a same line
+			int currentLine = toDelete[0]->GetTopLeft(check);
+			for (auto i = toDelete.begin(); i != toDelete.end();)
 			{
-				if (count < 3) count = 1;
+				if ((*i)->GetTopLeft(check) == currentLine)
+				{
+					line.push_back(*i);
+					i = toDelete.erase(i);
+				}
+				else i++;
+			}
+
+			stable_sort(line.begin(), line.end(), Compare);	//When their x/y are same, sort according to y/x
+			int count = 1;
+			for (unsigned int i = 0; i < line.size() - 1; i++)
+			{
+				if (line[i]->GetTopLeft(c) + 50 == line[i + 1]->GetTopLeft(c)) count++;	//If next candy is follow-up with current, keep counting
+				else if (count < 3) count = 1;											//else, if count >= 3 -> combo, or pass
 				else
 				{
 					for (unsigned int j = i - count; j < i; j++)
-						accumulateCandy[j]->SetStyle(0);
+						line[j]->SetStyle(0);
 					count = 1;
 				}
 			}
+			if (count >= 3)
+				for (unsigned int j = line.size() - count; j < line.size(); j++)
+					line[j]->SetStyle(0);
+			line.clear();
+			if (toDelete.size() < 3) break;	//break if there is not enough candies to form a combo
 		}
-		//if (count >= 3)
-		//	for (int j = accumulateCandy.size() - count; j < accumulateCandy.size(); j++)
-		//		accumulateCandy[j]->SetStyle(0);
-	}
-
-	bool GameArea::CompareX(Candy* candy1, Candy* candy2)
-	{
-		return (candy1->GetTopLeftX() < candy2->GetTopLeftX());
-	}
-
-	bool GameArea::CompareY(Candy* candy1, Candy* candy2)
-	{
-		return candy1->GetTopLeftY() < candy2->GetTopLeftY();
+		toDelete.clear();
 	}
 
 	void GameArea::PutCandy()
@@ -276,7 +286,7 @@ namespace game_framework
 			{
 				if (map[i][j] == 2 && candies[i][j].GetStyle() == 0)
 				{
-					int id = rand() % 5 + 1;									//random type of Candy
+					int id = rand() % MAX_RAND_NUM + 1;					//random type of Candy
 					int offset = candies[i + 1][j].GetCurrentY();
 					candies[i][j] = Candy(id, j * 50 + x, offset - 50);
 					candies[i][j].LoadBitmap();

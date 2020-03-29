@@ -8,34 +8,28 @@
 
 namespace game_framework
 {
-	Candy::Candy(int id, int x, int y): style(id), x(x), y(y), dx(x), dy(y)//, alive(1)
-	{
-
-	}
+	Candy::Candy(int id, int x, int y): style(id), x(x), y(y), dx(x), dy(y)
+	{}
 
 	Candy::Candy() : style(0)
-	{
-		
-	}
+	{}
 
 	Candy::~Candy()
-	{
-
-	}
+	{}
 
 	void Candy::LoadBitmap()
 	{
 		char BitmapDir[50];
-		GetBitmapDirectory(style, BitmapDir);
+		GetBitmapDirectory(BitmapDir);
 		bmp.LoadBitmap(BitmapDir, RGB(255, 255, 255));
 	}
 
 	void Candy::OnMove()
 	{
 		if (x != dx)
-			x > dx ? x-= 5 : x+= 5;
+			x > dx ? x-= 10 : x+= 10;
 		if (y != dy)
-			y > dy ? y-= 5 : y+= 5;
+			y > dy ? y-= 10 : y+= 10;
 	}
 
 	void Candy::OnShow()
@@ -55,16 +49,6 @@ namespace game_framework
 		dy = y;
 	}
 
-	/*bool Candy::IsAlive()
-	{
-		return alive;
-	}*/
-
-	/*void Candy::SetAlive(bool alive)
-	{
-		this->alive = alive;
-	}*/
-
 	int Candy::GetStyle()
 	{
 		return style;
@@ -75,7 +59,7 @@ namespace game_framework
 		this->style = style;
 	}
 
-	void Candy::GetBitmapDirectory(int style, char* BitmapDir)
+	void Candy::GetBitmapDirectory(char* BitmapDir)
 	{
 		switch (style)
 		{
