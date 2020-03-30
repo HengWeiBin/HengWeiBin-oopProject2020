@@ -13,9 +13,8 @@
 
 namespace game_framework
 {
-	GameArea::GameArea() :x(280), y(35)
+	GameArea::GameArea() :x(280), y(35), MAX_RAND_NUM(5), totalClicked(0)
 	{
-		MAX_RAND_NUM = 5;
 		score.SetInteger(0);
 		LoadStage();
 	}
@@ -90,20 +89,8 @@ namespace game_framework
 
 	void GameArea::OnMove()
 	{
-		for (int i = MaxHeight - 1; i >= 0; i--)
-		{
-			for (int j = 0; j < MaxWidth; j++)
-			{
-				if (candies[i][j].GetStyle() != 0 && map[i + 1][j] != 0 && candies[i + 1][j].GetStyle() == 0)
-				{
-					candies[i][j].SetDestination(candies[i][j].GetTopLeftY() + 50);
-
-					candies[i + 1][j] = candies[i][j];
-					candies[i][j].SetStyle(0);
-				}
-			}
-		}
-		PutCandy();
+		DropCandy();							//drop if candy hvnt touch the ground/other candy
+		PutCandy();								//put candy at apawning area if it's empty
 
 		for (int i = 0; i < MaxHeight; i++)
 			for (int j = 0; j < MaxWidth; j++)
@@ -119,7 +106,12 @@ namespace game_framework
 
 	void GameArea::OnLButtonDown(UINT nFlags, CPoint point)
 	{
-
+		if (!IsDropping())
+		{
+			int column = (point.x - 280) / 50;
+			int row = (point.y - 35) / 50;
+			totalClicked += candies[row][column].Click();
+		}
 	}
 
 	void GameArea::OnLButtonUp(UINT nFlags, CPoint point)
@@ -152,6 +144,19 @@ namespace game_framework
 				}
 			}
 		}
+	}
+
+	void GameArea::DropCandy()
+	{
+		for (int i = MaxHeight - 1; i >= 0; i--)
+			for (int j = 0; j < MaxWidth; j++)
+				if (candies[i][j].GetStyle() != 0 && map[i + 1][j] != 0 && candies[i + 1][j].GetStyle() == 0)
+				{
+					candies[i][j].SetDestination(candies[i][j].GetTopLeftY() + 50);
+
+					candies[i + 1][j] = candies[i][j];
+					candies[i][j].SetStyle(0);
+				}
 	}
 
 	void GameArea::ClearCombo()
@@ -310,5 +315,30 @@ namespace game_framework
 				if (candies[i][j].IsMoving()) 
 					return true;
 		return false;
+	}
+
+	void GameArea::ExchangeCandy()
+	{
+		if (totalClicked == 2)
+		{
+			Candy* firstCandy = NULL;
+			for (int i = 0; i < MaxHeight; i++)
+				for (int j = 0; j < MaxWidth; j++)
+					if (candies[i][j].IsClicked() && firstCandy == NULL)
+						firstCandy = &candies[i][j];
+					else if (candies[i][j].IsClicked() && firstCandy != NULL && IsNeighbour(*firstCandy, candies[i][j]))
+					{
+						firstCandy->SetDestination(candies[i][j].GetTopLeftX(), candies[i][j].GetTopLeftY());
+						candies[i][j].SetDestination(firstCandy->GetTopLeftX(), firstCandy->GetTopLeftY());
+						totalClicked += candies[i][j].Click();
+						totalClicked += firstCandy->Click();
+						return;
+					}
+		}
+	}
+
+	bool GameArea::IsNeighbour(Candy &a, Candy &b)
+	{
+		return (fabs(a.GetTopLeftX() - b.GetTopLeftX()) == 50 || fabs(a.GetTopLeftY() - b.GetTopLeftY()) == 50);
 	}
 }

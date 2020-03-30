@@ -8,7 +8,7 @@
 
 namespace game_framework
 {
-	Candy::Candy(int id, int x, int y): style(id), x(x), y(y), dx(x), dy(y)
+	Candy::Candy(int id, int x, int y): style(id), x(x), y(y), dx(x), dy(y), onClick(false)
 	{}
 
 	Candy::Candy() : style(0)
@@ -133,5 +133,24 @@ namespace game_framework
 	{
 		if (style == 0) return 0;
 		return !(x == dx && y == dy);
+	}
+
+	bool Candy::IsClicked()
+	{
+		return onClick;
+	}
+
+	int Candy::Click()
+	{
+		switch (onClick)
+		{
+		case true: 
+			onClick = false; 
+			return -1;
+		case false: 
+			onClick = true; 
+			return 1;
+		}
+		return 0;
 	}
 }
