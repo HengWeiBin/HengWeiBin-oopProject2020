@@ -13,7 +13,7 @@
 
 namespace game_framework
 {
-	GameArea::GameArea() :x(280), y(35), MAX_RAND_NUM(5), totalClicked(0)
+	GameArea::GameArea() :x(280), y(35), MAX_RAND_NUM(5)
 	{
 		score.SetInteger(0);
 		LoadStage();
@@ -110,7 +110,19 @@ namespace game_framework
 		{
 			int column = (point.x - 280) / 50;
 			int row = (point.y - 35) / 50;
-			totalClicked += candies[row][column].Click();
+			Candy* clickedCandy = candies[row][column].Click();
+			auto getCandyItr = find(clickedCandies.begin(), clickedCandies.end(), clickedCandy);
+
+			if (getCandyItr == clickedCandies.end())
+				clickedCandies.push_back(clickedCandy);
+			else clickedCandies.erase(getCandyItr);
+
+			if (clickedCandies.size() == 2)
+			{
+				if (IsNeighbour(*clickedCandies[0], *clickedCandies[1]))
+					ExchangeCandy();
+				clickedCandies.clear();
+			}
 		}
 	}
 
@@ -273,7 +285,7 @@ namespace game_framework
 					for (unsigned int j = i - count; j < i; j++)
 					{
 						line[j]->SetStyle(0);
-						score.Add(600);
+						score.Add(60);
 					}
 					count = 1;
 				}
@@ -282,7 +294,7 @@ namespace game_framework
 				for (unsigned int j = line.size() - count; j < line.size(); j++)
 				{
 					line[j]->SetStyle(0);
-					score.Add(600);
+					score.Add(60);
 				}
 			line.clear();
 			if (toDelete.size() < 3) break;	//break if there is not enough candies to form a combo
@@ -319,22 +331,12 @@ namespace game_framework
 
 	void GameArea::ExchangeCandy()
 	{
-		if (totalClicked == 2)
-		{
-			Candy* firstCandy = NULL;
-			for (int i = 0; i < MaxHeight; i++)
-				for (int j = 0; j < MaxWidth; j++)
-					if (candies[i][j].IsClicked() && firstCandy == NULL)
-						firstCandy = &candies[i][j];
-					else if (candies[i][j].IsClicked() && firstCandy != NULL && IsNeighbour(*firstCandy, candies[i][j]))
-					{
-						firstCandy->SetDestination(candies[i][j].GetTopLeftX(), candies[i][j].GetTopLeftY());
-						candies[i][j].SetDestination(firstCandy->GetTopLeftX(), firstCandy->GetTopLeftY());
-						totalClicked += candies[i][j].Click();
-						totalClicked += firstCandy->Click();
-						return;
-					}
-		}
+		clickedCandies[0]->SetDestination(clickedCandies[1]->GetCurrentX(), clickedCandies[1]->GetCurrentY());
+		clickedCandies[1]->SetDestination(clickedCandies[0]->GetCurrentX(), clickedCandies[0]->GetCurrentY());
+
+		Candy temp = *clickedCandies[0];
+		*clickedCandies[0] = *clickedCandies[1];
+		*clickedCandies[1] = temp;
 	}
 
 	bool GameArea::IsNeighbour(Candy &a, Candy &b)

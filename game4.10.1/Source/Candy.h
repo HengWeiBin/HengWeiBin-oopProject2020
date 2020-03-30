@@ -24,7 +24,7 @@ namespace game_framework
 		int GetCurrentY();					//Get current y
 		bool IsMoving();					//return current coordinate != destination coordinate
 		bool IsClicked();					//return onClick
-		int Click();			//Change state of onClick if being clicked
+		Candy* Click();						//Change state of onClick if being clicked
 	private:
 		CMovingBitmap bmp;		//candy's bitmap
 		int style;				//0 = non-exist

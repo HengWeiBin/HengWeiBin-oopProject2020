@@ -140,17 +140,9 @@ namespace game_framework
 		return onClick;
 	}
 
-	int Candy::Click()
+	Candy* Candy::Click()
 	{
-		switch (onClick)
-		{
-		case true: 
-			onClick = false; 
-			return -1;
-		case false: 
-			onClick = true; 
-			return 1;
-		}
-		return 0;
+		onClick = onClick == true ? false : true;
+		return this;
 	}
 }

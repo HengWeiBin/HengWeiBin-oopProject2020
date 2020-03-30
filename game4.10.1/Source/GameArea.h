@@ -36,7 +36,7 @@ namespace game_framework
 		CMovingBitmap Area;
 		int MAX_RAND_NUM;								//types of candies in this games
 		CInteger score;
-		int totalClicked;
+		vector<Candy*> clickedCandies;
 
 	};
 }

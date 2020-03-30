@@ -353,7 +353,9 @@ namespace game_framework {
 
 	void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 	{
-		eraser.SetMovingLeft(true);
+		//eraser.SetMovingLeft(true);
+
+		gameArea.OnLButtonDown(nFlags, point);
 	}
 
 	void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
