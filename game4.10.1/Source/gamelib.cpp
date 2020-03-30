@@ -121,6 +121,7 @@
 #include <ddraw.h>
 #include <direct.h>
 #include <string.h>
+#include <set>
 #include "audio.h"
 #include "gamelib.h"
 #include "mygame.h"

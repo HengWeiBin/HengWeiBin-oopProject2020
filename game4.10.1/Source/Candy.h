@@ -27,7 +27,8 @@ namespace game_framework
 		CMovingBitmap bmp;		//candy's bitmap
 		int style;				//0 = non-exist
 		int x, y;				//current coordinate
-		int dx, dy;				//destination coordinate 
+		int dx, dy;				//destination coordinate
+		bool onClick;
 	};
 }
 

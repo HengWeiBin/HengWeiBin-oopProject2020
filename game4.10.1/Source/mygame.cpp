@@ -55,6 +55,7 @@
 #include "Resource.h"
 #include <mmsystem.h>
 #include <ddraw.h>
+#include <set>
 #include "audio.h"
 #include "gamelib.h"
 #include "mygame.h"
@@ -287,7 +288,7 @@ namespace game_framework {
 		for (i = 0; i < NUMBALLS; i++)
 			ball[i].LoadBitmap();								// 載入第i個球的圖形
 		eraser.LoadBitmap();
-		background.LoadBitmap("Bitmaps/WoodBackground.bmp");					// 載入背景的圖形
+		background.LoadBitmap("Bitmaps/inGameBG1.bmp");					// 載入背景的圖形
 		//
 		// 完成部分Loading動作，提高進度
 		//
@@ -401,8 +402,8 @@ namespace game_framework {
 		corner.SetTopLeft(SIZE_X - corner.Width(), SIZE_Y - corner.Height());
 		corner.ShowBitmap();*/
 		background.ShowBitmap();			// 貼上背景圖
-		c_practice.OnShow();
-		Practice.ShowBitmap();
+		//c_practice.OnShow();
+		//Practice.ShowBitmap();
 		gameArea.OnShow();
 	}
 	CPractice::CPractice()

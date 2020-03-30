@@ -16,6 +16,7 @@ namespace game_framework
 	GameArea::GameArea() :x(280), y(35)
 	{
 		MAX_RAND_NUM = 5;
+		score.SetInteger(0);
 		LoadStage();
 	}
 
@@ -163,7 +164,7 @@ namespace game_framework
 				if (!candies[i][j].GetStyle()) continue;
 				accumulateCandy.insert(&candies[i][j]);						//put the first candy into set
 				GetCandies(accumulateCandy, i, j, candies[i][j].GetStyle());//collect all similar candies that follow-up with first
-				ClearCombo(accumulateCandy);								//delete all combo
+				DeleteCombo(accumulateCandy);								//delete all combo
 			}
 		}
 	}
@@ -207,7 +208,7 @@ namespace game_framework
 	}															//
 	//==========================================================//
 
-	void GameArea::ClearCombo(set<Candy*>&accumulateCandy)
+	void GameArea::DeleteCombo(set<Candy*>&accumulateCandy)
 	{
 		if (accumulateCandy.size() < 3)
 		{	//Pass
@@ -265,13 +266,19 @@ namespace game_framework
 				else
 				{
 					for (unsigned int j = i - count; j < i; j++)
+					{
 						line[j]->SetStyle(0);
+						score.Add(600);
+					}
 					count = 1;
 				}
 			}
 			if (count >= 3)
 				for (unsigned int j = line.size() - count; j < line.size(); j++)
+				{
 					line[j]->SetStyle(0);
+					score.Add(600);
+				}
 			line.clear();
 			if (toDelete.size() < 3) break;	//break if there is not enough candies to form a combo
 		}

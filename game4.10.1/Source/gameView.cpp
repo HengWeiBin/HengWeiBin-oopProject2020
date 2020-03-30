@@ -1,4 +1,4 @@
-/*
+﻿/*
  * gameView.cpp : implementation of the CGameView class
  * Copyright (C) 2002-2012 Woei-Kae Chen <wkc@csie.ntut.edu.tw>
  *
@@ -34,6 +34,7 @@
 #include <ddraw.h>
 #include <direct.h>
 #include <string.h>
+#include <set>
 #include "gamelib.h"
 #include "mygame.h"
 #include "gameView.h"

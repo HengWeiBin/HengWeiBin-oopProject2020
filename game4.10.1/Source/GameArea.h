@@ -19,18 +19,20 @@ namespace game_framework
 		void OnLButtonUp(UINT nFlags, CPoint point);	//handle mouse unclick
 		void OnMouseMove(UINT nFlags, CPoint point);	//handle mouse move
 		void InitCandy();								//spawn all candies randomly
+	private:
 		void ClearCombo();								//search and delete all combo
 		void GetCandies(set<Candy*>&, int, int, int);	//get continuous candies
-		void ClearCombo(set<Candy*>&);					//analyze and delete combo
+		void DeleteCombo(set<Candy*>&);					//analyze and delete combo
 		void RemoveContinuous(vector<Candy*>&, char, bool(*Compare)(Candy*, Candy*));			//Remove continuous candy
 		void PutCandy();								//spawn candies at spawning area
 		bool IsDropping();								//check all candies are still
-	private:
+
 		int map[MaxHeight][MaxWidth];
 		int x, y;										//top left x,y of gameArea
 		Candy candies[MaxHeight][MaxWidth];
 		CMovingBitmap Area;
 		int MAX_RAND_NUM;								//types of candies in this games
+		CInteger score;
 
 	};
 }
