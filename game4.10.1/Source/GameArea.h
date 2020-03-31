@@ -21,13 +21,15 @@ namespace game_framework
 		void InitCandy();								//spawn all candies randomly
 	private:
 		void DropCandy();
-		void ClearCombo();								//search and delete all combo
+		int ClearCombo();								//search and delete all combo
 		void GetCandies(set<Candy*>&, int, int, int);	//get continuous candies
-		void DeleteCombo(set<Candy*>&);					//analyze and delete combo
-		void RemoveContinuous(vector<Candy*>&, char, bool(*Compare)(Candy*, Candy*));			//Remove continuous candy
+		int DeleteCombo(set<Candy*>&);					//analyze and delete combo
+		int RemoveContinuous(vector<Candy*>&, char, bool(*Compare)(Candy*, Candy*));	//Remove continuous candy
+		void RemoveContinuous(vector<Candy*>&, unsigned, unsigned);
+		void GetLine(vector<Candy*>&, vector<Candy*>&, char check);						//collect candies on a same line
 		void PutCandy();								//spawn candies at spawning area
 		bool IsDropping();								//check all candies are still
-		void ExchangeCandy();
+		void SwapCandy();
 		bool IsNeighbour(Candy&, Candy&);
 
 		int map[MaxHeight][MaxWidth];

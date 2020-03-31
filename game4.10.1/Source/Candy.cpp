@@ -26,10 +26,10 @@ namespace game_framework
 
 	void Candy::OnMove()
 	{
-		if (x != dx)
-			x > dx ? x-= 10 : x+= 10;
 		if (y != dy)
-			y > dy ? y-= 10 : y+= 10;
+			y > dy ? y -= 10 : y += 10;
+		if (x != dx)
+			x > dx ? x -= 10 : x += 10;
 	}
 
 	void Candy::OnShow()
