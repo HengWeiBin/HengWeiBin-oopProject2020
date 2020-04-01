@@ -13,7 +13,7 @@
 
 namespace game_framework
 {
-	GameArea::GameArea() :x(280), y(35), MAX_RAND_NUM(5)
+	GameArea::GameArea() :x(280), y(35), MAX_RAND_NUM(2)
 	{
 		score.SetInteger(0);
 		LoadStage();
