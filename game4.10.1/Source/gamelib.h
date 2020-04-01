@@ -256,7 +256,8 @@ namespace game_framework {
 		void LoadBitmap();			// 載入0..9及負號之圖形
 		void SetInteger(int);		// 設定整數值
 		void SetTopLeft(int, int);	// 將動畫的左上角座標移至 (x,y)
-		void ShowBitmap();			// 將動畫貼到螢幕
+		void ShowBitmap();			// 將動畫貼到螢幕	
+		int Size();                // get the size of the number
 	private:
 		const int NUMDIGITS;			// 共顯示NUMDIGITS個位數
 		static CMovingBitmap digit[11]; // 儲存0..9及負號之圖形(bitmap)

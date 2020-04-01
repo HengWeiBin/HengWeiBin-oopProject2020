@@ -258,7 +258,14 @@ namespace game_framework {
 	{
 		return n;
 	}
-
+	int CInteger::Size() {
+		int size = 1, num = n;
+		while (num > 9) {
+			num /= 10;
+			size++;
+		}
+		return size;
+	}
 	void CInteger::LoadBitmap()
 	{
 		//

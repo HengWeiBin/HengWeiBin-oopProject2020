@@ -25,6 +25,7 @@ namespace game_framework
 	void GameArea::LoadBitmap()
 	{
 		Area.LoadBitmap(".\\Bitmaps\\container.bmp");
+		score_board.LoadBitmap("Bitmaps\\score_board.bmp", RGB(0, 0, 0));
 
 		for (int i = 0; i < MaxHeight; i++)
 		{
@@ -60,6 +61,14 @@ namespace game_framework
 
 	void GameArea::OnShow()
 	{
+		///////////////////////////////////////////
+		// Show score    						///
+		///////////////////////////////////////////
+		score_board.SetTopLeft((SIZE_X - 1211) / 2, ((SIZE_Y - 420) / 2));
+		score_board.ShowBitmap();
+		score.SetTopLeft((((score_board.Left() + 140) - score.Size()) / 2), score_board.Top() + 120);
+		score.ShowBitmap();
+
 		///////////////////////////////////////////
 		// Show gamearea						///
 		///////////////////////////////////////////

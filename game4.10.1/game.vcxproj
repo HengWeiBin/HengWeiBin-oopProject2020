@@ -341,6 +341,7 @@
     <Image Include="Bitmaps\ProfileButton.bmp" />
     <Image Include="Bitmaps\PurpleCandy.bmp" />
     <Image Include="Bitmaps\RedCandy.bmp" />
+    <Image Include="Bitmaps\score_board.bmp" />
     <Image Include="Bitmaps\SuperCandy.bmp" />
     <Image Include="Bitmaps\WoodBackground.bmp" />
     <Image Include="res\bitmap3.bmp" />
