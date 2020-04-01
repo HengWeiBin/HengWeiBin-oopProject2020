@@ -31,13 +31,14 @@ namespace game_framework
 		bool IsDropping();								//check all candies are still
 		void SwapCandy();
 		bool IsNeighbour(Candy&, Candy&);
+		void InitClickedCandy();
 
 		int map[MaxHeight][MaxWidth];
 		int x, y;										//top left x,y of gameArea
 		Candy candies[MaxHeight][MaxWidth];
 		CMovingBitmap Area,score_board;
 		int MAX_RAND_NUM;								//types of candies in this games
-		CInteger score;
+		CInteger* score;
 		vector<Candy*> clickedCandies;
 
 	};

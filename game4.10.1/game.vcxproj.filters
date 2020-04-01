@@ -246,5 +246,23 @@
     <Image Include="Bitmaps\score_board.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Bitmaps\ClickedBlueCandy.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\ClickedGreenCandy.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\ClickedOrangeCandy.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\ClickedPurpleCandy.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\ClickedRedCandy.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\ClickedSuperCandy.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

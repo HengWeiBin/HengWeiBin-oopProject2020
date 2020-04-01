@@ -19,9 +19,10 @@ namespace game_framework
 
 	void Candy::LoadBitmap()
 	{
-		char BitmapDir[50];
-		GetBitmapDirectory(BitmapDir);
-		bmp.LoadBitmap(BitmapDir, RGB(255, 255, 255));
+		string candyName;
+		GetCandyName(candyName);
+		bmp.LoadBitmap(".\\Bitmaps\\" + candyName, RGB(255, 255, 255));
+		bmpClick.LoadBitmap(".\\Bitmaps\\Clicked" + candyName, RGB(255, 255, 255));
 	}
 
 	void Candy::OnMove()
@@ -34,8 +35,16 @@ namespace game_framework
 
 	void Candy::OnShow()
 	{
-		bmp.SetTopLeft(x, y);
-		bmp.ShowBitmap();
+		if (!onClick)
+		{
+			bmp.SetTopLeft(x, y);
+			bmp.ShowBitmap();
+		}
+		else
+		{
+			bmpClick.SetTopLeft(x, y);
+			bmpClick.ShowBitmap();
+		}
 	}
 
 	void Candy::SetDestination(int x, int y)
@@ -59,24 +68,24 @@ namespace game_framework
 		this->style = style;
 	}
 
-	void Candy::GetBitmapDirectory(char* BitmapDir)
+	void Candy::GetCandyName(string& BitmapDir)
 	{
 		switch (style)
 		{
 		case 1:
-			strcpy(BitmapDir, ".\\Bitmaps\\RedCandy.bmp");
+			BitmapDir = "RedCandy.bmp";
 			break;
 		case 2:
-			strcpy(BitmapDir, ".\\Bitmaps\\OrangeCandy.bmp");
+			BitmapDir = "OrangeCandy.bmp";
 			break;
 		case 3:
-			strcpy(BitmapDir, ".\\Bitmaps\\GreenCandy.bmp");
+			BitmapDir = "GreenCandy.bmp";
 			break;
 		case 4:
-			strcpy(BitmapDir, ".\\Bitmaps\\BlueCandy.bmp");
+			BitmapDir = "BlueCandy.bmp";
 			break;
 		case 5:
-			strcpy(BitmapDir, ".\\Bitmaps\\PurpleCandy.bmp");
+			BitmapDir = "PurpleCandy.bmp";
 			break;
 		/////////////////////////////////////////////////////////
 		//	Special Candy: Vertical

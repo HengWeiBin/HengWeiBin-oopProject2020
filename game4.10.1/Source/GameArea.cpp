@@ -13,14 +13,17 @@
 
 namespace game_framework
 {
-	GameArea::GameArea() :x(280), y(35), MAX_RAND_NUM(2)
+	GameArea::GameArea() :x(280), y(35), MAX_RAND_NUM(5)
 	{
-		score.SetInteger(0);
+		score = new CInteger(8);
+		score->SetInteger(0);
 		LoadStage();
 	}
 
 	GameArea::~GameArea()
-	{	}
+	{
+		delete score;
+	}
 
 	void GameArea::LoadBitmap()
 	{
@@ -66,8 +69,8 @@ namespace game_framework
 		///////////////////////////////////////////
 		score_board.SetTopLeft((SIZE_X - 1211) / 2, ((SIZE_Y - 420) / 2));
 		score_board.ShowBitmap();
-		score.SetTopLeft((((score_board.Left() + 140) - score.Size()) / 2), score_board.Top() + 120);
-		score.ShowBitmap();
+		score->SetTopLeft((((score_board.Left() + 140) - score->Size()) / 2), score_board.Top() + 120);
+		score->ShowBitmap();
 
 		///////////////////////////////////////////
 		// Show gamearea						///
@@ -109,11 +112,13 @@ namespace game_framework
 		{
 			int amountCleared = ClearCombo();
 			if (amountCleared && clickedCandies.size() == 2)
-				clickedCandies.clear();
+			{
+				InitClickedCandy();
+			}
 			else if (!amountCleared && clickedCandies.size() == 2)
 			{
 				SwapCandy();
-				clickedCandies.clear();
+				InitClickedCandy();
 			}
 			Sleep(100);
 		}
@@ -339,7 +344,7 @@ namespace game_framework
 		for (unsigned int j = offset; j < lineSize; j++)
 		{
 			line[j]->SetStyle(0);
-			score.Add(60);
+			score->Add(60);
 		}
 	}
 
@@ -399,5 +404,12 @@ namespace game_framework
 		bool vertiNeighbour = fabs(a.GetTopLeftX() - b.GetTopLeftX()) == 50 && a.GetTopLeftY() == b.GetTopLeftY();
 		bool horztNeighbour = fabs(a.GetTopLeftY() - b.GetTopLeftY()) == 50 && a.GetTopLeftX() == b.GetTopLeftX();
 		return vertiNeighbour || horztNeighbour;
+	}
+
+	void GameArea::InitClickedCandy()
+	{
+		clickedCandies[0]->Click();
+		clickedCandies[1]->Click();
+		clickedCandies.clear();
 	}
 }
