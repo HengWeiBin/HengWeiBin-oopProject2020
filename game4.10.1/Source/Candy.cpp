@@ -8,7 +8,7 @@
 
 namespace game_framework
 {
-	Candy::Candy(int id, int x, int y): style(id), x(x), y(y), dx(x), dy(y), onClick(false)
+	Candy::Candy(int id, int x, int y): style(id), x(x), y(y), dx(x), dy(y), onClick(false), fallingSpeed(1), power(0)
 	{}
 
 	Candy::Candy() : style(0)
@@ -20,30 +20,58 @@ namespace game_framework
 	void Candy::LoadBitmap()
 	{
 		string candyName;
+		const string dir = ".\\Bitmaps\\", click = "Clicked";
 		GetCandyName(candyName);
-		bmp.LoadBitmap(".\\Bitmaps\\" + candyName, RGB(255, 255, 255));
-		bmpClick.LoadBitmap(".\\Bitmaps\\Clicked" + candyName, RGB(255, 255, 255));
+		normal.LoadBitmap(dir + candyName, RGB(255, 255, 255));
+		normalClick.LoadBitmap(dir + click + candyName, RGB(255, 255, 255));
+
+		horizon.LoadBitmap(dir + "P1" + candyName, RGB(255, 255, 255));
+		horizonClick.LoadBitmap(dir + click + "P1" + candyName, RGB(255, 255, 255));
+
+		vertical.LoadBitmap(dir + "P2" + candyName, RGB(255, 255, 255));
+		verticalClick.LoadBitmap(dir + click + "P2" + candyName, RGB(255, 255, 255));
+
+		pack.LoadBitmap(dir + "P3" + candyName, RGB(255, 255, 255));
+		packClick.LoadBitmap(dir + click + "P3" + candyName, RGB(255, 255, 255));
 	}
 
 	void Candy::OnMove()
 	{
-		if (y != dy)
-			y > dy ? y -= 10 : y += 10;
+		if (y != dy && x != dx)
+		{
+			y < dy ? y += 10 : y -= 10;
+			x < dx ? x += 10 : x -= 10;
+		}
 		if (x != dx)
 			x > dx ? x -= 10 : x += 10;
+		if (y < dy)
+		{
+			y += fallingSpeed;
+			fallingSpeed += 4;
+			if (y > dy)
+			{
+				y = dy;
+				fallingSpeed = 10;
+			}
+		}
+
+		y > dy ? y -= 10 : y;
 	}
 
 	void Candy::OnShow()
 	{
+		CMovingBitmap *idle, *click;
+		GetCurrentShow(&idle, &click);
+
 		if (!onClick)
 		{
-			bmp.SetTopLeft(x, y);
-			bmp.ShowBitmap();
+			idle->SetTopLeft(x, y);
+			idle->ShowBitmap();
 		}
 		else
 		{
-			bmpClick.SetTopLeft(x, y);
-			bmpClick.ShowBitmap();
+			click->SetTopLeft(x, y);
+			click->ShowBitmap();
 		}
 	}
 
@@ -87,24 +115,9 @@ namespace game_framework
 		case 5:
 			BitmapDir = "PurpleCandy.bmp";
 			break;
-		/////////////////////////////////////////////////////////
-		//	Special Candy: Vertical
-		/////////////////////////////////////////////////////////
-		/*case 10:
-			BitmapDir = ".\\Bitmaps\\VPowRedCandy.bmp";
+		case 6:
+			BitmapDir = "SuperCandy.bmp";
 			break;
-		case 20:
-			BitmapDir = ".\\Bitmaps\\VPowOrangeCandy.bmp";
-			break;
-		case 30:
-			BitmapDir = ".\\Bitmaps\\VPowGreenCandy.bmp";
-			break;
-		case 40:
-			BitmapDir = ".\\Bitmaps\\VPowBlueCandy.bmp";
-			break;
-		case 50:
-			BitmapDir = ".\\Bitmaps\\VPowPurpleCandy.bmp";
-			break;*/
 		}
 	}
 
@@ -153,5 +166,28 @@ namespace game_framework
 	{
 		onClick = onClick == true ? false : true;
 		return this;
+	}
+
+	void Candy::GetCurrentShow(CMovingBitmap **idle, CMovingBitmap **click)
+	{
+		switch (power)
+		{
+		case 0:
+			*idle = &normal;
+			*click = &normalClick;
+			break;
+		case 1:
+			*idle = &horizon;
+			*click = &horizonClick;
+			break;
+		case 2:
+			*idle = &vertical;
+			*click = &verticalClick;
+			break;
+		case 3:
+			*idle = &pack;
+			*click = &packClick;
+			break;
+		}
 	}
 }

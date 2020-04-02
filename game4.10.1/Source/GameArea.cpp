@@ -13,7 +13,7 @@
 
 namespace game_framework
 {
-	GameArea::GameArea() :x(280), y(35), MAX_RAND_NUM(5)
+	GameArea::GameArea() :x(280), y(35), MAX_RAND_NUM(3)
 	{
 		score = new CInteger(8);
 		score->SetInteger(0);
@@ -65,7 +65,7 @@ namespace game_framework
 	void GameArea::OnShow()
 	{
 		///////////////////////////////////////////
-		// Show score    						///
+		// Show score board  					///
 		///////////////////////////////////////////
 		score_board.SetTopLeft((SIZE_X - 1211) / 2, ((SIZE_Y - 420) / 2));
 		score_board.ShowBitmap();
@@ -92,7 +92,7 @@ namespace game_framework
 		{
 			for (int j = 0; j < MaxWidth; j++)
 			{
-				if (candies[i][j].GetStyle() != 0)
+				if (candies[i][j].GetStyle() != 0 && candies[i][j].GetCurrentY() > 35)
 					candies[i][j].OnShow();
 			}
 		}
@@ -142,7 +142,7 @@ namespace game_framework
 			{
 				if (IsNeighbour(*clickedCandies[0], *clickedCandies[1]))
 					SwapCandy();
-				else clickedCandies.clear();
+				else InitClickedCandy();
 			}
 		}
 	}
@@ -165,20 +165,13 @@ namespace game_framework
 			{
 				switch (map[i][j])
 				{
-				case 1:
-				{
-					int id = rand() % MAX_RAND_NUM + 1;					//random type of Candy
-					candies[i][j] = Candy(id, j * 50 + x, i * 50 + y);	//Set candy
+				case 0:
+					candies[i][j] = Candy();
 					break;
-				}
-				case 2:
-				{
-					int id = rand() % MAX_RAND_NUM + 1;					//random type of Candy
-					candies[i][j] = Candy(id, j * 50 + x, i * 50 + y);	//Set candy
-					break;
-				}
+
 				default:
-					candies[i][j] = Candy();							
+					int id = rand() % MAX_RAND_NUM + 1;
+					candies[i][j] = Candy(id, j * 50 + x, i * 50 + y);
 					break;
 				}
 			}
@@ -198,7 +191,7 @@ namespace game_framework
 						candies[i + 1][j] = candies[i][j];
 						candies[i][j].SetStyle(0);
 					}
-					/*else if (map[i + 1][j - 1] && !candies[i][j - 1].GetStyle() && !candies[i + 1][j - 1].GetStyle())
+					else if (map[i + 1][j - 1] && !candies[i][j - 1].GetStyle() && !candies[i + 1][j - 1].GetStyle())
 					{
 						candies[i][j].SetDestination(candies[i][j].GetTopLeftX() - 50, candies[i][j].GetTopLeftY() + 50);
 
@@ -211,7 +204,7 @@ namespace game_framework
 
 						candies[i + 1][j + 1] = candies[i][j];
 						candies[i][j].SetStyle(0);
-					}*/
+					}
 				}
 	}
 
@@ -281,7 +274,7 @@ namespace game_framework
 
 		vector<int> x, y;
 		vector<Candy*> toDelete;
-		int conboDeleted = 0;
+		int comboDeleted = 0;
 		for (auto i = accumulateCandy.begin(); i != accumulateCandy.end(); i++)
 		{
 			x.push_back((*i)->GetTopLeftX());
@@ -292,15 +285,15 @@ namespace game_framework
 			if (count(x.begin(), x.end(), (*i)->GetTopLeftX()) >= 3)
 				toDelete.push_back(*i);
 		}
-		conboDeleted += RemoveContinuous(toDelete, 'y', &CompareY);
+		comboDeleted += RemoveContinuous(toDelete, 'y', &CompareY);
 		for (auto i = accumulateCandy.begin(); i != accumulateCandy.end(); i++)
 		{	/*delete if more than 3 candies on a horizontal line*/
 			if (count(y.begin(), y.end(), (*i)->GetTopLeftY()) >= 3)
 				toDelete.push_back(*i);
 		}
-		conboDeleted += RemoveContinuous(toDelete, 'x', &CompareX);
+		comboDeleted += RemoveContinuous(toDelete, 'x', &CompareX);
 		accumulateCandy.clear();
-		return conboDeleted;
+		return comboDeleted;
 	}
 
 	int GameArea::RemoveContinuous(vector<Candy*>& toDelete, char c, bool(*Compare)(Candy*, Candy*))

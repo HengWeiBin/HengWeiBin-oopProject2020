@@ -24,8 +24,8 @@ namespace game_framework
 		int ClearCombo();								//search and delete all combo
 		void GetCandies(set<Candy*>&, int, int, int);	//get continuous candies
 		int DeleteCombo(set<Candy*>&);					//analyze and delete combo
-		int RemoveContinuous(vector<Candy*>&, char, bool(*Compare)(Candy*, Candy*));	//Remove continuous candy
-		void RemoveContinuous(vector<Candy*>&, unsigned, unsigned);
+		int RemoveContinuous(vector<Candy*>&, char, bool(*Compare)(Candy*, Candy*));	//Find and remove continuous candy
+		void RemoveContinuous(vector<Candy*>&, unsigned, unsigned);						//Remove continuous candy
 		void GetLine(vector<Candy*>&, vector<Candy*>&, char check);						//collect candies on a same line
 		void PutCandy();								//spawn candies at spawning area
 		bool IsDropping();								//check all candies are still

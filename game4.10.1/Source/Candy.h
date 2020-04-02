@@ -16,7 +16,7 @@ namespace game_framework
 		void SetDestination(int);			//set destination y
 		int GetStyle();						//get current style
 		void SetStyle(int);					//change current style
-		void GetCandyName(string&);		//Get bitmap directory according to style
+		void GetCandyName(string&);			//Get bitmap directory according to style
 		int GetTopLeftX();					//Get destination x
 		int GetTopLeftY();					//Get destination y
 		int GetTopLeft(char c);				//Get destination(c) 'x'/'y'
@@ -26,12 +26,19 @@ namespace game_framework
 		bool IsClicked();					//return onClick
 		Candy* Click();						//Change state of onClick if being clicked
 	private:
-		CMovingBitmap bmp;		//candy's bitmap
-		CMovingBitmap bmpClick;	//bitmap when candy onClick
-		int style;				//0 = non-exist
-		int x, y;				//current coordinate
-		int dx, dy;				//destination coordinate
+		void GetCurrentShow(CMovingBitmap**, CMovingBitmap**);
+
+		CMovingBitmap normal, normalClick;
+		CMovingBitmap horizon, horizonClick;
+		CMovingBitmap vertical, verticalClick;
+		CMovingBitmap pack, packClick;
+		CMovingBitmap super, superClick;
+		int style;					//0 = non-exist
+		int x, y;					//current coordinate
+		int dx, dy;					//destination coordinate
 		bool onClick;
+		int fallingSpeed;
+		int power;
 	};
 }
 
