@@ -15,7 +15,7 @@ namespace game_framework
 {
 	GameArea::GameArea() :x(280), y(35), MAX_RAND_NUM(3)
 	{
-		score = new CInteger(8);
+		score = new CInteger(1);
 		score->SetInteger(0);
 		LoadStage();
 	}
@@ -30,6 +30,9 @@ namespace game_framework
 		Area.LoadBitmap(".\\Bitmaps\\container.bmp");
 		score_board.LoadBitmap("Bitmaps\\score_board.bmp", RGB(0, 0, 0));
 
+		for (int i = 0; i < 129; i++) {
+			loading[i].LoadBitmap("Bitmaps\\Bitmap.bmp");
+		}
 		for (int i = 0; i < MaxHeight; i++)
 		{
 			for (int j = 0; j < MaxWidth; j++)
@@ -62,6 +65,32 @@ namespace game_framework
 		InputStage.close();
 	}
 
+	void GameArea::ShowScore() {
+		int CurrentScore = score->GetInteger();
+		int size = 1;
+		while (CurrentScore > 9) {
+			CurrentScore /= 10;
+			size++;
+			}
+		//delete score;
+		//score = new CInteger(size);
+		if (size <=7){
+		score->SetDigit(size);
+		score->SetTopLeft((score_board.Left() + 135 - (18*size) ), score_board.Top() + 125);
+		}
+
+	}
+	void GameArea::ShowStarBar() {
+		//bar_width = 45;
+		//bar_height = 254;
+		// 127=100%  88=70%  108=85%
+		//bottom left point 152,339px
+		int X_point = (score_board.Left() + 150), Y_point = (score_board.Top() + 339); //loading bar set point
+		for (int i = 0; i < 129; i++) {
+			loading[i].SetTopLeft(X_point, Y_point);
+			Y_point -= 2;
+		}
+	}
 	void GameArea::OnShow()
 	{
 		///////////////////////////////////////////
@@ -69,9 +98,12 @@ namespace game_framework
 		///////////////////////////////////////////
 		score_board.SetTopLeft((SIZE_X - 1211) / 2, ((SIZE_Y - 420) / 2));
 		score_board.ShowBitmap();
-		score->SetTopLeft((((score_board.Left() + 140) - score->Size()) / 2), score_board.Top() + 120);
+		ShowScore();
+		ShowStarBar();
 		score->ShowBitmap();
-
+		for (int i = 0; i < 129; i++) {
+			loading[i].ShowBitmap();
+		}
 		///////////////////////////////////////////
 		// Show gamearea						///
 		///////////////////////////////////////////
@@ -211,7 +243,7 @@ namespace game_framework
 	int GameArea::ClearCombo()
 	{
 		set<Candy*> accumulateCandy;
-		int conboDeleted = 0;
+		int comboDeleted = 0;
 		for (int i = 0; i < MaxHeight; i++)
 		{
 			for (int j = 0; j < MaxWidth; j++)
@@ -219,10 +251,10 @@ namespace game_framework
 				if (!candies[i][j].GetStyle()) continue;
 				accumulateCandy.insert(&candies[i][j]);						//put the first candy into set
 				GetCandies(accumulateCandy, i, j, candies[i][j].GetStyle());//collect all similar candies that follow-up with first
-				conboDeleted += DeleteCombo(accumulateCandy);				//delete all combo
+				comboDeleted += DeleteCombo(accumulateCandy);				//delete all combo
 			}
 		}
-		return conboDeleted;
+		return comboDeleted;
 	}
 
 	void GameArea::GetCandies(set<Candy*>& accumulateCandy, int i, int j, int checkStyle)

@@ -331,6 +331,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Bitmaps\Bitmap.bmp" />
     <Image Include="Bitmaps\BlueCandy.bmp" />
     <Image Include="Bitmaps\ClickedBlueCandy.bmp" />
     <Image Include="Bitmaps\ClickedP1BlueCandy.bmp" />

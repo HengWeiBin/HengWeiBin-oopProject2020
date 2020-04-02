@@ -258,13 +258,10 @@ namespace game_framework {
 	{
 		return n;
 	}
-	int CInteger::Size() {
-		int size = 1, num = n;
-		while (num > 9) {
-			num /= 10;
-			size++;
-		}
-		return size;
+	
+	void CInteger::SetDigit(int digit)
+	{
+		NUMDIGITS = digit;
 	}
 	void CInteger::LoadBitmap()
 	{
@@ -274,7 +271,7 @@ namespace game_framework {
 		if (!isBmpLoaded) {
 			int d[11] = { IDB_0,IDB_1,IDB_2,IDB_3,IDB_4,IDB_5,IDB_6,IDB_7,IDB_8,IDB_9,IDB_MINUS };
 			for (int i = 0; i < 11; i++)
-				digit[i].LoadBitmap(d[i], RGB(255, 255, 255));
+				digit[i].LoadBitmap(d[i], RGB(0, 0, 0));
 			isBmpLoaded = true;
 		}
 	}
@@ -314,6 +311,7 @@ namespace game_framework {
 			digit[10].ShowBitmap();
 		}
 	}
+
 
 	/////////////////////////////////////////////////////////////////////////////
 	// CMovingBitmap: Moving Bitmap class
@@ -467,6 +465,7 @@ namespace game_framework {
 		//
 		// 以下為CDC的用法
 		//
+
 		CDC *pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC 
 		CPen *pp, p(PS_NULL, 0, RGB(0, 0, 0));		// 清除pen
 		pp = pDC->SelectObject(&p);

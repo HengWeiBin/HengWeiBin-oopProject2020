@@ -9,7 +9,7 @@ namespace game_framework
 	class GameArea
 	{
 	public:
-		GameArea();										
+		GameArea();
 		~GameArea();
 		void LoadBitmap();								//load game area's background
 		void LoadStage();								//read map from file
@@ -32,11 +32,13 @@ namespace game_framework
 		void SwapCandy();
 		bool IsNeighbour(Candy&, Candy&);
 		void InitClickedCandy();
-
+		void ShowScore();
+		void ShowStarBar();
 		int map[MaxHeight][MaxWidth];
 		int x, y;										//top left x,y of gameArea
 		Candy candies[MaxHeight][MaxWidth];
 		CMovingBitmap Area,score_board;
+		CMovingBitmap loading[129];
 		int MAX_RAND_NUM;								//types of candies in this games
 		CInteger* score;
 		vector<Candy*> clickedCandies;
