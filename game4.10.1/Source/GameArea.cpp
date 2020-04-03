@@ -13,7 +13,7 @@
 
 namespace game_framework
 {
-	GameArea::GameArea() :x(280), y(35), MAX_RAND_NUM(3)
+	GameArea::GameArea() :x(280), y(35), MAX_RAND_NUM(5)
 	{
 		score = new CInteger(1);
 		score->SetInteger(0);
@@ -215,7 +215,7 @@ namespace game_framework
 		for (int i = 0; i < MaxHeight; i++)
 			for (int j = 0; j < MaxWidth; j++)
 				if (map[i + 1][j] != 0 && candies[i][j].GetStyle())
-				{
+				{	//Drop in current column
 					if (!candies[i + 1][j].GetStyle())
 					{
 						candies[i][j].SetDestination(candies[i][j].GetTopLeftY() + 50);
@@ -223,6 +223,7 @@ namespace game_framework
 						candies[i + 1][j] = candies[i][j];
 						candies[i][j].SetStyle(0);
 					}
+					//drop into left column
 					else if (map[i + 1][j - 1] && !candies[i][j - 1].GetStyle() && !candies[i + 1][j - 1].GetStyle())
 					{
 						candies[i][j].SetDestination(candies[i][j].GetTopLeftX() - 50, candies[i][j].GetTopLeftY() + 50);
@@ -230,6 +231,7 @@ namespace game_framework
 						candies[i + 1][j - 1] = candies[i][j];
 						candies[i][j].SetStyle(0);
 					}
+					//drop into right column
 					else if (map[i + 1][j + 1]&& !candies[i][j + 1].GetStyle() && !candies[i + 1][j + 1].GetStyle())
 					{
 						candies[i][j].SetDestination(candies[i][j].GetTopLeftX() + 50, candies[i][j].GetTopLeftY() + 50);
@@ -328,12 +330,12 @@ namespace game_framework
 		return comboDeleted;
 	}
 
-	int GameArea::RemoveContinuous(vector<Candy*>& toDelete, char c, bool(*Compare)(Candy*, Candy*))
+	int GameArea::RemoveContinuous(vector<Candy*>& toDelete, char axis, bool(*Compare)(Candy*, Candy*))
 	{
 		if (!toDelete.size()) return 0; //pass
 
 		vector<Candy*> line;
-		char check = c == 'x' ? 'y' : 'x';
+		char check = axis == 'x' ? 'y' : 'x';
 		int conboDeleted = 0;
 		while(1)
 		{	
@@ -343,18 +345,18 @@ namespace game_framework
 			int count = 1;
 			for (unsigned int i = 0; i < line.size() - 1; i++)
 			{
-				if (line[i]->GetTopLeft(c) + 50 == line[i + 1]->GetTopLeft(c)) count++;	//If next candy is follow-up with current, keep counting
+				if (line[i]->GetTopLeft(axis) + 50 == line[i + 1]->GetTopLeft(axis)) count++;	//If next candy is follow-up with current, keep counting
 				else if (count < 3) count = 1;											//else, if count >= 3 -> combo, or pass
 				else
 				{
-					RemoveContinuous(line, i - count, i);
+					RemoveContinuous(line, i - count, i, axis);
 					count = 1;
 					conboDeleted++;
 				}
 			}
 			if (count >= 3)
 			{
-				RemoveContinuous(line, line.size() - count, line.size());
+				RemoveContinuous(line, line.size() - count, line.size(), axis);
 				conboDeleted++;
 			}
 			line.clear();
@@ -364,10 +366,30 @@ namespace game_framework
 		return conboDeleted;
 	}
 
-	void GameArea::RemoveContinuous(vector<Candy*>& line, unsigned offset, unsigned lineSize)
+	void GameArea::RemoveContinuous(vector<Candy*>& line, unsigned offset, unsigned lineSize, char axis)
 	{
+		bool linePower = lineSize - offset == 4 ? true : false;
+		bool superCandy = lineSize - offset > 4 ? true : false;
 		for (unsigned int j = offset; j < lineSize; j++)
-		{
+		{	
+			if (linePower && find(clickedCandies.begin(), clickedCandies.end(), line[j]) != clickedCandies.end())
+			{
+				line[j]->SetPower(axis == 'x' ? 2 : 1);
+				linePower = false;
+				continue;
+			}
+			if (!line[j]->GetStyle())
+			{
+				line[j]->SetPower(3);
+				line[j]->Relive();
+				continue;
+			}
+			if (superCandy && find(clickedCandies.begin(), clickedCandies.end(), line[j]) != clickedCandies.end())
+			{
+				superCandy = false;
+				line[j]->SetPower(4);
+				continue;
+			}
 			line[j]->SetStyle(0);
 			score->Add(60);
 		}

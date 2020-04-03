@@ -8,10 +8,10 @@
 
 namespace game_framework
 {
-	Candy::Candy(int id, int x, int y): style(id), x(x), y(y), dx(x), dy(y), onClick(false), fallingSpeed(1), power(0)
+	Candy::Candy(int id, int x, int y): style(id), rawStyle(id), x(x), y(y), dx(x), dy(y), onClick(false), fallingSpeed(1), power(0)
 	{}
 
-	Candy::Candy() : style(0)
+	Candy::Candy() : style(0), rawStyle(0)
 	{}
 
 	Candy::~Candy()
@@ -33,6 +33,9 @@ namespace game_framework
 
 		pack.LoadBitmap(dir + "P3" + candyName, RGB(255, 255, 255));
 		packClick.LoadBitmap(dir + click + "P3" + candyName, RGB(255, 255, 255));
+
+		super.LoadBitmap(dir + "SuperCandy.bmp", RGB(255, 255, 255));
+		superClick.LoadBitmap(dir + click + "SuperCandy.bmp", RGB(255, 255, 255));
 	}
 
 	void Candy::OnMove()
@@ -115,9 +118,6 @@ namespace game_framework
 		case 5:
 			BitmapDir = "PurpleCandy.bmp";
 			break;
-		case 6:
-			BitmapDir = "SuperCandy.bmp";
-			break;
 		}
 	}
 
@@ -168,6 +168,21 @@ namespace game_framework
 		return this;
 	}
 
+	void Candy::SetPower(int power)
+	{
+		this->power = power;
+	}
+
+	int Candy::GetPower()
+	{
+		return power;
+	}
+
+	void Candy::Relive()
+	{
+		style = rawStyle;
+	}
+
 	void Candy::GetCurrentShow(CMovingBitmap **idle, CMovingBitmap **click)
 	{
 		switch (power)
@@ -187,6 +202,10 @@ namespace game_framework
 		case 3:
 			*idle = &pack;
 			*click = &packClick;
+			break;
+		case 4:
+			*idle = &super;
+			*click = &superClick;
 			break;
 		}
 	}

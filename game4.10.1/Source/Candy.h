@@ -25,6 +25,9 @@ namespace game_framework
 		bool IsMoving();					//return current coordinate != destination coordinate
 		bool IsClicked();					//return onClick
 		Candy* Click();						//Change state of onClick if being clicked
+		void SetPower(int);
+		int GetPower();
+		void Relive();
 	private:
 		void GetCurrentShow(CMovingBitmap**, CMovingBitmap**);
 
@@ -34,6 +37,7 @@ namespace game_framework
 		CMovingBitmap pack, packClick;
 		CMovingBitmap super, superClick;
 		int style;					//0 = non-exist
+		int rawStyle;
 		int x, y;					//current coordinate
 		int dx, dy;					//destination coordinate
 		bool onClick;
