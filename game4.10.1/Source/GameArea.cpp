@@ -13,7 +13,7 @@
 
 namespace game_framework
 {
-	GameArea::GameArea() :x(280), y(35), MAX_RAND_NUM(2)
+	GameArea::GameArea() :x(280), y(35), MAX_RAND_NUM(5)
 	{
 		score = new CInteger(1);
 		score->SetInteger(0);
@@ -91,196 +91,6 @@ namespace game_framework
 			Y_point -= 2;
 		}
 	}
-
-	void GameArea::Find(Candy *candy, unsigned &row, unsigned &column)
-	{
-		for (unsigned i = 0; i < MaxHeight; i++)
-			for (unsigned j = 0; j < MaxWidth; j++)
-				if (&candies[i][j] == candy)
-				{
-					row = i;
-					column = j;
-					return;
-				}
-	}
-
-	void GameArea::ReleasePower(Candy *candy, unsigned row, unsigned column)
-	{
-		if(candy != NULL) Find(candy, row, column); //if candy != NULL, get its' position in array
-		else candy = &candies[row][column];			//else, row & column is candy's position
-
-		if (!map[row][column]) return;
-
-		int power = candy->GetPower();
-		candy->SetStyle(0);
-		candy->SetPower(0);
-
-		switch (power)
-		{
-		case 0:
-			break;
-		case 1:
-			RemoveRow(row);
-			break;
-		case 2:
-			RemoveColumn(column);
-			break;
-		case 3:
-			RemoveSquare(row, column, 1);
-			break;
-		case 4:
-			RemoveStyle();
-			break;
-		}
-	}
-
-	void GameArea::ReleaseSwap()
-	{
-		int firstPow = clickedCandies[0]->GetPower(), secondPow = clickedCandies[1]->GetPower();
-		if (firstPow == 4 && secondPow == 4)
-		{
-			unsigned row, column;
-			Find(clickedCandies[0], row, column);
-			RemoveSquare(row, column, 3);
-		}
-		else if (firstPow == 4 && secondPow)
-		{
-			PowerAll(clickedCandies[1]->GetStyle(), secondPow);
-			clickedCandies[0]->SetStyle(0);
-			clickedCandies[0]->SetPower(0);
-		}
-		else if (secondPow == 4 && firstPow)
-		{
-			PowerAll(clickedCandies[0]->GetStyle(), firstPow);
-			clickedCandies[1]->SetStyle(0);
-			clickedCandies[1]->SetPower(0);
-		}
-		else if (firstPow == 4 && !secondPow)
-		{
-			RemoveStyle(clickedCandies[1]->GetStyle());
-			clickedCandies[0]->SetStyle(0);
-			clickedCandies[0]->SetPower(0);
-		}
-		else if (secondPow == 4 && !firstPow)
-		{
-			RemoveStyle(clickedCandies[0]->GetStyle());
-			clickedCandies[1]->SetStyle(0);
-			clickedCandies[1]->SetPower(0);
-		}
-		else if (firstPow > 0 && firstPow < 3 && secondPow > 0 && secondPow < 3)
-		{
-			unsigned row, column;
-			Find(clickedCandies[0], row, column);
-			RemoveRow(row);
-			RemoveColumn(column);
-		}
-		else if (firstPow == 3 && secondPow == 3)
-		{
-			unsigned row, column;
-			Find(clickedCandies[0], row, column);
-			RemoveSquare(row, column, 2);
-		}
-		else if (firstPow == 3 && secondPow > 0 && secondPow < 3)
-		{
-			unsigned row, column;
-			Find(clickedCandies[1], row, column);
-			for (unsigned i = row - 1; i < row + 2; i++)
-				RemoveRow(i);
-			for (unsigned i = column - 1; i < column + 2; i++)
-				RemoveColumn(i);
-		}
-		else if (secondPow == 3 && firstPow > 0 && firstPow < 3)
-		{
-			unsigned row, column;
-			Find(clickedCandies[0], row, column);
-			for (unsigned i = row - 1; i < row + 2; i++)
-				RemoveRow(i);
-			for (unsigned i = column - 1; i < column + 2; i++)
-				RemoveColumn(i);
-		}
-	}
-
-	void GameArea::RemoveRow(unsigned row)
-	{
-		for (unsigned i = 0; i < MaxWidth; i++)
-		{
-			if (map[row][i])
-			{
-				if (!candies[row][i].GetPower())
-					candies[row][i].SetStyle(0);
-				else 
-					ReleasePower(&candies[row][i]);
-			}
-		}
-	}
-
-	void GameArea::RemoveColumn(unsigned column)
-	{
-		for (unsigned i = 0; i < MaxWidth; i++)
-		{
-			if (map[i][column])
-			{
-				if (!candies[i][column].GetPower())
-					candies[i][column].SetStyle(0);
-				else
-					ReleasePower(&candies[i][column]);
-			}
-		}
-	}
-
-	void GameArea::RemoveSquare(unsigned row, unsigned column, int level)
-	{	//Level 1: wrapped candy be activated by normal way
-		if (level == 1)
-		{
-			for (unsigned i = row - 1; i < row + 2; i++)
-				for (unsigned j = column - 1; j < column + 2; j++)
-				{
-					if (i == row && j == column) continue;
-					if (i > 0 && i < MaxHeight && j > 0 && j < MaxWidth)
-						ReleasePower(NULL, i, j);
-				}
-		}
-		//Level 2: two wrapped candies being swapped with each other
-		else if (level == 2)
-		{
-			for (unsigned i = row - 2; i < row + 3; i++)
-				for (unsigned j = column - 2; j < column + 3; j++)
-				{
-					if (i == row || j == column) continue;
-					if (i > 0 && i < MaxHeight && j > 0 && j < MaxWidth)
-						ReleasePower(NULL, i, j);
-				}
-		}
-		//Level 3: two superCandy being swapped with each other
-		else if (level == 3)
-		{
-			for (unsigned i = 0; i < MaxHeight; i++)
-				for (unsigned j = 0; j < MaxWidth; j++)
-					if (map[i][j]) ReleasePower(NULL, i, j);
-		}
-	}
-
-	void GameArea::RemoveStyle(int style)
-	{
-		if (!style) style = rand() % MAX_RAND_NUM + 1;
-
-		for (int i = 0; i < MaxHeight; i++)
-			for (int j = 0; j < MaxWidth; j++)
-				if (candies[i][j].GetStyle() == style)
-					ReleasePower(&candies[i][j]);
-	}
-
-	void GameArea::PowerAll(int style, int power)
-	{
-		for (int i = 0; i < MaxHeight; i++)
-			for (int j = 0; j < MaxWidth; j++)
-				if (candies[i][j].GetStyle() == style)
-				{
-					if (power == 1 || power == 2) power = rand() % 2 + 1;
-					candies[i][j].SetPower(power);
-				}
-	}
-
 	void GameArea::OnShow()
 	{
 		///////////////////////////////////////////
@@ -333,13 +143,12 @@ namespace game_framework
 		if (!IsDropping())
 		{
 			int amountCleared = ClearCombo();
-
 			if (amountCleared && clickedCandies.size() == 2)
-			{//If there is a combo after swapping candies, initiate click
+			{
 				InitClickedCandy();
 			}
 			else if (!amountCleared && clickedCandies.size() == 2)
-			{ //else swap two candies back to original position
+			{
 				SwapCandy();
 				InitClickedCandy();
 			}
@@ -355,21 +164,16 @@ namespace game_framework
 			int column = (point.x - 280) / 50;
 			int row = (point.y - 35) / 50;
 			Candy* clickedCandy = candies[row][column].Click();
-			auto candy = find(clickedCandies.begin(), clickedCandies.end(), clickedCandy); //GetCandyIterator
+			auto getCandyItr = find(clickedCandies.begin(), clickedCandies.end(), clickedCandy);
 
-			if (candy == clickedCandies.end())
+			if (getCandyItr == clickedCandies.end())
 				clickedCandies.push_back(clickedCandy);
-			else clickedCandies.erase(candy);			//If player click a candy twice, initiate click
+			else clickedCandies.erase(getCandyItr);
 
 			if (clickedCandies.size() == 2)
-			{	//if two candies clicked, swap if they are neighbour
+			{
 				if (IsNeighbour(*clickedCandies[0], *clickedCandies[1]))
-				{
 					SwapCandy();
-					//Release swapPower when each of clickedCandy is superCandy or both are poweredCandy
-					if (clickedCandies[0]->GetPower() == 4 || clickedCandies[1]->GetPower() == 4 || (clickedCandies[0]->GetPower() && clickedCandies[1]->GetPower()))
-						ReleaseSwap();
-				}
 				else InitClickedCandy();
 			}
 		}
@@ -385,8 +189,8 @@ namespace game_framework
 
 	}
 
-	void GameArea::InitCandy(bool drop)
-	{
+	void GameArea::InitCandy()
+	{									//There are five basic type of candy
 		for (int i = 0; i < MaxHeight; i++)
 		{
 			for (int j = 0; j < MaxWidth; j++)
@@ -398,7 +202,7 @@ namespace game_framework
 					break;
 
 				default:
-					int id = drop == true ? 0 : rand() % MAX_RAND_NUM + 1;
+					int id = rand() % MAX_RAND_NUM + 1;
 					candies[i][j] = Candy(id, j * 50 + x, i * 50 + y);
 					break;
 				}
@@ -566,10 +370,8 @@ namespace game_framework
 	{
 		bool linePower = lineSize - offset == 4 ? true : false;
 		bool superCandy = lineSize - offset > 4 ? true : false;
-		vector<Candy*> temp;
 		for (unsigned int j = offset; j < lineSize; j++)
 		{	
-			if (line[j]->GetPower()) temp.push_back(line[j]);
 			if (linePower && find(clickedCandies.begin(), clickedCandies.end(), line[j]) != clickedCandies.end())
 			{
 				line[j]->SetPower(axis == 'x' ? 2 : 1);
@@ -580,7 +382,6 @@ namespace game_framework
 			{
 				line[j]->SetPower(3);
 				line[j]->Relive();
-				superCandy = false;
 				continue;
 			}
 			if (superCandy && find(clickedCandies.begin(), clickedCandies.end(), line[j]) != clickedCandies.end())
@@ -589,11 +390,9 @@ namespace game_framework
 				line[j]->SetPower(4);
 				continue;
 			}
-			ReleasePower(line[j]);
+			line[j]->SetStyle(0);
 			score->Add(60);
 		}
-		if (linePower) line[0]->SetPower(axis == 'x' ? 2 : 1);
-		if (superCandy) line[0]->SetPower(4);
 	}
 
 	void GameArea::GetLine(vector<Candy*>& line, vector<Candy*>& toDelete, char check)
