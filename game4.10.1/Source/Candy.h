@@ -25,9 +25,9 @@ namespace game_framework
 		bool IsMoving();					//return current coordinate != destination coordinate
 		bool IsClicked();					//return onClick
 		Candy* Click();						//Change state of onClick if being clicked
-		void SetPower(int);
-		int GetPower();
-		void Relive();
+		void SetPower(int);					//Set current power
+		int GetPower();						//return current power
+		void Relive();						//reset candy's style
 	private:
 		void GetCurrentShow(CMovingBitmap**, CMovingBitmap**);
 
