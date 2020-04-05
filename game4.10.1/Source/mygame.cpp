@@ -35,7 +35,7 @@
  *      2. Add code in CGameStateInit to demo the use of PostQuitMessage().
  *      3. Rename OnInitialUpdate() -> OnInit().
  *      4. Fix the bug that OnBeginState() of GameStateInit is not called.
- *      5. Replace AUDIO_CANYON as AUDIO_NTUT.
+ *      5. Replace AUDIO_CANYON as AUDIO_JELLY.
  *      6. Add help bitmap to CGameStateRun.
  *   2006-09-09 V4.3
  *      1. Rename Move() and Show() as OnMove and OnShow() to emphasize that they are
@@ -216,9 +216,9 @@ namespace game_framework {
 		help.SetTopLeft(0, SIZE_Y - help.Height());			// 設定說明圖的起始座標
 		hits_left.SetInteger(HITS_LEFT);					// 指定剩下的撞擊數
 		hits_left.SetTopLeft(HITS_LEFT_X, HITS_LEFT_Y);		// 指定剩下撞擊數的座標
-		CAudio::Instance()->Play(AUDIO_LAKE, true);			// 撥放 WAVE
-		CAudio::Instance()->Play(AUDIO_DING, false);		// 撥放 WAVE
-		CAudio::Instance()->Play(AUDIO_NTUT, true);			// 撥放 MIDI
+		//CAudio::Instance()->Play(AUDIO_LAKE, false);			// 撥放 WAVE
+		//CAudio::Instance()->Play(AUDIO_DING, false);		// 撥放 WAVE
+		CAudio::Instance()->Play(AUDIO_JELLY, true);		// 撥放 MIDI
 	}
 
 	void CGameStateRun::OnMove()							// 移動遊戲元素
@@ -249,8 +249,8 @@ namespace game_framework {
 				// 若剩餘碰撞次數為0，則跳到Game Over狀態
 				//
 				if (hits_left.GetInteger() <= 0) {
-					CAudio::Instance()->Stop(AUDIO_LAKE);	// 停止 WAVE
-					CAudio::Instance()->Stop(AUDIO_NTUT);	// 停止 MIDI
+					//CAudio::Instance()->Stop(AUDIO_LAKE);	// 停止 WAVE
+					CAudio::Instance()->Stop(AUDIO_JELLY);	// 停止 MIDI
 					GotoGameState(GAME_STATE_OVER);
 				}
 			}
@@ -304,7 +304,7 @@ namespace game_framework {
 		hits_left.LoadBitmap();
 		CAudio::Instance()->Load(AUDIO_DING, "sounds\\ding.wav");	// 載入編號0的聲音ding.wav
 		CAudio::Instance()->Load(AUDIO_LAKE, "sounds\\lake.mp3");	// 載入編號1的聲音lake.mp3
-		CAudio::Instance()->Load(AUDIO_NTUT, "sounds\\ntut.mid");	// 載入編號2的聲音ntut.mid
+		CAudio::Instance()->Load(AUDIO_JELLY, "sounds\\MovesJellyLevels.mp3");
 		//
 		// 此OnInit動作會接到CGameStaterOver::OnInit()，所以進度還沒到100%
 		//

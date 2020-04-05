@@ -45,12 +45,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_1540FE9C6B314C288322AF99DA86F4DD"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_15CD0B6E4CAB4A7785C6F0A3D1058CE4"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -111,6 +105,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_4209A98D9790433F9F2454F008C278ED"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_4286EA4586B64FF783A63B48BA279450"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -141,6 +141,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_4C449ED6C8624A7EB055E67687E08F5F"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_4F89A8667FCA41EEA2F8B2F7B6633896"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -160,6 +166,12 @@
         "Entry"
         {
         "MsmKey" = "8:_6350015C679B4E47A8631B8D20993499"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_65BD1C8BEAE049319EC4597A8673DA9D"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -231,6 +243,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_80F37B76DCB142ECB6B8587477A1C971"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_83998513F0674B9E97A12C2BE397545D"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -279,6 +297,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_9247C0D567814A54BD6B8451997AB013"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_997EF9CC074140A1B3096E54AAED3863"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -303,6 +327,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_A55F039B705F40C99F9CF813F1BC5F84"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_AC5E32FE88344DE6A5D9B2407BD42C59"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -321,19 +351,25 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_C09EE705561643AC9A96D23FBA347B9A"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_CA11C65040C04306AEE7138D2EE4ABDC"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_D170CA22805143519518CF6C63D0E6C8"
+        "MsmKey" = "8:_CC0898633AC74D12AE9286B85D9D24D7"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_DBCE603814AD484F8F5A7A3AB2E3074C"
+        "MsmKey" = "8:_D170CA22805143519518CF6C63D0E6C8"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -381,7 +417,7 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_FA18546823CD42FD84683AEEE655DAA6"
+        "MsmKey" = "8:_F86BF4FBDD1149D0BE8AD39257A0143F"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -566,26 +602,6 @@
             "TargetName" = "8:ClickedP1RedCandy.bmp"
             "Tag" = "8:"
             "Folder" = "8:_EA4AD5C33B81477D82013D9D4380FE5B"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1540FE9C6B314C288322AF99DA86F4DD"
-            {
-            "SourcePath" = "8:Sounds\\ding.wav"
-            "TargetName" = "8:ding.wav"
-            "Tag" = "8:"
-            "Folder" = "8:_2D4D0FE8FDA34E8AB4A55CF78E6C8A47"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -800,6 +816,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4209A98D9790433F9F2454F008C278ED"
+            {
+            "SourcePath" = "8:Sounds\\Ingredient Levels.mp3"
+            "TargetName" = "8:Ingredient Levels.mp3"
+            "Tag" = "8:"
+            "Folder" = "8:_2D4D0FE8FDA34E8AB4A55CF78E6C8A47"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4286EA4586B64FF783A63B48BA279450"
             {
             "SourcePath" = "8:Bitmaps\\PlayButton.bmp"
@@ -900,6 +936,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4C449ED6C8624A7EB055E67687E08F5F"
+            {
+            "SourcePath" = "8:Sounds\\ding.wav"
+            "TargetName" = "8:ding.wav"
+            "Tag" = "8:"
+            "Folder" = "8:_2D4D0FE8FDA34E8AB4A55CF78E6C8A47"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4F89A8667FCA41EEA2F8B2F7B6633896"
             {
             "SourcePath" = "8:Bitmaps\\P3RedCandy.bmp"
@@ -966,6 +1022,26 @@
             "TargetName" = "8:P2OrangeCandy.bmp"
             "Tag" = "8:"
             "Folder" = "8:_EA4AD5C33B81477D82013D9D4380FE5B"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_65BD1C8BEAE049319EC4597A8673DA9D"
+            {
+            "SourcePath" = "8:Sounds\\Level Complete.mp3"
+            "TargetName" = "8:Level Complete.mp3"
+            "Tag" = "8:"
+            "Folder" = "8:_2D4D0FE8FDA34E8AB4A55CF78E6C8A47"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1200,6 +1276,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_80F37B76DCB142ECB6B8587477A1C971"
+            {
+            "SourcePath" = "8:Sounds\\Overworld  Level Select.mp3"
+            "TargetName" = "8:Overworld  Level Select.mp3"
+            "Tag" = "8:"
+            "Folder" = "8:_2D4D0FE8FDA34E8AB4A55CF78E6C8A47"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_83998513F0674B9E97A12C2BE397545D"
             {
             "SourcePath" = "8:Bitmaps\\P2RedCandy.bmp"
@@ -1360,6 +1456,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9247C0D567814A54BD6B8451997AB013"
+            {
+            "SourcePath" = "8:Sounds\\Candy Crush Sound Effects (Voice Pack).mp3"
+            "TargetName" = "8:Candy Crush Sound Effects (Voice Pack).mp3"
+            "Tag" = "8:"
+            "Folder" = "8:_2D4D0FE8FDA34E8AB4A55CF78E6C8A47"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_997EF9CC074140A1B3096E54AAED3863"
             {
             "SourcePath" = "8:Bitmaps\\P3GreenCandy.bmp"
@@ -1440,6 +1556,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A55F039B705F40C99F9CF813F1BC5F84"
+            {
+            "SourcePath" = "8:Sounds\\Level Failed.mp3"
+            "TargetName" = "8:Level Failed.mp3"
+            "Tag" = "8:"
+            "Folder" = "8:_2D4D0FE8FDA34E8AB4A55CF78E6C8A47"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_AC5E32FE88344DE6A5D9B2407BD42C59"
             {
             "SourcePath" = "8:Bitmaps\\P1BlueCandy.bmp"
@@ -1500,6 +1636,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C09EE705561643AC9A96D23FBA347B9A"
+            {
+            "SourcePath" = "8:Sounds\\Timed Levels.mp3"
+            "TargetName" = "8:Timed Levels.mp3"
+            "Tag" = "8:"
+            "Folder" = "8:_2D4D0FE8FDA34E8AB4A55CF78E6C8A47"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_CA11C65040C04306AEE7138D2EE4ABDC"
             {
             "SourcePath" = "8:Bitmaps\\GreenCandy.bmp"
@@ -1520,12 +1676,12 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D170CA22805143519518CF6C63D0E6C8"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_CC0898633AC74D12AE9286B85D9D24D7"
             {
-            "SourcePath" = "8:Stages\\cnt_stage1.txt"
-            "TargetName" = "8:cnt_stage1.txt"
+            "SourcePath" = "8:Sounds\\MovesJellyLevels.mp3"
+            "TargetName" = "8:MovesJellyLevels.mp3"
             "Tag" = "8:"
-            "Folder" = "8:_ECA00C751DE7413C875BC3C61D164683"
+            "Folder" = "8:_2D4D0FE8FDA34E8AB4A55CF78E6C8A47"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1540,12 +1696,12 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_DBCE603814AD484F8F5A7A3AB2E3074C"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D170CA22805143519518CF6C63D0E6C8"
             {
-            "SourcePath" = "8:SOUNDS\\ntut.mid"
-            "TargetName" = "8:ntut.mid"
+            "SourcePath" = "8:Stages\\cnt_stage1.txt"
+            "TargetName" = "8:cnt_stage1.txt"
             "Tag" = "8:"
-            "Folder" = "8:_2D4D0FE8FDA34E8AB4A55CF78E6C8A47"
+            "Folder" = "8:_ECA00C751DE7413C875BC3C61D164683"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1700,7 +1856,7 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_FA18546823CD42FD84683AEEE655DAA6"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F86BF4FBDD1149D0BE8AD39257A0143F"
             {
             "SourcePath" = "8:Sounds\\lake.mp3"
             "TargetName" = "8:lake.mp3"
@@ -1860,15 +2016,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Candy Crush Saga"
-        "ProductCode" = "8:{5F742A8A-C7D1-4C93-BF9E-CF92BBBD8727}"
-        "PackageCode" = "8:{7DD08DAC-D002-4425-9E1D-81CE890222D0}"
+        "ProductCode" = "8:{CF7CAFB0-E5E8-4C65-A9A5-779F5EAAC3D2}"
+        "PackageCode" = "8:{1A4EB70C-FD2F-4527-BCBD-9E2F310F8FAE}"
         "UpgradeCode" = "8:{56864DC0-362A-4E4F-BBE7-BD7B0F1DD0F9}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:1.0.0"
+        "ProductVersion" = "8:1.0.1"
         "Manufacturer" = "8: NTUT-CSIE-2020Games"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -2438,7 +2594,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_FEB1C521B758467A98F7B43033E60D12"
             {
-            "SourcePath" = "8:Debug\\game.exe"
+            "SourcePath" = "8:Release\\game.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_A62E3FBC3C2C4A6D9157A8D6CE468FB2"

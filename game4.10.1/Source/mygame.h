@@ -27,7 +27,7 @@
  *   2005-09-29 V4.2Beta2.
  *   2006-02-08 V4.2
  *      1. Rename OnInitialUpdate() -> OnInit().
- *      2. Replace AUDIO_CANYON as AUDIO_NTUT.
+ *      2. Replace AUDIO_CANYON as AUDIO_JELLY.
  *      3. Add help bitmap to CGameStateRun.
  *   2006-09-09 V4.3
  *      1. Rename Move() and Show() as OnMove and OnShow() to emphasize that they are
@@ -49,11 +49,14 @@ namespace game_framework {
 	// Constants
 	/////////////////////////////////////////////////////////////////////////////
 
+#ifndef AUDIO_ID
+#define AUDIO_ID
 	enum AUDIO_ID {				// 定義各種音效的編號
 		AUDIO_DING,				// 0
 		AUDIO_LAKE,				// 1
-		AUDIO_NTUT				// 2
+		AUDIO_JELLY				// 2
 	};
+#endif
 
 	/////////////////////////////////////////////////////////////////////////////
 	// 這個class為遊戲的遊戲開頭畫面物件

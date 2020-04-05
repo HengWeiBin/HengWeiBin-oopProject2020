@@ -6,6 +6,15 @@
 
 namespace game_framework
 {
+	#ifndef AUDIO_ID
+	#define AUDIO_ID
+	enum AUDIO_ID {				// 定義各種音效的編號
+		AUDIO_DING,				// 0
+		AUDIO_LAKE,				// 1
+		AUDIO_JELLY				// 2
+	};
+	#endif
+
 	class GameArea
 	{
 	public:

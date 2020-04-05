@@ -86,7 +86,9 @@ namespace game_framework
 		// 127=100%  88=70%  108=85%
 		//bottom left point 152,339px
 		int X_point = (score_board.Left() + 150), Y_point = (score_board.Top() + 339); //loading bar set point
-		for (int i = 0; i < 129; i++) {
+		double currentLevel = (score->GetInteger() / 40000.0) * 129;
+		currentLevel = currentLevel > 129 ? 129 : currentLevel;
+		for (int i = 0; i < currentLevel; i++) {
 			loading[i].SetTopLeft(X_point, Y_point);
 			Y_point -= 2;
 		}
@@ -132,6 +134,7 @@ namespace game_framework
 			RemoveStyle();
 			break;
 		}
+		CAudio::Instance()->Play(AUDIO_DING, false);
 	}
 
 	void GameArea::ReleaseSwap()
