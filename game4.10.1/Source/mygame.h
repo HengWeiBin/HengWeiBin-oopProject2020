@@ -81,39 +81,6 @@ namespace game_framework {
 	// 每個Member function的Implementation都要弄懂
 	/////////////////////////////////////////////////////////////////////////////
 
-	class CPractice
-	{
-	public:
-		CPractice();
-		void LoadBitmap();
-		void OnMove();
-		void OnShow();
-	private:
-		CMovingBitmap pic;
-		int x, y;
-	};
-
-	class CGameMap
-	{
-	public:
-		CGameMap();
-		void LoadBitmap();
-		void OnShow();
-		void OnMove();
-		void OnKeyDown(UINT);
-		void RandomBouncingBall();
-		void InitializeBouncingBall(int, int, int);
-		~CGameMap();
-
-	protected:
-		CMovingBitmap blue, green;
-		int map[9][16];
-		const int X, Y;			//大地圖左上角坐標
-		const int MW, MH;		//每張小地圖寬高度
-		CBouncingBall* bballs;
-		int random_num;
-	};
-
 
 	class CGameStateRun : public CGameState {
 	public:
@@ -132,19 +99,8 @@ namespace game_framework {
 		void OnMove();									// 移動遊戲元素
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
-		const int		NUMBALLS;	// 球的總數
 		CMovingBitmap	background;	// 背景圖
-		CMovingBitmap	help;		// 說明圖
-		CBall			*ball;		// 球的陣列
-		CMovingBitmap	corner;		// 角落圖
-		CEraser			eraser;		// 拍子
-		CInteger		hits_left;	// 剩下的撞擊數
-		CBouncingBall   bball;		// 反覆彈跳的球
-		CMovingBitmap	Practice;
-		int				picX, picY;
-		CPractice		c_practice;
-		CGameMap		gamemap;
-		GameArea		gameArea;
+		GameArea		gameArea;	//游戲區
 	};
 
 	/////////////////////////////////////////////////////////////////////////////

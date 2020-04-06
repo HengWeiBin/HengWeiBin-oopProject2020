@@ -13,7 +13,7 @@
 
 namespace game_framework
 {
-	GameArea::GameArea() :x(280), y(35), MAX_RAND_NUM(5)
+	GameArea::GameArea() :x(280), y(35), MAX_RAND_NUM(2)
 	{
 		score = new CInteger(1);
 		score->SetInteger(0);
@@ -28,6 +28,7 @@ namespace game_framework
 	void GameArea::LoadBitmap()
 	{
 		Area.LoadBitmap(".\\Bitmaps\\container.bmp");
+		score->LoadBitmap();
 		score_board.LoadBitmap("Bitmaps\\score_board.bmp", RGB(0, 0, 0));
 
 		for (int i = 0; i < 129; i++) {
@@ -249,7 +250,7 @@ namespace game_framework
 			for (unsigned i = row - 2; i < row + 3; i++)
 				for (unsigned j = column - 2; j < column + 3; j++)
 				{
-					if (i == row || j == column) continue;
+					if (i == row && j == column) continue;
 					if (i > 0 && i < MaxHeight && j > 0 && j < MaxWidth)
 						ReleasePower(NULL, i, j);
 				}
@@ -282,6 +283,11 @@ namespace game_framework
 					if (power == 1 || power == 2) power = rand() % 2 + 1;
 					candies[i][j].SetPower(power);
 				}
+	}
+
+	int GameArea::GetScore()
+	{
+		return score->GetInteger();
 	}
 
 	void GameArea::OnShow()
@@ -462,22 +468,22 @@ namespace game_framework
 	{	//Recursive condition: there is(are) same candy(ies) nearby
 		int currentStyle = candies[i][j].GetStyle();
 		candies[i][j].SetStyle(0);
-		if (j + 1 < MaxWidth && candies[i][j + 1].GetStyle() == checkStyle)
+		if (j + 1 < MaxWidth && candies[i][j + 1].GetStyle() == checkStyle && candies[i][j + 1].GetPower() != 4)
 		{//check to the right
 			accumulateCandy.insert(&candies[i][j + 1]);
 			GetCandies(accumulateCandy, i, j + 1, checkStyle);
 		}
-		if (i + 1 < MaxHeight && candies[i + 1][j].GetStyle() == checkStyle)
+		if (i + 1 < MaxHeight && candies[i + 1][j].GetStyle() == checkStyle && candies[i + 1][j].GetPower() != 4)
 		{//Check downward
 			accumulateCandy.insert(&candies[i + 1][j]);
 			GetCandies(accumulateCandy, i + 1, j, checkStyle);
 		}
-		if (j - 1 >= 0 && candies[i][j - 1].GetStyle() == checkStyle)
+		if (j - 1 >= 0 && candies[i][j - 1].GetStyle() == checkStyle && candies[i][j - 1].GetPower() != 4)
 		{//Check to the left
 			accumulateCandy.insert(&candies[i][j - 1]);
 			GetCandies(accumulateCandy, i, j - 1, checkStyle);
 		}
-		if (i - 1 >= 0 && candies[i - 1][j].GetStyle() == checkStyle)
+		if (i - 1 >= 0 && candies[i - 1][j].GetStyle() == checkStyle && candies[i - 1][j].GetPower() != 4)
 		{//Check upward
 			accumulateCandy.insert(&candies[i - 1][j]);
 			GetCandies(accumulateCandy, i - 1, j, checkStyle);

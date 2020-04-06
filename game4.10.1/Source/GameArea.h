@@ -51,6 +51,7 @@ namespace game_framework
 		void RemoveSquare(unsigned, unsigned, int);		//remove surrounding candies according to level
 		void RemoveStyle(int style = 0);
 		void PowerAll(int, int);
+		int GetScore();
 
 		int map[MaxHeight][MaxWidth];
 		int x, y;										//top left x,y of gameArea
