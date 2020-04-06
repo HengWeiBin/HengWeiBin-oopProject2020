@@ -32,7 +32,7 @@ namespace game_framework
 		score_board.LoadBitmap("Bitmaps\\score_board.bmp", RGB(0, 0, 0));
 
 		for (int i = 0; i < 129; i++) {
-			loading[i].LoadBitmap("Bitmaps\\Bitmap.bmp");
+			loading[i].LoadBitmap("Bitmaps\\ScoreBar.bmp");
 		}
 		for (int i = 0; i < MaxHeight; i++)
 		{

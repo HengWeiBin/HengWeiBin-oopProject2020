@@ -16,9 +16,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Res\ball.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="RES\bmp0.bmp">
       <Filter>Resource Files</Filter>
     </None>
@@ -61,15 +58,6 @@
     <None Include="Res\corner.bmp">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="RES\eraser1.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="RES\eraser2.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="RES\eraser3.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="res\game.ico">
       <Filter>Resource Files</Filter>
     </None>
@@ -82,13 +70,7 @@
     <None Include="res\gameDoc.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="RES\help.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="RES\loading.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="RES\ntutcsie.bmp">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="res\Toolbar.bmp">
@@ -118,9 +100,6 @@
       <Filter>MFC</Filter>
     </ClCompile>
     <ClCompile Include="Source\mygame.cpp">
-      <Filter>MyGame</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\CEraser.cpp">
       <Filter>MyGame</Filter>
     </ClCompile>
     <ClCompile Include="Source\GameArea.cpp">
@@ -161,9 +140,6 @@
     <ClInclude Include="Source\mygame.h">
       <Filter>MyGame</Filter>
     </ClInclude>
-    <ClInclude Include="Source\CEraser.h">
-      <Filter>MyGame</Filter>
-    </ClInclude>
     <ClInclude Include="Source\GameArea.h">
       <Filter>MyGame</Filter>
     </ClInclude>
@@ -180,13 +156,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\bitmap3.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="res\bmp00001.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="res\bitmap4.bmp">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\bmp00002.bmp">
@@ -342,7 +312,7 @@
     <Image Include="Bitmaps\P3RedCandy.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Bitmaps\Bitmap.bmp">
+    <Image Include="Bitmaps\ScoreBar.bmp">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
