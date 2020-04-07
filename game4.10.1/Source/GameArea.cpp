@@ -13,7 +13,7 @@
 
 namespace game_framework
 {
-	GameArea::GameArea() :x(280), y(35), MAX_RAND_NUM(2)
+	GameArea::GameArea() :x(280), y(35), MAX_RAND_NUM(5)
 	{
 		score = new CInteger(1);
 		score->SetInteger(0);
@@ -34,14 +34,8 @@ namespace game_framework
 		for (int i = 0; i < 129; i++) {
 			loading[i].LoadBitmap("Bitmaps\\ScoreBar.bmp");
 		}
-		for (int i = 0; i < MaxHeight; i++)
-		{
-			for (int j = 0; j < MaxWidth; j++)
-			{
-				if (candies[i][j].GetStyle())
-					candies[i][j].LoadBitmap();
-			}
-		}
+		
+		candies[0][0].LoadBitmap();
 
 	}
 

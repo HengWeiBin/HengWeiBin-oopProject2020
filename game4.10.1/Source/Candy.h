@@ -16,7 +16,6 @@ namespace game_framework
 		void SetDestination(int);			//set destination y
 		int GetStyle();						//get current style
 		void SetStyle(int);					//change current style
-		void GetCandyName(string&);			//Get bitmap directory according to style
 		int GetTopLeftX();					//Get destination x
 		int GetTopLeftY();					//Get destination y
 		int GetTopLeft(char c);				//Get destination(c) 'x'/'y'
@@ -31,10 +30,11 @@ namespace game_framework
 	private:
 		void GetCurrentShow(CMovingBitmap**, CMovingBitmap**);
 
-		CMovingBitmap normal, normalClick;
-		CMovingBitmap horizon, horizonClick;
-		CMovingBitmap vertical, verticalClick;
-		CMovingBitmap pack, packClick;
+		CMovingBitmap red[8];
+		CMovingBitmap orange[8];
+		CMovingBitmap green[8];
+		CMovingBitmap blue[8];
+		CMovingBitmap purple[8];
 		CMovingBitmap super, superClick;
 		int style;					//0 = non-exist
 		int rawStyle;

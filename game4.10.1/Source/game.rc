@@ -92,6 +92,90 @@ IDB_CONTINUE            BITMAP                  "..\\res\\continue.bmp"
 
 IDB_LOADING             BITMAP                  "..\\res\\loading.bmp"
 
+IDB_RED_NOR             BITMAP                  "..\\Bitmaps\\RedCandy.bmp"
+
+IDB_RED_NOR_C           BITMAP                  "..\\Bitmaps\\ClickedRedCandy.bmp"
+
+IDB_RED_HOR             BITMAP                  "..\\Bitmaps\\P1RedCandy.bmp"
+
+IDB_RED_HOR_C           BITMAP                  "..\\Bitmaps\\ClickedP1RedCandy.bmp"
+
+IDB_RED_VER             BITMAP                  "..\\Bitmaps\\P2RedCandy.bmp"
+
+IDB_RED_VER_C           BITMAP                  "..\\Bitmaps\\ClickedP2RedCandy.bmp"
+
+IDB_RED_PAC             BITMAP                  "..\\Bitmaps\\P3RedCandy.bmp"
+
+IDB_RED_PAC_C           BITMAP                  "..\\Bitmaps\\ClickedP3RedCandy.bmp"
+
+IDB_ORG_NOR             BITMAP                  "..\\Bitmaps\\OrangeCandy.bmp"
+
+IDB_ORG_NOR_C           BITMAP                  "..\\Bitmaps\\ClickedOrangeCandy.bmp"
+
+IDB_ORG_HOR             BITMAP                  "..\\Bitmaps\\P1OrangeCandy.bmp"
+
+IDB_ORG_HOR_C           BITMAP                  "..\\Bitmaps\\ClickedP1OrangeCandy.bmp"
+
+IDB_ORG_VER             BITMAP                  "..\\Bitmaps\\P2OrangeCandy.bmp"
+
+IDB_ORG_VER_C           BITMAP                  "..\\Bitmaps\\ClickedP2OrangeCandy.bmp"
+
+IDB_ORG_PAC             BITMAP                  "..\\Bitmaps\\P3OrangeCandy.bmp"
+
+IDB_ORG_PAC_C           BITMAP                  "..\\Bitmaps\\ClickedP3OrangeCandy.bmp"
+
+IDB_GRE_NOR             BITMAP                  "..\\Bitmaps\\GreenCandy.bmp"
+
+IDB_GRE_NOR_C           BITMAP                  "..\\Bitmaps\\ClickedGreenCandy.bmp"
+
+IDB_GRE_HOR             BITMAP                  "..\\Bitmaps\\P1GreenCandy.bmp"
+
+IDB_GRE_HOR_C           BITMAP                  "..\\Bitmaps\\ClickedP1GreenCandy.bmp"
+
+IDB_GRE_VER             BITMAP                  "..\\Bitmaps\\P2GreenCandy.bmp"
+
+IDB_GRE_VER_C           BITMAP                  "..\\Bitmaps\\ClickedP2GreenCandy.bmp"
+
+IDB_GRE_PAC             BITMAP                  "..\\Bitmaps\\P3GreenCandy.bmp"
+
+IDB_GRE_PAC_C           BITMAP                  "..\\Bitmaps\\ClickedP3GreenCandy.bmp"
+
+IDB_BLU_NOR             BITMAP                  "..\\Bitmaps\\BlueCandy.bmp"
+
+IDB_BLU_NOR_C           BITMAP                  "..\\Bitmaps\\ClickedBlueCandy.bmp"
+
+IDB_BLU_HOR             BITMAP                  "..\\Bitmaps\\P1BlueCandy.bmp"
+
+IDB_BLU_HOR_C           BITMAP                  "..\\Bitmaps\\ClickedP1BlueCandy.bmp"
+
+IDB_BLU_VER             BITMAP                  "..\\Bitmaps\\P2BlueCandy.bmp"
+
+IDB_BLU_VER_C           BITMAP                  "..\\Bitmaps\\ClickedP2BlueCandy.bmp"
+
+IDB_BLU_PAC             BITMAP                  "..\\Bitmaps\\P3BlueCandy.bmp"
+
+IDB_BLU_PAC_C           BITMAP                  "..\\Bitmaps\\ClickedP3BlueCandy.bmp"
+
+IDB_PUR_NOR             BITMAP                  "..\\Bitmaps\\PurpleCandy.bmp"
+
+IDB_PUR_NOR_C           BITMAP                  "..\\Bitmaps\\ClickedPurpleCandy.bmp"
+
+IDB_PUR_HOR             BITMAP                  "..\\Bitmaps\\P1PurpleCandy.bmp"
+
+IDB_PUR_HOR_C           BITMAP                  "..\\Bitmaps\\ClickedP1PurpleCandy.bmp"
+
+IDB_PUR_VER             BITMAP                  "..\\Bitmaps\\P2PurpleCandy.bmp"
+
+IDB_PUR_VER_C           BITMAP                  "..\\Bitmaps\\ClickedP2PurpleCandy.bmp"
+
+IDB_PUR_PAC             BITMAP                  "..\\Bitmaps\\P3PurpleCandy.bmp"
+
+IDB_PUR_PAC_C           BITMAP                  "..\\Bitmaps\\ClickedP3PurpleCandy.bmp"
+
+IDB_SUPER               BITMAP                  "..\\Bitmaps\\SuperCandy.bmp"
+
+IDB_SUPER_C             BITMAP                  "..\\Bitmaps\\ClickedSuperCandy.bmp"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -117,10 +201,6 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //
 
 IDR_MAINFRAME           BITMAP                  "..\\res\\Toolbar.bmp"
-
-IDB_GREEN               BITMAP                  "..\\res\\bmp00001.bmp"
-
-IDB_GCANDY              BITMAP                  "..\\Bitmaps\\GreenCandy.bmp"
 
 
 /////////////////////////////////////////////////////////////////////////////

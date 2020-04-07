@@ -19,23 +19,22 @@ namespace game_framework
 
 	void Candy::LoadBitmap()
 	{
-		string candyName;
-		const string dir = ".\\Bitmaps\\", click = "Clicked";
-		GetCandyName(candyName);
-		normal.LoadBitmap(dir + candyName, RGB(255, 255, 255));
-		normalClick.LoadBitmap(dir + click + candyName, RGB(255, 255, 255));
+		int redBmpId[8] = {IDB_RED_NOR, IDB_RED_NOR_C, IDB_RED_HOR, IDB_RED_HOR_C, IDB_RED_VER, IDB_RED_VER_C, IDB_RED_PAC, IDB_RED_PAC_C };
+		int orangeBmpId[8] = { IDB_ORG_NOR, IDB_ORG_NOR_C, IDB_ORG_HOR, IDB_ORG_HOR_C, IDB_ORG_VER, IDB_ORG_VER_C, IDB_ORG_PAC, IDB_ORG_PAC_C };
+		int greenBmpId[8] = { IDB_GRE_NOR, IDB_GRE_NOR_C, IDB_GRE_HOR, IDB_GRE_HOR_C, IDB_GRE_VER, IDB_GRE_VER_C, IDB_GRE_PAC, IDB_GRE_PAC_C };
+		int blueBmpId[8] = { IDB_BLU_NOR, IDB_BLU_NOR_C, IDB_BLU_HOR, IDB_BLU_HOR_C, IDB_BLU_VER, IDB_BLU_VER_C, IDB_BLU_PAC, IDB_BLU_PAC_C };
+		int purpleBmpId[8] = { IDB_PUR_NOR, IDB_PUR_NOR_C, IDB_PUR_HOR, IDB_PUR_HOR_C, IDB_PUR_VER, IDB_PUR_VER_C, IDB_PUR_PAC, IDB_PUR_PAC_C };
 
-		horizon.LoadBitmap(dir + "P1" + candyName, RGB(255, 255, 255));
-		horizonClick.LoadBitmap(dir + click + "P1" + candyName, RGB(255, 255, 255));
-
-		vertical.LoadBitmap(dir + "P2" + candyName, RGB(255, 255, 255));
-		verticalClick.LoadBitmap(dir + click + "P2" + candyName, RGB(255, 255, 255));
-
-		pack.LoadBitmap(dir + "P3" + candyName, RGB(255, 255, 255));
-		packClick.LoadBitmap(dir + click + "P3" + candyName, RGB(255, 255, 255));
-
-		super.LoadBitmap(dir + "SuperCandy.bmp", RGB(255, 255, 255));
-		superClick.LoadBitmap(dir + click + "SuperCandy.bmp", RGB(255, 255, 255));
+		for (int i = 0; i < 8; i++)
+		{
+			red[i].LoadBitmap(redBmpId[i], RGB(255, 255, 255));
+			orange[i].LoadBitmap(orangeBmpId[i], RGB(255, 255, 255));
+			green[i].LoadBitmap(greenBmpId[i], RGB(255, 255, 255));
+			blue[i].LoadBitmap(blueBmpId[i], RGB(255, 255, 255));
+			purple[i].LoadBitmap(purpleBmpId[i], RGB(255, 255, 255));
+		}
+		super.LoadBitmap(".\\Bitmaps\\SuperCandy.bmp", RGB(255, 255, 255));
+		superClick.LoadBitmap(".\\Bitmaps\\ClickedSuperCandy.bmp", RGB(255, 255, 255));
 	}
 
 	void Candy::OnMove()
@@ -97,28 +96,6 @@ namespace game_framework
 	void Candy::SetStyle(int style)
 	{
 		this->style = style;
-	}
-
-	void Candy::GetCandyName(string& BitmapDir)
-	{
-		switch (style)
-		{
-		case 1:
-			BitmapDir = "RedCandy.bmp";
-			break;
-		case 2:
-			BitmapDir = "OrangeCandy.bmp";
-			break;
-		case 3:
-			BitmapDir = "GreenCandy.bmp";
-			break;
-		case 4:
-			BitmapDir = "BlueCandy.bmp";
-			break;
-		case 5:
-			BitmapDir = "PurpleCandy.bmp";
-			break;
-		}
 	}
 
 	int Candy::GetTopLeftX()
@@ -185,23 +162,43 @@ namespace game_framework
 
 	void Candy::GetCurrentShow(CMovingBitmap **idle, CMovingBitmap **click)
 	{
+		CMovingBitmap *curStyle;
+		switch (style)
+		{
+		case 1:
+			curStyle = red;
+			break;
+		case 2:
+			curStyle = orange;
+			break;
+		case 3:
+			curStyle = green;
+			break;
+		case 4:
+			curStyle = blue;
+			break;
+		case 5:
+			curStyle = purple;
+			break;
+		}
+
 		switch (power)
 		{
 		case 0:
-			*idle = &normal;
-			*click = &normalClick;
+			*idle = &curStyle[0];
+			*click = &curStyle[1];
 			break;
 		case 1:
-			*idle = &horizon;
-			*click = &horizonClick;
+			*idle = &curStyle[2];
+			*click = &curStyle[3];
 			break;
 		case 2:
-			*idle = &vertical;
-			*click = &verticalClick;
+			*idle = &curStyle[4];
+			*click = &curStyle[5];
 			break;
 		case 3:
-			*idle = &pack;
-			*click = &packClick;
+			*idle = &curStyle[6];
+			*click = &curStyle[7];
 			break;
 		case 4:
 			*idle = &super;

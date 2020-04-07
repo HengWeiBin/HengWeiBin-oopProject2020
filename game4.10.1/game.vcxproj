@@ -369,6 +369,7 @@
     <Image Include="Bitmaps\SuperCandy.bmp" />
     <Image Include="Bitmaps\ClickedSuperCandy.bmp" />
     <Image Include="Bitmaps\WoodBackground.bmp" />
+    <Image Include="res\bitmap3.bmp" />
     <Image Include="res\bmp00001.bmp" />
     <Image Include="res\bmp00002.bmp" />
     <Image Include="res\bmp00003.bmp" />
