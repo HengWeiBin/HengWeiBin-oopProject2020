@@ -14,7 +14,7 @@
 
 namespace game_framework
 {
-	GameArea::GameArea() :x(280), y(35), MAX_RAND_NUM(2)
+	GameArea::GameArea() :x(280), y(35), MAX_RAND_NUM(5)
 	{
 		score.SetInteger(0);
 		LoadStage();				//temp
@@ -35,7 +35,7 @@ namespace game_framework
 		scoreBar.LoadBitmap("Bitmaps\\ScoreBar.bmp");
 		for(int i = 0; i < MaxHeight; i ++)
 			for(int j = 0; j < MaxWidth; j++)
-				if(candies[i][j].GetStyle())
+				if(candies[i][j].GetStyle() > 0)
 					candies[i][j].LoadBitmap();
 	}
 
@@ -289,6 +289,26 @@ namespace game_framework
 		return score.GetInteger();
 	}
 
+	void GameArea::UpdateCurPosition()
+	{
+		for (int i = 0; i < MaxHeight; i++)
+		{
+			for (int j = 0; j < MaxWidth; j++)
+			{
+				int curMapX = (candies[i][j].GetCurrentX() - 280) / 50;
+				int curMapY = (candies[i][j].GetCurrentY() - 35) / 50;
+
+				if(curMapX >= 0 && curMapX < MaxWidth && curMapY >= 0 && curMapY < MaxHeight)
+					if (!map[curMapX][curMapY])
+						curPosition[curMapX][curMapY] = -1;
+					else if(candies[i][j].GetStyle() > 0)
+						curPosition[curMapX][curMapY] = 1;
+					else
+						curPosition[curMapX][curMapY] = 0;
+			}
+		}
+	}
+
 	void GameArea::OnShow()
 	{
 		///////////////////////////////////////////
@@ -320,7 +340,7 @@ namespace game_framework
 		{
 			for (int j = 0; j < MaxWidth; j++)
 			{
-				if (candies[i][j].GetStyle() != 0 && candies[i][j].GetCurrentY() > 35)
+				if (candies[i][j].GetStyle() > 0 && candies[i][j].GetCurrentY() > 35)
 					candies[i][j].OnShow();
 			}
 		}
@@ -329,8 +349,9 @@ namespace game_framework
 
 	void GameArea::OnMove()
 	{
-		DropCandy();							//drop if candy hvnt touch the ground/other candy
-		PutCandy();								//put candy at apawning area if it's empty
+		//UpdateCurPosition();
+		DropCandy();		//drop if candy hvnt touch the ground/other candy
+		PutCandy();			//put candy at apawning area if it's empty
 
 		for (int i = 0; i < MaxHeight; i++)
 			for (int j = 0; j < MaxWidth; j++)
@@ -338,7 +359,6 @@ namespace game_framework
 
 		if (!IsDropping())
 		{
-			//PutCandy();
 			int amountCleared = ClearCombo();
 
 			if (amountCleared && clickedCandies.size() == 2)
@@ -401,7 +421,7 @@ namespace game_framework
 				switch (map[i][j])
 				{
 				case 0:
-					candies[i][j] = Candy();
+					candies[i][j] = Candy(j * 50 + x, i * 50 + y);
 					break;
 
 				default:
@@ -417,17 +437,17 @@ namespace game_framework
 	{
 		for (int i = 0; i < MaxHeight; i++)
 			for (int j = 0; j < MaxWidth; j++)
-				if (map[i + 1][j] != 0 && candies[i][j].GetStyle())
+				if (map[i + 1][j] != 0 && candies[i][j].GetStyle() > 0)
 				{	//Drop in current column
-					if (!candies[i + 1][j].GetStyle())
+					if (candies[i + 1][j].GetStyle() == 0)
 					{
 						candies[i][j].SetDestination(candies[i][j].GetTopLeftY() + 50);
 
 						candies[i + 1][j] = candies[i][j];
 						candies[i][j].SetStyle(0);
 					}
-					//drop into left column
-					else if (map[i + 1][j - 1] && !candies[i][j - 1].GetStyle() && !candies[i + 1][j - 1].GetStyle())
+					/*//drop into left column
+					else if (map[i + 1][j - 1] && candies[i][j - 1].GetStyle() > 0 && candies[i + 1][j - 1].GetStyle() > 0)
 					{
 						candies[i][j].SetDestination(candies[i][j].GetTopLeftX() - 50, candies[i][j].GetTopLeftY() + 50);
 
@@ -435,13 +455,13 @@ namespace game_framework
 						candies[i][j].SetStyle(0);
 					}
 					//drop into right column
-					else if (map[i + 1][j + 1]&& !candies[i][j + 1].GetStyle() && !candies[i + 1][j + 1].GetStyle())
+					else if (map[i + 1][j + 1]&& candies[i][j + 1].GetStyle() > 0 && candies[i + 1][j + 1].GetStyle() > 0)
 					{
 						candies[i][j].SetDestination(candies[i][j].GetTopLeftX() + 50, candies[i][j].GetTopLeftY() + 50);
 
 						candies[i + 1][j + 1] = candies[i][j];
 						candies[i][j].SetStyle(0);
-					}
+					}*/
 				}
 	}
 
@@ -453,7 +473,7 @@ namespace game_framework
 		{
 			for (int j = 0; j < MaxWidth; j++)
 			{
-				if (!candies[i][j].GetStyle()) continue;
+				if (candies[i][j].GetStyle() <= 0) continue;
 				accumulateCandy.insert(&candies[i][j]);						//put the first candy into set
 				GetCandies(accumulateCandy, i, j, candies[i][j].GetStyle());//collect all similar candies that follow-up with first
 				comboDeleted += DeleteCombo(accumulateCandy);				//delete all combo

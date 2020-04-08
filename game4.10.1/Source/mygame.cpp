@@ -231,7 +231,7 @@ namespace game_framework {
 		//
 		// 此OnInit動作會接到CGameStaterOver::OnInit()，所以進度還沒到100%
 		//
-		gameArea.InitCandy(false);
+		gameArea.InitCandy();
 		gameArea.LoadBitmap();
 	}
 

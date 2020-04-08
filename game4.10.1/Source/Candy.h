@@ -7,6 +7,7 @@ namespace game_framework
 	{
 	public:
 		Candy(int, int, int);
+		Candy(int, int);
 		Candy();
 		~Candy();
 		void LoadBitmap();					//Load candy's bitmap according to style
@@ -16,7 +17,7 @@ namespace game_framework
 		void SetDestination(int);			//set destination y
 		int GetStyle();						//get current style
 		void SetStyle(int);					//change current style
-		void GetBmpId(int*);				//Get bitmap directory according to style
+		void GetBmpId(int**);				//Get bitmap directory according to style
 		int GetTopLeftX();					//Get destination x
 		int GetTopLeftY();					//Get destination y
 		int GetTopLeft(char c);				//Get destination(c) 'x'/'y'

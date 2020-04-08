@@ -24,8 +24,12 @@ namespace game_framework
 	{
 	}
 
-	Candy::Candy() 
-		: style(0), rawStyle(0)
+	Candy::Candy(int x, int y) 
+		: style(-1), x(x), y(y), dx(x), dy(y)
+	{	}
+
+	Candy::Candy()
+		: style(-1)
 	{	}
 
 	Candy::~Candy()
@@ -34,7 +38,8 @@ namespace game_framework
 
 	void Candy::LoadBitmap()
 	{
-		const int *bmpID;
+		int *bmpID;
+		GetBmpId(&bmpID);
 		normal.LoadBitmap(bmpID[0], RGB(255, 255, 255));
 		normalClick.LoadBitmap(bmpID[1], RGB(255, 255, 255));
 
@@ -112,20 +117,20 @@ namespace game_framework
 		this->style = style;
 	}
 
-	void Candy::GetBmpId(int* bmpID)
+	void Candy::GetBmpId(int** bmpID)
 	{
 		switch (style)
 		{
 		case 1:
-			bmpID = redBmpId; break;
+			*bmpID = redBmpId; break;
 		case 2:
-			bmpID = orangeBmpId; break;
+			*bmpID = orangeBmpId; break;
 		case 3:
-			bmpID = greenBmpId; break;
+			*bmpID = greenBmpId; break;
 		case 4:
-			bmpID = blueBmpId; break;
+			*bmpID = blueBmpId; break;
 		case 5:
-			bmpID = purpleBmpId; break;
+			*bmpID = purpleBmpId; break;
 		}
 	}
 
@@ -161,7 +166,7 @@ namespace game_framework
 
 	bool Candy::IsMoving()
 	{
-		if (style == 0) return 0;
+		if (style <= 0) return 0;
 		return !(x == dx && y == dy);
 	}
 

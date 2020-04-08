@@ -53,10 +53,12 @@ namespace game_framework
 		void RemoveStyle(int style = 0);
 		void PowerAll(int, int);
 		int GetScore();
+		void UpdateCurPosition();
 
 		const int MAX_RAND_NUM;							//types of candies in this games
 		const int x, y;									//top left x,y of gameArea
 		int map[MaxHeight][MaxWidth];					//Array of container
+		int curPosition[MaxHeight][MaxWidth];
 		list<pair<int, int>> spawnArea;
 		Candy candies[MaxHeight][MaxWidth];				//Array of candy
 		CMovingBitmap area;
