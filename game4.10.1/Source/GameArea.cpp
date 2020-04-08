@@ -9,34 +9,31 @@
 #include "audio.h"
 #include "gamelib.h"
 #include "Candy.h"
+#include "Stage.h"
 #include "GameArea.h"
 
 namespace game_framework
 {
-	GameArea::GameArea() :x(280), y(35), MAX_RAND_NUM(5)
+	GameArea::GameArea() :x(280), y(35), MAX_RAND_NUM(2)
 	{
-		score = new CInteger(1);
-		score->SetInteger(0);
-		LoadStage();
+		score.SetInteger(0);
+		LoadStage();				//temp
 	}
+
+	GameArea::GameArea(Stage & stage) :x(280), y(35), MAX_RAND_NUM(stage.candyType)
+	{	}
 
 	GameArea::~GameArea()
 	{
-		delete score;
 	}
 
 	void GameArea::LoadBitmap()
 	{
-		Area.LoadBitmap(".\\Bitmaps\\container.bmp");
-		score->LoadBitmap();
-		score_board.LoadBitmap("Bitmaps\\score_board.bmp", RGB(0, 0, 0));
-
-		for (int i = 0; i < 129; i++) {
-			loading[i].LoadBitmap("Bitmaps\\ScoreBar.bmp");
-		}
-		
+		area.LoadBitmap(".\\Bitmaps\\container.bmp");
+		score.LoadBitmap();
+		scoreBoard.LoadBitmap("Bitmaps\\score_board.bmp", RGB(0, 0, 0));
+		scoreBar.LoadBitmap("Bitmaps\\ScoreBar.bmp");
 		candies[0][0].LoadBitmap();
-
 	}
 
 	void GameArea::LoadStage()
@@ -61,7 +58,7 @@ namespace game_framework
 	}
 
 	void GameArea::ShowScore() {
-		int CurrentScore = score->GetInteger();
+		int CurrentScore = score.GetInteger();
 		int size = 1;
 		while (CurrentScore > 9) {
 			CurrentScore /= 10;
@@ -70,8 +67,8 @@ namespace game_framework
 		//delete score;
 		//score = new CInteger(size);
 		if (size <=7){
-		score->SetDigit(size);
-		score->SetTopLeft((score_board.Left() + 135 - (18*size) ), score_board.Top() + 125);
+		score.SetDigit(size);
+		score.SetTopLeft((scoreBoard.Left() + 135 - (18*size) ), scoreBoard.Top() + 125);
 		}
 
 	}
@@ -80,11 +77,12 @@ namespace game_framework
 		//bar_height = 254;
 		// 127=100%  88=70%  108=85%
 		//bottom left point 152,339px
-		int X_point = (score_board.Left() + 150), Y_point = (score_board.Top() + 339); //loading bar set point
-		double currentLevel = (score->GetInteger() / 40000.0) * 129;
+		int X_point = (scoreBoard.Left() + 152), Y_point = (scoreBoard.Top() + 339); //scoreBar set point
+		double currentLevel = (score.GetInteger() / 40000.0) * 129;
 		currentLevel = currentLevel > 129 ? 129 : currentLevel;
 		for (int i = 0; i < currentLevel; i++) {
-			loading[i].SetTopLeft(X_point, Y_point);
+			scoreBar.SetTopLeft(X_point, Y_point);
+			scoreBar.ShowBitmap();
 			Y_point -= 2;
 		}
 	}
@@ -281,7 +279,7 @@ namespace game_framework
 
 	int GameArea::GetScore()
 	{
-		return score->GetInteger();
+		return score.GetInteger();
 	}
 
 	void GameArea::OnShow()
@@ -289,14 +287,12 @@ namespace game_framework
 		///////////////////////////////////////////
 		// Show score board  					///
 		///////////////////////////////////////////
-		score_board.SetTopLeft((SIZE_X - 1211) / 2, ((SIZE_Y - 420) / 2));
-		score_board.ShowBitmap();
+		scoreBoard.SetTopLeft((SIZE_X - 1211) / 2, ((SIZE_Y - 420) / 2));
+		scoreBoard.ShowBitmap();
 		ShowScore();
 		ShowStarBar();
-		score->ShowBitmap();
-		for (int i = 0; i < 129; i++) {
-			loading[i].ShowBitmap();
-		}
+		score.ShowBitmap();
+
 		///////////////////////////////////////////
 		// Show gamearea						///
 		///////////////////////////////////////////
@@ -305,8 +301,8 @@ namespace game_framework
 			for (int j = 0; j < MaxWidth; j++)
 			{
 				if (map[i][j])
-					Area.SetTopLeft(j * 50 + x, i * 50 + y);
-				Area.ShowBitmap();
+					area.SetTopLeft(j * 50 + x, i * 50 + y);
+				area.ShowBitmap();
 			}
 		}
 
@@ -593,7 +589,7 @@ namespace game_framework
 				continue;
 			}
 			ReleasePower(line[j]);
-			score->Add(60);
+			score.Add(60);
 		}
 		if (linePower) line[0]->SetPower(axis == 'x' ? 2 : 1);
 		if (superCandy) line[0]->SetPower(4);

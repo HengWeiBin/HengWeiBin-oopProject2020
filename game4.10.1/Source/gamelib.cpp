@@ -433,6 +433,7 @@ namespace game_framework {
 	CGameState::CGameState(CGame *g)
 	{
 		game = g; 	// 設定game的pointer
+		stage = NULL;
 	}
 
 	void CGameState::GotoGameState(int state)
@@ -516,6 +517,7 @@ namespace game_framework {
 		running = true;
 		suspended = false;
 		gameStateTable[GAME_STATE_INIT] = new CGameStateInit(this);
+		gameStateTable[GAME_STATE_MENU] = new CGameStateMenu(this);
 		gameStateTable[GAME_STATE_RUN] = new CGameStateRun(this);
 		gameStateTable[GAME_STATE_OVER] = new CGameStateOver(this);
 		gameState = NULL;

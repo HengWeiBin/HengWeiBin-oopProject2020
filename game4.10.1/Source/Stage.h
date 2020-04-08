@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #ifndef STAGE_H
 #define STAGE_H
 
@@ -7,6 +7,7 @@ namespace game_framework
 {
 	class Stage
 	{
+		friend class GameArea;
 	public:
 		Stage();
 		void LoadStage();
@@ -21,7 +22,10 @@ namespace game_framework
 		int GetLastScoreHistory();
 	private:
 		int map[13][20];
-		int ScoreOne, ScoreTwo, ScoreThree, Vertical, Horizontal, TEffect, Chocolate, CandyType, LastScoreHistory;
+		int scoreOne, scoreTwo, scoreThree;			//Target score for three star
+		int vertical, horizontal, pack, chocolate;	//total special candy spawn onInit
+		int candyType;								//Max candy type in this game
+		int lastHighScore;							//History highest score
 
 	};
 }

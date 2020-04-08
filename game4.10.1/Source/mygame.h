@@ -39,6 +39,7 @@
 */
 
 #include "Candy.h"
+#include "Stage.h"
 #include "GameArea.h"
 
 namespace game_framework {
@@ -81,7 +82,7 @@ namespace game_framework {
 
 	class CGameStateRun : public CGameState {
 	public:
-		CGameStateRun(CGame *g);
+		CGameStateRun(CGame *g);						//Run Default game
 		~CGameStateRun();
 		void OnBeginState();							// 設定每次重玩所需的變數
 		void OnInit();  								// 遊戲的初值及圖形設定
@@ -117,4 +118,29 @@ namespace game_framework {
 		int counter;	// 倒數之計數器
 	};
 
+	class CGameStateMenu : public CGameState
+	{
+	public:
+		CGameStateMenu(CGame *g);
+		void OnInit();
+		void OnBeginState();
+		void OnKeyDown(UINT, UINT, UINT);				// handle keyboard behavior
+		void OnKeyUp(UINT, UINT, UINT);					// handle keyboard behavior
+		void OnLButtonDown(UINT nFlags, CPoint point);  // handle mouse behavior
+		void OnLButtonUp(UINT nFlags, CPoint point);	// handle mouse behavior
+		void OnMouseMove(UINT nFlags, CPoint point);	// handle mouse behavior 
+		void OnRButtonDown(UINT nFlags, CPoint point);  // handle mouse behavior
+		void OnRButtonUp(UINT nFlags, CPoint point);	// handle mouse behavior
+
+	protected:
+		void OnMove();
+		void OnShow();
+
+	private:
+		void LoadStage();
+		void StartGame();
+
+		const int totalStage;
+		vector<Stage> stages;
+	};
 }

@@ -32,45 +32,45 @@ void game_framework::Stage::LoadStage()
 
 int game_framework::Stage::GetScoreOne()
 {
-	return ScoreOne;
+	return scoreOne;
 }
 
 int game_framework::Stage::GetScoreTwo()
 {
-	return ScoreTwo;
+	return scoreTwo;
 }
 
 int game_framework::Stage::GetScoreThree()
 {
-	return ScoreThree;
+	return scoreThree;
 }
 
 int game_framework::Stage::GetVertical()
 {
-	return Vertical;
+	return vertical;
 }
 
 int game_framework::Stage::GetHorizontal()
 {
-	return Horizontal;
+	return horizontal;
 }
 
 int game_framework::Stage::GetTEffect()
 {
-	return TEffect;
+	return pack;
 }
 
 int game_framework::Stage::GetChocolate()
 {
-	return Chocolate;
+	return chocolate;
 }
 
 int game_framework::Stage::GetCandyType()
 {
-	return CandyType;
+	return candyType;
 }
 
 int game_framework::Stage::GetLastScoreHistory()
 {
-	return LastScoreHistory;
+	return lastHighScore;
 }

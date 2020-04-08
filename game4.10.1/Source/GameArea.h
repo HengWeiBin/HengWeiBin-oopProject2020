@@ -19,6 +19,7 @@ namespace game_framework
 	{
 	public:
 		GameArea();
+		GameArea(Stage& stage);
 		~GameArea();
 		void LoadBitmap();								//load game area's background
 		void LoadStage();								//read map from file
@@ -45,7 +46,7 @@ namespace game_framework
 		void ShowStarBar();
 		void Find(Candy*, unsigned&, unsigned&);		//find candy and return row and column
 		void ReleasePower(Candy*, unsigned row = 0, unsigned column = 0);				//remove candy with consider its' power
-		void ReleaseSwap();
+		void ReleaseSwap();								//activate power of candy when 2 powered candy swapped
 		void RemoveRow(unsigned);						//remove whole row of candies
 		void RemoveColumn(unsigned);					//remove whole column of candies
 		void RemoveSquare(unsigned, unsigned, int);		//remove surrounding candies according to level
@@ -53,13 +54,13 @@ namespace game_framework
 		void PowerAll(int, int);
 		int GetScore();
 
-		int map[MaxHeight][MaxWidth];
-		int x, y;										//top left x,y of gameArea
-		Candy candies[MaxHeight][MaxWidth];
-		CMovingBitmap Area,score_board;
-		CMovingBitmap loading[129];
-		int MAX_RAND_NUM;								//types of candies in this games
-		CInteger* score;
+		const int MAX_RAND_NUM;							//types of candies in this games
+		const int x, y;									//top left x,y of gameArea
+		int map[MaxHeight][MaxWidth];					//Array of container
+		Candy candies[MaxHeight][MaxWidth];				//Array of candy
+		CMovingBitmap area;
+		CMovingBitmap scoreBar, scoreBoard;							
+		CInteger score;
 		vector<Candy*> clickedCandies;
 
 	};

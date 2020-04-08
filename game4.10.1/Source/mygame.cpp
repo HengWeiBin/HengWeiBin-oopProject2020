@@ -271,4 +271,49 @@ namespace game_framework {
 		background.ShowBitmap();			// 貼上背景圖
 		gameArea.OnShow();
 	}
+
+	CGameStateMenu::CGameStateMenu(CGame *g) : CGameState(g), totalStage(1)
+	{}
+
+	void CGameStateMenu::OnInit()
+	{}
+
+	void CGameStateMenu::OnBeginState()
+	{}
+
+	void CGameStateMenu::OnKeyDown(UINT, UINT, UINT)
+	{}
+
+	void CGameStateMenu::OnKeyUp(UINT, UINT, UINT)
+	{}
+
+	void CGameStateMenu::OnLButtonDown(UINT nFlags, CPoint point)
+	{}
+
+	void CGameStateMenu::OnLButtonUp(UINT nFlags, CPoint point)
+	{}
+
+	void CGameStateMenu::OnMouseMove(UINT nFlags, CPoint point)
+	{}
+
+	void CGameStateMenu::OnRButtonDown(UINT nFlags, CPoint point)
+	{}
+
+	void CGameStateMenu::OnRButtonUp(UINT nFlags, CPoint point)
+	{}
+
+	void CGameStateMenu::OnMove()
+	{}
+
+	void CGameStateMenu::OnShow()
+	{}
+
+	void CGameStateMenu::LoadStage()
+	{}
+
+	void CGameStateMenu::StartGame()
+	{
+		GAME_ASSERT(this->stage != NULL, "Stage must be selected before start!");
+		GotoGameState(GAME_STATE_RUN);
+	}
 }
