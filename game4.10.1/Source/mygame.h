@@ -122,6 +122,7 @@ namespace game_framework {
 	{
 	public:
 		CGameStateMenu(CGame *g);
+		~CGameStateMenu();
 		void OnInit();
 		void OnBeginState();
 		void OnKeyDown(UINT, UINT, UINT);				// handle keyboard behavior

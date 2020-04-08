@@ -33,7 +33,10 @@ namespace game_framework
 		score.LoadBitmap();
 		scoreBoard.LoadBitmap("Bitmaps\\score_board.bmp", RGB(0, 0, 0));
 		scoreBar.LoadBitmap("Bitmaps\\ScoreBar.bmp");
-		candies[0][0].LoadBitmap();
+		for(int i = 0; i < MaxHeight; i ++)
+			for(int j = 0; j < MaxWidth; j++)
+				if(candies[i][j].GetStyle())
+					candies[i][j].LoadBitmap();
 	}
 
 	void GameArea::LoadStage()
@@ -49,7 +52,10 @@ namespace game_framework
 					{
 					case '0': map[i][j] = 0; break;		//0 = none, !0 = gameArea
 					case '1': map[i][j] = 1; break;		//1 = normalArea
-					case '2': map[i][j] = 2; break;		//2 = candy spawning area
+					case '2': 
+						map[i][j] = 2;					//2 = candy spawning area
+						spawnArea.push_back(pair<int, int>(i, j));
+						break;
 					}
 				}
 			}
@@ -60,15 +66,15 @@ namespace game_framework
 	void GameArea::ShowScore() {
 		int CurrentScore = score.GetInteger();
 		int size = 1;
-		while (CurrentScore > 9) {
+		while (CurrentScore > 9) 
+		{
 			CurrentScore /= 10;
 			size++;
-			}
-		//delete score;
-		//score = new CInteger(size);
-		if (size <=7){
-		score.SetDigit(size);
-		score.SetTopLeft((scoreBoard.Left() + 135 - (18*size) ), scoreBoard.Top() + 125);
+		}
+		if (size <=7)
+		{
+			score.SetDigit(size);
+			score.SetTopLeft((scoreBoard.Left() + 135 - (18*size) ), scoreBoard.Top() + 125);
 		}
 
 	}
@@ -80,7 +86,8 @@ namespace game_framework
 		int X_point = (scoreBoard.Left() + 152), Y_point = (scoreBoard.Top() + 339); //scoreBar set point
 		double currentLevel = (score.GetInteger() / 40000.0) * 129;
 		currentLevel = currentLevel > 129 ? 129 : currentLevel;
-		for (int i = 0; i < currentLevel; i++) {
+		for (int i = 0; i < currentLevel; i++)
+		{
 			scoreBar.SetTopLeft(X_point, Y_point);
 			scoreBar.ShowBitmap();
 			Y_point -= 2;
@@ -331,6 +338,7 @@ namespace game_framework
 
 		if (!IsDropping())
 		{
+			//PutCandy();
 			int amountCleared = ClearCombo();
 
 			if (amountCleared && clickedCandies.size() == 2)
@@ -540,8 +548,9 @@ namespace game_framework
 			int count = 1;
 			for (unsigned int i = 0; i < line.size() - 1; i++)
 			{
-				if (line[i]->GetTopLeft(axis) + 50 == line[i + 1]->GetTopLeft(axis)) count++;	//If next candy is follow-up with current, keep counting
-				else if (count < 3) count = 1;											//else, if count >= 3 -> combo, or pass
+				if (line[i]->GetTopLeft(axis) + 50 == line[i + 1]->GetTopLeft(axis)) 
+					count++;					//If next candy is follow-up with current, keep counting
+				else if (count < 3) count = 1;	//else, if count >= 3 -> combo, or pass
 				else
 				{
 					RemoveContinuous(line, i - count, i, axis);
@@ -611,20 +620,15 @@ namespace game_framework
 
 	void GameArea::PutCandy()
 	{
-		for (int i = 0; i < MaxHeight; i++)
-		{
-			for (int j = 0; j < MaxWidth; j++)
+		for (auto i = spawnArea.begin(); i != spawnArea.end(); i++)
+			if (!candies[i->first][i->second].GetStyle())
 			{
-				if (map[i][j] == 2 && !candies[i][j].GetStyle())
-				{
-					int id = rand() % MAX_RAND_NUM + 1;					//random type of Candy
-					int offset = candies[i + 1][j].GetCurrentY();
-					candies[i][j] = Candy(id, j * 50 + x, offset - 50);
-					candies[i][j].LoadBitmap();
-					candies[i][j].SetDestination(i * 50 + y);
-				}
+				int id = rand() % MAX_RAND_NUM + 1;					//random type of Candy
+				int offset = candies[i->first + 1][i->second].GetCurrentY();
+				candies[i->first][i->second] = Candy(id, i->second * 50 + x, offset - 50);
+				candies[i->first][i->second].LoadBitmap();
+				candies[i->first][i->second].SetDestination(i->first * 50 + y);
 			}
-		}
 	}
 
 	bool GameArea::IsDropping()

@@ -512,7 +512,7 @@ namespace game_framework {
 	CGame CGame::instance;
 
 	CGame::CGame()
-		: NUM_GAME_STATES(3)
+		: NUM_GAME_STATES(4)
 	{
 		running = true;
 		suspended = false;
