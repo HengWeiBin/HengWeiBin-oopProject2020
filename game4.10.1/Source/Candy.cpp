@@ -196,6 +196,11 @@ namespace game_framework
 		style = rawStyle;
 	}
 
+	void Candy::InitClick()
+	{
+		onClick = false;
+	}
+
 	void Candy::GetCurrentShow(CMovingBitmap **idle, CMovingBitmap **click)
 	{
 		switch (power)

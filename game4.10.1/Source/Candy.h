@@ -29,6 +29,7 @@ namespace game_framework
 		void SetPower(int);					//Set current power
 		int GetPower();						//return current power
 		void Relive();						//reset candy's style
+		void InitClick();
 	private:
 		void GetCurrentShow(CMovingBitmap**, CMovingBitmap**);
 

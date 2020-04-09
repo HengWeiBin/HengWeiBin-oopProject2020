@@ -58,7 +58,7 @@ namespace game_framework
 		const int MAX_RAND_NUM;							//types of candies in this games
 		const int x, y;									//top left x,y of gameArea
 		int map[MaxHeight][MaxWidth];					//Array of container
-		int curPosition[MaxHeight][MaxWidth];
+		Candy* curPosition[MaxHeight][MaxWidth];
 		list<pair<int, int>> spawnArea;
 		Candy candies[MaxHeight][MaxWidth];				//Array of candy
 		CMovingBitmap area;
@@ -66,6 +66,7 @@ namespace game_framework
 		CInteger score;
 		vector<Candy*> clickedCandies;
 
+		int delayFrame;
 	};
 }
 
