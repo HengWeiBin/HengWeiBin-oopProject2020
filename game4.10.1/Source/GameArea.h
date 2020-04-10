@@ -30,7 +30,7 @@ namespace game_framework
 		void OnMouseMove(UINT nFlags, CPoint point);	//handle mouse move
 		void InitCandy(bool drop = true);				//spawn all candies randomly
 	private:
-		int DropCandy();
+		void DropCandy();
 		int DropCandyStraight();
 		int DropCandySide();
 		int ClearCombo();								//search and delete all combo

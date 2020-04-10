@@ -372,7 +372,7 @@ namespace game_framework
 	{
 		UpdateCurPosition();
 		if(PutCandy())			//put candy at apawning area if it's empty
-			while (DropCandy()) {};		//drop if candy hvnt touch the ground/other candy
+			DropCandy();		//drop if candy hvnt touch the ground/other candy
 
 		for (int i = 0; i < MaxHeight; i++)
 			for (int j = 0; j < MaxWidth; j++)
@@ -391,7 +391,7 @@ namespace game_framework
 				SwapCandy();
 				InitClickedCandy();
 			}
-			if (amountCleared) DropCandy();
+			//if (amountCleared) DropCandy();
 			Sleep(100);
 		}
 			
@@ -457,12 +457,10 @@ namespace game_framework
 		}
 	}
 
-	int GameArea::DropCandy()
+	void GameArea::DropCandy()
 	{
-		int drop = DropCandyStraight();
-		if(drop) 
-			return drop;
-		return DropCandySide();
+		if(DropCandyStraight()) return;
+		DropCandySide();
 	}
 
 	int GameArea::DropCandyStraight()
@@ -495,7 +493,7 @@ namespace game_framework
 		for (int i = 0; i < MaxHeight; i++)
 			for (int j = 0; j < MaxWidth; j++)
 				if (map[i + 1][j] != 0 && candies[i][j].GetStyle() > 0)
-					if (map[i + 1][j - 1] && curPosition[i + 1][j] != NULL && candies[i][j - 1].GetStyle() <= 0 && !candies[i + 1][j - 1].GetStyle() && !HasSpawnRoof(i + 1, j - 1))
+					if (map[i + 1][j - 1] && candies[i][j - 1].GetStyle() < 0 && !candies[i + 1][j - 1].GetStyle() && !HasSpawnRoof(i + 1, j - 1))
 					{
 						candies[i][j].SetDestination(candies[i][j].GetTopLeftX() - 50, candies[i][j].GetTopLeftY() + 50);
 
@@ -503,7 +501,7 @@ namespace game_framework
 						candies[i][j].SetStyle(0);
 						total++;
 					}
-					else if (map[i + 1][j + 1] && curPosition[i + 1][j] != NULL && candies[i][j + 1].GetStyle() <= 0 && !candies[i + 1][j + 1].GetStyle() && !HasSpawnRoof(i + 1, j + 1))
+					else if (map[i + 1][j + 1] && candies[i][j + 1].GetStyle() < 0 && !candies[i + 1][j + 1].GetStyle() && !HasSpawnRoof(i + 1, j + 1))
 					{
 						candies[i][j].SetDestination(candies[i][j].GetTopLeftX() + 50, candies[i][j].GetTopLeftY() + 50);
 
