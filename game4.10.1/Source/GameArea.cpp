@@ -14,17 +14,13 @@
 
 namespace game_framework
 {
-	GameArea::GameArea() :x(280), y(35), MAX_RAND_NUM(4)
+	GameArea::GameArea() :x(280), y(35), MAX_RAND_NUM(2)
 	{
 		score.SetInteger(0);
 		LoadStage();				//temp
 		for (int i = 0; i < MaxHeight; i++)
-		{
 			for (int j = 0; j < MaxWidth; j++)
-			{
 				curPosition[i][j] = NULL;
-			}
-		}
 	}
 
 	GameArea::GameArea(Stage & stage) :x(280), y(35), MAX_RAND_NUM(stage.candyType)
@@ -36,7 +32,7 @@ namespace game_framework
 
 	void GameArea::LoadBitmap()
 	{
-		area.LoadBitmap(".\\Bitmaps\\container.bmp");
+		area.LoadBitmap(IDB_CONTAINER);
 		score.LoadBitmap();
 		scoreBoard.LoadBitmap("Bitmaps\\score_board.bmp", RGB(0, 0, 0));
 		scoreBar.LoadBitmap("Bitmaps\\ScoreBar.bmp");
@@ -141,57 +137,56 @@ namespace game_framework
 			RemoveStyle();
 			break;
 		}
-		CAudio::Instance()->Play(AUDIO_DING, false);
 	}
 
 	void GameArea::ReleaseSwap()
 	{
 		int firstPow = clickedCandies[0]->GetPower(), secondPow = clickedCandies[1]->GetPower();
 		if (firstPow == 4 && secondPow == 4)
-		{
+		{	//Swap 2 super candy
 			unsigned row, column;
 			Find(clickedCandies[0], row, column);
 			RemoveSquare(row, column, 3);
 		}
 		else if (firstPow == 4 && secondPow)
-		{
+		{	//Swap 1 super candy with power 1~3
 			PowerAll(clickedCandies[1]->GetStyle(), secondPow);
 			clickedCandies[0]->SetStyle(0);
 			clickedCandies[0]->SetPower(0);
 		}
 		else if (secondPow == 4 && firstPow)
-		{
+		{	//Swap 1 super candy with power 1~3
 			PowerAll(clickedCandies[0]->GetStyle(), firstPow);
 			clickedCandies[1]->SetStyle(0);
 			clickedCandies[1]->SetPower(0);
 		}
 		else if (firstPow == 4 && !secondPow)
-		{
+		{	//Swap 1 super candy with normal candy
 			RemoveStyle(clickedCandies[1]->GetStyle());
 			clickedCandies[0]->SetStyle(0);
 			clickedCandies[0]->SetPower(0);
 		}
 		else if (secondPow == 4 && !firstPow)
-		{
+		{	//Swap 1 super candy with normal candy
 			RemoveStyle(clickedCandies[0]->GetStyle());
 			clickedCandies[1]->SetStyle(0);
 			clickedCandies[1]->SetPower(0);
 		}
 		else if (firstPow > 0 && firstPow < 3 && secondPow > 0 && secondPow < 3)
-		{
+		{	//Swap 2 striped candy
 			unsigned row, column;
 			Find(clickedCandies[0], row, column);
 			RemoveRow(row);
 			RemoveColumn(column);
 		}
 		else if (firstPow == 3 && secondPow == 3)
-		{
+		{	//Swap 2 wrapped candy
 			unsigned row, column;
 			Find(clickedCandies[0], row, column);
 			RemoveSquare(row, column, 2);
 		}
 		else if (firstPow == 3 && secondPow > 0 && secondPow < 3)
-		{
+		{	//Swap 1 wrapped candy with striped candy
 			unsigned row, column;
 			Find(clickedCandies[1], row, column);
 			for (unsigned i = row - 1; i < row + 2; i++)
@@ -200,7 +195,7 @@ namespace game_framework
 				RemoveColumn(i);
 		}
 		else if (secondPow == 3 && firstPow > 0 && firstPow < 3)
-		{
+		{	//Swap 1 wrapped candy with striped candy
 			unsigned row, column;
 			Find(clickedCandies[0], row, column);
 			for (unsigned i = row - 1; i < row + 2; i++)
@@ -208,6 +203,7 @@ namespace game_framework
 			for (unsigned i = column - 1; i < column + 2; i++)
 				RemoveColumn(i);
 		}
+		DropCandy();
 	}
 
 	void GameArea::RemoveRow(unsigned row)
@@ -315,6 +311,25 @@ namespace game_framework
 		}
 	}
 
+	bool GameArea::HasSpawnRoof(int i, int j)
+	{
+		int above = -1;
+		while (above != 2 && above != 0)
+			above = map[--i][j];
+
+		switch (above)
+		{
+		case 0:
+			return false;
+		case 2:
+			return true;
+		default:
+			GAME_ASSERT(0, "Read access violation!");
+			return false;
+		}
+		
+	}
+
 	void GameArea::OnShow()
 	{
 		///////////////////////////////////////////
@@ -356,8 +371,8 @@ namespace game_framework
 	void GameArea::OnMove()
 	{
 		UpdateCurPosition();
-		DropCandy();		//drop if candy hvnt touch the ground/other candy
-		PutCandy();			//put candy at apawning area if it's empty
+		if(PutCandy())			//put candy at apawning area if it's empty
+			while (DropCandy()) {};		//drop if candy hvnt touch the ground/other candy
 
 		for (int i = 0; i < MaxHeight; i++)
 			for (int j = 0; j < MaxWidth; j++)
@@ -376,6 +391,7 @@ namespace game_framework
 				SwapCandy();
 				InitClickedCandy();
 			}
+			if (amountCleared) DropCandy();
 			Sleep(100);
 		}
 			
@@ -441,36 +457,62 @@ namespace game_framework
 		}
 	}
 
-	void GameArea::DropCandy()
+	int GameArea::DropCandy()
 	{
-		for (int i = 0; i < MaxHeight; i++)
-			for (int j = 0; j < MaxWidth; j++)
-				if (map[i + 1][j] != 0 && candies[i][j].GetStyle() > 0)
-				{	//Drop in current column
-					if (candies[i + 1][j].GetStyle() == 0)
+		int drop = DropCandyStraight();
+		if(drop) 
+			return drop;
+		return DropCandySide();
+	}
+
+	int GameArea::DropCandyStraight()
+	{	
+		int total = 0, count = 1;
+		
+		//Drop in current column
+		do
+		{
+			for (int i = MaxHeight - 1; i >= 0; i--)
+				for (int j = 0; j < MaxWidth; j++)
+					if (map[i + 1][j] != 0 && candies[i][j].GetStyle() > 0 && !candies[i + 1][j].GetStyle())
 					{
 						candies[i][j].SetDestination(candies[i][j].GetTopLeftY() + 50);
 
 						candies[i + 1][j] = candies[i][j];
 						candies[i][j].SetStyle(0);
+						total++;
+						count = 1;
 					}
-					//drop into left column
-					else if (map[i + 1][j - 1] && curPosition[i + 1][j] != NULL && candies[i][j - 1].GetStyle() <= 0 && !candies[i + 1][j - 1].GetStyle())
+		} 
+		while (count--);
+		return total;
+	}
+
+	int GameArea::DropCandySide()
+	{	
+		int total = 0;
+		
+		for (int i = 0; i < MaxHeight; i++)
+			for (int j = 0; j < MaxWidth; j++)
+				if (map[i + 1][j] != 0 && candies[i][j].GetStyle() > 0)
+					if (map[i + 1][j - 1] && curPosition[i + 1][j] != NULL && candies[i][j - 1].GetStyle() <= 0 && !candies[i + 1][j - 1].GetStyle() && !HasSpawnRoof(i + 1, j - 1))
 					{
 						candies[i][j].SetDestination(candies[i][j].GetTopLeftX() - 50, candies[i][j].GetTopLeftY() + 50);
 
 						candies[i + 1][j - 1] = candies[i][j];
 						candies[i][j].SetStyle(0);
+						total++;
 					}
-					//drop into right column
-					else if (map[i + 1][j + 1]&& curPosition[i + 1][j] != NULL && candies[i][j + 1].GetStyle() <= 0 && !candies[i + 1][j + 1].GetStyle())
+					else if (map[i + 1][j + 1] && curPosition[i + 1][j] != NULL && candies[i][j + 1].GetStyle() <= 0 && !candies[i + 1][j + 1].GetStyle() && !HasSpawnRoof(i + 1, j + 1))
 					{
 						candies[i][j].SetDestination(candies[i][j].GetTopLeftX() + 50, candies[i][j].GetTopLeftY() + 50);
 
 						candies[i + 1][j + 1] = candies[i][j];
 						candies[i][j].SetStyle(0);
+						total++;
 					}
-				}
+
+		return total;
 	}
 
 	int GameArea::ClearCombo()
@@ -628,6 +670,7 @@ namespace game_framework
 			ReleasePower(line[j]);
 			score.Add(60);
 		}
+		CAudio::Instance()->Play(AUDIO_DING, false);
 		if (linePower) line[0]->SetPower(axis == 'x' ? 2 : 1);
 		if (superCandy) line[0]->SetPower(4);
 	}
@@ -646,15 +689,19 @@ namespace game_framework
 		}
 	}
 
-	void GameArea::PutCandy()
+	int GameArea::PutCandy()
 	{
+		int total = 0;
 		for (auto i = spawnArea.begin(); i != spawnArea.end(); i++)
 			if (curPosition[i->first][i->second] == NULL)
 			{
-				int id = rand() % MAX_RAND_NUM + 1;					//random type of Candy
-				candies[i->first][i->second] = Candy(id, i->second * 50 + x, i->first * 50 + y);
+				int id = rand() % MAX_RAND_NUM + 1;	//random type of Candy
+				candies[i->first][i->second] = Candy(id, i->second * 50 + x, i->first * 50 + y - 25);
 				candies[i->first][i->second].LoadBitmap();
+				candies[i->first][i->second].SetDestination(i->first * 50 + y);
+				total++;
 			}
+		return total;
 	}
 
 	bool GameArea::IsDropping()

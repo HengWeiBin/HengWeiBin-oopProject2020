@@ -176,6 +176,8 @@ IDB_SUPER               BITMAP                  "..\\Bitmaps\\SuperCandy.bmp"
 
 IDB_SUPER_C             BITMAP                  "..\\Bitmaps\\ClickedSuperCandy.bmp"
 
+IDB_CONTAINER           BITMAP                  "..\\Bitmaps\\container.bmp"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
