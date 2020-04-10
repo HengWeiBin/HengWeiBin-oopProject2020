@@ -14,7 +14,7 @@
 
 namespace game_framework
 {
-	GameArea::GameArea() :x(280), y(35), MAX_RAND_NUM(4), delayFrame(0)
+	GameArea::GameArea() :x(280), y(35), MAX_RAND_NUM(4)
 	{
 		score.SetInteger(0);
 		LoadStage();				//temp
@@ -49,7 +49,7 @@ namespace game_framework
 	void GameArea::LoadStage()
 	{
 		fstream InputStage;
-		InputStage.open(".\\Stages\\cnt_stage1.txt");
+		InputStage.open(".\\Stages\\cnt_stage2.txt");
 		if (InputStage) {
 			string firstline;
 			for (int i = 0; i < MaxHeight; i++) {
@@ -302,12 +302,11 @@ namespace game_framework
 		{
 			for (int j = 0; j < MaxWidth; j++)
 			{
-				int curMapX = (candies[i][j].GetCurrentX() - 280) / 50;
-				int curMapY = (candies[i][j].GetCurrentY() - 35) / 50;
+				//Get candy current position by its' center coordinate
+				int curMapX = (candies[i][j].GetCurrentX() - 280 + 25) / 50;
+				int curMapY = (candies[i][j].GetCurrentY() - 35 + 25) / 50;
 
 				if(curMapX >= 0 && curMapX < MaxWidth && curMapY >= 0 && curMapY < MaxHeight)
-					//if (!map[curMapY][curMapX])
-					//	curPosition[curMapY][curMapX] = NULL;
 					if(candies[i][j].GetStyle() > 0 && (map[curMapY][curMapX] || map[curMapY - 1][curMapX]))
 						curPosition[curMapY][curMapX] = &candies[i][j];
 					else
@@ -347,8 +346,6 @@ namespace game_framework
 		{
 			for (int j = 0; j < MaxWidth; j++)
 			{
-				//if (candies[i][j].GetStyle() > 0 && curPosition[i][j] == 1)
-				//	candies[i][j].OnShow();
 				if (curPosition[i][j] != NULL)
 					curPosition[i][j]->OnShow();
 			}
@@ -368,23 +365,18 @@ namespace game_framework
 
 		if (!IsDropping())
 		{
-			if (!delayFrame) delayFrame = 10;
-			else
-			{
-				int amountCleared = ClearCombo();
+			int amountCleared = ClearCombo();
 
-				if (amountCleared && clickedCandies.size() == 2)
-				{//If there is a combo after swapping candies, initiate click
-					InitClickedCandy();
-				}
-				else if (!amountCleared && clickedCandies.size() == 2)
-				{ //else swap two candies back to original position
-					SwapCandy();
-					InitClickedCandy();
-				}
-				delayFrame--;
-				Sleep(100);
+			if (amountCleared && clickedCandies.size() == 2)
+			{//If there is a combo after swapping candies, initiate click
+				InitClickedCandy();
 			}
+			else if (!amountCleared && clickedCandies.size() == 2)
+			{ //else swap two candies back to original position
+				SwapCandy();
+				InitClickedCandy();
+			}
+			Sleep(100);
 		}
 			
 	}
@@ -463,7 +455,7 @@ namespace game_framework
 						candies[i][j].SetStyle(0);
 					}
 					//drop into left column
-					else if (map[i + 1][j - 1] && candies[i][j - 1].GetStyle() <= 0 && !candies[i + 1][j - 1].GetStyle())
+					else if (map[i + 1][j - 1] && curPosition[i + 1][j] != NULL && candies[i][j - 1].GetStyle() <= 0 && !candies[i + 1][j - 1].GetStyle())
 					{
 						candies[i][j].SetDestination(candies[i][j].GetTopLeftX() - 50, candies[i][j].GetTopLeftY() + 50);
 
@@ -471,7 +463,7 @@ namespace game_framework
 						candies[i][j].SetStyle(0);
 					}
 					//drop into right column
-					else if (map[i + 1][j + 1]&& candies[i][j + 1].GetStyle() <= 0 && !candies[i + 1][j + 1].GetStyle())
+					else if (map[i + 1][j + 1]&& curPosition[i + 1][j] != NULL && candies[i][j + 1].GetStyle() <= 0 && !candies[i + 1][j + 1].GetStyle())
 					{
 						candies[i][j].SetDestination(candies[i][j].GetTopLeftX() + 50, candies[i][j].GetTopLeftY() + 50);
 
@@ -660,10 +652,8 @@ namespace game_framework
 			if (curPosition[i->first][i->second] == NULL)
 			{
 				int id = rand() % MAX_RAND_NUM + 1;					//random type of Candy
-				//int offset = candies[i->first + 1][i->second].GetCurrentY();
 				candies[i->first][i->second] = Candy(id, i->second * 50 + x, i->first * 50 + y);
 				candies[i->first][i->second].LoadBitmap();
-				//candies[i->first][i->second].SetDestination(i->first * 50 + y);
 			}
 	}
 

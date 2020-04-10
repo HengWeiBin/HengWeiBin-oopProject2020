@@ -50,23 +50,21 @@ namespace game_framework
 		void RemoveRow(unsigned);						//remove whole row of candies
 		void RemoveColumn(unsigned);					//remove whole column of candies
 		void RemoveSquare(unsigned, unsigned, int);		//remove surrounding candies according to level
-		void RemoveStyle(int style = 0);
-		void PowerAll(int, int);
-		int GetScore();
-		void UpdateCurPosition();
+		void RemoveStyle(int style = 0);				//remove all specific candy
+		void PowerAll(int, int);						//Power all specific candy
+		int GetScore();									//Get current score
+		void UpdateCurPosition();						//update current position of every candy
 
 		const int MAX_RAND_NUM;							//types of candies in this games
 		const int x, y;									//top left x,y of gameArea
 		int map[MaxHeight][MaxWidth];					//Array of container
-		Candy* curPosition[MaxHeight][MaxWidth];
-		list<pair<int, int>> spawnArea;
+		Candy* curPosition[MaxHeight][MaxWidth];		//save current position of every candy
+		list<pair<int, int>> spawnArea;					
 		Candy candies[MaxHeight][MaxWidth];				//Array of candy
 		CMovingBitmap area;
 		CMovingBitmap scoreBar, scoreBoard;							
 		CInteger score;
 		vector<Candy*> clickedCandies;
-
-		int delayFrame;
 	};
 }
 

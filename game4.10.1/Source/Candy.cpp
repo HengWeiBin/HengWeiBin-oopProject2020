@@ -20,7 +20,7 @@ namespace game_framework
 		IDB_PUR_NOR, IDB_PUR_NOR_C, IDB_PUR_HOR, IDB_PUR_HOR_C, IDB_PUR_VER, IDB_PUR_VER_C, IDB_PUR_PAC, IDB_PUR_PAC_C };
 
 	Candy::Candy(int id, int x, int y)
-		: style(id), rawStyle(id), x(x), y(y), dx(x), dy(y), onClick(false), fallingSpeed(1), power(0)
+		: style(id), rawStyle(id), x(x), y(y), dx(x), dy(y), onClick(false), fallingSpeed(15), power(0)
 	{
 	}
 
@@ -63,16 +63,16 @@ namespace game_framework
 			y < dy ? y += 10 : y -= 10;
 			x < dx ? x += 10 : x -= 10;
 		}
-		if (x != dx)
+		else if (x != dx)
 			x > dx ? x -= 10 : x += 10;
-		if (y < dy)
+		else if (y < dy)
 		{
 			y += fallingSpeed;
-			fallingSpeed += 4;
+			fallingSpeed += 1;
 			if (y > dy)
 			{
 				y = dy;
-				fallingSpeed = 10;
+				fallingSpeed = 15;
 			}
 		}
 
