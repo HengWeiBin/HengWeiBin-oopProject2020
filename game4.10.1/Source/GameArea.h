@@ -30,16 +30,17 @@ namespace game_framework
 		void OnMouseMove(UINT nFlags, CPoint point);	//handle mouse move
 		void InitCandy(bool drop = true);				//spawn all candies randomly
 	private:
+		int PutCandy();								//spawn candies at spawning area
+		void UpdateCurPosition();						//update current position of every candy
 		void DropCandy();
 		int DropCandyStraight();
 		int DropCandySide();
 		int ClearCombo();								//search and delete all combo
 		void GetCandies(set<Candy*>&, int, int, int);	//get continuous candies
 		int DeleteCombo(set<Candy*>&);					//analyze and delete combo
-		int RemoveContinuous(vector<Candy*>&, char, bool(*Compare)(Candy*, Candy*));	//Find and remove continuous candy
-		void RemoveContinuous(vector<Candy*>&, unsigned, unsigned, char);				//Remove continuous candy
+		int RemoveContinuous(vector<Candy*>&, char, bool(*Compare)(Candy*, Candy*), set<Candy*>&);	//Find and remove continuous candy
+		void RemoveContinuous(vector<Candy*>&, unsigned, unsigned, char, set<Candy*>&);				//Remove continuous candy
 		void GetLine(vector<Candy*>&, vector<Candy*>&, char check);						//collect candies on a same line
-		int PutCandy();								//spawn candies at spawning area
 		bool IsDropping();								//check all candies are still
 		void SwapCandy();								//Swap candies in clickedCandies
 		bool IsNeighbour(Candy&, Candy&);				//return are candies in clickedCandies is neighbour
@@ -55,7 +56,6 @@ namespace game_framework
 		void RemoveStyle(int style = 0);				//remove all specific candy
 		void PowerAll(int, int);						//Power all specific candy
 		int GetScore();									//Get current score
-		void UpdateCurPosition();						//update current position of every candy
 
 		const int MAX_RAND_NUM;							//types of candies in this games
 		const int x, y;									//top left x,y of gameArea

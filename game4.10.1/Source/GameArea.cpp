@@ -203,7 +203,7 @@ namespace game_framework
 			for (unsigned i = column - 1; i < column + 2; i++)
 				RemoveColumn(i);
 		}
-		DropCandy();
+		clickedCandies.clear();
 	}
 
 	void GameArea::RemoveRow(unsigned row)
@@ -272,7 +272,7 @@ namespace game_framework
 
 		for (int i = 0; i < MaxHeight; i++)
 			for (int j = 0; j < MaxWidth; j++)
-				if (candies[i][j].GetStyle() == style)
+				if (candies[i][j].GetStyle() == style && candies[i][j].GetPower() != 4)
 					ReleasePower(&candies[i][j]);
 	}
 
@@ -280,7 +280,7 @@ namespace game_framework
 	{
 		for (int i = 0; i < MaxHeight; i++)
 			for (int j = 0; j < MaxWidth; j++)
-				if (candies[i][j].GetStyle() == style)
+				if (candies[i][j].GetStyle() == style && candies[i][j].GetPower() != 4)
 				{
 					if (power == 1 || power == 2) power = rand() % 2 + 1;
 					candies[i][j].SetPower(power);
@@ -512,7 +512,10 @@ namespace game_framework
 	}
 
 	void GameArea::GetCandies(set<Candy*>& accumulateCandy, int i, int j, int checkStyle)
-	{	//Recursive condition: there is(are) same candy(ies) nearby
+	{	
+		if (candies[i][j].GetPower() == 4) return;
+
+		//Recursive condition: there is(are) same candy(ies) nearby
 		int currentStyle = candies[i][j].GetStyle();
 		candies[i][j].SetStyle(0);
 		if (j + 1 < MaxWidth && candies[i][j + 1].GetStyle() == checkStyle && candies[i][j + 1].GetPower() != 4)
@@ -560,6 +563,7 @@ namespace game_framework
 
 		vector<int> x, y;
 		vector<Candy*> toDelete;
+		set<Candy*> temp;
 		int comboDeleted = 0;
 		for (auto i = accumulateCandy.begin(); i != accumulateCandy.end(); i++)
 		{
@@ -571,18 +575,18 @@ namespace game_framework
 			if (count(x.begin(), x.end(), (*i)->GetTopLeftX()) >= 3)
 				toDelete.push_back(*i);
 		}
-		comboDeleted += RemoveContinuous(toDelete, 'y', &CompareY);
+		comboDeleted += RemoveContinuous(toDelete, 'y', &CompareY, temp);
 		for (auto i = accumulateCandy.begin(); i != accumulateCandy.end(); i++)
 		{	/*delete if more than 3 candies on a horizontal line*/
 			if (count(y.begin(), y.end(), (*i)->GetTopLeftY()) >= 3)
 				toDelete.push_back(*i);
 		}
-		comboDeleted += RemoveContinuous(toDelete, 'x', &CompareX);
+		comboDeleted += RemoveContinuous(toDelete, 'x', &CompareX, temp);
 		accumulateCandy.clear();
 		return comboDeleted;
 	}
 
-	int GameArea::RemoveContinuous(vector<Candy*>& toDelete, char axis, bool(*Compare)(Candy*, Candy*))
+	int GameArea::RemoveContinuous(vector<Candy*>& toDelete, char axis, bool(*Compare)(Candy*, Candy*), set<Candy*>& temp)
 	{
 		if (!toDelete.size()) return 0; //pass
 
@@ -602,14 +606,14 @@ namespace game_framework
 				else if (count < 3) count = 1;	//else, if count >= 3 -> combo, or pass
 				else
 				{
-					RemoveContinuous(line, i - count, i, axis);
+					RemoveContinuous(line, i - count, i, axis, temp);
 					count = 1;
 					conboDeleted++;
 				}
 			}
 			if (count >= 3)
 			{
-				RemoveContinuous(line, line.size() - count, line.size(), axis);
+				RemoveContinuous(line, line.size() - count, line.size(), axis, temp);
 				conboDeleted++;
 			}
 			line.clear();
@@ -619,39 +623,50 @@ namespace game_framework
 		return conboDeleted;
 	}
 
-	void GameArea::RemoveContinuous(vector<Candy*>& line, unsigned offset, unsigned lineSize, char axis)
+	void GameArea::RemoveContinuous(vector<Candy*>& line, unsigned offset, unsigned lineSize, char axis, set<Candy*>& temp)
 	{
 		bool linePower = lineSize - offset == 4 ? true : false;
 		bool superCandy = lineSize - offset > 4 ? true : false;
-		vector<Candy*> temp;
 		for (unsigned int j = offset; j < lineSize; j++)
 		{	
-			if (line[j]->GetPower()) temp.push_back(line[j]);
+			ReleasePower(line[j]);
+			if (axis == 'y') temp.insert(line[j]);
+			else if(find(temp.begin(), temp.end(), line[j]) != temp.end())
+			{
+				line[j]->SetPower(3);
+				line[j]->Relive();
+				superCandy = linePower = false;
+				continue;
+			}
+
 			if (linePower && find(clickedCandies.begin(), clickedCandies.end(), line[j]) != clickedCandies.end())
 			{
+				line[j]->Relive();
 				line[j]->SetPower(axis == 'x' ? 2 : 1);
 				linePower = false;
 				continue;
 			}
-			if (!line[j]->GetStyle())
-			{
-				line[j]->SetPower(3);
-				line[j]->Relive();
-				superCandy = false;
-				continue;
-			}
+
 			if (superCandy && find(clickedCandies.begin(), clickedCandies.end(), line[j]) != clickedCandies.end())
 			{
-				superCandy = false;
+				line[j]->Relive();
 				line[j]->SetPower(4);
+				superCandy = false;
 				continue;
 			}
-			ReleasePower(line[j]);
 			score.Add(60);
 		}
 		CAudio::Instance()->Play(AUDIO_DING, false);
-		if (linePower) line[0]->SetPower(axis == 'x' ? 2 : 1);
-		if (superCandy) line[0]->SetPower(4);
+		if (linePower)
+		{
+			line[offset]->SetPower(axis == 'x' ? 2 : 1);
+			line[offset]->Relive();
+		}
+		if (superCandy)
+		{
+			line[offset]->SetPower(4);
+			line[offset]->Relive();
+		}
 	}
 
 	void GameArea::GetLine(vector<Candy*>& line, vector<Candy*>& toDelete, char check)
