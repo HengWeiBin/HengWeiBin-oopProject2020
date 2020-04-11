@@ -111,7 +111,7 @@ namespace game_framework {
 
 		if (point.x >= playButTopLX && point.y >= playButTopLY && point.x <= playButBotRX && point.y <= playButBotRY)
 		{
-			GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
+			GotoGameState(GAME_STATE_MENU);		// 切換至GAME_STATE_RUN
 		}
 	}
 
@@ -306,7 +306,21 @@ namespace game_framework {
 	{}
 
 	void CGameStateMenu::OnLButtonDown(UINT nFlags, CPoint point)
-	{}
+	{
+		int x = point.x;
+		int y = point.y - sy;
+		/*hellooo 偉斌 i've just realize that each stage button have an exact different coordinates
+		it's just place randomly each and every stage, so i found no way to get the bitmap formula for all these stage
+		do u have any idea or we should just get each and every stage coordinates manually? PS: LOOK TO THE PICTURE IN OOPCOURSE383 */
+		//stage 1
+		if ((270 < x && x < (270 + 60) && (4030 < y && y < 4030 + 60))) {
+			GotoGameState(GAME_STATE_RUN);
+		}
+		//stage 2
+		if ((455+40 < x && x < (455+40 + 60) && (3980 < y && y < 3980 + 60))) {
+			GotoGameState(GAME_STATE_RUN);
+		}
+	}
 
 	void CGameStateMenu::OnLButtonUp(UINT nFlags, CPoint point)
 	{}
