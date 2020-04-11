@@ -280,13 +280,27 @@ namespace game_framework {
 	}
 
 	void CGameStateMenu::OnInit()
-	{}
+	{
+		woodBackgourd.LoadBitmap("Bitmaps/WoodBackground.bmp");
+		menuBackground.LoadBitmap("Bitmaps/stage_map.bmp");
+	}
 
 	void CGameStateMenu::OnBeginState()
 	{}
 
-	void CGameStateMenu::OnKeyDown(UINT, UINT, UINT)
-	{}
+	void CGameStateMenu::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+	{
+		const char KEY_UP = 0x26; // keyboard¤W½bÀY
+		const char KEY_DOWN = 0x28; // keyboard¤U½bÀY
+		if (nChar == KEY_UP) {
+			if (sy <= MAX_Y)
+				sy += 10;
+		}
+		if (nChar == KEY_DOWN) {
+			if (sy >= MIN_Y)
+				sy -= 10;
+		}
+	}
 
 	void CGameStateMenu::OnKeyUp(UINT, UINT, UINT)
 	{}
@@ -310,7 +324,14 @@ namespace game_framework {
 	{}
 
 	void CGameStateMenu::OnShow()
-	{}
+	{
+		woodBackgourd.SetTopLeft(0, 0);
+		woodBackgourd.ShowBitmap();
+		if (sy <= MAX_Y && sy >= MIN_Y) {
+			menuBackground.SetTopLeft(40, sy);
+			menuBackground.ShowBitmap();
+		}
+	}
 
 	void CGameStateMenu::LoadStage()
 	{}
