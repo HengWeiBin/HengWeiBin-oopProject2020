@@ -20,7 +20,7 @@ namespace game_framework
 		IDB_PUR_NOR, IDB_PUR_NOR_C, IDB_PUR_HOR, IDB_PUR_HOR_C, IDB_PUR_VER, IDB_PUR_VER_C, IDB_PUR_PAC, IDB_PUR_PAC_C };
 
 	Candy::Candy(int id, int x, int y)
-		: style(id), rawStyle(id), x(x), y(y), dx(x), dy(y), onClick(false), fallingSpeed(10), power(0)
+		: style(id), rawStyle(id), x(x), y(y), dx(x), dy(y), onClick(false), fallingSpeed(0), power(0)
 	{
 	}
 
@@ -58,25 +58,26 @@ namespace game_framework
 
 	void Candy::OnMove()
 	{
+		int fixedSpeed = GAME_CYCLE_TIME * 5 / 16;
 		if (y != dy && x != dx)
 		{
-			y < dy ? y += 5 : y -= 5;
-			x < dx ? x += 5 : x -= 5;
+			y < dy ? y += fixedSpeed : y -= fixedSpeed;
+			x < dx ? x += fixedSpeed : x -= fixedSpeed;
 		}
 		else if (x != dx)
-			x > dx ? x -= 5 : x += 5;
+			x > dx ? x -= fixedSpeed : x += fixedSpeed;
 		else if (y < dy)
 		{
 			y += fallingSpeed;
-			fallingSpeed += 1;
+			fallingSpeed += GAME_CYCLE_TIME * 2 / 16;
 			if (y > dy)
 			{
 				y = dy;
-				fallingSpeed = 10;
+				fallingSpeed = 0;
 			}
 		}
 
-		y > dy ? y -= 10 : y;
+		y > dy ? y -= fixedSpeed * 2 : y;
 	}
 
 	void Candy::OnShow()

@@ -56,7 +56,6 @@ namespace game_framework
 		void PowerAll(int, int);						//Power all specific candy
 		int GetScore();									//Get current score
 		void UpdateCurPosition();						//update current position of every candy
-		bool HasSpawnRoof(int, int);
 
 		const int MAX_RAND_NUM;							//types of candies in this games
 		const int x, y;									//top left x,y of gameArea
