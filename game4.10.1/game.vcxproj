@@ -366,6 +366,7 @@
     <Image Include="Bitmaps\RedCandy.bmp" />
     <Image Include="Bitmaps\ClickedRedCandy.bmp" />
     <Image Include="Bitmaps\score_board.bmp" />
+    <Image Include="Bitmaps\stage_map.bmp" />
     <Image Include="Bitmaps\SuperCandy.bmp" />
     <Image Include="Bitmaps\ClickedSuperCandy.bmp" />
     <Image Include="Bitmaps\WoodBackground.bmp" />

@@ -125,7 +125,7 @@ namespace game_framework {
 		~CGameStateMenu();
 		void OnInit();
 		void OnBeginState();
-		void OnKeyDown(UINT, UINT, UINT);				// handle keyboard behavior
+		void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);				// handle keyboard behavior
 		void OnKeyUp(UINT, UINT, UINT);					// handle keyboard behavior
 		void OnLButtonDown(UINT nFlags, CPoint point);  // handle mouse behavior
 		void OnLButtonUp(UINT nFlags, CPoint point);	// handle mouse behavior
@@ -141,7 +141,10 @@ namespace game_framework {
 		void LoadStage();
 		void StartGame();
 
+		CMovingBitmap menuBackground, woodBackgourd;
 		const int totalStage;
 		vector<Stage> stages;
+		int sy = -3600;
+		int MAX_Y = 0, MIN_Y = -3600;
 	};
 }

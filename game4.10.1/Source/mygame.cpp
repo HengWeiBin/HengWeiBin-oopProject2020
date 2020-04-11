@@ -111,7 +111,7 @@ namespace game_framework {
 
 		if (point.x >= playButTopLX && point.y >= playButTopLY && point.x <= playButBotRX && point.y <= playButBotRY)
 		{
-			GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
+			GotoGameState(GAME_STATE_MENU);		// 切換至GAME_STATE_RUN
 		}
 	}
 
@@ -280,19 +280,47 @@ namespace game_framework {
 	}
 
 	void CGameStateMenu::OnInit()
-	{}
+	{
+		woodBackgourd.LoadBitmap("Bitmaps/WoodBackground.bmp");
+		menuBackground.LoadBitmap("Bitmaps/stage_map.bmp");
+	}
 
 	void CGameStateMenu::OnBeginState()
 	{}
 
-	void CGameStateMenu::OnKeyDown(UINT, UINT, UINT)
-	{}
+	void CGameStateMenu::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+	{
+		const char KEY_UP = 0x26; // keyboard¤W½bÀY
+		const char KEY_DOWN = 0x28; // keyboard¤U½bÀY
+		if (nChar == KEY_UP) {
+			if (sy <= MAX_Y)
+				sy += 10;
+		}
+		if (nChar == KEY_DOWN) {
+			if (sy >= MIN_Y)
+				sy -= 10;
+		}
+	}
 
 	void CGameStateMenu::OnKeyUp(UINT, UINT, UINT)
 	{}
 
 	void CGameStateMenu::OnLButtonDown(UINT nFlags, CPoint point)
-	{}
+	{
+		int x = point.x;
+		int y = point.y - sy;
+		/*hellooo 偉斌 i've just realize that each stage button have an exact different coordinates
+		it's just place randomly each and every stage, so i found no way to get the bitmap formula for all these stage
+		do u have any idea or we should just get each and every stage coordinates manually? PS: LOOK TO THE PICTURE IN OOPCOURSE383 */
+		//stage 1
+		if ((270 < x && x < (270 + 60) && (4030 < y && y < 4030 + 60))) {
+			GotoGameState(GAME_STATE_RUN);
+		}
+		//stage 2
+		if ((455+40 < x && x < (455+40 + 60) && (3980 < y && y < 3980 + 60))) {
+			GotoGameState(GAME_STATE_RUN);
+		}
+	}
 
 	void CGameStateMenu::OnLButtonUp(UINT nFlags, CPoint point)
 	{}
@@ -310,7 +338,14 @@ namespace game_framework {
 	{}
 
 	void CGameStateMenu::OnShow()
-	{}
+	{
+		woodBackgourd.SetTopLeft(0, 0);
+		woodBackgourd.ShowBitmap();
+		if (sy <= MAX_Y && sy >= MIN_Y) {
+			menuBackground.SetTopLeft(40, sy);
+			menuBackground.ShowBitmap();
+		}
+	}
 
 	void CGameStateMenu::LoadStage()
 	{}
