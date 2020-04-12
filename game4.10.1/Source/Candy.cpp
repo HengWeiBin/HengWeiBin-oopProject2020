@@ -20,7 +20,7 @@ namespace game_framework
 		IDB_PUR_NOR, IDB_PUR_NOR_C, IDB_PUR_HOR, IDB_PUR_HOR_C, IDB_PUR_VER, IDB_PUR_VER_C, IDB_PUR_PAC, IDB_PUR_PAC_C };
 
 	Candy::Candy(int id, int x, int y)
-		: style(id), rawStyle(id), x(x), y(y), dx(x), dy(y), onClick(false), fallingSpeed(0), power(0)
+		: style(id), rawStyle(id), x(x), y(y), dx(x), dy(y), onClick(false), fallingSpeed(0), power(0), pushX(0), pushY(0)
 	{
 	}
 
@@ -58,6 +58,22 @@ namespace game_framework
 
 	void Candy::OnMove()
 	{
+		if (pushX != 0 || pushY != 0)
+		{
+			int offsetX = pushX > 0 ? 1 : -1, offsetY = pushY > 0 ? 1 : -1;
+			if (pushX != 0)
+			{
+				x += offsetX;
+				pushX -= offsetX;
+			}
+			if (pushY != 0)
+			{
+				y += offsetY;
+				pushY -= offsetY;
+			}
+			return;
+		}
+
 		int fixedSpeed = GAME_CYCLE_TIME * 5 / 16;
 		if (y != dy && x != dx)
 		{
@@ -200,6 +216,12 @@ namespace game_framework
 	void Candy::InitClick()
 	{
 		onClick = false;
+	}
+
+	void Candy::Push(int x, int y)
+	{
+		this->x = x > 0 ? this->x + 20 : x < 0 ? this->x - 20 : this->x;
+		this->y = y > 0 ? this->y + 20 : y < 0 ? this->y - 20 : this->y;
 	}
 
 	void Candy::GetCurrentShow(CMovingBitmap **idle, CMovingBitmap **click)

@@ -56,6 +56,7 @@ namespace game_framework
 		void RemoveStyle(int style = 0);				//remove all specific candy
 		void PowerAll(int, int);						//Power all specific candy
 		int GetScore();									//Get current score
+		int Compare(int, int);
 
 		const int MAX_RAND_NUM;							//types of candies in this games
 		const int x, y;									//top left x,y of gameArea

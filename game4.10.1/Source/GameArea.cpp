@@ -14,7 +14,7 @@
 
 namespace game_framework
 {
-	GameArea::GameArea() :x(280), y(35), MAX_RAND_NUM(4)
+	GameArea::GameArea() :x(280), y(35), MAX_RAND_NUM(2)
 	{
 		score.SetInteger(0);
 		LoadStage();				//temp
@@ -238,12 +238,19 @@ namespace game_framework
 	{	//Level 1: wrapped candy be activated by normal way
 		if (level == 1)
 		{
-			for (unsigned i = row - 1; i < row + 2; i++)
-				for (unsigned j = column - 1; j < column + 2; j++)
+			for (unsigned i = row - 2; i < row + 3; i++)
+				for (unsigned j = column - 2; j < column + 3; j++)
 				{
 					if (i == row && j == column) continue;
 					if (i > 0 && i < MaxHeight && j > 0 && j < MaxWidth)
-						ReleasePower(NULL, i, j);
+						if (i >= row - 1 && i < row + 2 && j >= column - 1 && j < column + 2)
+							ReleasePower(NULL, i, j);
+						else
+						{
+							int pushX = Compare(candies[i][j].GetTopLeftX(), candies[row][column].GetTopLeftX());
+							int pushY = Compare(candies[i][j].GetTopLeftY(), candies[row][column].GetTopLeftY());
+							candies[i][j].Push(pushX, pushY);
+						}
 				}
 		}
 		//Level 2: two wrapped candies being swapped with each other
@@ -290,6 +297,11 @@ namespace game_framework
 	int GameArea::GetScore()
 	{
 		return score.GetInteger();
+	}
+
+	int GameArea::Compare(int first, int second)
+	{
+		return first < second ? - 1 : first > second ? 1 : 0;
 	}
 
 	void GameArea::UpdateCurPosition()
@@ -606,7 +618,7 @@ namespace game_framework
 				else if (count < 3) count = 1;	//else, if count >= 3 -> combo, or pass
 				else
 				{
-					RemoveContinuous(line, i - count, i, axis, temp);
+					RemoveContinuous(line, i - (count - 1), i, axis, temp);
 					count = 1;
 					conboDeleted++;
 				}
@@ -625,17 +637,18 @@ namespace game_framework
 
 	void GameArea::RemoveContinuous(vector<Candy*>& line, unsigned offset, unsigned lineSize, char axis, set<Candy*>& temp)
 	{
+		bool packCandy = true;
 		bool linePower = lineSize - offset == 4 ? true : false;
 		bool superCandy = lineSize - offset > 4 ? true : false;
 		for (unsigned int j = offset; j < lineSize; j++)
 		{	
 			ReleasePower(line[j]);
 			if (axis == 'y') temp.insert(line[j]);
-			else if(find(temp.begin(), temp.end(), line[j]) != temp.end())
+			else if(packCandy && find(temp.begin(), temp.end(), line[j]) != temp.end())
 			{
 				line[j]->SetPower(3);
 				line[j]->Relive();
-				superCandy = linePower = false;
+				superCandy = linePower = packCandy = false;
 				continue;
 			}
 
