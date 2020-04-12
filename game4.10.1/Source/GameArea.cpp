@@ -14,7 +14,7 @@
 
 namespace game_framework
 {
-	GameArea::GameArea() :x(280), y(35), MAX_RAND_NUM(2)
+	GameArea::GameArea() :x(280), y(35), MAX_RAND_NUM(4)
 	{
 		score.SetInteger(0);
 		LoadStage();				//temp
@@ -126,12 +126,15 @@ namespace game_framework
 			break;
 		case 1:
 			RemoveRow(row);
+			CAudio::Instance()->Play(AUDIO_LINE_BLAST, false);
 			break;
 		case 2:
 			RemoveColumn(column);
+			CAudio::Instance()->Play(AUDIO_LINE_BLAST, false);
 			break;
 		case 3:
 			RemoveSquare(row, column, 1);
+			CAudio::Instance()->Play(AUDIO_SQUARE_REMOVE1, false);
 			break;
 		case 4:
 			RemoveStyle();
@@ -184,6 +187,7 @@ namespace game_framework
 			unsigned row, column;
 			Find(clickedCandies[0], row, column);
 			RemoveSquare(row, column, 2);
+			CAudio::Instance()->Play(AUDIO_SQUARE_REMOVE2, false);
 		}
 		else if (firstPow == 3 && secondPow > 0 && secondPow < 3)
 		{	//Swap 1 wrapped candy with striped candy
@@ -203,6 +207,7 @@ namespace game_framework
 			for (unsigned i = column - 1; i < column + 2; i++)
 				RemoveColumn(i);
 		}
+		InitClickedCandy();
 		clickedCandies.clear();
 	}
 
@@ -234,12 +239,12 @@ namespace game_framework
 		}
 	}
 
-	void GameArea::RemoveSquare(unsigned row, unsigned column, int level)
+	void GameArea::RemoveSquare(int row, int column, int level)
 	{	//Level 1: wrapped candy be activated by normal way
 		if (level == 1)
 		{
-			for (unsigned i = row - 2; i < row + 3; i++)
-				for (unsigned j = column - 2; j < column + 3; j++)
+			for (int i = row - 2; i < row + 3; i++)
+				for (int j = column - 2; j < column + 3; j++)
 				{
 					if (i == row && j == column) continue;
 					if (i > 0 && i < MaxHeight && j > 0 && j < MaxWidth)
@@ -256,8 +261,8 @@ namespace game_framework
 		//Level 2: two wrapped candies being swapped with each other
 		else if (level == 2)
 		{
-			for (unsigned i = row - 2; i < row + 3; i++)
-				for (unsigned j = column - 2; j < column + 3; j++)
+			for (int i = row - 2; i < row + 3; i++)
+				for (int j = column - 2; j < column + 3; j++)
 				{
 					if (i == row && j == column) continue;
 					if (i > 0 && i < MaxHeight && j > 0 && j < MaxWidth)
@@ -267,8 +272,8 @@ namespace game_framework
 		//Level 3: two superCandy being swapped with each other
 		else if (level == 3)
 		{
-			for (unsigned i = 0; i < MaxHeight; i++)
-				for (unsigned j = 0; j < MaxWidth; j++)
+			for (int i = 0; i < MaxHeight; i++)
+				for (int j = 0; j < MaxWidth; j++)
 					if (map[i][j]) ReleasePower(NULL, i, j);
 		}
 	}
@@ -292,6 +297,7 @@ namespace game_framework
 					if (power == 1 || power == 2) power = rand() % 2 + 1;
 					candies[i][j].SetPower(power);
 				}
+		if (power == 1 || power == 2) CAudio::Instance()->Play(AUDIO_POWER_ALL, false);
 	}
 
 	int GameArea::GetScore()
@@ -381,10 +387,10 @@ namespace game_framework
 			}
 			else if (!amountCleared && clickedCandies.size() == 2)
 			{ //else swap two candies back to original position
+				CAudio::Instance()->Play(AUDIO_NEG_SWAP, false);
 				SwapCandy();
 				InitClickedCandy();
 			}
-			//if (amountCleared) DropCandy();
 			Sleep(100);
 		}
 			
@@ -410,6 +416,7 @@ namespace game_framework
 				if (IsNeighbour(*clickedCandies[0], *clickedCandies[1]))
 				{
 					SwapCandy();
+					CAudio::Instance()->Play(AUDIO_SWAP, false);
 					//Release swapPower when each of clickedCandy is superCandy or both are poweredCandy
 					if (clickedCandies[0]->GetPower() == 4 || clickedCandies[1]->GetPower() == 4 || (clickedCandies[0]->GetPower() && clickedCandies[1]->GetPower()))
 						ReleaseSwap();
@@ -604,7 +611,9 @@ namespace game_framework
 
 		vector<Candy*> line;
 		char check = axis == 'x' ? 'y' : 'x';
-		int conboDeleted = 0;
+		int comboDeleted = 0;
+		int audioID[12] = { AUDIO_COMBO1, AUDIO_COMBO2, AUDIO_COMBO3, AUDIO_COMBO4, AUDIO_COMBO5, AUDIO_COMBO6,
+							AUDIO_COMBO7, AUDIO_COMBO8, AUDIO_COMBO9, AUDIO_COMBO10, AUDIO_COMBO11, AUDIO_COMBO12 };
 		while(1)
 		{	
 			GetLine(line, toDelete, check);					//collect candies on a same line
@@ -620,19 +629,21 @@ namespace game_framework
 				{
 					RemoveContinuous(line, i - (count - 1), i, axis, temp);
 					count = 1;
-					conboDeleted++;
+					comboDeleted++;
+					CAudio::Instance()->Play(audioID[comboDeleted > 12 ? 11 : comboDeleted - 1], false);
 				}
 			}
 			if (count >= 3)
 			{
 				RemoveContinuous(line, line.size() - count, line.size(), axis, temp);
-				conboDeleted++;
+				comboDeleted++;
+				CAudio::Instance()->Play(audioID[comboDeleted > 12 ? 11 : comboDeleted - 1], false);
 			}
 			line.clear();
 			if (toDelete.size() < 3) break;	//break if there is not enough candies to form a combo
 		}
 		toDelete.clear();
-		return conboDeleted;
+		return comboDeleted;
 	}
 
 	void GameArea::RemoveContinuous(vector<Candy*>& line, unsigned offset, unsigned lineSize, char axis, set<Candy*>& temp)
@@ -646,6 +657,7 @@ namespace game_framework
 			if (axis == 'y') temp.insert(line[j]);
 			else if(packCandy && find(temp.begin(), temp.end(), line[j]) != temp.end())
 			{
+				CAudio::Instance()->Play(AUDIO_PACK_CREATE, false);
 				line[j]->SetPower(3);
 				line[j]->Relive();
 				superCandy = linePower = packCandy = false;
@@ -654,6 +666,7 @@ namespace game_framework
 
 			if (linePower && find(clickedCandies.begin(), clickedCandies.end(), line[j]) != clickedCandies.end())
 			{
+				CAudio::Instance()->Play(AUDIO_LINE_CREATE, false);
 				line[j]->Relive();
 				line[j]->SetPower(axis == 'x' ? 2 : 1);
 				linePower = false;
@@ -662,6 +675,7 @@ namespace game_framework
 
 			if (superCandy && find(clickedCandies.begin(), clickedCandies.end(), line[j]) != clickedCandies.end())
 			{
+				CAudio::Instance()->Play(AUDIO_SUPER_CREATE, false);
 				line[j]->Relive();
 				line[j]->SetPower(4);
 				superCandy = false;
@@ -669,14 +683,15 @@ namespace game_framework
 			}
 			score.Add(60);
 		}
-		CAudio::Instance()->Play(AUDIO_DING, false);
 		if (linePower)
 		{
+			CAudio::Instance()->Play(AUDIO_LINE_CREATE, false);
 			line[offset]->SetPower(axis == 'x' ? 2 : 1);
 			line[offset]->Relive();
 		}
 		if (superCandy)
 		{
+			CAudio::Instance()->Play(AUDIO_SUPER_CREATE, false);
 			line[offset]->SetPower(4);
 			line[offset]->Relive();
 		}

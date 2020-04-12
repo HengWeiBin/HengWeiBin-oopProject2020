@@ -10,14 +10,16 @@ namespace game_framework
 {
 	static int	redBmpId[8] = {
 		IDB_RED_NOR, IDB_RED_NOR_C, IDB_RED_HOR, IDB_RED_HOR_C, IDB_RED_VER, IDB_RED_VER_C, IDB_RED_PAC, IDB_RED_PAC_C },
-				orangeBmpId[8] = {
+			orangeBmpId[8] = {
 		IDB_ORG_NOR, IDB_ORG_NOR_C, IDB_ORG_HOR, IDB_ORG_HOR_C, IDB_ORG_VER, IDB_ORG_VER_C, IDB_ORG_PAC, IDB_ORG_PAC_C },
-				greenBmpId[8] = {
+			greenBmpId[8] = {
 		IDB_GRE_NOR, IDB_GRE_NOR_C, IDB_GRE_HOR, IDB_GRE_HOR_C, IDB_GRE_VER, IDB_GRE_VER_C, IDB_GRE_PAC, IDB_GRE_PAC_C },
-				blueBmpId[8] = {
+			blueBmpId[8] = {
 		IDB_BLU_NOR, IDB_BLU_NOR_C, IDB_BLU_HOR, IDB_BLU_HOR_C, IDB_BLU_VER, IDB_BLU_VER_C, IDB_BLU_PAC, IDB_BLU_PAC_C },
-				purpleBmpId[8] = {
-		IDB_PUR_NOR, IDB_PUR_NOR_C, IDB_PUR_HOR, IDB_PUR_HOR_C, IDB_PUR_VER, IDB_PUR_VER_C, IDB_PUR_PAC, IDB_PUR_PAC_C };
+			purpleBmpId[8] = {
+		IDB_PUR_NOR, IDB_PUR_NOR_C, IDB_PUR_HOR, IDB_PUR_HOR_C, IDB_PUR_VER, IDB_PUR_VER_C, IDB_PUR_PAC, IDB_PUR_PAC_C },
+			audioID[4] = {
+		AUDIO_CANDY_LAND1, AUDIO_CANDY_LAND2, AUDIO_CANDY_LAND3, AUDIO_CANDY_LAND4 };
 
 	Candy::Candy(int id, int x, int y)
 		: style(id), rawStyle(id), x(x), y(y), dx(x), dy(y), onClick(false), fallingSpeed(0), power(0), pushX(0), pushY(0)
@@ -90,6 +92,8 @@ namespace game_framework
 			{
 				y = dy;
 				fallingSpeed = 0;
+				int sound = rand() % 4;
+				CAudio::Instance()->Play(audioID[sound], false);
 			}
 		}
 

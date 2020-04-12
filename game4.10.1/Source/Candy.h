@@ -3,6 +3,19 @@
 
 namespace game_framework
 {
+#ifndef AUDIO_ID
+#define AUDIO_ID
+	enum AUDIO_ID {				// 定義各種音效的編號
+		AUDIO_JELLY,
+		AUDIO_NEG_SWAP, AUDIO_SWAP,
+		AUDIO_SUPER_CREATE, AUDIO_LINE_CREATE, AUDIO_PACK_CREATE, AUDIO_POWER_ALL,
+		AUDIO_SQUARE_REMOVE1, AUDIO_SQUARE_REMOVE2, AUDIO_LINE_BLAST,
+		AUDIO_CANDY_LAND1, AUDIO_CANDY_LAND2, AUDIO_CANDY_LAND3, AUDIO_CANDY_LAND4,
+		AUDIO_COMBO1, AUDIO_COMBO2, AUDIO_COMBO3, AUDIO_COMBO4, AUDIO_COMBO5, AUDIO_COMBO6,
+		AUDIO_COMBO7, AUDIO_COMBO8, AUDIO_COMBO9, AUDIO_COMBO10, AUDIO_COMBO11, AUDIO_COMBO12
+	};
+#endif
+
 	class Candy
 	{
 	public:
@@ -41,10 +54,9 @@ namespace game_framework
 		CMovingBitmap super, superClick;
 		int style, rawStyle;		//0 = non-exist
 		int power;
-		int x, y, dx, dy;			//current || destination coordinate
+		int x, y, dx, dy, pushX, pushY;			//current || destination coordinate
 		bool onClick;
 		int fallingSpeed;
-		int pushX, pushY;
 	};
 }
 

@@ -9,9 +9,13 @@ namespace game_framework
 	#ifndef AUDIO_ID
 	#define AUDIO_ID
 	enum AUDIO_ID {				// 定義各種音效的編號
-		AUDIO_DING,				// 0
-		AUDIO_LAKE,				// 1
-		AUDIO_JELLY				// 2
+		AUDIO_JELLY,
+		AUDIO_NEG_SWAP, AUDIO_SWAP,
+		AUDIO_SUPER_CREATE, AUDIO_LINE_CREATE, AUDIO_PACK_CREATE, AUDIO_POWER_ALL,
+		AUDIO_SQUARE_REMOVE1, AUDIO_SQUARE_REMOVE2, AUDIO_LINE_BLAST,
+		AUDIO_CANDY_LAND1, AUDIO_CANDY_LAND2, AUDIO_CANDY_LAND3, AUDIO_CANDY_LAND4,
+		AUDIO_COMBO1, AUDIO_COMBO2, AUDIO_COMBO3, AUDIO_COMBO4, AUDIO_COMBO5, AUDIO_COMBO6,
+		AUDIO_COMBO7, AUDIO_COMBO8, AUDIO_COMBO9, AUDIO_COMBO10, AUDIO_COMBO11, AUDIO_COMBO12
 	};
 	#endif
 
@@ -52,7 +56,7 @@ namespace game_framework
 		void ReleaseSwap();								//activate power of candy when 2 powered candy swapped
 		void RemoveRow(unsigned);						//remove whole row of candies
 		void RemoveColumn(unsigned);					//remove whole column of candies
-		void RemoveSquare(unsigned, unsigned, int);		//remove surrounding candies according to level
+		void RemoveSquare(int, int, int);		//remove surrounding candies according to level
 		void RemoveStyle(int style = 0);				//remove all specific candy
 		void PowerAll(int, int);						//Power all specific candy
 		int GetScore();									//Get current score
