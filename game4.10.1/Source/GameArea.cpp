@@ -247,7 +247,7 @@ namespace game_framework
 				for (int j = column - 2; j < column + 3; j++)
 				{
 					if (i == row && j == column) continue;
-					if (i > 0 && i < MaxHeight && j > 0 && j < MaxWidth)
+					if (i >= 0 && i < MaxHeight && j >= 0 && j < MaxWidth)
 						if (i >= row - 1 && i < row + 2 && j >= column - 1 && j < column + 2)
 							ReleasePower(NULL, i, j);
 						else
@@ -265,7 +265,7 @@ namespace game_framework
 				for (int j = column - 2; j < column + 3; j++)
 				{
 					if (i == row && j == column) continue;
-					if (i > 0 && i < MaxHeight && j > 0 && j < MaxWidth)
+					if (i >= 0 && i < MaxHeight && j >= 0 && j < MaxWidth)
 						ReleasePower(NULL, i, j);
 				}
 		}
