@@ -26,7 +26,7 @@ namespace game_framework
 		GameArea(Stage& stage);
 		~GameArea();
 		void LoadBitmap();								//load game area's background
-		void LoadStage();								//read map from file
+		void LoadStage(int);							//read map from file
 		void OnShow();									//Display game area and candy
 		void OnMove();
 		void OnLButtonDown(UINT nFlags, CPoint point);	//handle mouse click

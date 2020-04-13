@@ -434,6 +434,7 @@ namespace game_framework {
 	{
 		game = g; 	// 設定game的pointer
 		stage = NULL;
+		gameArea = new GameArea();
 	}
 
 	void CGameState::GotoGameState(int state)
@@ -501,6 +502,11 @@ namespace game_framework {
 	{
 		OnMove();
 		OnShow();
+	}
+
+	CGameState::~CGameState()
+	{
+		delete gameArea;
 	}
 
 	/////////////////////////////////////////////////////////////////////////////

@@ -203,7 +203,7 @@ namespace game_framework {
 		//
 		// SetCursor(AfxGetApp()->LoadCursor(IDC_GAMECURSOR));
 		
-		gameArea.OnMove();
+		gameArea->OnMove();
 	}
 
 	void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
@@ -249,8 +249,8 @@ namespace game_framework {
 		//
 		// 此OnInit動作會接到CGameStaterOver::OnInit()，所以進度還沒到100%
 		//
-		gameArea.InitCandy();
-		gameArea.LoadBitmap();
+		gameArea->InitCandy();
+		gameArea->LoadBitmap();
 	}
 
 	void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -261,7 +261,7 @@ namespace game_framework {
 
 	void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 	{
-		gameArea.OnLButtonDown(nFlags, point);
+		gameArea->OnLButtonDown(nFlags, point);
 	}
 
 	void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
@@ -288,11 +288,13 @@ namespace game_framework {
 		//
 		
 		background.ShowBitmap();			// 貼上背景圖
-		gameArea.OnShow();
+		gameArea->OnShow();
 	}
 
 	CGameStateMenu::CGameStateMenu(CGame *g) : CGameState(g), totalStage(1)
-	{}
+	{
+		IsMovingDown = IsMovingUp = false;
+	}
 
 	CGameStateMenu::~CGameStateMenu()
 	{
@@ -335,6 +337,7 @@ namespace game_framework {
 	{
 		int x = point.x;
 		int y = point.y - sy;
+		gameArea->LoadStage(1);
 		//stage 1
 		if ((270 < x && x < (270 + 60) && (4030 < y && y < 4030 + 60))) {
 			GotoGameState(GAME_STATE_RUN);
@@ -406,10 +409,4 @@ namespace game_framework {
 
 	void CGameStateMenu::LoadStage()
 	{}
-
-	void CGameStateMenu::StartGame()
-	{
-		GAME_ASSERT(this->stage != NULL, "Stage must be selected before start!");
-		GotoGameState(GAME_STATE_RUN);
-	}
 }
