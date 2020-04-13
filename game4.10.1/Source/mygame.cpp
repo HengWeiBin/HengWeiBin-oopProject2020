@@ -291,8 +291,12 @@ namespace game_framework {
 		gameArea.OnShow();
 	}
 
-	CGameStateMenu::CGameStateMenu(CGame *g) : CGameState(g), totalStage(1)
-	{}
+	CGameStateMenu::CGameStateMenu(CGame *g) : CGameState(g), totalStage(15)
+	{
+		IsMovingUp = false; IsMovingDown = false;
+		MAX_Y = 0; MIN_Y = -3600;
+		sy = -3600;
+	}
 
 	CGameStateMenu::~CGameStateMenu()
 	{
@@ -335,26 +339,15 @@ namespace game_framework {
 	{
 		int x = point.x;
 		int y = point.y - sy;
-		//stage 1
-		if ((270 < x && x < (270 + 60) && (4030 < y && y < 4030 + 60))) {
-			GotoGameState(GAME_STATE_RUN);
-
-		}
-		//stage 2
-		if ((455+40 < x && x < (455+40 + 60) && (3980 < y && y < 3980 + 60))) {
-			GotoGameState(GAME_STATE_RUN);
-		}
-		//stage 3
-		if ((490 + 40 < x && x < (490 + 40 + 60) && (3850 < y && y < 3850 + 60))) {
-			GotoGameState(GAME_STATE_RUN);
-		}
-		//stage 4
-		if ((280 + 40 < x && x < (280 + 40 + 60) && (3870 < y && y < 3870 + 60))) {
-			GotoGameState(GAME_STATE_RUN);
-		}
-		//stage 5
-		if ((95 + 40 < x && x < (95 + 40 + 60) && (3910 < y && y < 3910 + 60))) {
-			GotoGameState(GAME_STATE_RUN);
+		int StagePos[][2] = { {270,4030},{495,3980},{530,3850},{320,3870},{135,3910},
+							  {135,3750},{340,3690},{570,3720},{770,3800},{960,3840},
+							  {1085,3750},{1010,3600},{760,3540},{520,3590},{280,3585} };
+		for (int i = 0; i < totalStage; i++) {
+			//int point_x = StagePos[i][0], point_y = StagePos[i][1];
+			if (StagePos[i][0] < x && x < (StagePos[i][0] + 60) && StagePos[i][1] < y && (y < StagePos[i][1] + 60))
+			{
+				GotoGameState(GAME_STATE_RUN);
+			}
 		}
 	}
 

@@ -150,8 +150,8 @@ namespace game_framework {
 		CMovingBitmap menuBackground, woodBackgourd;
 		const int totalStage;
 		vector<Stage> stages;
-		int sy = -3600;
-		int MAX_Y = 0, MIN_Y = -3600;
+		int sy;
+		int MAX_Y, MIN_Y;
 		bool IsMovingUp, IsMovingDown;
 	};
 }
