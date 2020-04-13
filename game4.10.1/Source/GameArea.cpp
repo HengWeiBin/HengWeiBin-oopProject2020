@@ -17,7 +17,7 @@ namespace game_framework
 	GameArea::GameArea() :x(280), y(35), MAX_RAND_NUM(4)
 	{
 		score.SetInteger(0);
-		LoadStage();				//temp
+		LoadStage(1);				//temp
 		for (int i = 0; i < MaxHeight; i++)
 			for (int j = 0; j < MaxWidth; j++)
 				curPosition[i][j] = NULL;
@@ -42,7 +42,7 @@ namespace game_framework
 					candies[i][j].LoadBitmap();
 	}
 
-	void GameArea::LoadStage()
+	void GameArea::LoadStage(int)
 	{
 		fstream InputStage;
 		InputStage.open(".\\Stages\\cnt_stage2.txt");

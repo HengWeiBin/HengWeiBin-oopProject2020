@@ -203,7 +203,7 @@ namespace game_framework {
 		//
 		// SetCursor(AfxGetApp()->LoadCursor(IDC_GAMECURSOR));
 		
-		gameArea.OnMove();
+		gameArea->OnMove();
 	}
 
 	void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
@@ -249,8 +249,8 @@ namespace game_framework {
 		//
 		// 此OnInit動作會接到CGameStaterOver::OnInit()，所以進度還沒到100%
 		//
-		gameArea.InitCandy();
-		gameArea.LoadBitmap();
+		gameArea->InitCandy();
+		gameArea->LoadBitmap();
 	}
 
 	void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -261,7 +261,7 @@ namespace game_framework {
 
 	void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 	{
-		gameArea.OnLButtonDown(nFlags, point);
+		gameArea->OnLButtonDown(nFlags, point);
 	}
 
 	void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
@@ -288,7 +288,7 @@ namespace game_framework {
 		//
 		
 		background.ShowBitmap();			// 貼上背景圖
-		gameArea.OnShow();
+		gameArea->OnShow();
 	}
 
 	CGameStateMenu::CGameStateMenu(CGame *g) : CGameState(g), totalStage(15)
@@ -343,9 +343,9 @@ namespace game_framework {
 							  {135,3750},{340,3690},{570,3720},{770,3800},{960,3840},
 							  {1085,3750},{1010,3600},{760,3540},{520,3590},{280,3585} };
 		for (int i = 0; i < totalStage; i++) {
-			//int point_x = StagePos[i][0], point_y = StagePos[i][1];
 			if (StagePos[i][0] < x && x < (StagePos[i][0] + 60) && StagePos[i][1] < y && (y < StagePos[i][1] + 60))
 			{
+				gameArea->LoadStage(i + 1);
 				GotoGameState(GAME_STATE_RUN);
 			}
 		}
@@ -399,10 +399,4 @@ namespace game_framework {
 
 	void CGameStateMenu::LoadStage()
 	{}
-
-	void CGameStateMenu::StartGame()
-	{
-		GAME_ASSERT(this->stage != NULL, "Stage must be selected before start!");
-		GotoGameState(GAME_STATE_RUN);
-	}
 }
