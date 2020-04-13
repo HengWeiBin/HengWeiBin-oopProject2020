@@ -338,9 +338,22 @@ namespace game_framework {
 		//stage 1
 		if ((270 < x && x < (270 + 60) && (4030 < y && y < 4030 + 60))) {
 			GotoGameState(GAME_STATE_RUN);
+
 		}
 		//stage 2
 		if ((455+40 < x && x < (455+40 + 60) && (3980 < y && y < 3980 + 60))) {
+			GotoGameState(GAME_STATE_RUN);
+		}
+		//stage 3
+		if ((490 + 40 < x && x < (490 + 40 + 60) && (3850 < y && y < 3850 + 60))) {
+			GotoGameState(GAME_STATE_RUN);
+		}
+		//stage 4
+		if ((280 + 40 < x && x < (280 + 40 + 60) && (3870 < y && y < 3870 + 60))) {
+			GotoGameState(GAME_STATE_RUN);
+		}
+		//stage 5
+		if ((95 + 40 < x && x < (95 + 40 + 60) && (3910 < y && y < 3910 + 60))) {
 			GotoGameState(GAME_STATE_RUN);
 		}
 	}
@@ -382,9 +395,9 @@ namespace game_framework {
 		woodBackgourd.ShowBitmap();
 
 		//show stage map
-		if (sy <= MAX_Y && sy <= MIN_Y)
+		if (sy < MAX_Y && sy < MIN_Y)
 			sy = -3600;
-		if (sy >= MAX_Y && sy >= MIN_Y)
+		if (sy > MAX_Y && sy > MIN_Y)
 			sy = 0;
 		menuBackground.SetTopLeft(40, sy);
 		menuBackground.ShowBitmap();
