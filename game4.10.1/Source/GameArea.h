@@ -25,44 +25,43 @@ namespace game_framework
 		GameArea();
 		GameArea(Stage& stage);
 		~GameArea();
+		void InitCandy(bool drop = true);				//spawn all candies randomly
 		void LoadBitmap();								//load game area's background
 		void LoadStage(int);							//read map from file
+		void LoadStage(Stage& stage);
 		void OnShow();									//Display game area and candy
 		void OnMove();
 		void OnLButtonDown(UINT nFlags, CPoint point);	//handle mouse click
 		void OnLButtonUp(UINT nFlags, CPoint point);	//handle mouse unclick
 		void OnMouseMove(UINT nFlags, CPoint point);	//handle mouse move
-		void InitCandy(bool drop = true);				//spawn all candies randomly
 	private:
-		int PutCandy();								//spawn candies at spawning area
-		void UpdateCurPosition();						//update current position of every candy
+		int ClearCombo();								//search and delete all combo
+		int Compare(int, int);							//Compare two int
 		void DropCandy();
 		int DropCandyStraight();
 		int DropCandySide();
-		int ClearCombo();								//search and delete all combo
-		void GetCandies(set<Candy*>&, int, int, int);	//get continuous candies
 		int DeleteCombo(set<Candy*>&);					//analyze and delete combo
+		void Find(Candy*, unsigned&, unsigned&);		//find candy and return row and column
+		void GetCandies(set<Candy*>&, int, int, int);	//get continuous candies
+		void GetLine(vector<Candy*>&, vector<Candy*>&, char check);									//collect candies on a same line
+		int GetScore();									//Get current score
+		void InitClickedCandy();						//unclick & clear candies in clickedCandies
+		bool IsDropping();								//check all candies are still
+		bool IsNeighbour(Candy&, Candy&);				//return are candies in clickedCandies is neighbour
+		void PowerAll(int, int);						//Power all specific candy
+		int PutCandy();									//spawn candies at spawning area
 		int RemoveContinuous(vector<Candy*>&, char, bool(*Compare)(Candy*, Candy*), set<Candy*>&);	//Find and remove continuous candy
 		void RemoveContinuous(vector<Candy*>&, unsigned, unsigned, char, set<Candy*>&);				//Remove continuous candy
-		void GetLine(vector<Candy*>&, vector<Candy*>&, char check);						//collect candies on a same line
-		bool IsDropping();								//check all candies are still
-		void SwapCandy();								//Swap candies in clickedCandies
-		bool IsNeighbour(Candy&, Candy&);				//return are candies in clickedCandies is neighbour
-		void InitClickedCandy();						//unclick & clear candies in clickedCandies
-		void ShowScore();
-		void ShowStarBar();
-		void Find(Candy*, unsigned&, unsigned&);		//find candy and return row and column
-		void ReleasePower(Candy*, unsigned row = 0, unsigned column = 0);				//remove candy with consider its' power
+		void ReleasePower(Candy*, unsigned row = 0, unsigned column = 0);							//remove candy with consider its' power
 		void ReleaseSwap();								//activate power of candy when 2 powered candy swapped
 		void RemoveRow(unsigned);						//remove whole row of candies
 		void RemoveColumn(unsigned);					//remove whole column of candies
-		void RemoveSquare(int, int, int);		//remove surrounding candies according to level
+		void RemoveSquare(int, int, int);				//remove surrounding candies according to level
 		void RemoveStyle(int style = 0);				//remove all specific candy
-		void PowerAll(int, int);						//Power all specific candy
-		int GetScore();									//Get current score
-		int Compare(int, int);
+		void ShowScoreBoard();
+		void SwapCandy();								//Swap candies in clickedCandies
+		void UpdateCurPosition();						//update current position of every candy
 
-		const int MAX_RAND_NUM;							//types of candies in this games
 		const int x, y;									//top left x,y of gameArea
 		int map[MaxHeight][MaxWidth];					//Array of container
 		Candy* curPosition[MaxHeight][MaxWidth];		//save current position of every candy
@@ -72,6 +71,11 @@ namespace game_framework
 		CMovingBitmap scoreBar, scoreBoard;							
 		CInteger score;
 		vector<Candy*> clickedCandies;
+
+		int MAX_RAND_NUM;								//types of candies in this games
+		int oneStar, twoStar, threeStar, lastHighScore;//Target
+		int step;
+		bool running;
 	};
 }
 

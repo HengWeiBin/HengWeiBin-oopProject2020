@@ -325,14 +325,11 @@ namespace game_framework {
 
 	void CGameStateMenu::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
-		const char KEY_UP = 0x26; // keyboard¤W½bÀY
-		const char KEY_DOWN = 0x28; // keyboard¤U½bÀY
-		if (nChar == KEY_UP) {
-			IsMovingUp = false;
-		}
-		if (nChar == KEY_DOWN) {
-			IsMovingDown = false;
-		}
+		const char KEY_UP = 0x26;
+		const char KEY_DOWN = 0x28;
+
+		if (nChar == KEY_UP) IsMovingUp = false;
+		if (nChar == KEY_DOWN) IsMovingDown = false;
 	}
 
 	void CGameStateMenu::OnLButtonDown(UINT nFlags, CPoint point)

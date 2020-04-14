@@ -14,7 +14,7 @@
 
 namespace game_framework
 {
-	GameArea::GameArea() :x(280), y(35), MAX_RAND_NUM(4)
+	GameArea::GameArea() :x(280), y(35), MAX_RAND_NUM(2), threeStar(40000)
 	{
 		score.SetInteger(0);
 		LoadStage(1);				//temp
@@ -24,11 +24,10 @@ namespace game_framework
 	}
 
 	GameArea::GameArea(Stage & stage) :x(280), y(35), MAX_RAND_NUM(stage.candyType)
-	{	}
+	{}
 
 	GameArea::~GameArea()
-	{
-	}
+	{}
 
 	void GameArea::LoadBitmap()
 	{
@@ -45,7 +44,7 @@ namespace game_framework
 	void GameArea::LoadStage(int)
 	{
 		fstream InputStage;
-		InputStage.open(".\\Stages\\cnt_stage2.txt");
+		InputStage.open(".\\Stages\\cnt_stage1.txt");
 		if (InputStage) {
 			string firstline;
 			for (int i = 0; i < MaxHeight; i++) {
@@ -66,22 +65,44 @@ namespace game_framework
 		InputStage.close();
 	}
 
-	void GameArea::ShowScore() {
-		int CurrentScore = score.GetInteger();
-		int size = 1;
-		while (CurrentScore > 9) 
-		{
-			CurrentScore /= 10;
-			size++;
-		}
-		if (size <=7)
-		{
-			score.SetDigit(size);
-			score.SetTopLeft((scoreBoard.Left() + 135 - (18*size) ), scoreBoard.Top() + 125);
-		}
-
+	void GameArea::LoadStage(Stage & stage)
+	{
+		MAX_RAND_NUM = stage.candyType;
+		oneStar = stage.scoreOne;
+		twoStar = stage.scoreTwo;
+		threeStar = stage.scoreThree;
+		lastHighScore = stage.lastHighScore;
+		step = stage.maxStep;
+		running = true;
 	}
-	void GameArea::ShowStarBar() {
+
+	void GameArea::ShowScoreBoard() {
+		/// Show score bar background/////////////////
+		const int black_x1 = scoreBoard.Left() + 152;
+		const int black_y1 = scoreBoard.Top() + 85;
+		const int black_x2 = scoreBoard.Left() + 190;
+		const int black_y2 = scoreBoard.Top() + 341;
+
+		CDC *pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC 
+
+		CBrush *pb, b(RGB(41, 73, 99));				
+		pb = pDC->SelectObject(&b);
+		pDC->Rectangle(black_x1, black_y1, black_x2, black_y2);
+
+		pDC->SelectObject(pb);						// 釋放 brush
+		CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
+		/*
+		const int curVolumn = black_y2 - score.GetInteger() / (threeStar * 1.0) * 254;
+
+		CBrush b2(RGB(255, 255, 0));
+		pDC->SelectObject(&b2);
+		pDC->Rectangle(black_x1, curVolumn, black_x2, black_y2);
+
+		pDC->SelectObject(pb);						// 釋放 brush
+		CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
+		*/
+
+		/// Show score bar/////////////////
 		//bar_width = 45;
 		//bar_height = 254;
 		// 127=100%  88=70%  108=85%
@@ -95,6 +116,26 @@ namespace game_framework
 			scoreBar.ShowBitmap();
 			Y_point -= 2;
 		}
+		
+		/// Show score board/////////////////
+		scoreBoard.SetTopLeft((SIZE_X - 1211) / 2, ((SIZE_Y - 420) / 2));
+		scoreBoard.ShowBitmap();
+
+		/// Show score /////////////////
+		int CurrentScore = score.GetInteger();
+		int size = 1;
+		while (CurrentScore > 9) 
+		{
+			CurrentScore /= 10;
+			size++;
+		}
+		if (size <=7)
+		{
+			score.SetDigit(size);
+			score.SetTopLeft((scoreBoard.Left() + 135 - (18*size) ), scoreBoard.Top() + 125);
+			score.ShowBitmap();
+		}
+
 	}
 
 	void GameArea::Find(Candy *candy, unsigned &row, unsigned &column)
@@ -331,14 +372,7 @@ namespace game_framework
 
 	void GameArea::OnShow()
 	{
-		///////////////////////////////////////////
-		// Show score board  					///
-		///////////////////////////////////////////
-		scoreBoard.SetTopLeft((SIZE_X - 1211) / 2, ((SIZE_Y - 420) / 2));
-		scoreBoard.ShowBitmap();
-		ShowScore();
-		ShowStarBar();
-		score.ShowBitmap();
+		ShowScoreBoard();
 
 		///////////////////////////////////////////
 		// Show gamearea						///
