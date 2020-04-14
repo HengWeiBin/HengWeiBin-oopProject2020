@@ -14,7 +14,7 @@
 
 namespace game_framework
 {
-	GameArea::GameArea() :x(280), y(35), MAX_RAND_NUM(2), threeStar(40000)
+	GameArea::GameArea() :x(280), y(35), MAX_RAND_NUM(6), threeStar(40000)
 	{
 		score.SetInteger(0);
 		LoadStage(1);				//temp

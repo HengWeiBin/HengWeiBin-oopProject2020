@@ -12,6 +12,8 @@ namespace game_framework
 		IDB_RED_NOR, IDB_RED_NOR_C, IDB_RED_HOR, IDB_RED_HOR_C, IDB_RED_VER, IDB_RED_VER_C, IDB_RED_PAC, IDB_RED_PAC_C },
 			orangeBmpId[8] = {
 		IDB_ORG_NOR, IDB_ORG_NOR_C, IDB_ORG_HOR, IDB_ORG_HOR_C, IDB_ORG_VER, IDB_ORG_VER_C, IDB_ORG_PAC, IDB_ORG_PAC_C },
+			yellowBmpId[8] = {
+		IDB_YEL_NOR, IDB_YEL_NOR_C, IDB_YEL_HOR, IDB_YEL_HOR_C, IDB_YEL_VER, IDB_YEL_VER_C, IDB_YEL_PAC, IDB_YEL_PAC_C },
 			greenBmpId[8] = {
 		IDB_GRE_NOR, IDB_GRE_NOR_C, IDB_GRE_HOR, IDB_GRE_HOR_C, IDB_GRE_VER, IDB_GRE_VER_C, IDB_GRE_PAC, IDB_GRE_PAC_C },
 			blueBmpId[8] = {
@@ -145,12 +147,14 @@ namespace game_framework
 		case 1:
 			*bmpID = redBmpId; break;
 		case 2:
-			*bmpID = orangeBmpId; break;
+			*bmpID = yellowBmpId; break;
 		case 3:
-			*bmpID = greenBmpId; break;
+			*bmpID = orangeBmpId; break;
 		case 4:
-			*bmpID = blueBmpId; break;
+			*bmpID = greenBmpId; break;
 		case 5:
+			*bmpID = blueBmpId; break;
+		case 6:
 			*bmpID = purpleBmpId; break;
 		}
 	}

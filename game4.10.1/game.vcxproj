@@ -319,6 +319,13 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Bitmaps\ClickedP1YellowCandy.bmp" />
+    <Image Include="Bitmaps\ClickedP2YellowCandy.bmp" />
+    <Image Include="Bitmaps\ClickedP3YellowCandy.bmp" />
+    <Image Include="Bitmaps\ClickedYellowCandy.bmp" />
+    <Image Include="Bitmaps\P1YellowCandy.bmp" />
+    <Image Include="Bitmaps\P2YellowCandy.bmp" />
+    <Image Include="Bitmaps\P3YellowCandy.bmp" />
     <Image Include="Bitmaps\ScoreBar.bmp" />
     <Image Include="Bitmaps\BlueCandy.bmp" />
     <Image Include="Bitmaps\ClickedBlueCandy.bmp" />
@@ -370,6 +377,7 @@
     <Image Include="Bitmaps\SuperCandy.bmp" />
     <Image Include="Bitmaps\ClickedSuperCandy.bmp" />
     <Image Include="Bitmaps\WoodBackground.bmp" />
+    <Image Include="Bitmaps\YellowCandy.bmp" />
     <Image Include="res\bitmap3.bmp" />
     <Image Include="res\bmp00001.bmp" />
     <Image Include="res\bmp00002.bmp" />

@@ -72,6 +72,14 @@
 #define IDB_BLU_NOR_C                   209
 #define IDB_BLU_NOR                     210
 #define IDB_CONTAINER                   211
+#define IDB_YEL_HOR                     212
+#define IDB_YEL_HOR_C                   213
+#define IDB_YEL_NOR                     214
+#define IDB_YEL_NOR_C                   215
+#define IDB_YEL_PAC                     216
+#define IDB_YEL_VER                     217
+#define IDB_YEL_VER_C                   218
+#define IDB_YEL_PAC_C                   219
 #define IDC_README                      1001
 #define ID_FILE_PAUSE                   32771
 #define ID_TOGGLE_FULLSCREEN            32772
@@ -84,7 +92,7 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        212
+#define _APS_NEXT_RESOURCE_VALUE        220
 #define _APS_NEXT_COMMAND_VALUE         32776
 #define _APS_NEXT_CONTROL_VALUE         1003
 #define _APS_NEXT_SYMED_VALUE           101
