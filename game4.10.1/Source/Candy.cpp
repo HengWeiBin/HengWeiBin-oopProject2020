@@ -144,17 +144,17 @@ namespace game_framework
 	{
 		switch (style)
 		{
-		case 1:
+		case 5:
 			*bmpID = redBmpId; break;
-		case 2:
+		case 6:
 			*bmpID = yellowBmpId; break;
 		case 3:
 			*bmpID = orangeBmpId; break;
 		case 4:
 			*bmpID = greenBmpId; break;
-		case 5:
+		case 1:
 			*bmpID = blueBmpId; break;
-		case 6:
+		case 2:
 			*bmpID = purpleBmpId; break;
 		}
 	}
