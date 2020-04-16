@@ -14,19 +14,24 @@ void game_framework::Stage::LoadStage()
 {
 	fstream InputStage;
 	InputStage.open("\\Stages\\cnt_stage1.txt");
-	string data[9];
+	string data[11];
 	string file;
+	//LAST SCORE
+	getline(InputStage, file, '\n');
+	data[0] = file.substr(0, file.find("#"));
+	//MAP
 	for (int i = 0; i < 13; i++) {
 		getline(InputStage, file, '\n');
 		for (int j = 0; j < 20; j++) {
 			map[i][j] = file[j] == '1' ? 1 : 0;
 		}
 	}
-	for (int i = 0; i < 8; i++) {
+	//ETC
+	for (int i = 1; i < 10; i++) {
 		getline(InputStage, file, '\n');
 		data[i] = file.substr(0, file.find("#"));
 	}
-	double ScoreOne = stod(data[0]), ScoreTwo = stod(data[1]), ScoreThree = stod(data[2]), Vertical = stod(data[3]), Horizontal = stod(data[4]), TEffect = stod(data[5]), Chocolate = stod(data[6]), CandyType = stod(data[7]), LastScoreHistory = stod(data[8]);
+	double lastHighScore = stod(data[0]), scoreOne = stod(data[1]), scoreTwo = stod(data[2]), scoreThree = stod(data[3]), vertical = stod(data[4]), horizontal = stod(data[5]), pack = stod(data[6]), chocolate = stod(data[7]), maxStep = stod(data[8]), candyType = stod(data[9]), mode = stod(data[10]);
 	InputStage.close();
 }
 
@@ -55,7 +60,7 @@ int game_framework::Stage::GetHorizontal()
 	return horizontal;
 }
 
-int game_framework::Stage::GetTEffect()
+int game_framework::Stage::GetPack()
 {
 	return pack;
 }
@@ -74,3 +79,14 @@ int game_framework::Stage::GetLastScoreHistory()
 {
 	return lastHighScore;
 }
+
+int game_framework::Stage::GetMaxStep()
+{
+	return maxStep;
+}
+
+int game_framework::Stage::GetMode()
+{
+	return mode;
+}
+

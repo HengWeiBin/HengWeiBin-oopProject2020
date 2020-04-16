@@ -305,11 +305,16 @@ namespace game_framework {
 	void CGameStateMenu::OnInit()
 	{
 		woodBackgourd.LoadBitmap("Bitmaps/WoodBackground.bmp");
-		menuBackground.LoadBitmap("Bitmaps/stage_map.bmp");
+		menuBackground.LoadBitmap("Bitmaps/stage_map.bmp"); 
+		CAudio::Instance()->Load(AUDIO_STAGE, "sounds\\Overworld_Level_Select.mp3");
+
+
 	}
 
 	void CGameStateMenu::OnBeginState()
-	{}
+	{
+		CAudio::Instance()->Play(AUDIO_STAGE, true);
+	}
 
 	void CGameStateMenu::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
@@ -391,7 +396,6 @@ namespace game_framework {
 			sy = 0;
 		menuBackground.SetTopLeft(40, sy);
 		menuBackground.ShowBitmap();
-		
 	}
 
 	void CGameStateMenu::LoadStage()

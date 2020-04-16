@@ -16,10 +16,12 @@ namespace game_framework
 		int GetScoreThree();
 		int GetVertical();
 		int GetHorizontal();
-		int GetTEffect();
+		int GetPack();
 		int GetChocolate();
 		int GetCandyType();
 		int GetLastScoreHistory();
+		int GetMaxStep();
+		int GetMode();
 	private:
 		int map[13][20];
 		int scoreOne, scoreTwo, scoreThree;			//Target score for three star
@@ -27,6 +29,7 @@ namespace game_framework
 		int candyType;								//Max candy type in this game
 		int lastHighScore;							//History highest score
 		int maxStep;
+		int mode;
 
 	};
 }
