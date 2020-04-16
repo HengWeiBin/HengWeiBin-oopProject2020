@@ -67,8 +67,8 @@ namespace game_framework
 		Candy* curPosition[MaxHeight][MaxWidth];		//save current position of every candy
 		list<pair<int, int>> spawnArea;					
 		Candy candies[MaxHeight][MaxWidth];				//Array of candy
-		CMovingBitmap area;
-		CMovingBitmap scoreBar, scoreBoard;							
+		CMovingBitmap area, singleJelly, doubleJelly;
+		CMovingBitmap scoreBar, blackBar, scoreBoard;							
 		CInteger score;
 		vector<Candy*> clickedCandies;
 

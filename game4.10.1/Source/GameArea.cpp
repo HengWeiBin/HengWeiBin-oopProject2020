@@ -14,7 +14,7 @@
 
 namespace game_framework
 {
-	GameArea::GameArea() :x(280), y(35), MAX_RAND_NUM(6), threeStar(40000)
+	GameArea::GameArea() :x(280), y(35), MAX_RAND_NUM(4), threeStar(40000)
 	{
 		score.SetInteger(0);
 		LoadStage(1);				//temp
@@ -32,9 +32,12 @@ namespace game_framework
 	void GameArea::LoadBitmap()
 	{
 		area.LoadBitmap(IDB_CONTAINER);
+		singleJelly.LoadBitmap("Bitmaps\\Jelly1.bmp");
+		doubleJelly.LoadBitmap("Bitmaps\\Jelly2.bmp");
 		score.LoadBitmap();
 		scoreBoard.LoadBitmap("Bitmaps\\score_board.bmp", RGB(0, 0, 0));
 		scoreBar.LoadBitmap("Bitmaps\\ScoreBar.bmp");
+		blackBar.LoadBitmap(IDB_BLACK_BAR);
 		for(int i = 0; i < MaxHeight; i ++)
 			for(int j = 0; j < MaxWidth; j++)
 				if(candies[i][j].GetStyle() > 0)
@@ -45,6 +48,8 @@ namespace game_framework
 	{
 		fstream InputStage;
 		InputStage.open(".\\Stages\\cnt_stage1.txt");
+		string temp;
+		getline(InputStage, temp);
 		if (InputStage) {
 			string firstline;
 			for (int i = 0; i < MaxHeight; i++) {
@@ -53,9 +58,11 @@ namespace game_framework
 					switch (firstline[j])
 					{
 					case '0': map[i][j] = 0; break;		//0 = none, !0 = gameArea
-					case '1': map[i][j] = 1; break;		//1 = normalArea
-					case '2': 
-						map[i][j] = 2;					//2 = candy spawning area
+					case '2': map[i][j] = 2; break;		//2 = normalArea
+					case '3': map[i][j] = 3; break;		//3 = singleJelly
+					case '4': map[i][j] = 4; break;		//4 = doubleJelly
+					case '1': 
+						map[i][j] = 1;					//1 = candy spawning area
 						spawnArea.push_back(pair<int, int>(i, j));
 						break;
 					}
@@ -76,44 +83,28 @@ namespace game_framework
 		running = true;
 	}
 
-	void GameArea::ShowScoreBoard() {
-		/// Show score bar background/////////////////
-		const int black_x1 = scoreBoard.Left() + 152;
-		const int black_y1 = scoreBoard.Top() + 85;
-		const int black_x2 = scoreBoard.Left() + 190;
-		const int black_y2 = scoreBoard.Top() + 341;
-
-		CDC *pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC 
-
-		CBrush *pb, b(RGB(41, 73, 99));				
-		pb = pDC->SelectObject(&b);
-		pDC->Rectangle(black_x1, black_y1, black_x2, black_y2);
-
-		pDC->SelectObject(pb);						// 釋放 brush
-		CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
-		/*
-		const int curVolumn = black_y2 - score.GetInteger() / (threeStar * 1.0) * 254;
-
-		CBrush b2(RGB(255, 255, 0));
-		pDC->SelectObject(&b2);
-		pDC->Rectangle(black_x1, curVolumn, black_x2, black_y2);
-
-		pDC->SelectObject(pb);						// 釋放 brush
-		CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
-		*/
-
+	void GameArea::ShowScoreBoard() 
+	{
 		/// Show score bar/////////////////
 		//bar_width = 45;
 		//bar_height = 254;
 		// 127=100%  88=70%  108=85%
 		//bottom left point 152,339px
-		int X_point = (scoreBoard.Left() + 152), Y_point = (scoreBoard.Top() + 339); //scoreBar set point
+		int X_point = (scoreBoard.Left() + 150), Y_point = (scoreBoard.Top() + 339); //scoreBar set point
 		double currentLevel = (score.GetInteger() / 40000.0) * 129;
 		currentLevel = currentLevel > 129 ? 129 : currentLevel;
-		for (int i = 0; i < currentLevel; i++)
+		for (int i = 0; i < 129; i++)
 		{
-			scoreBar.SetTopLeft(X_point, Y_point);
-			scoreBar.ShowBitmap();
+			if (i < currentLevel)
+			{
+				scoreBar.SetTopLeft(X_point, Y_point);
+				scoreBar.ShowBitmap();
+			}
+			else
+			{
+				blackBar.SetTopLeft(X_point, Y_point);
+				blackBar.ShowBitmap();
+			}
 			Y_point -= 2;
 		}
 		
@@ -156,6 +147,8 @@ namespace game_framework
 		else candy = &candies[row][column];			//else, row & column is candy's position
 
 		if (!map[row][column]) return;
+
+		if (map[row][column] == 3 || map[row][column] == 4) map[row][column]--;
 
 		int power = candy->GetPower();
 		candy->SetStyle(0);
@@ -255,29 +248,15 @@ namespace game_framework
 	void GameArea::RemoveRow(unsigned row)
 	{
 		for (unsigned i = 0; i < MaxWidth; i++)
-		{
 			if (map[row][i])
-			{
-				if (!candies[row][i].GetPower())
-					candies[row][i].SetStyle(0);
-				else 
-					ReleasePower(&candies[row][i]);
-			}
-		}
+				ReleasePower(&candies[row][i]);
 	}
 
 	void GameArea::RemoveColumn(unsigned column)
 	{
 		for (unsigned i = 0; i < MaxWidth; i++)
-		{
 			if (map[i][column])
-			{
-				if (!candies[i][column].GetPower())
-					candies[i][column].SetStyle(0);
-				else
-					ReleasePower(&candies[i][column]);
-			}
-		}
+				ReleasePower(&candies[i][column]);
 	}
 
 	void GameArea::RemoveSquare(int row, int column, int level)
@@ -381,9 +360,23 @@ namespace game_framework
 		{
 			for (int j = 0; j < MaxWidth; j++)
 			{
-				if (map[i][j])
+				switch (map[i][j])
+				{
+				case 0:
+					continue;
+				case 3:
+					singleJelly.SetTopLeft(j * 50 + x, i * 50 + y);
+					singleJelly.ShowBitmap();
+					break;
+				case 4:
+					doubleJelly.SetTopLeft(j * 50 + x, i * 50 + y);
+					doubleJelly.ShowBitmap();
+					break;
+				default:
 					area.SetTopLeft(j * 50 + x, i * 50 + y);
-				area.ShowBitmap();
+					area.ShowBitmap();
+					break;
+				}
 			}
 		}
 

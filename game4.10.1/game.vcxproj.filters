@@ -345,5 +345,8 @@
     <Image Include="Bitmaps\ClickedP3YellowCandy.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="bitmaps\bitmap3.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
