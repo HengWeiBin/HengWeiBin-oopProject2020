@@ -26,6 +26,7 @@ namespace game_framework
 		int vertical, horizontal, pack, chocolate;	//total special candy spawn onInit
 		int candyType;								//Max candy type in this game
 		int lastHighScore;							//History highest score
+		int maxStep;
 
 	};
 }

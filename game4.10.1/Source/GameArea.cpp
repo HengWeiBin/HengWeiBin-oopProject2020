@@ -14,7 +14,7 @@
 
 namespace game_framework
 {
-	GameArea::GameArea() :x(280), y(35), MAX_RAND_NUM(4)
+	GameArea::GameArea() :x(280), y(35), MAX_RAND_NUM(4), threeStar(40000)
 	{
 		score.SetInteger(0);
 		LoadStage(1);				//temp
@@ -24,18 +24,20 @@ namespace game_framework
 	}
 
 	GameArea::GameArea(Stage & stage) :x(280), y(35), MAX_RAND_NUM(stage.candyType)
-	{	}
+	{}
 
 	GameArea::~GameArea()
-	{
-	}
+	{}
 
 	void GameArea::LoadBitmap()
 	{
 		area.LoadBitmap(IDB_CONTAINER);
+		singleJelly.LoadBitmap("Bitmaps\\Jelly1.bmp");
+		doubleJelly.LoadBitmap("Bitmaps\\Jelly2.bmp");
 		score.LoadBitmap();
 		scoreBoard.LoadBitmap("Bitmaps\\score_board.bmp", RGB(0, 0, 0));
 		scoreBar.LoadBitmap("Bitmaps\\ScoreBar.bmp");
+		blackBar.LoadBitmap(IDB_BLACK_BAR);
 		for(int i = 0; i < MaxHeight; i ++)
 			for(int j = 0; j < MaxWidth; j++)
 				if(candies[i][j].GetStyle() > 0)
@@ -45,7 +47,9 @@ namespace game_framework
 	void GameArea::LoadStage(int)
 	{
 		fstream InputStage;
-		InputStage.open(".\\Stages\\cnt_stage2.txt");
+		InputStage.open(".\\Stages\\cnt_stage1.txt");
+		string temp;
+		getline(InputStage, temp);
 		if (InputStage) {
 			string firstline;
 			for (int i = 0; i < MaxHeight; i++) {
@@ -54,9 +58,11 @@ namespace game_framework
 					switch (firstline[j])
 					{
 					case '0': map[i][j] = 0; break;		//0 = none, !0 = gameArea
-					case '1': map[i][j] = 1; break;		//1 = normalArea
-					case '2': 
-						map[i][j] = 2;					//2 = candy spawning area
+					case '2': map[i][j] = 2; break;		//2 = normalArea
+					case '3': map[i][j] = 3; break;		//3 = singleJelly
+					case '4': map[i][j] = 4; break;		//4 = doubleJelly
+					case '1': 
+						map[i][j] = 1;					//1 = candy spawning area
 						spawnArea.push_back(pair<int, int>(i, j));
 						break;
 					}
@@ -66,7 +72,47 @@ namespace game_framework
 		InputStage.close();
 	}
 
-	void GameArea::ShowScore() {
+	void GameArea::LoadStage(Stage & stage)
+	{
+		MAX_RAND_NUM = stage.candyType;
+		oneStar = stage.scoreOne;
+		twoStar = stage.scoreTwo;
+		threeStar = stage.scoreThree;
+		lastHighScore = stage.lastHighScore;
+		step = stage.maxStep;
+		running = true;
+	}
+
+	void GameArea::ShowScoreBoard() 
+	{
+		/// Show score bar/////////////////
+		//bar_width = 45;
+		//bar_height = 254;
+		// 127=100%  88=70%  108=85%
+		//bottom left point 152,339px
+		int X_point = (scoreBoard.Left() + 150), Y_point = (scoreBoard.Top() + 339); //scoreBar set point
+		double currentLevel = (score.GetInteger() / 40000.0) * 129;
+		currentLevel = currentLevel > 129 ? 129 : currentLevel;
+		for (int i = 0; i < 129; i++)
+		{
+			if (i < currentLevel)
+			{
+				scoreBar.SetTopLeft(X_point, Y_point);
+				scoreBar.ShowBitmap();
+			}
+			else
+			{
+				blackBar.SetTopLeft(X_point, Y_point);
+				blackBar.ShowBitmap();
+			}
+			Y_point -= 2;
+		}
+		
+		/// Show score board/////////////////
+		scoreBoard.SetTopLeft((SIZE_X - 1211) / 2, ((SIZE_Y - 420) / 2));
+		scoreBoard.ShowBitmap();
+
+		/// Show score /////////////////
 		int CurrentScore = score.GetInteger();
 		int size = 1;
 		while (CurrentScore > 9) 
@@ -78,23 +124,9 @@ namespace game_framework
 		{
 			score.SetDigit(size);
 			score.SetTopLeft((scoreBoard.Left() + 135 - (18*size) ), scoreBoard.Top() + 125);
+			score.ShowBitmap();
 		}
 
-	}
-	void GameArea::ShowStarBar() {
-		//bar_width = 45;
-		//bar_height = 254;
-		// 127=100%  88=70%  108=85%
-		//bottom left point 152,339px
-		int X_point = (scoreBoard.Left() + 152), Y_point = (scoreBoard.Top() + 339); //scoreBar set point
-		double currentLevel = (score.GetInteger() / 40000.0) * 129;
-		currentLevel = currentLevel > 129 ? 129 : currentLevel;
-		for (int i = 0; i < currentLevel; i++)
-		{
-			scoreBar.SetTopLeft(X_point, Y_point);
-			scoreBar.ShowBitmap();
-			Y_point -= 2;
-		}
 	}
 
 	void GameArea::Find(Candy *candy, unsigned &row, unsigned &column)
@@ -115,6 +147,8 @@ namespace game_framework
 		else candy = &candies[row][column];			//else, row & column is candy's position
 
 		if (!map[row][column]) return;
+
+		if (map[row][column] == 3 || map[row][column] == 4) map[row][column]--;
 
 		int power = candy->GetPower();
 		candy->SetStyle(0);
@@ -214,29 +248,15 @@ namespace game_framework
 	void GameArea::RemoveRow(unsigned row)
 	{
 		for (unsigned i = 0; i < MaxWidth; i++)
-		{
 			if (map[row][i])
-			{
-				if (!candies[row][i].GetPower())
-					candies[row][i].SetStyle(0);
-				else 
-					ReleasePower(&candies[row][i]);
-			}
-		}
+				ReleasePower(&candies[row][i]);
 	}
 
 	void GameArea::RemoveColumn(unsigned column)
 	{
 		for (unsigned i = 0; i < MaxWidth; i++)
-		{
 			if (map[i][column])
-			{
-				if (!candies[i][column].GetPower())
-					candies[i][column].SetStyle(0);
-				else
-					ReleasePower(&candies[i][column]);
-			}
-		}
+				ReleasePower(&candies[i][column]);
 	}
 
 	void GameArea::RemoveSquare(int row, int column, int level)
@@ -331,14 +351,7 @@ namespace game_framework
 
 	void GameArea::OnShow()
 	{
-		///////////////////////////////////////////
-		// Show score board  					///
-		///////////////////////////////////////////
-		scoreBoard.SetTopLeft((SIZE_X - 1211) / 2, ((SIZE_Y - 420) / 2));
-		scoreBoard.ShowBitmap();
-		ShowScore();
-		ShowStarBar();
-		score.ShowBitmap();
+		ShowScoreBoard();
 
 		///////////////////////////////////////////
 		// Show gamearea						///
@@ -347,9 +360,23 @@ namespace game_framework
 		{
 			for (int j = 0; j < MaxWidth; j++)
 			{
-				if (map[i][j])
+				switch (map[i][j])
+				{
+				case 0:
+					continue;
+				case 3:
+					singleJelly.SetTopLeft(j * 50 + x, i * 50 + y);
+					singleJelly.ShowBitmap();
+					break;
+				case 4:
+					doubleJelly.SetTopLeft(j * 50 + x, i * 50 + y);
+					doubleJelly.ShowBitmap();
+					break;
+				default:
 					area.SetTopLeft(j * 50 + x, i * 50 + y);
-				area.ShowBitmap();
+					area.ShowBitmap();
+					break;
+				}
 			}
 		}
 

@@ -172,6 +172,22 @@ IDB_PUR_PAC             BITMAP                  "..\\Bitmaps\\P3PurpleCandy.bmp"
 
 IDB_PUR_PAC_C           BITMAP                  "..\\Bitmaps\\ClickedP3PurpleCandy.bmp"
 
+IDB_YEL_NOR             BITMAP                  "..\\Bitmaps\\YellowCandy.bmp"
+
+IDB_YEL_NOR_C           BITMAP                  "..\\Bitmaps\\ClickedYellowCandy.bmp"
+
+IDB_YEL_HOR             BITMAP                  "..\\Bitmaps\\P1YellowCandy.bmp"
+
+IDB_YEL_HOR_C           BITMAP                  "..\\Bitmaps\\ClickedP1YellowCandy.bmp"
+
+IDB_YEL_VER             BITMAP                  "..\\Bitmaps\\P2YellowCandy.bmp"
+
+IDB_YEL_VER_C           BITMAP                  "..\\Bitmaps\\ClickedP2YellowCandy.bmp"
+
+IDB_YEL_PAC             BITMAP                  "..\\Bitmaps\\P3YellowCandy.bmp"
+
+IDB_YEL_PAC_C           BITMAP                  "..\\Bitmaps\\ClickedP3YellowCandy.bmp"
+
 IDB_SUPER               BITMAP                  "..\\Bitmaps\\SuperCandy.bmp"
 
 IDB_SUPER_C             BITMAP                  "..\\Bitmaps\\ClickedSuperCandy.bmp"
@@ -203,6 +219,8 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //
 
 IDR_MAINFRAME           BITMAP                  "..\\res\\Toolbar.bmp"
+
+IDB_BLACK_BAR           BITMAP                  "..\\bitmaps\\bitmap3.bmp"
 
 
 /////////////////////////////////////////////////////////////////////////////
