@@ -194,6 +194,10 @@ IDB_SUPER_C             BITMAP                  "..\\Bitmaps\\ClickedSuperCandy.
 
 IDB_CONTAINER           BITMAP                  "..\\Bitmaps\\container.bmp"
 
+IDB_TIFFY0				BITMAP					"..\\Bitmaps\\tiffy0.bmp"
+
+IDB_TIFFY1				BITMAP					"..\\Bitmaps\\tiffy1.bmp"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //

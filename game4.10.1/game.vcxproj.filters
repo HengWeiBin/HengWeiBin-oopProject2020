@@ -351,5 +351,11 @@
     <Image Include="bitmaps\bmp00001.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Bitmaps\tiffy0.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\tiffy1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

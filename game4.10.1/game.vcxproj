@@ -378,6 +378,8 @@
     <Image Include="Bitmaps\stage_map.bmp" />
     <Image Include="Bitmaps\SuperCandy.bmp" />
     <Image Include="Bitmaps\ClickedSuperCandy.bmp" />
+    <Image Include="Bitmaps\tiffy0.bmp" />
+    <Image Include="Bitmaps\tiffy1.bmp" />
     <Image Include="Bitmaps\WoodBackground.bmp" />
     <Image Include="Bitmaps\YellowCandy.bmp" />
     <Image Include="res\bitmap3.bmp" />

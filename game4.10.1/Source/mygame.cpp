@@ -87,6 +87,11 @@ namespace game_framework {
 		//
 		// 此OnInit動作會接到CGameStaterRun::OnInit()，所以進度還沒到100%
 		//
+
+		tiffy.AddBitmap("Bitmaps/tiffy0.bmp",RGB(0, 0, 0));
+		tiffy.AddBitmap("Bitmaps/tiffy1.bmp", RGB(0, 0, 0));
+		tiffy.SetDelayCount(2);
+
 	}
 
 	void CGameStateInit::OnBeginState()
@@ -125,6 +130,9 @@ namespace game_framework {
 		//貼上Play Button
 		playButton.SetTopLeft(SIZE_X / 2 - playButton.Width() / 2, SIZE_Y / 5 * 4 - playButton.Height());
 		playButton.ShowBitmap();
+
+		//tiffy.OnShow();
+		//tiffy.OnMove();
 	}
 
 	/////////////////////////////////////////////////////////////////////////////

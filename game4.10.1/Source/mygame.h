@@ -76,6 +76,7 @@ namespace game_framework {
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
 		CMovingBitmap background, playButton;			// Candycrush starter background, play button
+		CAnimation tiffy;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////

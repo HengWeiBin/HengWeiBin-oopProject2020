@@ -81,6 +81,8 @@
 #define IDB_YEL_VER_C                   218
 #define IDB_YEL_PAC_C                   219
 #define IDB_BLACK_BAR                   220
+#define IDB_TIFFY0						221
+#define IDB_TIFFY1						222
 #define IDC_README                      1001
 #define ID_FILE_PAUSE                   32771
 #define ID_TOGGLE_FULLSCREEN            32772
