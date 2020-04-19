@@ -348,5 +348,8 @@
     <Image Include="bitmaps\bitmap3.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="bitmaps\bmp00001.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
