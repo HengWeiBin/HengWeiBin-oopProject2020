@@ -10,12 +10,11 @@ namespace game_framework
 {
 	Blast::Blast()
 	{
-		LoadBitmap();
+		
 	}
 
 	NormalBlast::NormalBlast() :delay(5), zoom(0.5)
 	{
-
 	}
 
 	void NormalBlast::LoadBitmap()
@@ -36,6 +35,6 @@ namespace game_framework
 
 	void NormalBlast::SetTopLeft(int x, int y)
 	{
-		bmp.SetTopLeft(x, y);
+		bmp.SetTopLeft(x + ((1.0 - zoom) * 25), y + ((1.0 - zoom) * 25));
 	}
 }

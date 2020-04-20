@@ -40,7 +40,6 @@ namespace game_framework
 		void SetTopLeft(int, int);
 	private:
 		CMovingBitmap bmp;
-		int delay;
 		double zoom;
 	};
 }

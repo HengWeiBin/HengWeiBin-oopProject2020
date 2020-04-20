@@ -60,18 +60,17 @@ namespace game_framework
 
 		super.LoadBitmap(IDB_SUPER, RGB(255, 255, 255));
 		superClick.LoadBitmap(IDB_SUPER_C, RGB(255, 255, 255));
+
+		blast.LoadBitmap();
 	}
 
 	void Candy::OnMove()
 	{
 		if (isBlast)
 		{
-			if (killCountDown % 5 == 0)
-			{
-				blast.OnMove();
-				zoom -= 0.1;
-			}
-			killCountDown--;
+			blast.OnMove();
+			zoom -= 0.1;
+			killCountDown-=5;
 			if (!killCountDown)
 			{
 				isBlast = false;
@@ -141,9 +140,10 @@ namespace game_framework
 		}
 		else if(zoom > 0)
 		{
-			idle->SetTopLeft(x, y);
-			idle->ShowBitmap(zoom);
+			blast.SetTopLeft(x, y);
 			blast.OnShow();
+			idle->SetTopLeft(x + ((1.0 - zoom) * 25), y + ((1.0 - zoom) * 25));
+			idle->ShowBitmap(zoom);
 		}
 	}
 
@@ -253,7 +253,8 @@ namespace game_framework
 
 	void Candy::Relive()
 	{
-		style = rawStyle;
+		style = rawStyle; 
+		isBlast = false;
 	}
 
 	void Candy::InitClick()
