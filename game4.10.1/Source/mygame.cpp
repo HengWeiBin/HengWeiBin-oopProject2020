@@ -90,7 +90,7 @@ namespace game_framework {
 
 		tiffy.AddBitmap("Bitmaps/tiffy0.bmp",RGB(0, 0, 0));
 		tiffy.AddBitmap("Bitmaps/tiffy1.bmp", RGB(0, 0, 0));
-		tiffy.SetDelayCount(2);
+		tiffy.SetDelayCount(20);
 
 	}
 
