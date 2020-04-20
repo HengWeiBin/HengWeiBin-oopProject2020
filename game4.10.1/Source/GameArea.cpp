@@ -8,6 +8,7 @@
 #include <set>
 #include "audio.h"
 #include "gamelib.h"
+#include "Blast.h"
 #include "Candy.h"
 #include "Stage.h"
 #include "GameArea.h"
@@ -151,7 +152,8 @@ namespace game_framework
 		if (map[row][column] == 3 || map[row][column] == 4) map[row][column]--;
 
 		int power = candy->GetPower();
-		candy->SetStyle(0);
+		candy->Kill();
+		//candy->SetStyle(0);
 		candy->SetPower(0);
 
 		switch (power)

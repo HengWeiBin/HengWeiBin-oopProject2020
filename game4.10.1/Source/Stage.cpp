@@ -1,8 +1,8 @@
 ﻿
 #include "stdafx.h"
-#include "Stage.h"
 #include <fstream>
 #include <string>
+#include "Stage.h"
 
 using namespace std;
 

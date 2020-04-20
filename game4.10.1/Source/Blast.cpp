@@ -10,7 +10,7 @@ namespace game_framework
 {
 	Blast::Blast()
 	{
-
+		LoadBitmap();
 	}
 
 	NormalBlast::NormalBlast() :delay(5), zoom(0.5)

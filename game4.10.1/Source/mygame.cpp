@@ -57,6 +57,7 @@
 #include <ddraw.h>
 #include <set>
 #include <string.h>
+#include <string>
 #include "audio.h"
 #include "gamelib.h"
 #include "mygame.h"

@@ -1,4 +1,6 @@
 ﻿#pragma once
+#ifndef BLAST_H
+#define BLAST_H
 
 namespace game_framework
 {
@@ -43,3 +45,4 @@ namespace game_framework
 	};
 }
 
+#endif

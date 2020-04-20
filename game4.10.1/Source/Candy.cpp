@@ -64,44 +64,61 @@ namespace game_framework
 
 	void Candy::OnMove()
 	{
-		if (pushX != 0 || pushY != 0)
+		if (isBlast)
 		{
-			int offsetX = pushX > 0 ? 1 : -1, offsetY = pushY > 0 ? 1 : -1;
-			if (pushX != 0)
+			if (killCountDown % 5 == 0)
 			{
-				x += offsetX;
-				pushX -= offsetX;
+				blast.OnMove();
+				zoom -= 0.1;
 			}
-			if (pushY != 0)
+			killCountDown--;
+			if (!killCountDown)
 			{
-				y += offsetY;
-				pushY -= offsetY;
+				isBlast = false;
+				SetStyle(0);
 			}
-			return;
 		}
+		else
+		{
+			if (pushX != 0 || pushY != 0)
+			{
+				int offsetX = pushX > 0 ? 1 : -1, offsetY = pushY > 0 ? 1 : -1;
+				if (pushX != 0)
+				{
+					x += offsetX;
+					pushX -= offsetX;
+				}
+				if (pushY != 0)
+				{
+					y += offsetY;
+					pushY -= offsetY;
+				}
+				return;
+			}
 
-		int fixedSpeed = GAME_CYCLE_TIME * 5 / 16;
-		if (y != dy && x != dx)
-		{
-			y < dy ? y += fixedSpeed : y -= fixedSpeed;
-			x < dx ? x += fixedSpeed : x -= fixedSpeed;
-		}
-		else if (x != dx)
-			x > dx ? x -= fixedSpeed : x += fixedSpeed;
-		else if (y < dy)
-		{
-			y += fallingSpeed;
-			fallingSpeed += GAME_CYCLE_TIME * 2 / 16;
-			if (y > dy)
+			int fixedSpeed = GAME_CYCLE_TIME * 5 / 16;
+			if (y != dy && x != dx)
 			{
-				y = dy;
-				fallingSpeed = 0;
-				int sound = rand() % 4;
-				CAudio::Instance()->Play(audioID[sound], false);
+				y < dy ? y += fixedSpeed : y -= fixedSpeed;
+				x < dx ? x += fixedSpeed : x -= fixedSpeed;
 			}
-		}
+			else if (x != dx)
+				x > dx ? x -= fixedSpeed : x += fixedSpeed;
+			else if (y < dy)
+			{
+				y += fallingSpeed;
+				fallingSpeed += GAME_CYCLE_TIME * 2 / 16;
+				if (y > dy)
+				{
+					y = dy;
+					fallingSpeed = 0;
+					int sound = rand() % 4;
+					CAudio::Instance()->Play(audioID[sound], false);
+				}
+			}
 
-		y > dy ? y -= fixedSpeed * 2 : y;
+			y > dy ? y -= fixedSpeed * 2 : y;
+		}
 	}
 
 	void Candy::OnShow()
@@ -126,7 +143,6 @@ namespace game_framework
 		{
 			idle->SetTopLeft(x, y);
 			idle->ShowBitmap(zoom);
-			zoom -= 0.1;
 			blast.OnShow();
 		}
 	}
@@ -204,7 +220,7 @@ namespace game_framework
 	bool Candy::IsMoving()
 	{
 		if (style <= 0) return 0;
-		return !(x == dx && y == dy);
+		return !(x == dx && y == dy && !isBlast);
 	}
 
 	bool Candy::IsClicked()
@@ -216,6 +232,7 @@ namespace game_framework
 	{
 		zoom = 1.0;
 		isBlast = true;
+		killCountDown = 30;
 	}
 
 	Candy* Candy::Click()
