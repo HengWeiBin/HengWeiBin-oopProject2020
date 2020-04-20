@@ -38,7 +38,6 @@
  *      3. Use ShowInitProgress(percent) to display loading progress.
 */
 
-#include "Blast.h"
 #include "Candy.h"
 #include "Stage.h"
 #include "GameArea.h"

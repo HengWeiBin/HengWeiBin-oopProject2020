@@ -8,14 +8,13 @@
 #include <set>
 #include "audio.h"
 #include "gamelib.h"
-#include "Blast.h"
 #include "Candy.h"
 #include "Stage.h"
 #include "GameArea.h"
 
 namespace game_framework
 {
-	GameArea::GameArea() :x(280), y(35), MAX_RAND_NUM(4), threeStar(40000)
+	GameArea::GameArea() :x(280), y(35), MAX_RAND_NUM(6), threeStar(40000)
 	{
 		score.SetInteger(0);
 		LoadStage(1);				//temp
@@ -152,8 +151,8 @@ namespace game_framework
 		if (map[row][column] == 3 || map[row][column] == 4) map[row][column]--;
 
 		int power = candy->GetPower();
-		candy->Kill();
-		//candy->SetStyle(0);
+		//candy->Kill();
+		candy->SetStyle(0);
 		candy->SetPower(0);
 
 		switch (power)
@@ -404,7 +403,8 @@ namespace game_framework
 
 		for (int i = 0; i < MaxHeight; i++)
 			for (int j = 0; j < MaxWidth; j++)
-				candies[i][j].OnMove();
+				if(candies[i][j].GetStyle() > 0)
+					candies[i][j].OnMove();
 
 		if (!IsDropping())
 		{

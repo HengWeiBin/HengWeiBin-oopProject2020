@@ -48,6 +48,7 @@ namespace game_framework
 	private:
 		void GetCurrentShow(CMovingBitmap**, CMovingBitmap**);
 
+		CAnimation minify;
 		CMovingBitmap normal, normalClick;
 		CMovingBitmap horizon, horizonClick;
 		CMovingBitmap vertical, verticalClick;
@@ -58,11 +59,7 @@ namespace game_framework
 		int x, y, dx, dy, pushX, pushY;			//current || destination coordinate
 		bool onClick;
 		int fallingSpeed;
-
-		NormalBlast blast;
 		bool isBlast;
-		double zoom;
-		int killCountDown;
 	};
 }
 

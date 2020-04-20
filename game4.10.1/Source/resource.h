@@ -81,8 +81,32 @@
 #define IDB_YEL_VER_C                   218
 #define IDB_YEL_PAC_C                   219
 #define IDB_BLACK_BAR                   220
-#define IDB_TIFFY0						221
-#define IDB_TIFFY1						222
+#define IDB_TIFFY0                      221
+#define IDB_TIFFY1                      222
+#define IDB_BLU_NOR1                    223
+#define IDB_BLU_NOR2                    224
+#define IDB_YEL_NOR1                    225
+#define IDB_RED_NOR4                    226
+#define IDB_RED_NOR2                    227
+#define IDB_ORG_NOR3                    228
+#define IDB_RED_NOR3                    229
+#define IDB_YEL_NOR4                    230
+#define IDB_PUR_NOR4                    231
+#define IDB_RED_NOR1                    232
+#define IDB_YEL_NOR2                    233
+#define IDB_YEL_NOR3                    234
+#define IDB_PUR_NOR2                    235
+#define IDB_PUR_NOR3                    236
+#define IDB_PUR_NOR1                    237
+#define IDB_ORG_NOR2                    238
+#define IDB_ORG_NOR4                    239
+#define IDB_GRE_NOR4                    240
+#define IDB_GRE_NOR3                    241
+#define IDB_ORG_NOR1                    242
+#define IDB_GRE_NOR2                    243
+#define IDB_GRE_NOR1                    244
+#define IDB_BLU_NOR3                    245
+#define IDB_BLU_NOR4                    246
 #define IDC_README                      1001
 #define ID_FILE_PAUSE                   32771
 #define ID_TOGGLE_FULLSCREEN            32772
@@ -95,7 +119,7 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        222
+#define _APS_NEXT_RESOURCE_VALUE        247
 #define _APS_NEXT_COMMAND_VALUE         32776
 #define _APS_NEXT_CONTROL_VALUE         1003
 #define _APS_NEXT_SYMED_VALUE           101

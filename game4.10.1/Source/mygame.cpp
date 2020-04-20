@@ -357,6 +357,7 @@ namespace game_framework {
 			if (StagePos[i][0] < x && x < (StagePos[i][0] + 60) && StagePos[i][1] < y && (y < StagePos[i][1] + 60))
 			{
 				gameArea->LoadStage(i + 1);
+				CAudio::Instance()->Stop(AUDIO_STAGE);
 				GotoGameState(GAME_STATE_RUN);
 			}
 		}

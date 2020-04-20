@@ -35,6 +35,6 @@ namespace game_framework
 
 	void NormalBlast::SetTopLeft(int x, int y)
 	{
-		bmp.SetTopLeft(x + ((1.0 - zoom) * 25), y + ((1.0 - zoom) * 25));
+		bmp.SetTopLeft(x + (int)((1.0 - zoom) * 25), y + (int)((1.0 - zoom) * 25));
 	}
 }
