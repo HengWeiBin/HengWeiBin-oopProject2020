@@ -30,7 +30,8 @@ namespace game_framework
 
 	void NormalBlast::OnShow()
 	{
-		bmp.ShowBitmap(zoom);
+		if(zoom < 1.1)
+			bmp.ShowBitmap(zoom);
 	}
 
 	void NormalBlast::SetTopLeft(int x, int y)

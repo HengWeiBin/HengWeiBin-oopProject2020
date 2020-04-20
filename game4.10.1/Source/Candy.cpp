@@ -4,6 +4,7 @@
 #include <ddraw.h>
 #include "audio.h"
 #include "gamelib.h"
+#include "Blast.h"
 #include "Candy.h"
 
 namespace game_framework
@@ -24,7 +25,8 @@ namespace game_framework
 		AUDIO_CANDY_LAND1, AUDIO_CANDY_LAND2, AUDIO_CANDY_LAND3, AUDIO_CANDY_LAND4 };
 
 	Candy::Candy(int id, int x, int y)
-		: style(id), rawStyle(id), x(x), y(y), dx(x), dy(y), onClick(false), fallingSpeed(0), power(0), pushX(0), pushY(0)
+		: style(id), rawStyle(id), x(x), y(y), dx(x), dy(y), onClick(false), fallingSpeed(0), power(0),
+		pushX(0), pushY(0), isBlast(false)
 	{
 	}
 
@@ -107,15 +109,25 @@ namespace game_framework
 		CMovingBitmap *idle, *click;
 		GetCurrentShow(&idle, &click);
 
-		if (!onClick)
+		if (!isBlast)
+		{
+			if (!onClick)
+			{
+				idle->SetTopLeft(x, y);
+				idle->ShowBitmap();
+			}
+			else
+			{
+				click->SetTopLeft(x, y);
+				click->ShowBitmap();
+			}
+		}
+		else if(zoom > 0)
 		{
 			idle->SetTopLeft(x, y);
-			idle->ShowBitmap();
-		}
-		else
-		{
-			click->SetTopLeft(x, y);
-			click->ShowBitmap();
+			idle->ShowBitmap(zoom);
+			zoom -= 0.1;
+			blast.OnShow();
 		}
 	}
 
@@ -198,6 +210,12 @@ namespace game_framework
 	bool Candy::IsClicked()
 	{
 		return onClick;
+	}
+
+	void Candy::Kill()
+	{
+		zoom = 1.0;
+		isBlast = true;
 	}
 
 	Candy* Candy::Click()
