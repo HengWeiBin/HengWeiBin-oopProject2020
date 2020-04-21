@@ -8,35 +8,28 @@
 
 namespace game_framework
 {
-	static int	redBmpId[12] = {
-		IDB_RED_NOR, IDB_RED_NOR1, IDB_RED_NOR2, IDB_RED_NOR3, IDB_RED_NOR4,
-		IDB_RED_NOR_C, IDB_RED_HOR, IDB_RED_HOR_C, IDB_RED_VER, IDB_RED_VER_C, IDB_RED_PAC, IDB_RED_PAC_C },
-			orangeBmpId[12] = {
-		IDB_ORG_NOR, IDB_ORG_NOR1, IDB_ORG_NOR2, IDB_ORG_NOR3, IDB_ORG_NOR4,
-		IDB_ORG_NOR_C, IDB_ORG_HOR, IDB_ORG_HOR_C, IDB_ORG_VER, IDB_ORG_VER_C, IDB_ORG_PAC, IDB_ORG_PAC_C },
-			yellowBmpId[12] = {
-		IDB_YEL_NOR, IDB_YEL_NOR1, IDB_YEL_NOR2, IDB_YEL_NOR3, IDB_YEL_NOR4,
-		IDB_YEL_NOR_C, IDB_YEL_HOR, IDB_YEL_HOR_C, IDB_YEL_VER, IDB_YEL_VER_C, IDB_YEL_PAC, IDB_YEL_PAC_C },
-			greenBmpId[12] = {
-		IDB_GRE_NOR, IDB_GRE_NOR1, IDB_GRE_NOR2, IDB_GRE_NOR3, IDB_GRE_NOR4,
-		IDB_GRE_NOR_C, IDB_GRE_HOR, IDB_GRE_HOR_C, IDB_GRE_VER, IDB_GRE_VER_C, IDB_GRE_PAC, IDB_GRE_PAC_C },
-			blueBmpId[12] = {
-		IDB_BLU_NOR, IDB_BLU_NOR1, IDB_BLU_NOR2, IDB_BLU_NOR3, IDB_BLU_NOR4,
-		IDB_BLU_NOR_C, IDB_BLU_HOR, IDB_BLU_HOR_C, IDB_BLU_VER, IDB_BLU_VER_C, IDB_BLU_PAC, IDB_BLU_PAC_C },
-			purpleBmpId[12] = {
-		IDB_PUR_NOR, IDB_PUR_NOR1, IDB_PUR_NOR2, IDB_PUR_NOR3, IDB_PUR_NOR4,
-		IDB_PUR_NOR_C, IDB_PUR_HOR, IDB_PUR_HOR_C, IDB_PUR_VER, IDB_PUR_VER_C, IDB_PUR_PAC, IDB_PUR_PAC_C },
+	static int	redBmpId[8] = {
+		IDB_RED_NOR, IDB_RED_NOR_C, IDB_RED_HOR, IDB_RED_HOR_C, IDB_RED_VER, IDB_RED_VER_C, IDB_RED_PAC, IDB_RED_PAC_C },
+			orangeBmpId[8] = {
+		IDB_ORG_NOR, IDB_ORG_NOR_C, IDB_ORG_HOR, IDB_ORG_HOR_C, IDB_ORG_VER, IDB_ORG_VER_C, IDB_ORG_PAC, IDB_ORG_PAC_C },
+			yellowBmpId[8] = {
+		IDB_YEL_NOR, IDB_YEL_NOR_C, IDB_YEL_HOR, IDB_YEL_HOR_C, IDB_YEL_VER, IDB_YEL_VER_C, IDB_YEL_PAC, IDB_YEL_PAC_C },
+			greenBmpId[8] = {
+		IDB_GRE_NOR, IDB_GRE_NOR_C, IDB_GRE_HOR, IDB_GRE_HOR_C, IDB_GRE_VER, IDB_GRE_VER_C, IDB_GRE_PAC, IDB_GRE_PAC_C },
+			blueBmpId[8] = {
+		IDB_BLU_NOR, IDB_BLU_NOR_C, IDB_BLU_HOR, IDB_BLU_HOR_C, IDB_BLU_VER, IDB_BLU_VER_C, IDB_BLU_PAC, IDB_BLU_PAC_C },
+			purpleBmpId[8] = {
+		IDB_PUR_NOR, IDB_PUR_NOR_C, IDB_PUR_HOR, IDB_PUR_HOR_C, IDB_PUR_VER, IDB_PUR_VER_C, IDB_PUR_PAC, IDB_PUR_PAC_C },
 			audioID[4] = {
 		AUDIO_CANDY_LAND1, AUDIO_CANDY_LAND2, AUDIO_CANDY_LAND3, AUDIO_CANDY_LAND4 };
 
 	Candy::Candy(int id, int x, int y)
 		: style(id), rawStyle(id), x(x), y(y), dx(x), dy(y), onClick(false), fallingSpeed(0), power(0),
-		pushX(0), pushY(0), isBlast(false)
+		pushX(0), pushY(0)
 	{
-		minify = CAnimation::CAnimation(5);
 	}
 
-	Candy::Candy(int x, int y) 
+	Candy::Candy(int x, int y)
 		: style(-1), x(x), y(y), dx(x), dy(y)
 	{	}
 
@@ -52,22 +45,18 @@ namespace game_framework
 	{
 		int *bmpID;
 		GetBmpId(&bmpID);
-		minify.AddBitmap(bmpID[1], RGB(255, 255, 255));
-		minify.AddBitmap(bmpID[2], RGB(255, 255, 255));
-		minify.AddBitmap(bmpID[3], RGB(255, 255, 255));
-		minify.AddBitmap(bmpID[4], RGB(255, 255, 255));
 
 		normal.LoadBitmap(bmpID[0], RGB(255, 255, 255));
-		normalClick.LoadBitmap(bmpID[5], RGB(255, 255, 255));
+		normalClick.LoadBitmap(bmpID[1], RGB(255, 255, 255));
 
-		horizon.LoadBitmap(bmpID[6], RGB(255, 255, 255));
-		horizonClick.LoadBitmap(bmpID[7], RGB(255, 255, 255));
+		horizon.LoadBitmap(bmpID[2], RGB(255, 255, 255));
+		horizonClick.LoadBitmap(bmpID[3], RGB(255, 255, 255));
 
-		vertical.LoadBitmap(bmpID[8], RGB(255, 255, 255));
-		verticalClick.LoadBitmap(bmpID[9], RGB(255, 255, 255));
+		vertical.LoadBitmap(bmpID[4], RGB(255, 255, 255));
+		verticalClick.LoadBitmap(bmpID[5], RGB(255, 255, 255));
 
-		pack.LoadBitmap(bmpID[10], RGB(255, 255, 255));
-		packClick.LoadBitmap(bmpID[11], RGB(255, 255, 255));
+		pack.LoadBitmap(bmpID[6], RGB(255, 255, 255));
+		packClick.LoadBitmap(bmpID[7], RGB(255, 255, 255));
 
 		super.LoadBitmap(IDB_SUPER, RGB(255, 255, 255));
 		superClick.LoadBitmap(IDB_SUPER_C, RGB(255, 255, 255));
@@ -75,54 +64,44 @@ namespace game_framework
 
 	void Candy::OnMove()
 	{
-		//if (isBlast)
-		//{
-		//	if (minify.IsFinalBitmap())
-		//		SetStyle(0);
-		//	else
-		//		minify.OnMove();
-		//}
-		//else
+		if (pushX != 0 || pushY != 0)
 		{
-			if (pushX != 0 || pushY != 0)
+			int offsetX = pushX > 0 ? 1 : -1, offsetY = pushY > 0 ? 1 : -1;
+			if (pushX != 0)
 			{
-				int offsetX = pushX > 0 ? 1 : -1, offsetY = pushY > 0 ? 1 : -1;
-				if (pushX != 0)
-				{
-					x += offsetX;
-					pushX -= offsetX;
-				}
-				if (pushY != 0)
-				{
-					y += offsetY;
-					pushY -= offsetY;
-				}
-				return;
+				x += offsetX;
+				pushX -= offsetX;
 			}
-
-			int fixedSpeed = GAME_CYCLE_TIME * 5 / 16;
-			if (y != dy && x != dx)
+			if (pushY != 0)
 			{
-				y < dy ? y += fixedSpeed : y -= fixedSpeed;
-				x < dx ? x += fixedSpeed : x -= fixedSpeed;
+				y += offsetY;
+				pushY -= offsetY;
 			}
-			else if (x != dx)
-				x > dx ? x -= fixedSpeed : x += fixedSpeed;
-			else if (y < dy)
-			{
-				y += fallingSpeed;
-				fallingSpeed += GAME_CYCLE_TIME * 2 / 16;
-				if (y > dy)
-				{
-					y = dy;
-					fallingSpeed = 0;
-					int sound = rand() % 4;
-					CAudio::Instance()->Play(audioID[sound], false);
-				}
-			}
-
-			y > dy ? y -= fixedSpeed * 2 : y;
+			return;
 		}
+
+		int fixedSpeed = GAME_CYCLE_TIME * 5 / 16;
+		if (y != dy && x != dx)
+		{
+			y < dy ? y += fixedSpeed : y -= fixedSpeed;
+			x < dx ? x += fixedSpeed : x -= fixedSpeed;
+		}
+		else if (x != dx)
+			x > dx ? x -= fixedSpeed : x += fixedSpeed;
+		else if (y < dy)
+		{
+			y += fallingSpeed;
+			fallingSpeed += GAME_CYCLE_TIME * 2 / 16;
+			if (y > dy)
+			{
+				y = dy;
+				fallingSpeed = 0;
+				int sound = rand() % 4;
+				CAudio::Instance()->Play(audioID[sound], false);
+			}
+		}
+
+		y > dy ? y -= fixedSpeed * 2 : y;
 	}
 
 	void Candy::OnShow()
@@ -130,24 +109,16 @@ namespace game_framework
 		CMovingBitmap *idle, *click;
 		GetCurrentShow(&idle, &click);
 
-		//if (!isBlast)
-		//{
-			if (!onClick)
-			{
-				idle->SetTopLeft(x, y);
-				idle->ShowBitmap();
-			}
-			else
-			{
-				click->SetTopLeft(x, y);
-				click->ShowBitmap();
-			}
-		//}
-		//else
-		//{
-		//	minify.SetTopLeft(x, y);
-		//	minify.OnShow();
-		//}
+		if (!onClick)
+		{
+			idle->SetTopLeft(x, y);
+			idle->ShowBitmap();
+		}
+		else
+		{
+			click->SetTopLeft(x, y);
+			click->ShowBitmap();
+		}
 	}
 
 	void Candy::SetDestination(int x, int y)
@@ -173,7 +144,7 @@ namespace game_framework
 
 	void Candy::GetBmpId(int** bmpID)
 	{
-		switch (style)
+		switch (rawStyle)
 		{
 		case 5:
 			*bmpID = redBmpId; break;
@@ -223,17 +194,12 @@ namespace game_framework
 	bool Candy::IsMoving()
 	{
 		if (style <= 0) return 0;
-		return !(x == dx && y == dy && !isBlast);
+		return x != dx || y != dy;
 	}
 
 	bool Candy::IsClicked()
 	{
 		return onClick;
-	}
-
-	void Candy::Kill()
-	{
-		isBlast = true;
 	}
 
 	Candy* Candy::Click()
@@ -254,8 +220,7 @@ namespace game_framework
 
 	void Candy::Relive()
 	{
-		style = rawStyle; 
-		isBlast = false;
+		style = rawStyle;
 	}
 
 	void Candy::InitClick()

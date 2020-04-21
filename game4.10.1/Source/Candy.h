@@ -35,7 +35,6 @@ namespace game_framework
 		void InitClick();					//Unclick self
 		bool IsMoving();					//return current coordinate != destination coordinate
 		bool IsClicked();					//return onClick
-		void Kill();
 		void LoadBitmap();					//Load candy's bitmap according to style
 		void OnMove();						//move if current coordinate != destination coordinate
 		void OnShow();						//display candy
@@ -48,7 +47,6 @@ namespace game_framework
 	private:
 		void GetCurrentShow(CMovingBitmap**, CMovingBitmap**);
 
-		CAnimation minify;
 		CMovingBitmap normal, normalClick;
 		CMovingBitmap horizon, horizonClick;
 		CMovingBitmap vertical, verticalClick;
@@ -59,7 +57,6 @@ namespace game_framework
 		int x, y, dx, dy, pushX, pushY;			//current || destination coordinate
 		bool onClick;
 		int fallingSpeed;
-		bool isBlast;
 	};
 }
 
