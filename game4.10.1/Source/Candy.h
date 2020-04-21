@@ -23,27 +23,27 @@ namespace game_framework
 		Candy(int, int);
 		Candy();
 		~Candy();
-		void LoadBitmap();					//Load candy's bitmap according to style
-		void OnMove();						//move if current coordinate != destination coordinate
-		void OnShow();						//display candy
-		void SetDestination(int, int);		//set destination x,y
-		void SetDestination(int);			//set destination y
-		void SetStyle(int);					//change current style
-		int GetStyle();						//get current style
+		Candy* Click();						//Change state of onClick if being clicked
 		void GetBmpId(int**);				//Get bitmap directory according to style
+		int GetCurrentX();					//Get current x
+		int GetCurrentY();					//Get current y
+		int GetPower();						//return current power
+		int GetStyle();						//get current style
 		int GetTopLeftX();					//Get destination x
 		int GetTopLeftY();					//Get destination y
 		int GetTopLeft(char c);				//Get destination(c) 'x'/'y'
-		int GetCurrentX();					//Get current x
-		int GetCurrentY();					//Get current y
+		void InitClick();					//Unclick self
 		bool IsMoving();					//return current coordinate != destination coordinate
 		bool IsClicked();					//return onClick
-		Candy* Click();						//Change state of onClick if being clicked
-		void SetPower(int);					//Set current power
-		int GetPower();						//return current power
+		void LoadBitmap();					//Load candy's bitmap according to style
+		void OnMove();						//move if current coordinate != destination coordinate
+		void OnShow();						//display candy
+		void Push(int, int);				//Push candies around self
 		void Relive();						//reset candy's style
-		void InitClick();
-		void Push(int, int);
+		void SetDestination(int, int);		//set destination x,y
+		void SetDestination(int);			//set destination y
+		void SetStyle(int);					//change current style
+		void SetPower(int);					//Set current power
 	private:
 		void GetCurrentShow(CMovingBitmap**, CMovingBitmap**);
 

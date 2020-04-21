@@ -1,9 +1,14 @@
+<<<<<<< HEAD
 ﻿#include "stdafx.h"
 #include "Resource.h"
 #include <mmsystem.h>
 #include <ddraw.h>
 #include "audio.h"
 #include "gamelib.h"
+=======
+﻿
+#include "stdafx.h"
+>>>>>>> 65d99f382367e1b78cff2b2158b04a75c7ec7eed
 #include <fstream>
 #include <string>
 #include "Stage.h"

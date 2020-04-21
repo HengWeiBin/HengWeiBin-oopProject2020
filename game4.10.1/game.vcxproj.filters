@@ -363,5 +363,77 @@
     <Image Include="Bitmaps\tiffy1.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Bitmaps\RedCandy1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\RedCandy2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\RedCandy3.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\RedCandy4.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\OrangeCandy1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\OrangeCandy2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\OrangeCandy3.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\OrangeCandy4.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\GreenCandy1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\GreenCandy2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\GreenCandy3.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\GreenCandy4.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\BlueCandy1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\BlueCandy2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\BlueCandy3.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\BlueCandy4.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\PurpleCandy1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\PurpleCandy2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\PurpleCandy3.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\PurpleCandy4.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\YellowCandy1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\YellowCandy2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\YellowCandy3.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\YellowCandy4.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

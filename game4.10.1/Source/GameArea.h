@@ -71,6 +71,7 @@ namespace game_framework
 		CMovingBitmap scoreBar, blackBar, scoreBoard;	//scoreboard		
 		CInteger score;
 		vector<Candy*> clickedCandies;
+		list<Blast*> blasts;
 
 		int MAX_RAND_NUM;								//types of candies in this games
 		int oneStar, twoStar, threeStar, lastHighScore;//Target

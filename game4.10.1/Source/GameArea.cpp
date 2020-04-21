@@ -8,13 +8,14 @@
 #include <set>
 #include "audio.h"
 #include "gamelib.h"
+#include "Blast.h"
 #include "Candy.h"
 #include "Stage.h"
 #include "GameArea.h"
 
 namespace game_framework
 {
-	GameArea::GameArea() :x(280), y(35), MAX_RAND_NUM(6), threeStar(40000)
+	GameArea::GameArea() :x(280), y(35), MAX_RAND_NUM(4), threeStar(40000)
 	{
 		score.SetInteger(0);
 		LoadStage(1);				//temp
@@ -149,6 +150,9 @@ namespace game_framework
 		if (!map[row][column]) return;
 
 		if (map[row][column] == 3 || map[row][column] == 4) map[row][column]--;
+
+		if(candy->GetStyle())
+			blasts.push_back(new NormalBlast(candy->GetStyle(), candy->GetTopLeftX(), candy->GetTopLeftY()));
 
 		int power = candy->GetPower();
 		candy->SetStyle(0);
@@ -380,6 +384,9 @@ namespace game_framework
 			}
 		}
 
+		for (auto i = blasts.begin(); i != blasts.end(); i++)
+			(*i)->OnShow();
+
 		///////////////////////////////////////////
 		// Show all candy						///
 		///////////////////////////////////////////
@@ -396,13 +403,28 @@ namespace game_framework
 
 	void GameArea::OnMove()
 	{
+		for (auto i = blasts.begin(); i != blasts.end();)
+		{
+			if ((*i)->IsLast())
+			{
+				delete *i;
+				i = blasts.erase(i);
+			}
+			else
+			{
+				(*i)->OnMove();
+				i++;
+			}
+		}
+
 		UpdateCurPosition();
 		PutCandy();			//put candy at apawning area if it's empty
 		DropCandy();		//drop if candy hvnt touch the ground/other candy
 
 		for (int i = 0; i < MaxHeight; i++)
 			for (int j = 0; j < MaxWidth; j++)
-				candies[i][j].OnMove();
+				if(candies[i][j].GetStyle() > 0)
+					candies[i][j].OnMove();
 
 		if (!IsDropping())
 		{

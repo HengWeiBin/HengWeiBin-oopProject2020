@@ -1,31 +1,44 @@
 ﻿#pragma once
+#ifndef BLAST_H
+#define BLAST_H
+
+#define REDCANDY 5
+#define YELLOWCANDY 6
+#define ORANGECANDY 3
+#define GREENCANDY 4
+#define BLUECANDY 1
+#define PURPLECANDY 2
 
 namespace game_framework
 {
 	class Blast
 	{
 	public:
-		Blast();
 		virtual void LoadBitmap() {};
 		virtual void OnShow() {};
 		virtual void OnMove() {};
 		virtual void SetTopLeft() {};
-	private:
-		CMovingBitmap normal;
+		virtual bool IsLast() = 0;
+	protected:
+		int x, y;
 	};
 
 	class NormalBlast :public Blast
 	{
 	public:
 		NormalBlast();
-		void LoadBitmap();
+		NormalBlast(int, int, int);
+		void LoadBitmap(int);
 		void OnMove();
 		void OnShow();
 		void SetTopLeft(int, int);
+		bool IsLast();
 	private:
-		CMovingBitmap bmp;
-		int delay;
-		double zoom;
+		void GetBmpId(int*&, int style);
+
+		CMovingBitmap candy[4];
+		CMovingBitmap normalBlast[4];
+		int curShow;
 	};
 
 	class HorizonBlast :public Blast
@@ -38,8 +51,8 @@ namespace game_framework
 		void SetTopLeft(int, int);
 	private:
 		CMovingBitmap bmp;
-		int delay;
 		double zoom;
 	};
 }
 
+#endif

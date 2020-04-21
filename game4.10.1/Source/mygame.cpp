@@ -57,6 +57,7 @@
 #include <ddraw.h>
 #include <set>
 #include <string.h>
+#include <string>
 #include "audio.h"
 #include "gamelib.h"
 #include "mygame.h"
@@ -361,11 +362,17 @@ namespace game_framework {
 		for (int i = 0; i < totalStage; i++) {
 			if (StagePos[i][0] < x && x < (StagePos[i][0] + 60) && StagePos[i][1] < y && (y < StagePos[i][1] + 60))
 			{
+<<<<<<< HEAD
 				if (stages[i]->IsUnlock())
 				{
 					gameArea->LoadStage(*stages[i]);
 					GotoGameState(GAME_STATE_RUN);
 				}
+=======
+				gameArea->LoadStage(i + 1);
+				CAudio::Instance()->Stop(AUDIO_STAGE);
+				GotoGameState(GAME_STATE_RUN);
+>>>>>>> 65d99f382367e1b78cff2b2158b04a75c7ec7eed
 			}
 		}
 	}

@@ -24,11 +24,12 @@ namespace game_framework
 		AUDIO_CANDY_LAND1, AUDIO_CANDY_LAND2, AUDIO_CANDY_LAND3, AUDIO_CANDY_LAND4 };
 
 	Candy::Candy(int id, int x, int y)
-		: style(id), rawStyle(id), x(x), y(y), dx(x), dy(y), onClick(false), fallingSpeed(0), power(0), pushX(0), pushY(0)
+		: style(id), rawStyle(id), x(x), y(y), dx(x), dy(y), onClick(false), fallingSpeed(0), power(0),
+		pushX(0), pushY(0)
 	{
 	}
 
-	Candy::Candy(int x, int y) 
+	Candy::Candy(int x, int y)
 		: style(-1), x(x), y(y), dx(x), dy(y)
 	{	}
 
@@ -44,6 +45,7 @@ namespace game_framework
 	{
 		int *bmpID;
 		GetBmpId(&bmpID);
+
 		normal.LoadBitmap(bmpID[0], RGB(255, 255, 255));
 		normalClick.LoadBitmap(bmpID[1], RGB(255, 255, 255));
 
@@ -142,7 +144,7 @@ namespace game_framework
 
 	void Candy::GetBmpId(int** bmpID)
 	{
-		switch (style)
+		switch (rawStyle)
 		{
 		case 5:
 			*bmpID = redBmpId; break;
@@ -192,7 +194,7 @@ namespace game_framework
 	bool Candy::IsMoving()
 	{
 		if (style <= 0) return 0;
-		return !(x == dx && y == dy);
+		return x != dx || y != dy;
 	}
 
 	bool Candy::IsClicked()
