@@ -1,38 +1,71 @@
-﻿
-#include "stdafx.h"
-#include "Stage.h"
+﻿#include "stdafx.h"
+#include "Resource.h"
+#include <mmsystem.h>
+#include <ddraw.h>
+#include "audio.h"
+#include "gamelib.h"
 #include <fstream>
 #include <string>
+#include "Stage.h"
 
 using namespace std;
 
 game_framework::Stage::Stage()
 {
+	scoreOne = 0; scoreTwo = 0; scoreThree = 0;		//Target score for three star
+	vertical = 0; horizontal = 0; pack = 0; chocolate = 0;	//total special candy spawn onInit
+	candyType = 0;								//Max candy type in this game
+	lastHighScore = 0;							//History highest score
+	maxStep = 0;
+	mode = 0;
+	isUnlock = 0;
 }
 
-void game_framework::Stage::LoadStage()
+void game_framework::Stage::LoadStage(string StageTxt)
 {
 	fstream InputStage;
-	InputStage.open("\\Stages\\cnt_stage1.txt");
-	string data[11];
+	InputStage.open(StageTxt);
+	string data[12];
 	string file;
 	//LAST SCORE
 	getline(InputStage, file, '\n');
-	data[0] = file.substr(0, file.find("#"));
+	data[0] = file.substr(0, file.find('\t'));
+	//data[0] = file;
+	//IS_UNCLOCK
+	getline(InputStage, file, '\n');
+	data[1] = file.substr(0, file.find('\t'));
 	//MAP
 	for (int i = 0; i < 13; i++) {
-		getline(InputStage, file, '\n');
+		getline(InputStage, file);
 		for (int j = 0; j < 20; j++) {
-			map[i][j] = file[j] == '1' ? 1 : 0;
+			switch (file[j])
+			{
+			case '0': map[i][j] = 0; break;		//0 = none, !0 = gameArea
+			case '2': map[i][j] = 2; break;		//2 = normalArea
+			case '3': map[i][j] = 3; break;		//3 = singleJelly
+			case '4': map[i][j] = 4; break;		//4 = doubleJelly
+			case '1': map[i][j] = 1; break;		//1 = candy spawning area
+			}
 		}
 	}
 	//ETC
-	for (int i = 1; i < 10; i++) {
+	for (int i = 2; i < 12; i++) {
 		getline(InputStage, file, '\n');
-		data[i] = file.substr(0, file.find("#"));
+		data[i] = file.substr(0, file.find('\t'));
 	}
-	double lastHighScore = stod(data[0]), scoreOne = stod(data[1]), scoreTwo = stod(data[2]), scoreThree = stod(data[3]), vertical = stod(data[4]), horizontal = stod(data[5]), pack = stod(data[6]), chocolate = stod(data[7]), maxStep = stod(data[8]), candyType = stod(data[9]), mode = stod(data[10]);
 	InputStage.close();
+	lastHighScore = stoi(data[0]);
+	isUnlock = stoi(data[1]);
+	scoreOne = stoi(data[2]);
+	scoreTwo = stoi(data[3]);
+	scoreThree = stoi(data[4]);
+	vertical = stoi(data[5]);
+	horizontal = stoi(data[6]);
+	pack = stoi(data[7]);
+	chocolate = stoi(data[8]);
+	maxStep = stoi(data[9]);
+	candyType = stoi(data[10]);
+	mode = stoi(data[11]);
 }
 
 int game_framework::Stage::GetScoreOne()
@@ -88,5 +121,10 @@ int game_framework::Stage::GetMaxStep()
 int game_framework::Stage::GetMode()
 {
 	return mode;
+}
+
+bool game_framework::Stage::IsUnlock()
+{
+	return isUnlock == 1 ? true : false;
 }
 

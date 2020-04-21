@@ -87,11 +87,11 @@ namespace game_framework {
 		//
 		// 此OnInit動作會接到CGameStaterRun::OnInit()，所以進度還沒到100%
 		//
-
+		/*
 		tiffy.AddBitmap("Bitmaps/tiffy0.bmp",RGB(0, 0, 0));
 		tiffy.AddBitmap("Bitmaps/tiffy1.bmp", RGB(0, 0, 0));
 		tiffy.SetDelayCount(20);
-
+		*/
 	}
 
 	void CGameStateInit::OnBeginState()
@@ -316,6 +316,12 @@ namespace game_framework {
 		menuBackground.LoadBitmap("Bitmaps/stage_map.bmp"); 
 		CAudio::Instance()->Load(AUDIO_STAGE, "sounds\\Overworld_Level_Select.mp3");
 
+		//load stage
+		string FileName = ".\\Stages\\cnt_stage";
+		for (int i = 0; i < totalStage; i++) {
+			stages.push_back(new Stage);
+			//stages[i]->LoadStage(FileName + std::to_String(i+1) + ".txt");
+		}
 
 	}
 
@@ -355,8 +361,11 @@ namespace game_framework {
 		for (int i = 0; i < totalStage; i++) {
 			if (StagePos[i][0] < x && x < (StagePos[i][0] + 60) && StagePos[i][1] < y && (y < StagePos[i][1] + 60))
 			{
-				gameArea->LoadStage(i + 1);
-				GotoGameState(GAME_STATE_RUN);
+				if (stages[i]->IsUnlock())
+				{
+					gameArea->LoadStage(*stages[i]);
+					GotoGameState(GAME_STATE_RUN);
+				}
 			}
 		}
 	}

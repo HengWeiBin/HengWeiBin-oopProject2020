@@ -10,7 +10,7 @@ namespace game_framework
 		friend class GameArea;
 	public:
 		Stage();
-		void LoadStage();
+		void LoadStage(string);
 		int GetScoreOne();
 		int GetScoreTwo();
 		int GetScoreThree();
@@ -22,6 +22,7 @@ namespace game_framework
 		int GetLastScoreHistory();
 		int GetMaxStep();
 		int GetMode();
+		bool IsUnlock();
 	private:
 		int map[13][20];
 		int scoreOne, scoreTwo, scoreThree;			//Target score for three star
@@ -30,6 +31,7 @@ namespace game_framework
 		int lastHighScore;							//History highest score
 		int maxStep;
 		int mode;
+		bool isUnlock;
 
 	};
 }
