@@ -300,7 +300,7 @@ namespace game_framework {
 		gameArea->OnShow();
 	}
 
-	CGameStateMenu::CGameStateMenu(CGame *g) : CGameState(g), totalStage(15)
+	CGameStateMenu::CGameStateMenu(CGame *g) : CGameState(g), totalStage(1)
 	{
 		IsMovingUp = false; IsMovingDown = false;
 		MAX_Y = 0; MIN_Y = -3600;
@@ -316,7 +316,7 @@ namespace game_framework {
 		woodBackgourd.LoadBitmap("Bitmaps/WoodBackground.bmp");
 		menuBackground.LoadBitmap("Bitmaps/stage_map.bmp"); 
 		CAudio::Instance()->Load(AUDIO_STAGE, "sounds\\Overworld_Level_Select.mp3");
-
+		
 		//load stage
 		string FileName = ".\\Stages\\cnt_stage";
 		for (int i = 0; i < totalStage; i++) {
