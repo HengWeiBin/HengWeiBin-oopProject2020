@@ -53,19 +53,19 @@ void game_framework::Stage::LoadStage(string StageTxt)
 		getline(InputStage, file, '\n');
 		data[i] = file.substr(0, file.find('\t'));
 	}
-	InputStage.close();
 	lastHighScore = stoi(data[0]);
 	isUnlock = stoi(data[1]);
 	scoreOne = stoi(data[2]);
 	scoreTwo = stoi(data[3]);
 	scoreThree = stoi(data[4]);
-	vertical = stoi(data[5]);
-	horizontal = stoi(data[6]);
-	pack = stoi(data[7]);
-	chocolate = stoi(data[8]);
-	maxStep = stoi(data[9]);
+	maxStep = stoi(data[5]);
+	vertical = stoi(data[6]);
+	horizontal = stoi(data[7]);
+	pack = stoi(data[8]);
+	chocolate = stoi(data[9]);
 	candyType = stoi(data[10]);
 	mode = stoi(data[11]);
+	InputStage.close();
 }
 
 int game_framework::Stage::GetScoreOne()
