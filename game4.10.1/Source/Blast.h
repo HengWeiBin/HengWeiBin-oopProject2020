@@ -37,7 +37,7 @@ namespace game_framework
 		void GetBmpId(int*&, int style);
 
 		CMovingBitmap candy[4];
-		CMovingBitmap normalBlast[4];
+		CMovingBitmap normalBlast[10];
 		int curShow;
 	};
 

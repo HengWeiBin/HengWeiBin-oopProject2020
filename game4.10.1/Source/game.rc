@@ -62,8 +62,6 @@ END
 // Bitmap
 //
 
-IDB_CORNER              BITMAP                  "..\\res\\corner.bmp"
-
 IDB_0                   BITMAP                  "..\\res\\bmp0.bmp"
 
 IDB_1                   BITMAP                  "..\\res\\bmp1.bmp"
@@ -85,8 +83,6 @@ IDB_8                   BITMAP                  "..\\res\\bmp8.bmp"
 IDB_9                   BITMAP                  "..\\res\\bmp9.bmp"
 
 IDB_MINUS               BITMAP                  "..\\res\\bmp10.bmp"
-
-IDB_CENTER              BITMAP                  "..\\res\\center.bmp"
 
 IDB_CONTINUE            BITMAP                  "..\\res\\continue.bmp"
 
@@ -246,6 +242,126 @@ IDB_TIFFY0              BITMAP                  "..\\Bitmaps\\tiffy0.bmp"
 
 IDB_TIFFY1              BITMAP                  "..\\Bitmaps\\tiffy1.bmp"
 
+IDB_RED_EXPL1           BITMAP                  "..\\Bitmaps\\RedExplode1.bmp"
+
+IDB_RED_EXPL2           BITMAP                  "..\\Bitmaps\\RedExplode2.bmp"
+
+IDB_RED_EXPL3           BITMAP                  "..\\Bitmaps\\RedExplode3.bmp"
+
+IDB_RED_EXPL4           BITMAP                  "..\\Bitmaps\\RedExplode4.bmp"
+
+IDB_RED_EXPL5           BITMAP                  "..\\Bitmaps\\RedExplode5.bmp"
+
+IDB_RED_EXPL6           BITMAP                  "..\\Bitmaps\\RedExplode6.bmp"
+
+IDB_RED_EXPL7           BITMAP                  "..\\Bitmaps\\RedExplode7.bmp"
+
+IDB_RED_EXPL8           BITMAP                  "..\\Bitmaps\\RedExplode8.bmp"
+
+IDB_RED_EXPL9           BITMAP                  "..\\Bitmaps\\RedExplode9.bmp"
+
+IDB_RED_EXPL10          BITMAP                  "..\\Bitmaps\\RedExplode10.bmp"
+
+IDB_ORG_EXPL1           BITMAP                  "..\\Bitmaps\\OrangeExplode1.bmp"
+
+IDB_ORG_EXPL2           BITMAP                  "..\\Bitmaps\\OrangeExplode2.bmp"
+
+IDB_ORG_EXPL3           BITMAP                  "..\\Bitmaps\\OrangeExplode3.bmp"
+
+IDB_ORG_EXPL4           BITMAP                  "..\\Bitmaps\\OrangeExplode4.bmp"
+
+IDB_ORG_EXPL5           BITMAP                  "..\\Bitmaps\\OrangeExplode5.bmp"
+
+IDB_ORG_EXPL6           BITMAP                  "..\\Bitmaps\\OrangeExplode6.bmp"
+
+IDB_ORG_EXPL7           BITMAP                  "..\\Bitmaps\\OrangeExplode7.bmp"
+
+IDB_ORG_EXPL8           BITMAP                  "..\\Bitmaps\\OrangeExplode8.bmp"
+
+IDB_ORG_EXPL9           BITMAP                  "..\\Bitmaps\\OrangeExplode9.bmp"
+
+IDB_ORG_EXPL10          BITMAP                  "..\\Bitmaps\\OrangeExplode10.bmp"
+
+IDB_YEL_EXPL1           BITMAP                  "..\\Bitmaps\\YellowExplode1.bmp"
+
+IDB_YEL_EXPL2           BITMAP                  "..\\Bitmaps\\YellowExplode2.bmp"
+
+IDB_YEL_EXPL3           BITMAP                  "..\\Bitmaps\\YellowExplode3.bmp"
+
+IDB_YEL_EXPL4           BITMAP                  "..\\Bitmaps\\YellowExplode4.bmp"
+
+IDB_YEL_EXPL5           BITMAP                  "..\\Bitmaps\\YellowExplode5.bmp"
+
+IDB_YEL_EXPL6           BITMAP                  "..\\Bitmaps\\YellowExplode6.bmp"
+
+IDB_YEL_EXPL7           BITMAP                  "..\\Bitmaps\\YellowExplode7.bmp"
+
+IDB_YEL_EXPL8           BITMAP                  "..\\Bitmaps\\YellowExplode8.bmp"
+
+IDB_YEL_EXPL9           BITMAP                  "..\\Bitmaps\\YellowExplode9.bmp"
+
+IDB_YEL_EXPL10          BITMAP                  "..\\Bitmaps\\YellowExplode10.bmp"
+
+IDB_GRE_EXPL1           BITMAP                  "..\\Bitmaps\\GreenExplode1.bmp"
+
+IDB_GRE_EXPL2           BITMAP                  "..\\Bitmaps\\GreenExplode2.bmp"
+
+IDB_GRE_EXPL3           BITMAP                  "..\\Bitmaps\\GreenExplode3.bmp"
+
+IDB_GRE_EXPL4           BITMAP                  "..\\Bitmaps\\GreenExplode4.bmp"
+
+IDB_GRE_EXPL5           BITMAP                  "..\\Bitmaps\\GreenExplode5.bmp"
+
+IDB_GRE_EXPL6           BITMAP                  "..\\Bitmaps\\GreenExplode6.bmp"
+
+IDB_GRE_EXPL7           BITMAP                  "..\\Bitmaps\\GreenExplode7.bmp"
+
+IDB_GRE_EXPL8           BITMAP                  "..\\Bitmaps\\GreenExplode8.bmp"
+
+IDB_GRE_EXPL9           BITMAP                  "..\\Bitmaps\\GreenExplode9.bmp"
+
+IDB_GRE_EXPL10          BITMAP                  "..\\Bitmaps\\GreenExplode10.bmp"
+
+IDB_BLU_EXPL1           BITMAP                  "..\\Bitmaps\\BlueExplode1.bmp"
+
+IDB_BLU_EXPL2           BITMAP                  "..\\Bitmaps\\BlueExplode2.bmp"
+
+IDB_BLU_EXPL3           BITMAP                  "..\\Bitmaps\\BlueExplode3.bmp"
+
+IDB_BLU_EXPL4           BITMAP                  "..\\Bitmaps\\BlueExplode4.bmp"
+
+IDB_BLU_EXPL5           BITMAP                  "..\\Bitmaps\\BlueExplode5.bmp"
+
+IDB_BLU_EXPL6           BITMAP                  "..\\Bitmaps\\BlueExplode6.bmp"
+
+IDB_BLU_EXPL7           BITMAP                  "..\\Bitmaps\\BlueExplode7.bmp"
+
+IDB_BLU_EXPL8           BITMAP                  "..\\Bitmaps\\BlueExplode8.bmp"
+
+IDB_BLU_EXPL9           BITMAP                  "..\\Bitmaps\\BlueExplode9.bmp"
+
+IDB_BLU_EXPL10          BITMAP                  "..\\Bitmaps\\BlueExplode10.bmp"
+
+IDB_PUR_EXPL1           BITMAP                  "..\\Bitmaps\\PurpleExplode1.bmp"
+
+IDB_PUR_EXPL2           BITMAP                  "..\\Bitmaps\\PurpleExplode2.bmp"
+
+IDB_PUR_EXPL3           BITMAP                  "..\\Bitmaps\\PurpleExplode3.bmp"
+
+IDB_PUR_EXPL4           BITMAP                  "..\\Bitmaps\\PurpleExplode4.bmp"
+
+IDB_PUR_EXPL5           BITMAP                  "..\\Bitmaps\\PurpleExplode5.bmp"
+
+IDB_PUR_EXPL6           BITMAP                  "..\\Bitmaps\\PurpleExplode6.bmp"
+
+IDB_PUR_EXPL7           BITMAP                  "..\\Bitmaps\\PurpleExplode7.bmp"
+
+IDB_PUR_EXPL8           BITMAP                  "..\\Bitmaps\\PurpleExplode8.bmp"
+
+IDB_PUR_EXPL9           BITMAP                  "..\\Bitmaps\\PurpleExplode9.bmp"
+
+IDB_PUR_EXPL10          BITMAP                  "..\\Bitmaps\\PurpleExplode10.bmp"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -273,6 +389,8 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 IDR_MAINFRAME           BITMAP                  "..\\res\\Toolbar.bmp"
 
 IDB_BLACK_BAR           BITMAP                  "..\\bitmaps\\bitmap3.bmp"
+
+IDB_BITMAP3             BITMAP                  "..\\bitmaps\\bmp00001.bmp"
 
 
 /////////////////////////////////////////////////////////////////////////////

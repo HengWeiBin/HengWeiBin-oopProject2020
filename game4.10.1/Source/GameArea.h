@@ -25,6 +25,7 @@ namespace game_framework
 		GameArea();
 		GameArea(Stage& stage);
 		~GameArea();
+		int GetScore();									//Get current score
 		void InitCandy(bool drop = true);				//spawn all candies randomly
 		void LoadBitmap();								//load game area's background
 		void LoadStage(int);							//read map from file
@@ -44,7 +45,6 @@ namespace game_framework
 		void Find(Candy*, unsigned&, unsigned&);		//find candy and return row and column
 		void GetCandies(set<Candy*>&, int, int, int);	//get continuous candies
 		void GetLine(vector<Candy*>&, vector<Candy*>&, char check);									//collect candies on a same line
-		int GetScore();									//Get current score
 		void InitClickedCandy();						//unclick & clear candies in clickedCandies
 		bool IsDropping();								//check all candies are still
 		bool IsNeighbour(Candy&, Candy&);				//return are candies in clickedCandies is neighbour
