@@ -51,7 +51,7 @@ namespace game_framework {
 	#ifndef AUDIO_ID
 	#define AUDIO_ID
 	enum AUDIO_ID {				// 定義各種音效的編號
-		AUDIO_JELLY,
+		AUDIO_JELLY, AUDIO_STAGE,
 		AUDIO_NEG_SWAP, AUDIO_SWAP,
 		AUDIO_SUPER_CREATE, AUDIO_LINE_CREATE, AUDIO_PACK_CREATE, AUDIO_POWER_ALL,
 		AUDIO_SQUARE_REMOVE1, AUDIO_SQUARE_REMOVE2, AUDIO_LINE_BLAST,
@@ -149,7 +149,7 @@ namespace game_framework {
 
 		CMovingBitmap menuBackground, woodBackgourd;
 		const int totalStage;
-		vector<Stage> stages;
+		vector<Stage*> stages;
 		int sy;
 		int MAX_Y, MIN_Y;
 		bool IsMovingUp, IsMovingDown;
