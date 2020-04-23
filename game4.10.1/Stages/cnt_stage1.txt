@@ -1,5 +1,5 @@
 0	#last score history
-0	#unlock/lock 
+1	#unlock/lock 
 00000000000000000000
 11111111111111110000
 22222222222222220000
@@ -16,7 +16,7 @@
 2000 	#one star
 2000 	#two star
 2000 	#three star
-10 	#limit step
+10 	#max step
 0	#vertical
 0	#horizontal
 0	#Teffect
