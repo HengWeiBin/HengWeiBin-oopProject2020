@@ -212,7 +212,7 @@ namespace game_framework {
 		//
 		// SetCursor(AfxGetApp()->LoadCursor(IDC_GAMECURSOR));
 		
-		gameArea->OnMove();
+		gameArea.OnMove();
 	}
 
 	void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
@@ -258,8 +258,7 @@ namespace game_framework {
 		//
 		// 此OnInit動作會接到CGameStaterOver::OnInit()，所以進度還沒到100%
 		//
-		gameArea->InitCandy();
-		gameArea->LoadBitmap();
+		gameArea.LoadBitmap();
 	}
 
 	void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -270,7 +269,7 @@ namespace game_framework {
 
 	void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 	{
-		gameArea->OnLButtonDown(nFlags, point);
+		gameArea.OnLButtonDown(nFlags, point);
 	}
 
 	void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
@@ -297,10 +296,10 @@ namespace game_framework {
 		//
 		
 		background.ShowBitmap();			// 貼上背景圖
-		gameArea->OnShow();
+		gameArea.OnShow();
 	}
 
-	CGameStateMenu::CGameStateMenu(CGame *g) : CGameState(g), totalStage(1)
+	CGameStateMenu::CGameStateMenu(CGame *g) : CGameState(g), totalStage(10)
 	{
 		IsMovingUp = false; IsMovingDown = false;
 		MAX_Y = 0; MIN_Y = -3600;
@@ -309,6 +308,8 @@ namespace game_framework {
 
 	CGameStateMenu::~CGameStateMenu()
 	{
+		for (unsigned i = 0; i < stages.size(); i++)
+			delete stages[i];
 	}
 
 	void CGameStateMenu::OnInit()
@@ -364,7 +365,7 @@ namespace game_framework {
 			{
 				if (stages[i]->IsUnlock())
 				{
-					gameArea->LoadStage(*stages[i]);
+					gameArea.LoadStage(*stages[i]);
 					CAudio::Instance()->Stop(AUDIO_STAGE);
 					GotoGameState(GAME_STATE_RUN);
 				}

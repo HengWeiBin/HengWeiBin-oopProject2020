@@ -28,7 +28,8 @@ namespace game_framework
 	{}
 
 	GameArea::~GameArea()
-	{}
+	{
+	}
 
 	void GameArea::LoadBitmap()
 	{
@@ -83,6 +84,15 @@ namespace game_framework
 
 	void GameArea::LoadStage(Stage & stage)
 	{
+		for (int i = 0; i < MaxHeight; i++)
+		{
+			for (int j = 0; j < MaxWidth; j++)
+			{
+				map[i][j] = stage.map[i][j];
+				if (map[i][j] == 1)
+					spawnArea.push_back(pair<int, int>(i, j));
+			}
+		}
 		MAX_RAND_NUM = stage.candyType;
 		oneStar = stage.scoreOne;
 		twoStar = stage.scoreTwo;
@@ -90,6 +100,7 @@ namespace game_framework
 		lastHighScore = stage.lastHighScore;
 		step = stage.maxStep;
 		running = true;
+		InitCandy(false);
 	}
 
 	void GameArea::ShowScoreBoard() 
@@ -508,6 +519,7 @@ namespace game_framework
 				default:
 					int id = drop == true ? 0 : rand() % MAX_RAND_NUM + 1;
 					candies[i][j] = Candy(id, j * 50 + x, i * 50 + y);
+					if (candies[i][j].GetStyle() > 0) candies[i][j].LoadBitmap();
 					break;
 				}
 			}

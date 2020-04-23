@@ -312,7 +312,7 @@ namespace game_framework {
 		virtual void OnShow() = 0;								// 顯示這個狀態的遊戲畫面
 		CGame *game;
 		Stage *stage;											//Selected stage
-		GameArea* gameArea;	//游戲區
+		static GameArea gameArea;	//游戲區
 	};
 
 	/////////////////////////////////////////////////////////////////////////////

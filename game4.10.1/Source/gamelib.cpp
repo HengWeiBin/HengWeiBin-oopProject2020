@@ -430,11 +430,12 @@ namespace game_framework {
 	// 這個class為遊戲的各種狀態之Base class(是一個abstract class)
 	/////////////////////////////////////////////////////////////////////////////
 
+	GameArea CGameState::gameArea;
+
 	CGameState::CGameState(CGame *g)
 	{
 		game = g; 	// 設定game的pointer
 		stage = NULL;
-		gameArea = new GameArea();
 	}
 
 	void CGameState::GotoGameState(int state)
@@ -506,7 +507,6 @@ namespace game_framework {
 
 	CGameState::~CGameState()
 	{
-		delete gameArea;
 	}
 
 	/////////////////////////////////////////////////////////////////////////////
