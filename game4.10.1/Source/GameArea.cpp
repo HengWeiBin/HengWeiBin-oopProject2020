@@ -28,7 +28,8 @@ namespace game_framework
 	{}
 
 	GameArea::~GameArea()
-	{}
+	{
+	}
 
 	void GameArea::LoadBitmap()
 	{
@@ -49,32 +50,49 @@ namespace game_framework
 	{
 		fstream InputStage;
 		InputStage.open(".\\Stages\\cnt_stage1.txt");
-		string temp;
-		getline(InputStage, temp);
-		if (InputStage) {
-			string firstline;
-			for (int i = 0; i < MaxHeight; i++) {
-				getline(InputStage, firstline);
-				for (int j = 0; j < MaxWidth; j++) {
-					switch (firstline[j])
-					{
-					case '0': map[i][j] = 0; break;		//0 = none, !0 = gameArea
-					case '2': map[i][j] = 2; break;		//2 = normalArea
-					case '3': map[i][j] = 3; break;		//3 = singleJelly
-					case '4': map[i][j] = 4; break;		//4 = doubleJelly
-					case '1': 
-						map[i][j] = 1;					//1 = candy spawning area
-						spawnArea.push_back(pair<int, int>(i, j));
-						break;
-					}
+		string data[12];
+		string file;
+		//LAST SCORE
+		getline(InputStage, file, '\n');
+		data[0] = file.substr(0, file.find('\t'));
+		//data[0] = file;
+		//IS_UNCLOCK
+		getline(InputStage, file, '\n');
+		data[1] = file.substr(0, file.find('\t'));
+		//MAP
+		for (int i = 0; i < 13; i++) {
+			getline(InputStage, file);
+			for (int j = 0; j < 20; j++) {
+				switch (file[j])
+				{
+				case '0': map[i][j] = 0; break;		//0 = none, !0 = gameArea
+				case '2': map[i][j] = 2; break;		//2 = normalArea
+				case '3': map[i][j] = 3; break;		//3 = singleJelly
+				case '4': map[i][j] = 4; break;		//4 = doubleJelly
+				case '1': map[i][j] = 1; break;		//1 = candy spawning area
 				}
 			}
 		}
+		//ETC
+		for (int i = 2; i < 12; i++) {
+			getline(InputStage, file, '\n');
+			data[i] = file.substr(0, file.find('\t'));
+		}
 		InputStage.close();
+		lastHighScore = stoi(data[0]);
 	}
 
 	void GameArea::LoadStage(Stage & stage)
 	{
+		for (int i = 0; i < MaxHeight; i++)
+		{
+			for (int j = 0; j < MaxWidth; j++)
+			{
+				map[i][j] = stage.map[i][j];
+				if (map[i][j] == 1)
+					spawnArea.push_back(pair<int, int>(i, j));
+			}
+		}
 		MAX_RAND_NUM = stage.candyType;
 		oneStar = stage.scoreOne;
 		twoStar = stage.scoreTwo;
@@ -82,6 +100,7 @@ namespace game_framework
 		lastHighScore = stage.lastHighScore;
 		step = stage.maxStep;
 		running = true;
+		InitCandy(false);
 	}
 
 	void GameArea::ShowScoreBoard() 
@@ -500,6 +519,7 @@ namespace game_framework
 				default:
 					int id = drop == true ? 0 : rand() % MAX_RAND_NUM + 1;
 					candies[i][j] = Candy(id, j * 50 + x, i * 50 + y);
+					if (candies[i][j].GetStyle() > 0) candies[i][j].LoadBitmap();
 					break;
 				}
 			}
