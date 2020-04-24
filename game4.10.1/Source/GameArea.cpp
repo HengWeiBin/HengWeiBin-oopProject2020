@@ -52,13 +52,6 @@ namespace game_framework
 		InputStage.open(".\\Stages\\cnt_stage1.txt");
 		string data[12];
 		string file;
-		//LAST SCORE
-		getline(InputStage, file, '\n');
-		data[0] = file.substr(0, file.find('\t'));
-		//data[0] = file;
-		//IS_UNCLOCK
-		getline(InputStage, file, '\n');
-		data[1] = file.substr(0, file.find('\t'));
 		//MAP
 		for (int i = 0; i < 13; i++) {
 			getline(InputStage, file);
@@ -78,6 +71,15 @@ namespace game_framework
 			getline(InputStage, file, '\n');
 			data[i] = file.substr(0, file.find('\t'));
 		}
+
+		//LAST SCORE
+		getline(InputStage, file, '\n');
+		data[0] = file.substr(0, file.find('\t'));
+		//data[0] = file;
+		//IS_UNCLOCK
+		getline(InputStage, file, '\n');
+		data[1] = file.substr(0, file.find('\t'));
+
 		InputStage.close();
 		lastHighScore = stoi(data[0]);
 	}
@@ -100,7 +102,7 @@ namespace game_framework
 		lastHighScore = stage.lastHighScore;
 		step = stage.maxStep;
 		running = true;
-		InitCandy(false);
+		InitCandy(stage.initcandy);
 	}
 
 	void GameArea::ShowScoreBoard() 

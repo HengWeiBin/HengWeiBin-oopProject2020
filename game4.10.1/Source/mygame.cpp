@@ -299,7 +299,7 @@ namespace game_framework {
 		gameArea.OnShow();
 	}
 
-	CGameStateMenu::CGameStateMenu(CGame *g) : CGameState(g), totalStage(10)
+	CGameStateMenu::CGameStateMenu(CGame *g) : CGameState(g), totalStage(2)
 	{
 		IsMovingUp = false; IsMovingDown = false;
 		MAX_Y = 0; MIN_Y = -3600;
@@ -321,8 +321,8 @@ namespace game_framework {
 		//load stage
 		string FileName = ".\\Stages\\cnt_stage";
 		for (int i = 0; i < totalStage; i++) {
-			stages.push_back(new Stage);
-			stages[i]->LoadStage(FileName + to_string(i+1) + ".txt");
+			stages.push_back(new Stage(FileName + to_string(i + 1) + ".txt"));
+			stages[i]->LoadStage();
 		}
 
 	}

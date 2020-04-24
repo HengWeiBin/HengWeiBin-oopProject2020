@@ -9,20 +9,15 @@ namespace game_framework
 	{
 		friend class GameArea;
 	public:
-		Stage();
-		void LoadStage(string);
+		Stage(string);
+		void LoadStage();
 		int GetScoreOne();
 		int GetScoreTwo();
 		int GetScoreThree();
-		int GetVertical();
-		int GetHorizontal();
-		int GetPack();
-		int GetChocolate();
-		int GetCandyType();
 		int GetLastScoreHistory();
-		int GetMaxStep();
-		int GetMode();
 		bool IsUnlock();
+		void RemoveLine();
+		void WriteBack(int LastScore);
 	private:
 		int map[13][20];
 		int scoreOne, scoreTwo, scoreThree;			//Target score for three star
@@ -32,7 +27,8 @@ namespace game_framework
 		int maxStep;
 		int mode;
 		bool isUnlock;
-
+		bool initcandy;
+		string stageTxt;
 	};
 }
 #endif
