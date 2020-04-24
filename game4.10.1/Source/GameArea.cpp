@@ -100,7 +100,7 @@ namespace game_framework
 		lastHighScore = stage.lastHighScore;
 		step = stage.maxStep;
 		running = true;
-		InitCandy(false);
+		InitCandy(stage.initcandy);
 	}
 
 	void GameArea::ShowScoreBoard() 

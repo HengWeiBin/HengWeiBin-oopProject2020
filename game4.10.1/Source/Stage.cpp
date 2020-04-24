@@ -25,7 +25,7 @@ void game_framework::Stage::LoadStage(string StageTxt)
 {
 	fstream InputStage;
 	InputStage.open(StageTxt);
-	string data[12];
+	string data[13];
 	string file;
 	//LAST SCORE
 	getline(InputStage, file, '\n');
@@ -49,7 +49,7 @@ void game_framework::Stage::LoadStage(string StageTxt)
 		}
 	}
 	//ETC
-	for (int i = 2; i < 12; i++) {
+	for (int i = 2; i < 13; i++) {
 		getline(InputStage, file, '\n');
 		data[i] = file.substr(0, file.find('\t'));
 	}
@@ -65,6 +65,7 @@ void game_framework::Stage::LoadStage(string StageTxt)
 	chocolate = stoi(data[9]);
 	candyType = stoi(data[10]);
 	mode = stoi(data[11]);
+	initcandy = stoi(data[12]);
 	InputStage.close();
 }
 

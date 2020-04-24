@@ -32,6 +32,7 @@ namespace game_framework
 		int maxStep;
 		int mode;
 		bool isUnlock;
+		bool initcandy;
 
 	};
 }
