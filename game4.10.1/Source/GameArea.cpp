@@ -15,7 +15,8 @@
 
 namespace game_framework
 {
-	GameArea::GameArea() :x(280), y(35), MAX_RAND_NUM(4), threeStar(40000)
+	GameArea::GameArea() 
+		:x(280), y(35), MAX_RAND_NUM(4), threeStar(40000)
 	{
 		score.SetInteger(0);
 		LoadStage(1);				//temp
@@ -40,6 +41,11 @@ namespace game_framework
 		scoreBoard.LoadBitmap("Bitmaps\\score_board.bmp", RGB(0, 0, 0));
 		scoreBar.LoadBitmap("Bitmaps\\ScoreBar.bmp");
 		blackBar.LoadBitmap(IDB_BLACK_BAR);
+		yellowStar.LoadBitmap("Bitmaps\\YellowStar1.bmp", RGB(0, 43, 255));
+		greenStar.LoadBitmap("Bitmaps\\GreenStar1.bmp", RGB(0, 43, 255));
+		redStar.LoadBitmap("Bitmaps\\RedStar1.bmp", RGB(0, 43, 255));
+		emptyStar1.LoadBitmap("Bitmaps\\EmptyStar1.bmp", RGB(0, 43, 255));
+		emptyStar2.LoadBitmap("Bitmaps\\EmptyStar2.bmp", RGB(0, 43, 255));
 		for(int i = 0; i < MaxHeight; i ++)
 			for(int j = 0; j < MaxWidth; j++)
 				if(candies[i][j].GetStyle() > 0)
@@ -100,7 +106,7 @@ namespace game_framework
 		twoStar = stage.scoreTwo;
 		threeStar = stage.scoreThree;
 		lastHighScore = stage.lastHighScore;
-		step = stage.maxStep;
+		moves.SetInteger(stage.maxStep);
 		running = true;
 		InitCandy(stage.initcandy);
 	}
@@ -110,10 +116,9 @@ namespace game_framework
 		/// Show score bar/////////////////
 		//bar_width = 45;
 		//bar_height = 254;
-		// 127=100%  88=70%  108=85%
 		//bottom left point 152,339px
 		int X_point = (scoreBoard.Left() + 150), Y_point = (scoreBoard.Top() + 339); //scoreBar set point
-		double currentLevel = (score.GetInteger() / 40000.0) * 129;
+		double currentLevel = (score.GetInteger() / threeStar) * 129;
 		currentLevel = currentLevel > 129 ? 129 : currentLevel;
 		for (int i = 0; i < 129; i++)
 		{
@@ -134,6 +139,23 @@ namespace game_framework
 		scoreBoard.SetTopLeft((SIZE_X - 1211) / 2, ((SIZE_Y - 420) / 2));
 		scoreBoard.ShowBitmap();
 
+		///Show moves///////////////////
+		{
+			int CurrentMoves = moves.GetInteger();
+			int size = 1;
+			while (CurrentMoves > 9)
+			{
+				CurrentMoves /= 10;
+				size++;
+			}
+			if (size <= 7)
+			{
+				moves.SetDigit(size);
+				moves.SetTopLeft(scoreBoard.Left() + 110 - 9 * size, scoreBoard.Top() + 40);
+				moves.ShowBitmap();
+			}
+		}
+
 		/// Show score /////////////////
 		int CurrentScore = score.GetInteger();
 		int size = 1;
@@ -145,10 +167,22 @@ namespace game_framework
 		if (size <=7)
 		{
 			score.SetDigit(size);
-			score.SetTopLeft((scoreBoard.Left() + 135 - (18*size) ), scoreBoard.Top() + 125);
+			score.SetTopLeft((scoreBoard.Left() + 135 - (18 * size)), scoreBoard.Top() + 125);
 			score.ShowBitmap();
 		}
 
+		///Show Stars//////////////////
+		//Show empty star if score is lower than each relative score
+		CMovingBitmap *thirdStar = score.GetInteger() >= threeStar ? &yellowStar : &emptyStar2;
+		CMovingBitmap *secondStar = score.GetInteger() >= twoStar ? &greenStar : &emptyStar1;
+		CMovingBitmap *firstStar = score.GetInteger() >= oneStar ? &redStar : &emptyStar1;
+
+		thirdStar->SetTopLeft(X_point, scoreBoard.Top() + (81 - yellowStar.Height() / 2));
+		thirdStar->ShowBitmap();
+		secondStar->SetTopLeft(X_point, scoreBoard.Top() + 81 + (((threeStar - twoStar) / threeStar) * 254 - greenStar.Height() / 2));
+		secondStar->ShowBitmap();
+		firstStar->SetTopLeft(X_point, scoreBoard.Top() + 81 + (((threeStar - oneStar) / threeStar) * 254 - redStar.Height() / 2));
+		firstStar->ShowBitmap();
 	}
 
 	void GameArea::Find(Candy *candy, unsigned &row, unsigned &column)
@@ -452,7 +486,8 @@ namespace game_framework
 			int amountCleared = ClearCombo();
 
 			if (amountCleared && clickedCandies.size() == 2)
-			{//If there is a combo after swapping candies, initiate click
+			{//If there is a combo after swapping candies, initiate click, -1 moves
+				moves.Minus(1);
 				InitClickedCandy();
 			}
 			else if (!amountCleared && clickedCandies.size() == 2)

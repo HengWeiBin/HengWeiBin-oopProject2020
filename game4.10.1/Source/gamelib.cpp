@@ -254,6 +254,11 @@ namespace game_framework {
 		n += x;
 	}
 
+	void CInteger::Minus(int x)
+	{
+		n -= x;
+	}
+
 	int CInteger::GetInteger()
 	{
 		return n;

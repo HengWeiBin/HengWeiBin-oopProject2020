@@ -231,7 +231,7 @@ namespace game_framework {
 		// 完成部分Loading動作，提高進度
 		//
 		ShowInitProgress(50);
-		Sleep(300); // 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
+		//Sleep(300); // 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
 		//
 		// 繼續載入其他資料
 		//

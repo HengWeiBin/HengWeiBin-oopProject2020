@@ -68,14 +68,16 @@ namespace game_framework
 		list<pair<int, int>> spawnArea;					
 		Candy candies[MaxHeight][MaxWidth];				//Array of candy
 		CMovingBitmap area, singleJelly, doubleJelly;	//container bmp
-		CMovingBitmap scoreBar, blackBar, scoreBoard;	//scoreboard		
-		CInteger score;
 		vector<Candy*> clickedCandies;
 		list<Blast*> blasts;
 
-		int MAX_RAND_NUM;								//types of candies in this games
-		int oneStar, twoStar, threeStar, lastHighScore;//Target
-		int step;
+		CMovingBitmap scoreBar, blackBar, scoreBoard;	//scoreboard		
+		CMovingBitmap yellowStar, greenStar, redStar;
+		CMovingBitmap emptyStar2, emptyStar1;
+		CInteger score, moves;
+
+		int MAX_RAND_NUM;									//types of candies in this games
+		double oneStar, twoStar, threeStar, lastHighScore;	//Target
 		bool running;
 	};
 }

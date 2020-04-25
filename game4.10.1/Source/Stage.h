@@ -11,19 +11,19 @@ namespace game_framework
 	public:
 		Stage(string);
 		void LoadStage();
-		int GetScoreOne();
-		int GetScoreTwo();
-		int GetScoreThree();
-		int GetLastScoreHistory();
+		double GetScoreOne();
+		double GetScoreTwo();
+		double GetScoreThree();
+		double GetLastScoreHistory();
 		bool IsUnlock();
 		void RemoveLine();
 		void WriteBack(int LastScore);
 	private:
 		int map[13][20];
-		int scoreOne, scoreTwo, scoreThree;			//Target score for three star
+		double scoreOne, scoreTwo, scoreThree;		//Target score for three star
 		int vertical, horizontal, pack, chocolate;	//total special candy spawn onInit
 		int candyType;								//Max candy type in this game
-		int lastHighScore;							//History highest score
+		double lastHighScore;						//History highest score
 		int maxStep;
 		int mode;
 		bool isUnlock;

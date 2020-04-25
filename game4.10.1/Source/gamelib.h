@@ -255,6 +255,7 @@ namespace game_framework {
 	public:
 		CInteger(int = 1);			// default 5 digits
 		void Add(int n);			// 增加整數值
+		void Minus(int n);
 		int  GetInteger();			// 回傳整數值
 		void LoadBitmap();			// 載入0..9及負號之圖形
 		void SetInteger(int);		// 設定整數值

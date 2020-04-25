@@ -55,11 +55,11 @@ void game_framework::Stage::LoadStage()
 	getline(InputStage, file, '\n');
 	data[1] = file.substr(0, file.find('\t'));
 
-	lastHighScore = stoi(data[0]);
+	lastHighScore = stod(data[0]);
 	isUnlock = stoi(data[1]);
-	scoreOne = stoi(data[2]);
-	scoreTwo = stoi(data[3]);
-	scoreThree = stoi(data[4]);
+	scoreOne = stod(data[2]);
+	scoreTwo = stod(data[3]);
+	scoreThree = stod(data[4]);
 	maxStep = stoi(data[5]);
 	vertical = stoi(data[6]);
 	horizontal = stoi(data[7]);
@@ -71,21 +71,21 @@ void game_framework::Stage::LoadStage()
 	InputStage.close();
 }
 
-int game_framework::Stage::GetScoreOne()
+double game_framework::Stage::GetScoreOne()
 {
 	return scoreOne;
 }
 
-int game_framework::Stage::GetScoreTwo()
+double game_framework::Stage::GetScoreTwo()
 {
 	return scoreTwo;
 }
 
-int game_framework::Stage::GetScoreThree()
+double game_framework::Stage::GetScoreThree()
 {
 	return scoreThree;
 }
-int game_framework::Stage::GetLastScoreHistory()
+double game_framework::Stage::GetLastScoreHistory()
 {
 	return lastHighScore;
 }
