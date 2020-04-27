@@ -13,7 +13,7 @@
 00000000000000000000
 300 	#one star
 400	#two star
-500	#three star
+60000	#three star
 6 	#max step
 0	#vertical
 0	#horizontal
