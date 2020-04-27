@@ -439,9 +439,6 @@ namespace game_framework
 			}
 		}
 
-		for (auto i = blasts.begin(); i != blasts.end(); i++)
-			(*i)->OnShow();
-
 		///////////////////////////////////////////
 		// Show all candy						///
 		///////////////////////////////////////////
@@ -454,6 +451,8 @@ namespace game_framework
 			}
 		}
 
+		for (auto i = blasts.begin(); i != blasts.end(); i++)
+			(*i)->OnShow();
 	}
 
 	void GameArea::OnMove()
