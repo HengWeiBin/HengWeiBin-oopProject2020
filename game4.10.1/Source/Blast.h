@@ -38,7 +38,12 @@ namespace game_framework
 
 		CMovingBitmap candy[4];
 		CMovingBitmap normalBlast[10];
+		CMovingBitmap shatter[15];
 		int curShow;
+		int shift[3][2];
+		int shatPosition[3][2];
+		int shatShow[3];
+		double size;
 	};
 
 	class HorizonBlast :public Blast
