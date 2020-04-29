@@ -179,9 +179,9 @@ namespace game_framework
 
 		thirdStar->SetTopLeft(X_point, scoreBoard.Top() + (81 - yellowStar.Height() / 2));
 		thirdStar->ShowBitmap();
-		secondStar->SetTopLeft(X_point, scoreBoard.Top() + 81 + (((threeStar - twoStar) / threeStar) * 254 - greenStar.Height() / 2));
+		secondStar->SetTopLeft(X_point, (int)(scoreBoard.Top() + 81 + (((threeStar - twoStar) / threeStar) * 254 - greenStar.Height() / 2)));
 		secondStar->ShowBitmap();
-		firstStar->SetTopLeft(X_point, scoreBoard.Top() + 81 + (((threeStar - oneStar) / threeStar) * 254 - redStar.Height() / 2));
+		firstStar->SetTopLeft(X_point, (int)(scoreBoard.Top() + 81 + (((threeStar - oneStar) / threeStar) * 254 - redStar.Height() / 2)));
 		firstStar->ShowBitmap();
 	}
 
