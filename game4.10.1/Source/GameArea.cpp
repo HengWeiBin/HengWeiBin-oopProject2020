@@ -31,6 +31,7 @@ namespace game_framework
 
 	GameArea::~GameArea()
 	{
+		stage = NULL;
 	}
 
 	void GameArea::LoadBitmap()
@@ -108,6 +109,7 @@ namespace game_framework
 		threeStar = stage.scoreThree;
 		lastHighScore = stage.lastHighScore;
 		moves.SetInteger(stage.maxStep);
+		this->stage = &stage;
 
 		InitCandy(stage.initcandy);
 	}
