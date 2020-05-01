@@ -40,7 +40,7 @@ namespace game_framework
 		CMovingBitmap normalBlast[10];
 		CMovingBitmap shatter[15];
 		int curShow;
-		int shift[3][2];
+		int shift[3][3];				//move direction/ moving speed/ spin direction
 		int shatPosition[3][2];
 		int shatShow[3];
 		double size;

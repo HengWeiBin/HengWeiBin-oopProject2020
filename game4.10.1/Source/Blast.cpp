@@ -60,19 +60,20 @@ namespace game_framework
 	{
 	}
 
-	NormalBlast::NormalBlast(int style, int x, int y) :curShow(0), size(2.0)
+	NormalBlast::NormalBlast(int style, int x, int y) :curShow(0), size(1.8)
 	{
 		LoadBitmap(style);
 		SetTopLeft(x, y);
 
-		int direction[] = { -2, 0, 2 };
+		int direction[] = { -2, -1, 0, 2, 1 };
 		for (int i = 0; i < 3; i++)
 		{
 			shatPosition[i][0] = x;
 			shatPosition[i][1] = y;
 			shatShow[i] = rand() % 15;
-			shift[i][0] = direction[rand() % 3];
-			shift[i][1] = direction[rand() % 3];
+			shift[i][0] = direction[rand() % 5];
+			shift[i][1] = direction[rand() % 2 + 3];
+			shift[i][2] = rand() % 2;
 		}
 	}
 
@@ -88,19 +89,23 @@ namespace game_framework
 			normalBlast[i].LoadBitmap(bmpID[i + 4], RGB(254, 191, 200));
 
 		for (int i = 0; i < 15; i++)
-			shatter[i].LoadBitmap(bmpID[i + 14], RGB(0, 0, 0));
+			shatter[i].LoadBitmap(bmpID[i + 14], RGB(254, 191, 200));
 	}
 
 	void NormalBlast::OnMove()
 	{
 		curShow++;
-		size -= 0.1;
+		if(curShow % 2) size -= 0.1;
 
 		for (int i = 0; i < 3; i++)
 		{
 			shatPosition[i][0] += shift[i][0];
 			shatPosition[i][1] += shift[i][1];
-			if (curShow % 2) shatShow[i] = (shatShow[i] + 1) % 15;
+			if (!(curShow % 3))
+			{
+				if(shift[i][2]) shatShow[i] = (shatShow[i] - 1) < 0 ? (shatShow[i] - 1) + 15 : (shatShow[i] - 1);
+				else shatShow[i] = (shatShow[i] + 1) % 15;
+			}
 		}
 	}
 
@@ -136,7 +141,7 @@ namespace game_framework
 
 	bool NormalBlast::IsLast()
 	{
-		return (curShow == 14);
+		return (curShow == 25);
 	}
 
 	void NormalBlast::GetBmpId(int*& bmpID, int style)
