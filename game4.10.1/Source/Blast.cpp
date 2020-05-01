@@ -56,24 +56,26 @@ namespace game_framework
 		IDB_PUR_SHAT6, IDB_PUR_SHAT7, IDB_PUR_SHAT8, IDB_PUR_SHAT9, IDB_PUR_SHAT10,
 		IDB_PUR_SHAT11, IDB_PUR_SHAT12, IDB_PUR_SHAT13, IDB_PUR_SHAT14, IDB_PUR_SHAT15 };
 
-	NormalBlast::NormalBlast() :curShow(0)
+	NormalBlast::NormalBlast() :curShow(0), totalShow(0)
 	{
 	}
 
-	NormalBlast::NormalBlast(int style, int x, int y) :curShow(0), size(1.8)
+	NormalBlast::NormalBlast(int style, int x, int y) :curShow(0), size(1.8), totalShow(rand() % 2 + 2)
 	{
 		LoadBitmap(style);
 		SetTopLeft(x, y);
 
-		int direction[] = { -2, -1, 0, 2, 1 };
-		for (int i = 0; i < 3; i++)
+		int direction[] = { -2, -1, 0, 2, 1 };	//direction & speed for shatter
+		for (int i = 0; i < totalShow; i++)
 		{
+			//init shatters' position at center
 			shatPosition[i][0] = x;
 			shatPosition[i][1] = y;
-			shatShow[i] = rand() % 15;
-			shift[i][0] = direction[rand() % 5];
-			shift[i][1] = direction[rand() % 2 + 3];
-			shift[i][2] = rand() % 2;
+
+			shatShow[i] = rand() % 15;				//set shatter start frame
+			shift[i][0] = direction[rand() % 5];	//random direction x
+			shift[i][1] = direction[rand() % 2 + 3];//random dirention y
+			shift[i][2] = rand() % 2;				//set shatter rotation { 1 = clockwise, 0 = counter-clockwise}
 		}
 	}
 
@@ -95,16 +97,18 @@ namespace game_framework
 	void NormalBlast::OnMove()
 	{
 		curShow++;
-		if(curShow % 2) size -= 0.1;
+		if(curShow % 2) size -= 0.1;	//zoom-out shatter
 
-		for (int i = 0; i < 3; i++)
-		{
+		for (int i = 0; i < totalShow; i++)
+		{	//move shatters
 			shatPosition[i][0] += shift[i][0];
 			shatPosition[i][1] += shift[i][1];
+
+			//rotate shatters
 			if (!(curShow % 3))
 			{
-				if(shift[i][2]) shatShow[i] = (shatShow[i] - 1) < 0 ? (shatShow[i] - 1) + 15 : (shatShow[i] - 1);
-				else shatShow[i] = (shatShow[i] + 1) % 15;
+				if(shift[i][2]) shatShow[i] = (shatShow[i] - 1) < 0 ? (shatShow[i] - 1) + 15 : (shatShow[i] - 1);	//counter-clockwise
+				else shatShow[i] = (shatShow[i] + 1) % 15;	//clockwise
 			}
 		}
 	}
@@ -112,20 +116,20 @@ namespace game_framework
 	void NormalBlast::OnShow()
 	{
 		if (curShow < 10)
-		{
+		{	//show blast circle
 			normalBlast[curShow].SetTopLeft(x - (normalBlast[curShow].Width() / 2) + 25, y - (normalBlast[curShow].Height() / 2) + 25);
 			normalBlast[curShow].ShowBitmap();
 		}
 
 		if (curShow < 4)
-		{
+		{	//show zooming-out-candy
 			candy[curShow].SetTopLeft(x, y);
 			candy[curShow].ShowBitmap();
 		}
 
 		if (curShow >= 4)
-		{
-			for (int i = 0; i < 3; i++)
+		{	//show shatters
+			for (int i = 0; i < totalShow; i++)
 			{
 				shatter[shatShow[i]].SetTopLeft(shatPosition[i][0], shatPosition[i][1]);
 				shatter[shatShow[i]].ShowBitmap(size);

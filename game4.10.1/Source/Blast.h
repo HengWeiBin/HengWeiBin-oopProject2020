@@ -41,9 +41,10 @@ namespace game_framework
 		CMovingBitmap shatter[15];
 		int curShow;
 		int shift[3][3];				//move direction/ moving speed/ spin direction
-		int shatPosition[3][2];
-		int shatShow[3];
-		double size;
+		int shatPosition[3][2];			//every shatter current position
+		int shatShow[3];				//shatter current frame
+		const int totalShow;
+		double size;					//current size
 	};
 
 	class HorizonBlast :public Blast

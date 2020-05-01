@@ -27,6 +27,7 @@ namespace game_framework
 		~GameArea();
 		int GetScore();									//Get current score
 		void InitCandy(bool drop = true);				//spawn all candies randomly
+		bool IsGameOver();
 		void LoadBitmap();								//load game area's background
 		void LoadStage(int);							//read map from file
 		void LoadStage(Stage& stage);
@@ -65,7 +66,7 @@ namespace game_framework
 		const int x, y;									//top left x,y of gameArea
 		int map[MaxHeight][MaxWidth];					//Array of container
 		Candy* curPosition[MaxHeight][MaxWidth];		//save current position of every candy
-		list<pair<int, int>> spawnArea;					
+		list<pair<int, int>> spawnArea;					//save position where candy spawn
 		Candy candies[MaxHeight][MaxWidth];				//Array of candy
 		CMovingBitmap area, singleJelly, doubleJelly;	//container bmp
 		vector<Candy*> clickedCandies;
@@ -76,9 +77,10 @@ namespace game_framework
 		CMovingBitmap emptyStar2, emptyStar1;
 		CInteger score, moves;
 
+		Stage *stage;
 		int MAX_RAND_NUM;									//types of candies in this games
 		double oneStar, twoStar, threeStar, lastHighScore;	//Target
-		bool running;
+		bool initiating, ending, running;
 	};
 }
 

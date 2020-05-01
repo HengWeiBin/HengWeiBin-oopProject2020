@@ -149,7 +149,7 @@ namespace game_framework {
 	{
 		counter--;
 		if (counter < 0)
-			GotoGameState(GAME_STATE_INIT);
+			GotoGameState(GAME_STATE_MENU);
 	}
 
 	void CGameStateOver::OnBeginState()
@@ -213,6 +213,8 @@ namespace game_framework {
 		// SetCursor(AfxGetApp()->LoadCursor(IDC_GAMECURSOR));
 		
 		gameArea.OnMove();
+		if (gameArea.IsGameOver())
+			GotoGameState(GAME_STATE_OVER);
 	}
 
 	void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定

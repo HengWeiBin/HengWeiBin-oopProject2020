@@ -16,7 +16,7 @@
 namespace game_framework
 {
 	GameArea::GameArea() 
-		:x(280), y(35), MAX_RAND_NUM(4), threeStar(40000)
+		:x(280), y(35), MAX_RAND_NUM(4), threeStar(40000), initiating(1), ending(0), running(1)
 	{
 		score.SetInteger(0);
 		LoadStage(1);				//temp
@@ -25,7 +25,8 @@ namespace game_framework
 				curPosition[i][j] = NULL;
 	}
 
-	GameArea::GameArea(Stage & stage) :x(280), y(35), MAX_RAND_NUM(stage.candyType)
+	GameArea::GameArea(Stage & stage)
+		:x(280), y(35), MAX_RAND_NUM(stage.candyType), stage(&stage), initiating(1), ending(0), running(1)
 	{}
 
 	GameArea::~GameArea()
@@ -107,7 +108,7 @@ namespace game_framework
 		threeStar = stage.scoreThree;
 		lastHighScore = stage.lastHighScore;
 		moves.SetInteger(stage.maxStep);
-		running = true;
+
 		InitCandy(stage.initcandy);
 	}
 
@@ -219,15 +220,15 @@ namespace game_framework
 			break;
 		case 1:
 			RemoveRow(row);
-			CAudio::Instance()->Play(AUDIO_LINE_BLAST, false);
+			if (!initiating)CAudio::Instance()->Play(AUDIO_LINE_BLAST, false);
 			break;
 		case 2:
 			RemoveColumn(column);
-			CAudio::Instance()->Play(AUDIO_LINE_BLAST, false);
+			if (!initiating)CAudio::Instance()->Play(AUDIO_LINE_BLAST, false);
 			break;
 		case 3:
 			RemoveSquare(row, column, 1);
-			CAudio::Instance()->Play(AUDIO_SQUARE_REMOVE1, false);
+			if (!initiating)CAudio::Instance()->Play(AUDIO_SQUARE_REMOVE1, false);
 			break;
 		case 4:
 			RemoveStyle();
@@ -457,6 +458,33 @@ namespace game_framework
 
 	void GameArea::OnMove()
 	{
+		UpdateCurPosition();
+		PutCandy();			//put candy at apawning area if it's empty
+		DropCandy();		//drop if candy hvnt touch the ground/other candy
+
+		for (int i = 0; i < MaxHeight; i++)
+			for (int j = 0; j < MaxWidth; j++)
+				if(candies[i][j].GetStyle() > 0)
+					candies[i][j].OnMove(initiating);
+
+		if (!IsDropping())
+		{
+			int amountCleared = ClearCombo();
+
+			if (!initiating && amountCleared && clickedCandies.size() == 2)
+			{//If there is a combo after swapping candies, initiate click, -1 moves
+				moves.Minus(1);
+				InitClickedCandy();
+			}
+			else if (!initiating && !amountCleared && clickedCandies.size() == 2)
+			{ //else swap two candies back to original position
+				CAudio::Instance()->Play(AUDIO_NEG_SWAP, false);
+				SwapCandy();
+				InitClickedCandy();
+			}
+			if(!initiating) Sleep(100);
+		}
+
 		for (auto i = blasts.begin(); i != blasts.end();)
 		{
 			if ((*i)->IsLast())
@@ -471,33 +499,7 @@ namespace game_framework
 			}
 		}
 
-		UpdateCurPosition();
-		PutCandy();			//put candy at apawning area if it's empty
-		DropCandy();		//drop if candy hvnt touch the ground/other candy
-
-		for (int i = 0; i < MaxHeight; i++)
-			for (int j = 0; j < MaxWidth; j++)
-				if(candies[i][j].GetStyle() > 0)
-					candies[i][j].OnMove();
-
-		if (!IsDropping())
-		{
-			int amountCleared = ClearCombo();
-
-			if (amountCleared && clickedCandies.size() == 2)
-			{//If there is a combo after swapping candies, initiate click, -1 moves
-				moves.Minus(1);
-				InitClickedCandy();
-			}
-			else if (!amountCleared && clickedCandies.size() == 2)
-			{ //else swap two candies back to original position
-				CAudio::Instance()->Play(AUDIO_NEG_SWAP, false);
-				SwapCandy();
-				InitClickedCandy();
-			}
-			Sleep(100);
-		}
-			
+		if (!moves.GetInteger()) running = false; //temp : gameover when move = 0
 	}
 
 	void GameArea::OnLButtonDown(UINT nFlags, CPoint point)
@@ -560,6 +562,16 @@ namespace game_framework
 				}
 			}
 		}
+
+		while (!drop && (ClearCombo() || IsDropping()))
+			OnMove();
+
+		initiating = false;
+	}
+
+	bool GameArea::IsGameOver()
+	{
+		return !running;
 	}
 
 	void GameArea::DropCandy()
@@ -735,14 +747,14 @@ namespace game_framework
 					RemoveContinuous(line, i - (count - 1), i, axis, temp);
 					count = 1;
 					comboDeleted++;
-					CAudio::Instance()->Play(audioID[comboDeleted > 12 ? 11 : comboDeleted - 1], false);
+					if (!initiating)CAudio::Instance()->Play(audioID[comboDeleted > 12 ? 11 : comboDeleted - 1], false);
 				}
 			}
 			if (count >= 3)
 			{
 				RemoveContinuous(line, line.size() - count, line.size(), axis, temp);
 				comboDeleted++;
-				CAudio::Instance()->Play(audioID[comboDeleted > 12 ? 11 : comboDeleted - 1], false);
+				if (!initiating)CAudio::Instance()->Play(audioID[comboDeleted > 12 ? 11 : comboDeleted - 1], false);
 			}
 			line.clear();
 			if (toDelete.size() < 3) break;	//break if there is not enough candies to form a combo
@@ -762,7 +774,7 @@ namespace game_framework
 			if (axis == 'y') temp.insert(line[j]);
 			else if(packCandy && find(temp.begin(), temp.end(), line[j]) != temp.end())
 			{
-				CAudio::Instance()->Play(AUDIO_PACK_CREATE, false);
+				if (!initiating)CAudio::Instance()->Play(AUDIO_PACK_CREATE, false);
 				line[j]->SetPower(3);
 				line[j]->Relive();
 				superCandy = linePower = packCandy = false;
@@ -771,7 +783,7 @@ namespace game_framework
 
 			if (linePower && find(clickedCandies.begin(), clickedCandies.end(), line[j]) != clickedCandies.end())
 			{
-				CAudio::Instance()->Play(AUDIO_LINE_CREATE, false);
+				if (!initiating)CAudio::Instance()->Play(AUDIO_LINE_CREATE, false);
 				line[j]->Relive();
 				line[j]->SetPower(axis == 'x' ? 2 : 1);
 				linePower = false;
@@ -780,23 +792,23 @@ namespace game_framework
 
 			if (superCandy && find(clickedCandies.begin(), clickedCandies.end(), line[j]) != clickedCandies.end())
 			{
-				CAudio::Instance()->Play(AUDIO_SUPER_CREATE, false);
+				if (!initiating)CAudio::Instance()->Play(AUDIO_SUPER_CREATE, false);
 				line[j]->Relive();
 				line[j]->SetPower(4);
 				superCandy = false;
 				continue;
 			}
-			score.Add(60);
+			if (!initiating)score.Add(60);
 		}
 		if (linePower)
 		{
-			CAudio::Instance()->Play(AUDIO_LINE_CREATE, false);
+			if (!initiating)CAudio::Instance()->Play(AUDIO_LINE_CREATE, false);
 			line[offset]->SetPower(axis == 'x' ? 2 : 1);
 			line[offset]->Relive();
 		}
 		if (superCandy)
 		{
-			CAudio::Instance()->Play(AUDIO_SUPER_CREATE, false);
+			if (!initiating)CAudio::Instance()->Play(AUDIO_SUPER_CREATE, false);
 			line[offset]->SetPower(4);
 			line[offset]->Relive();
 		}
@@ -837,6 +849,7 @@ namespace game_framework
 			for (int j = 0; j < MaxWidth; j++)
 				if (candies[i][j].IsMoving()) 
 					return true;
+		if (blasts.size()) return true;
 		return false;
 	}
 

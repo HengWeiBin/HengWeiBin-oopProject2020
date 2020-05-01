@@ -19,7 +19,7 @@
 0	#horizontal
 0	#Teffect
 0	#chocolate
-3	#candy type
+6	#candy type
 1	#mode
 0	#initcandy
 0	#last score history

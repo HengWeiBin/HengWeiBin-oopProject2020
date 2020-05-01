@@ -62,7 +62,7 @@ namespace game_framework
 		superClick.LoadBitmap(IDB_SUPER_C, RGB(255, 255, 255));
 	}
 
-	void Candy::OnMove()
+	void Candy::OnMove(bool mute)
 	{
 		if (pushX != 0 || pushY != 0)
 		{
@@ -97,7 +97,7 @@ namespace game_framework
 				y = dy;
 				fallingSpeed = 0;
 				int sound = rand() % 4;
-				CAudio::Instance()->Play(audioID[sound], false);
+				if (!mute)CAudio::Instance()->Play(audioID[sound], false);
 			}
 		}
 
