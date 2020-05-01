@@ -499,7 +499,11 @@ namespace game_framework
 			}
 		}
 
-		if (!moves.GetInteger()) running = false; //temp : gameover when move = 0
+		if (!moves.GetInteger()) 
+		{//for temporary use, gameover when move = 0
+			stage->lastHighScore = score.GetInteger();
+			running = false;
+		}
 	}
 
 	void GameArea::OnLButtonDown(UINT nFlags, CPoint point)
