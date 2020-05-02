@@ -9,7 +9,7 @@ namespace game_framework
 	{
 		friend class GameArea;
 	public:
-		Stage(string);
+		Stage(int);
 		void LoadStage();
 		double GetScoreOne();
 		double GetScoreTwo();
@@ -17,7 +17,7 @@ namespace game_framework
 		double GetLastScoreHistory();
 		bool IsUnlock();
 		void RemoveLine();
-		void WriteBack(int LastScore);
+		void WriteBack();
 	private:
 		int map[13][20];
 		double scoreOne, scoreTwo, scoreThree;		//Target score for three star
@@ -28,7 +28,7 @@ namespace game_framework
 		int mode;
 		bool isUnlock;
 		bool initcandy;
-		string stageTxt;
+		string stageTxt[2];
 	};
 }
 #endif

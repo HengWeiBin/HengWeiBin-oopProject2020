@@ -79,8 +79,8 @@
 #define IDB_YEL_VER_C                   218
 #define IDB_YEL_PAC_C                   219
 #define IDB_BLACK_BAR                   220
-#define IDB_TIFFY0                      221
-#define IDB_TIFFY1                      222
+#define IDB_TIFFY_0                     221
+#define IDB_TIFFY_1                     222
 #define IDB_BLU_NOR1                    223
 #define IDB_BLU_NOR2                    224
 #define IDB_YEL_NOR1                    225
@@ -271,6 +271,14 @@
 #define ID_BUTTON_FULLSCREEN            32773
 #define ID_BUTTON_PAUSE                 32774
 #define ID_BUTTON_UNITTEST              32775
+#define IDB_TIFFY_2						32776
+#define IDB_TIFFY_3						32777
+#define IDB_TIFFY_4						32778
+#define IDB_TIFFY_5						32779
+#define IDB_TIFFY_6						32780
+#define IDB_TIFFY_7						32781
+#define IDB_TIFFY_8						32782
+#define IDB_TIFFY_9						32783
 
 // Next default values for new objects
 // 

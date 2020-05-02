@@ -147,11 +147,12 @@ namespace game_framework {
 	private:
 		void LoadStage();
 
-		CMovingBitmap menuBackground, woodBackgourd;
+		CMovingBitmap menuBackground, woodBackgourd, unlockIcon;
 		const int totalStage;
 		vector<Stage*> stages;
 		int sy;
 		int MAX_Y, MIN_Y;
 		bool IsMovingUp, IsMovingDown;
+		int StagePos[15][2];
 	};
 }

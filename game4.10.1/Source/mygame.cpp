@@ -89,10 +89,30 @@ namespace game_framework {
 		// 此OnInit動作會接到CGameStaterRun::OnInit()，所以進度還沒到100%
 		//
 		/*
-		tiffy.AddBitmap("Bitmaps/tiffy0.bmp",RGB(0, 0, 0));
-		tiffy.AddBitmap("Bitmaps/tiffy1.bmp", RGB(0, 0, 0));
-		tiffy.SetDelayCount(20);
-		*/
+		static int TiffyBitmap[10] = { IDB_TIFFY_0 , IDB_TIFFY_1 ,IDB_TIFFY_2,IDB_TIFFY_3,IDB_TIFFY_4,IDB_TIFFY_5,IDB_TIFFY_6,IDB_TIFFY_7,IDB_TIFFY_8,IDB_TIFFY_9 };
+		for (int i = 0; i < 10; i++) {
+			tiffy.AddBitmap(TiffyBitmap[i], RGB(255, 255, 255));
+		}*/
+
+		tiffy.AddBitmap("Bitmaps/Tiffy_0.bmp", RGB(255, 255, 255));
+		tiffy.AddBitmap("Bitmaps/Tiffy_1.bmp", RGB(255, 255, 255));
+		tiffy.AddBitmap("Bitmaps/Tiffy_2.bmp", RGB(255, 255, 255));
+		tiffy.AddBitmap("Bitmaps/Tiffy_3.bmp", RGB(255, 255, 255));
+		tiffy.AddBitmap("Bitmaps/Tiffy_4.bmp", RGB(255, 255, 255));
+		tiffy.AddBitmap("Bitmaps/Tiffy_5.bmp", RGB(255, 255, 255));
+		tiffy.AddBitmap("Bitmaps/Tiffy_6.bmp", RGB(255, 255, 255));
+		tiffy.AddBitmap("Bitmaps/Tiffy_7.bmp", RGB(255, 255, 255));
+		tiffy.AddBitmap("Bitmaps/Tiffy_8.bmp", RGB(255, 255, 255));
+		tiffy.AddBitmap("Bitmaps/Tiffy_9.bmp", RGB(255, 255, 255));
+		tiffy.AddBitmap("Bitmaps/Tiffy_8.bmp", RGB(255, 255, 255));
+		tiffy.AddBitmap("Bitmaps/Tiffy_7.bmp", RGB(255, 255, 255));
+		tiffy.AddBitmap("Bitmaps/Tiffy_6.bmp", RGB(255, 255, 255));
+		tiffy.AddBitmap("Bitmaps/Tiffy_5.bmp", RGB(255, 255, 255));
+		tiffy.AddBitmap("Bitmaps/Tiffy_4.bmp", RGB(255, 255, 255));
+		tiffy.AddBitmap("Bitmaps/Tiffy_3.bmp", RGB(255, 255, 255));
+		tiffy.AddBitmap("Bitmaps/Tiffy_2.bmp", RGB(255, 255, 255));
+		tiffy.AddBitmap("Bitmaps/Tiffy_1.bmp", RGB(255, 255, 255));
+		tiffy.SetDelayCount(3);
 	}
 
 	void CGameStateInit::OnBeginState()
@@ -132,8 +152,9 @@ namespace game_framework {
 		playButton.SetTopLeft(SIZE_X / 2 - playButton.Width() / 2, SIZE_Y / 5 * 4 - playButton.Height());
 		playButton.ShowBitmap();
 
-		//tiffy.OnShow();
-		//tiffy.OnMove();
+		tiffy.SetTopLeft(95, 400);
+		tiffy.OnShow();
+		tiffy.OnMove();
 	}
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -301,11 +322,20 @@ namespace game_framework {
 		gameArea.OnShow();
 	}
 
-	CGameStateMenu::CGameStateMenu(CGame *g) : CGameState(g), totalStage(2)
+	CGameStateMenu::CGameStateMenu(CGame *g) : CGameState(g), totalStage(5)
 	{
 		IsMovingUp = false; IsMovingDown = false;
 		MAX_Y = 0; MIN_Y = -3600;
 		sy = -3600;
+
+		int Pos[][2] = { {270,4030},{495,3980},{530,3850},{320,3870},{135,3910},
+						 {135,3750},{340,3690},{570,3720},{770,3800},{960,3840},
+						 {1085,3750},{1010,3600},{760,3540},{520,3590},{280,3585} };
+		for (int i = 0; i < 15; i++) {
+			for (int j = 0; j < 2; j++) {
+				StagePos[i][j] = Pos[i][j];
+			}
+		}
 	}
 
 	CGameStateMenu::~CGameStateMenu()
@@ -317,13 +347,15 @@ namespace game_framework {
 	void CGameStateMenu::OnInit()
 	{
 		woodBackgourd.LoadBitmap("Bitmaps/WoodBackground.bmp");
-		menuBackground.LoadBitmap("Bitmaps/stage_map.bmp"); 
+		menuBackground.LoadBitmap("Bitmaps/stage_map.bmp");
+
+		//temporary unlock icon
+		unlockIcon.LoadBitmap("Bitmaps/Unlock_Level .bmp");
 		CAudio::Instance()->Load(AUDIO_STAGE, "sounds\\Overworld_Level_Select.mp3");
 		
 		//load stage
-		string FileName = ".\\Stages\\cnt_stage";
 		for (int i = 0; i < totalStage; i++) {
-			stages.push_back(new Stage(FileName + to_string(i + 1) + ".txt"));
+			stages.push_back(new Stage(i+1));
 			stages[i]->LoadStage();
 		}
 
@@ -336,8 +368,8 @@ namespace game_framework {
 
 	void CGameStateMenu::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
-		const char KEY_UP = 0x26; // keyboard¤W½bÀY
-		const char KEY_DOWN = 0x28; // keyboard¤U½bÀY
+		const char KEY_UP = 0x26;
+		const char KEY_DOWN = 0x28; 
 		if (nChar == KEY_UP) {
 			IsMovingUp=true;
 		}
@@ -418,6 +450,14 @@ namespace game_framework {
 			sy = 0;
 		menuBackground.SetTopLeft(40, sy);
 		menuBackground.ShowBitmap();
+
+		//show unlock icon
+		for (int i = 0; i < totalStage; i++) {
+			if (!stages[i]->IsUnlock()) {
+				unlockIcon.SetTopLeft(StagePos[i][0], StagePos[i][1] + sy);
+				unlockIcon.ShowBitmap();
+			}
+		}
 	}
 
 	void CGameStateMenu::LoadStage()

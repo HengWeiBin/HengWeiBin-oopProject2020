@@ -504,7 +504,10 @@ namespace game_framework
 		if (!moves.GetInteger()) 
 		{//for temporary use, gameover when move = 0
 			if (stage->lastHighScore < score.GetInteger())
+			{
 				stage->lastHighScore = score.GetInteger();
+				stage->WriteBack();
+			}
 			running = false;
 		}
 	}

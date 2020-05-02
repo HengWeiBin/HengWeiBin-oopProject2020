@@ -930,5 +930,8 @@
     <Image Include="Bitmaps\GreenStar1.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Bitmaps\Unlock_Level .bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
