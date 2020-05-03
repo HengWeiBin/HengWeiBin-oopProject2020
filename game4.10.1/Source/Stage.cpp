@@ -10,7 +10,7 @@
 
 using namespace std;
 
-game_framework::Stage::Stage(string files)
+game_framework::Stage::Stage(int files)
 {
 	scoreOne = 0; scoreTwo = 0; scoreThree = 0;		//Target score for three star
 	vertical = 0; horizontal = 0; pack = 0; chocolate = 0;	//total special candy spawn onInit
@@ -19,13 +19,14 @@ game_framework::Stage::Stage(string files)
 	maxStep = 0;
 	mode = 0;
 	isUnlock = 0;
-	stageTxt = files;
+	for(int i=0;i<2;i++)
+		stageTxt[i] = ".\\Stages\\cnt_stage" + to_string(files+i) + ".txt";
 }
 
 void game_framework::Stage::LoadStage()
 {
 	fstream InputStage;
-	InputStage.open(stageTxt);
+	InputStage.open(stageTxt[0]);
 	string data[13];
 	string file;
 	//MAP
@@ -99,35 +100,46 @@ bool game_framework::Stage::IsUnlock()
 without last 2 lines(last score and isunlock*/
 void game_framework::Stage::RemoveLine()
 {
-	ifstream read(stageTxt);
-	ofstream myFile;
-	string file;
-	const char* data = stageTxt.data();
-	myFile.open("temp.txt", ofstream::out);
-	int line_no = 1, n = 26;
-	while (!read.eof())
+
+	for (int i = 0; i < 2; i++)
 	{
-		getline(read, file, '\n');
-		line_no++;
-		/*REMEMBER CHANGE THESE 2LINE, REMOVE THE +2 
-		WHEN WE'RE DONE CREATE THE GAME_END_STATE*/
-		if (line_no < n + 2)
+		ifstream read(stageTxt[i]);
+		ofstream myFile;
+		string file;
+		const char* data = stageTxt[i].data();
+		myFile.open("temp.txt", ofstream::out);
+		int line_no = 1, n = 26;
+		while (!read.eof())
 		{
-			myFile << file;
-			myFile << '\n';
+			getline(read, file, '\n');
+			line_no++;
+			/*REMEMBER CHANGE THESE 2LINE, REMOVE THE +2 
+			WHEN WE'RE DONE CREATE THE GAME_END_STATE*/
+			if (line_no < n )
+			{
+				myFile << file;
+				myFile << '\n';
+			}
 		}
+		myFile.close();
+		read.close();
+		remove(data);
+		rename("temp.txt", data);
 	}
-	myFile.close();
-	read.close();
-	remove(data);
-	rename("temp.txt", data);
+
 }
 
-void game_framework::Stage::WriteBack(int LastScore)
+void game_framework::Stage::WriteBack()
 {
-	ofstream myFile(stageTxt, ofstream::app);
-	myFile << "\n" << LastScore << "\t#LastScore";
-	myFile << "\n1\t#IsUnlock";
-	myFile.close();
+		RemoveLine();
+		ofstream myFile(stageTxt[0], ofstream::app);
+		myFile << lastHighScore << "\t#LastScore";
+		myFile << "\n1\t#IsUnlock";
+		myFile.close();
+
+		ofstream myFile1(stageTxt[1], ofstream::app);
+		myFile1 << "0\t#LastScore";
+		myFile1 << "\n1\t#IsUnlock";
+		myFile1.close();
 }
 
