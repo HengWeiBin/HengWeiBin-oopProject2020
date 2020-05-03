@@ -108,9 +108,13 @@ namespace game_framework
 		twoStar = stage.scoreTwo;
 		threeStar = stage.scoreThree;
 		lastHighScore = stage.lastHighScore;
-		moves.SetInteger(stage.maxStep);
+		moves = stage.maxStep;
 		this->stage = &stage;
 
+		score = 0;
+		initiating = true;
+		ending = false;
+		running = true;
 		InitCandy(stage.initcandy);
 	}
 
@@ -121,7 +125,7 @@ namespace game_framework
 		//bar_height = 254;
 		//bottom left point 152,339px
 		int X_point = (scoreBoard.Left() + 150), Y_point = (scoreBoard.Top() + 339); //scoreBar set point
-		double currentLevel = (score / threeStar) * 129;
+		double currentLevel = (score.GetInteger() / threeStar) * 129;
 		currentLevel = currentLevel > 129 ? 129 : currentLevel;
 		for (int i = 0; i < 129; i++)
 		{

@@ -1300,6 +1300,7 @@ namespace game_framework {
 				rgbT = GetPixel(hdc, 0, 0);             // save (0,0) pixel value
 				SetPixel(hdc, 0, 0, color);             // set our value
 				lpDDSurface->ReleaseDC(hdc);
+				
 			}
 			ddsd.dwSize = sizeof(ddsd);
 			while ((hres = lpDDSurface->Lock(NULL, &ddsd, 0, NULL)) == DDERR_WASSTILLDRAWING);

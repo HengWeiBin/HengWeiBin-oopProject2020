@@ -19,8 +19,8 @@ game_framework::Stage::Stage(int files)
 	maxStep = 0;
 	mode = 0;
 	isUnlock = 0;
-	for(int i=0;i<2;i++)
-		stageTxt[i] = ".\\Stages\\cnt_stage" + to_string(files+i) + ".txt";
+	for (int i = 0; i < 2; i++)
+		stageTxt[i] = ".\\Stages\\cnt_stage" + to_string(files + i) + ".txt";
 }
 
 void game_framework::Stage::LoadStage()

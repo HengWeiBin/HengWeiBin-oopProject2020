@@ -1,4 +1,4 @@
-// stdafx.h : include file for standard system include files,
+﻿// stdafx.h : include file for standard system include files,
 //  or project specific include files that are used frequently, but
 //      are changed infrequently
 //
@@ -32,5 +32,12 @@
 
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Developer Studio will insert additional declarations immediately before the previous line.
-
+#define _CRTDBG_MAP_ALLOC
+#ifdef _DEBUG
+#define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
+// Replace _NORMAL_BLOCK with _CLIENT_BLOCK if you want the
+// allocations to be of _CLIENT_BLOCK type
+#else
+#define DBG_NEW new
+#endif
 #endif // !defined(AFX_STDAFX_H__243A7A47_6962_11D3_9B4D_BAD1A91E5344__INCLUDED_)
