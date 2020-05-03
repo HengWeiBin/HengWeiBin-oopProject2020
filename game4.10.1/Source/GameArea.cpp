@@ -18,7 +18,7 @@ namespace game_framework
 	GameArea::GameArea() 
 		:x(280), y(35), MAX_RAND_NUM(4), threeStar(40000), initiating(1), ending(0), running(1)
 	{
-		score.SetInteger(0);
+		score = 0;
 		LoadStage(1);				//temp
 		for (int i = 0; i < MaxHeight; i++)
 			for (int j = 0; j < MaxWidth; j++)
@@ -121,7 +121,7 @@ namespace game_framework
 		//bar_height = 254;
 		//bottom left point 152,339px
 		int X_point = (scoreBoard.Left() + 150), Y_point = (scoreBoard.Top() + 339); //scoreBar set point
-		double currentLevel = (score.GetInteger() / threeStar) * 129;
+		double currentLevel = (score / threeStar) * 129;
 		currentLevel = currentLevel > 129 ? 129 : currentLevel;
 		for (int i = 0; i < 129; i++)
 		{
@@ -176,9 +176,9 @@ namespace game_framework
 
 		///Show Stars//////////////////
 		//Show empty star if score is lower than each relative score
-		CMovingBitmap *thirdStar = score.GetInteger() >= threeStar ? &yellowStar : &emptyStar2;
-		CMovingBitmap *secondStar = score.GetInteger() >= twoStar ? &greenStar : &emptyStar1;
-		CMovingBitmap *firstStar = score.GetInteger() >= oneStar ? &redStar : &emptyStar1;
+		CMovingBitmap *thirdStar = score >= threeStar ? &yellowStar : &emptyStar2;
+		CMovingBitmap *secondStar = score >= twoStar ? &greenStar : &emptyStar1;
+		CMovingBitmap *firstStar = score >= oneStar ? &redStar : &emptyStar1;
 
 		thirdStar->SetTopLeft(X_point, scoreBoard.Top() + (81 - yellowStar.Height() / 2));
 		thirdStar->ShowBitmap();
@@ -503,7 +503,7 @@ namespace game_framework
 
 		if (!moves.GetInteger()) 
 		{//for temporary use, gameover when move = 0
-			if (stage->lastHighScore < score.GetInteger())
+			if (stage->lastHighScore < score)
 				stage->lastHighScore = score.GetInteger();
 			running = false;
 		}
@@ -805,7 +805,7 @@ namespace game_framework
 				superCandy = false;
 				continue;
 			}
-			if (!initiating)score.Add(60);
+			if (!initiating)score += 60;
 		}
 		if (linePower)
 		{

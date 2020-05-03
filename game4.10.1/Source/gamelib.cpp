@@ -243,9 +243,36 @@ namespace game_framework {
 
 	CMovingBitmap CInteger::digit[11];
 
-	CInteger::CInteger(int digits)
-		: NUMDIGITS(digits)
+
+	int GetDigit(int n)
 	{
+		n = abs(n);
+		int digit = 0;
+		while (n > 0)
+		{
+			digit++;
+			n /= 10;
+		}
+		return digit;
+	}
+
+	CInteger::CInteger()
+		: NUMDIGITS(1), n(0)
+	{
+		isBmpLoaded = false;
+	}
+
+	CInteger::CInteger(int n)
+		: n(n)
+	{
+		NUMDIGITS = GetDigit(this->n);
+		isBmpLoaded = false;
+	}
+
+	CInteger::CInteger(double n)
+		: n((int)n)
+	{
+		NUMDIGITS = GetDigit(this->n);
 		isBmpLoaded = false;
 	}
 
@@ -281,6 +308,60 @@ namespace game_framework {
 		}
 	}
 
+	void CInteger::operator+=(int rhs)
+	{
+		this->n += rhs;
+		this->SetDigit(GetDigit(this->n));
+	}
+
+	void CInteger::operator++(int)
+	{
+		this->n++;
+		this->SetDigit(GetDigit(this->n));
+	}
+
+	void CInteger::operator++()
+	{
+		++(this->n);
+		this->SetDigit(GetDigit(this->n));
+	}
+
+	void CInteger::operator-=(int rhs)
+	{
+		this->n -= rhs;
+		this->SetDigit(GetDigit(this->n));
+	}
+
+	void CInteger::operator--(int)
+	{
+		this->n--;
+		this->SetDigit(GetDigit(this->n));
+	}
+
+	void CInteger::operator--()
+	{
+		--(this->n);
+		this->SetDigit(GetDigit(this->n));
+	}
+
+	void CInteger::operator*=(int rhs)
+	{
+		this->n *= rhs;
+		this->SetDigit(GetDigit(this->n));
+	}
+
+	void CInteger::operator/=(int rhs)
+	{
+		this->n /= rhs;
+		this->SetDigit(GetDigit(this->n));
+	}
+
+	void CInteger::operator=(int rhs)
+	{
+		this->n = rhs;
+		this->SetDigit(GetDigit(this->n));
+	}
+
 	void CInteger::SetInteger(int i)
 	{
 		n = i;
@@ -293,7 +374,7 @@ namespace game_framework {
 
 	void CInteger::ShowBitmap()
 	{
-		//GAME_ASSERT(isBmpLoaded, "CInteger: 請先執行LoadBitmap，然後才能ShowBitmap");
+		GAME_ASSERT(NUMDIGITS, "CInteger: 請先執行SetDigit，然後才能ShowBitmap");
 		int nx;		// 待顯示位數的 x 座標
 		int MSB;	// 最左邊(含符號)的位數的數值
 		if (n >= 0) {
@@ -317,6 +398,50 @@ namespace game_framework {
 		}
 	}
 
+	int operator+(const CInteger& lhs, const CInteger& rhs)
+	{
+		return lhs.n + rhs.n;
+	}
+
+	int operator-(const CInteger& lhs, const CInteger& rhs)
+	{
+		return lhs.n - rhs.n;
+	}
+
+	int operator*(const CInteger& lhs, const CInteger& rhs)
+	{
+		return lhs.n * rhs.n;
+	}
+
+	int operator/(const CInteger& lhs, const CInteger& rhs)
+	{
+		return lhs.n / rhs.n;
+	}
+
+	bool operator==(const CInteger& lhs, const CInteger& rhs)
+	{
+		return lhs.n == rhs.n;
+	}
+
+	bool operator<(const CInteger& lhs, const CInteger& rhs)
+	{
+		return lhs.n < rhs.n;
+	}
+
+	bool operator<=(const CInteger& lhs, const CInteger& rhs)
+	{
+		return lhs.n <= rhs.n;
+	}
+
+	bool operator>(const CInteger& lhs, const CInteger& rhs)
+	{
+		return lhs.n > rhs.n;
+	}
+
+	bool operator>=(const CInteger& lhs, const CInteger& rhs)
+	{
+		return lhs.n >= rhs.n;
+	}
 
 	/////////////////////////////////////////////////////////////////////////////
 	// CMovingBitmap: Moving Bitmap class
