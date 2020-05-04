@@ -23,14 +23,12 @@ namespace game_framework
 	{
 	public:
 		GameArea();
-		GameArea(Stage& stage);
 		~GameArea();
 		int GetScore();									//Get current score
 		void InitCandy(bool drop = true);				//spawn all candies randomly
 		bool IsGameOver();
 		void LoadBitmap();								//load game area's background
-		void LoadStage(int);							//read map from file
-		void LoadStage(Stage& stage);
+		void LoadStage(vector<Stage*>& stages, int);	//read map from file
 		void OnShow();									//Display game area and candy
 		void OnMove();
 		void OnLButtonDown(UINT nFlags, CPoint point);	//handle mouse click
@@ -77,7 +75,7 @@ namespace game_framework
 		CMovingBitmap emptyStar2, emptyStar1;
 		CInteger score, moves;
 
-		Stage *stage;
+		vector<Stage*>::iterator stage;
 		int MAX_RAND_NUM;									//types of candies in this games
 		double oneStar, twoStar, threeStar, lastHighScore;	//Target
 		bool initiating, ending, running;

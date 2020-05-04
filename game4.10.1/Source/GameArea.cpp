@@ -19,19 +19,13 @@ namespace game_framework
 		:x(280), y(35), MAX_RAND_NUM(4), threeStar(40000), initiating(1), ending(0), running(1)
 	{
 		score = 0;
-		LoadStage(1);				//temp
 		for (int i = 0; i < MaxHeight; i++)
 			for (int j = 0; j < MaxWidth; j++)
 				curPosition[i][j] = NULL;
 	}
 
-	GameArea::GameArea(Stage & stage)
-		:x(280), y(35), MAX_RAND_NUM(stage.candyType), stage(&stage), initiating(1), ending(0), running(1)
-	{}
-
 	GameArea::~GameArea()
 	{
-		stage = NULL;
 		for (auto i = blasts.begin(); i != blasts.end(); i++)
 			delete *i;
 	}
@@ -56,68 +50,30 @@ namespace game_framework
 					candies[i][j].LoadBitmap();
 	}
 
-	void GameArea::LoadStage(int)
-	{
-		fstream InputStage;
-		InputStage.open(".\\Stages\\cnt_stage1.txt");
-		string data[12];
-		string file;
-		//MAP
-		for (int i = 0; i < 13; i++) {
-			getline(InputStage, file);
-			for (int j = 0; j < 20; j++) {
-				switch (file[j])
-				{
-				case '0': map[i][j] = 0; break;		//0 = none, !0 = gameArea
-				case '2': map[i][j] = 2; break;		//2 = normalArea
-				case '3': map[i][j] = 3; break;		//3 = singleJelly
-				case '4': map[i][j] = 4; break;		//4 = doubleJelly
-				case '1': map[i][j] = 1; break;		//1 = candy spawning area
-				}
-			}
-		}
-		//ETC
-		for (int i = 2; i < 12; i++) {
-			getline(InputStage, file, '\n');
-			data[i] = file.substr(0, file.find('\t'));
-		}
-
-		//LAST SCORE
-		getline(InputStage, file, '\n');
-		data[0] = file.substr(0, file.find('\t'));
-		//data[0] = file;
-		//IS_UNCLOCK
-		getline(InputStage, file, '\n');
-		data[1] = file.substr(0, file.find('\t'));
-
-		InputStage.close();
-		lastHighScore = stoi(data[0]);
-	}
-
-	void GameArea::LoadStage(Stage & stage)
+	void GameArea::LoadStage(vector<Stage*>& stages, int index)
 	{
 		for (int i = 0; i < MaxHeight; i++)
 		{
 			for (int j = 0; j < MaxWidth; j++)
 			{
-				map[i][j] = stage.map[i][j];
+				map[i][j] = stages[index]->map[i][j];
 				if (map[i][j] == 1)
 					spawnArea.push_back(pair<int, int>(i, j));
 			}
 		}
-		MAX_RAND_NUM = stage.candyType;
-		oneStar = stage.scoreOne;
-		twoStar = stage.scoreTwo;
-		threeStar = stage.scoreThree;
-		lastHighScore = stage.lastHighScore;
-		moves = stage.maxStep;
-		this->stage = &stage;
+		MAX_RAND_NUM = stages[index]->candyType;
+		oneStar = stages[index]->scoreOne;
+		twoStar = stages[index]->scoreTwo;
+		threeStar = stages[index]->scoreThree;
+		lastHighScore = stages[index]->lastHighScore;
+		moves = stages[index]->maxStep;
+		this->stage = find(stages.begin(), stages.end(), stages[index]);
 
 		score = 0;
 		initiating = true;
 		ending = false;
 		running = true;
-		InitCandy(stage.initcandy);
+		InitCandy(stages[index]->initcandy);
 	}
 
 	void GameArea::ShowScoreBoard() 
@@ -509,10 +465,10 @@ namespace game_framework
 
 		if (!moves.GetInteger()) 
 		{//for temporary use, gameover when move = 0
-			if (stage->lastHighScore < score)
+			if ((*stage)->lastHighScore < score)
 			{
-				stage->lastHighScore = score.GetInteger();
-				stage->WriteBack();
+				(*stage)->lastHighScore = score.GetInteger();
+				(*stage)->WriteBack();
 			}
 			running = false;
 		}

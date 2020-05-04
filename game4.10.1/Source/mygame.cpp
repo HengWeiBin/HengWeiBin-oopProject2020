@@ -322,7 +322,7 @@ namespace game_framework {
 		gameArea.OnShow();
 	}
 
-	CGameStateMenu::CGameStateMenu(CGame *g) : CGameState(g), totalStage(5)
+	CGameStateMenu::CGameStateMenu(CGame *g) : CGameState(g), totalStage(6)
 	{
 		IsMovingUp = false; IsMovingDown = false;
 		MAX_Y = 0; MIN_Y = -3600;
@@ -399,7 +399,7 @@ namespace game_framework {
 			{
 				if (stages[i]->IsUnlock())
 				{
-					gameArea.LoadStage(*stages[i]);
+					gameArea.LoadStage(stages, i);
 					CAudio::Instance()->Stop(AUDIO_STAGE);
 					GotoGameState(GAME_STATE_RUN);
 				}
