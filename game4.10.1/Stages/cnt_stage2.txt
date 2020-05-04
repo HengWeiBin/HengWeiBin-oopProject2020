@@ -14,7 +14,7 @@
 6000 	#one star
 7000 	#two star
 8500 	#three star
-15 	#limit step
+4 	#limit step
 0	#vertical
 0	#horizontal
 0	#Teffect
@@ -22,5 +22,5 @@
 4	#candy type
 1	#mode
 1	#initcandy
-0	#LastScore
+10560	#LastScore
 1	#IsUnlock

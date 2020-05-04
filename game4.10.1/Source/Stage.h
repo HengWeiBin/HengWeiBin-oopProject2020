@@ -18,6 +18,7 @@ namespace game_framework
 		bool IsUnlock();
 		void RemoveLine();
 		void WriteBack();
+		void SetUnlock();
 	private:
 		int map[13][20];
 		double scoreOne, scoreTwo, scoreThree;		//Target score for three star

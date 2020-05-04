@@ -143,3 +143,8 @@ void game_framework::Stage::WriteBack()
 		myFile1.close();
 }
 
+void game_framework::Stage::SetUnlock()
+{
+	isUnlock = true;
+}
+
