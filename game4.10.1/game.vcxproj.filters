@@ -357,12 +357,6 @@
     <Image Include="bitmaps\bmp00001.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Bitmaps\tiffy0.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Bitmaps\tiffy1.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="Bitmaps\RedCandy1.bmp">
       <Filter>Resource Files</Filter>
     </Image>
@@ -931,6 +925,36 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Bitmaps\Unlock_Level .bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\Tiffy_9.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\Tiffy_8.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\Tiffy_7.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\Tiffy_6.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\Tiffy_5.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\Tiffy_4.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\Tiffy_3.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\Tiffy_2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\Tiffy_1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\Tiffy_0.bmp">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

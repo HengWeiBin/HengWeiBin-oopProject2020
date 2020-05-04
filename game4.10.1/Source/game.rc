@@ -1,4 +1,4 @@
-// Microsoft Visual C++ generated resource script.
+﻿// Microsoft Visual C++ generated resource script.
 //
 #include "resource.h"
 
@@ -237,10 +237,6 @@ IDB_SUPER               BITMAP                  "..\\Bitmaps\\SuperCandy.bmp"
 IDB_SUPER_C             BITMAP                  "..\\Bitmaps\\ClickedSuperCandy.bmp"
 
 IDB_CONTAINER           BITMAP                  "..\\Bitmaps\\container.bmp"
-
-IDB_TIFFY0              BITMAP                  "..\\Bitmaps\\tiffy0.bmp"
-
-IDB_TIFFY1              BITMAP                  "..\\Bitmaps\\tiffy1.bmp"
 
 IDB_RED_EXPL1           BITMAP                  "..\\Bitmaps\\RedExplode1.bmp"
 
