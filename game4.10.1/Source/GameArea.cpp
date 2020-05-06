@@ -52,7 +52,7 @@ namespace game_framework
 
 	void GameArea::LoadStage(vector<Stage*>& stages, int index)
 	{
-		GameArea();
+		spawnArea.clear();
 		for (int i = 0; i < MaxHeight; i++)
 		{
 			for (int j = 0; j < MaxWidth; j++)
@@ -172,7 +172,7 @@ namespace game_framework
 
 		if ((map[row][column] == 3 || map[row][column] == 4) && !initiating) map[row][column]--;
 
-		if(candy->GetStyle())
+		if(candy->GetStyle() && !initiating)
 			blasts.push_back(new NormalBlast(candy->GetStyle(), candy->GetTopLeftX(), candy->GetTopLeftY()));
 
 		int power = candy->GetPower();
@@ -529,6 +529,11 @@ namespace game_framework
 	}
 	void GameArea::InitCandy(bool drop)
 	{
+		for (auto i = blasts.begin(); i != blasts.end();)
+		{
+			delete *i;
+			blasts.erase(i++);
+		}
 		for (int i = 0; i < MaxHeight; i++)
 		{
 			for (int j = 0; j < MaxWidth; j++)
@@ -835,9 +840,12 @@ namespace game_framework
 	bool GameArea::IsDropping()
 	{
 		for (int i = 0; i < MaxHeight; i++)
+		{
 			for (int j = 0; j < MaxWidth; j++)
-				if (candies[i][j].IsMoving()) 
+				if (map[i][j] != 0 && candies[i][j].IsMoving())
 					return true;
+		}
+
 		if (blasts.size()) return true;
 		return false;
 	}
