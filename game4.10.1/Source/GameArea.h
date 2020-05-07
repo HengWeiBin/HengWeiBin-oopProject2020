@@ -57,7 +57,6 @@ namespace game_framework
 		void RemoveColumn(unsigned);					//remove whole column of candies
 		void RemoveSquare(int, int, int);				//remove surrounding candies according to level
 		void RemoveStyle(int style = 0);				//remove all specific candy
-		void ShowScoreBoard();
 		void SwapCandy();								//Swap candies in clickedCandies
 		void UpdateCurPosition();						//update current position of every candy
 
@@ -69,15 +68,10 @@ namespace game_framework
 		CMovingBitmap area, singleJelly, doubleJelly;	//container bmp
 		vector<Candy*> clickedCandies;
 		list<Blast*> blasts;
-
-		CMovingBitmap scoreBar, blackBar, scoreBoard;	//scoreboard		
-		CMovingBitmap yellowStar, greenStar, redStar;
-		CMovingBitmap emptyStar2, emptyStar1;
-		CInteger score, moves;
+		ScoreBoard scoreBoard;
 
 		vector<Stage*>::iterator stage;
 		int MAX_RAND_NUM;									//types of candies in this games
-		double oneStar, twoStar, threeStar, lastHighScore;	//Target
 		bool initiating, ending, running;
 	};
 }

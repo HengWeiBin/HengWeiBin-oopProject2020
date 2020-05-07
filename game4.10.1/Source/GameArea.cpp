@@ -11,14 +11,15 @@
 #include "Blast.h"
 #include "Candy.h"
 #include "Stage.h"
+#include "ScoreBoard.h"
 #include "GameArea.h"
 
 namespace game_framework
 {
 	GameArea::GameArea() 
-		:x(280), y(35), MAX_RAND_NUM(4), threeStar(40000), initiating(1), ending(0), running(1)
+		:x(280), y(35), MAX_RAND_NUM(4), initiating(1), ending(0), running(1)
 	{
-		score = 0;
+		scoreBoard.score = 0;
 		for (int i = 0; i < MaxHeight; i++)
 			for (int j = 0; j < MaxWidth; j++)
 				curPosition[i][j] = NULL;
@@ -35,15 +36,7 @@ namespace game_framework
 		area.LoadBitmap(IDB_CONTAINER);
 		singleJelly.LoadBitmap("Bitmaps\\Jelly1.bmp");
 		doubleJelly.LoadBitmap("Bitmaps\\Jelly2.bmp");
-		score.LoadBitmap();
-		scoreBoard.LoadBitmap("Bitmaps\\score_board.bmp", RGB(0, 0, 0));
-		scoreBar.LoadBitmap("Bitmaps\\ScoreBar.bmp");
-		blackBar.LoadBitmap(IDB_BLACK_BAR);
-		yellowStar.LoadBitmap("Bitmaps\\YellowStar1.bmp", RGB(0, 43, 255));
-		greenStar.LoadBitmap("Bitmaps\\GreenStar1.bmp", RGB(0, 43, 255));
-		redStar.LoadBitmap("Bitmaps\\RedStar1.bmp", RGB(0, 43, 255));
-		emptyStar1.LoadBitmap("Bitmaps\\EmptyStar1.bmp", RGB(0, 43, 255));
-		emptyStar2.LoadBitmap("Bitmaps\\EmptyStar2.bmp", RGB(0, 43, 255));
+		scoreBoard.LoadBitmap();
 		for(int i = 0; i < MaxHeight; i ++)
 			for(int j = 0; j < MaxWidth; j++)
 				if(candies[i][j].GetStyle() > 0)
@@ -63,92 +56,18 @@ namespace game_framework
 			}
 		}
 		MAX_RAND_NUM = stages[index]->candyType;
-		oneStar = stages[index]->scoreOne;
-		twoStar = stages[index]->scoreTwo;
-		threeStar = stages[index]->scoreThree;
-		lastHighScore = stages[index]->lastHighScore;
-		moves = stages[index]->maxStep;
+		scoreBoard.oneStar = stages[index]->scoreOne;
+		scoreBoard.twoStar = stages[index]->scoreTwo;
+		scoreBoard.threeStar = stages[index]->scoreThree;
+		scoreBoard.lastHighScore = stages[index]->lastHighScore;
+		scoreBoard.moves = stages[index]->maxStep;
 		this->stage = find(stages.begin(), stages.end(), stages[index]);
 
-		score = 0;
+		scoreBoard.score = 0;
 		initiating = true;
 		ending = false;
 		running = true;
 		InitCandy(stages[index]->initcandy);
-	}
-
-	void GameArea::ShowScoreBoard() 
-	{
-		/// Show score bar/////////////////
-		//bar_width = 45;
-		//bar_height = 254;
-		//bottom left point 152,339px
-		int X_point = (scoreBoard.Left() + 150), Y_point = (scoreBoard.Top() + 339); //scoreBar set point
-		double currentLevel = (score.GetInteger() / threeStar) * 129;
-		currentLevel = currentLevel > 129 ? 129 : currentLevel;
-		for (int i = 0; i < 129; i++)
-		{
-			if (i < currentLevel)
-			{
-				scoreBar.SetTopLeft(X_point, Y_point);
-				scoreBar.ShowBitmap();
-			}
-			else
-			{
-				blackBar.SetTopLeft(X_point, Y_point);
-				blackBar.ShowBitmap();
-			}
-			Y_point -= 2;
-		}
-		
-		/// Show score board/////////////////
-		scoreBoard.SetTopLeft((SIZE_X - 1211) / 2, ((SIZE_Y - 420) / 2));
-		scoreBoard.ShowBitmap();
-
-		///Show moves///////////////////
-		{
-			int CurrentMoves = moves.GetInteger();
-			int size = 1;
-			while (CurrentMoves > 9)
-			{
-				CurrentMoves /= 10;
-				size++;
-			}
-			if (size <= 7)
-			{
-				moves.SetDigit(size);
-				moves.SetTopLeft(scoreBoard.Left() + 110 - 9 * size, scoreBoard.Top() + 40);
-				moves.ShowBitmap();
-			}
-		}
-
-		/// Show score /////////////////
-		int CurrentScore = score.GetInteger();
-		int size = 1;
-		while (CurrentScore > 9) 
-		{
-			CurrentScore /= 10;
-			size++;
-		}
-		if (size <=7)
-		{
-			score.SetDigit(size);
-			score.SetTopLeft((scoreBoard.Left() + 135 - (18 * size)), scoreBoard.Top() + 125);
-			score.ShowBitmap();
-		}
-
-		///Show Stars//////////////////
-		//Show empty star if score is lower than each relative score
-		CMovingBitmap *thirdStar = score >= threeStar ? &yellowStar : &emptyStar2;
-		CMovingBitmap *secondStar = score >= twoStar ? &greenStar : &emptyStar1;
-		CMovingBitmap *firstStar = score >= oneStar ? &redStar : &emptyStar1;
-
-		thirdStar->SetTopLeft(X_point, scoreBoard.Top() + (81 - yellowStar.Height() / 2));
-		thirdStar->ShowBitmap();
-		secondStar->SetTopLeft(X_point, (int)(scoreBoard.Top() + 81 + (((threeStar - twoStar) / threeStar) * 254 - greenStar.Height() / 2)));
-		secondStar->ShowBitmap();
-		firstStar->SetTopLeft(X_point, (int)(scoreBoard.Top() + 81 + (((threeStar - oneStar) / threeStar) * 254 - redStar.Height() / 2)));
-		firstStar->ShowBitmap();
 	}
 
 	void GameArea::Find(Candy *candy, unsigned &row, unsigned &column)
@@ -347,7 +266,7 @@ namespace game_framework
 
 	int GameArea::GetScore()
 	{
-		return score.GetInteger();
+		return scoreBoard.score.GetInteger();
 	}
 
 	int GameArea::Compare(int first, int second)
@@ -376,7 +295,7 @@ namespace game_framework
 
 	void GameArea::OnShow()
 	{
-		ShowScoreBoard();
+		scoreBoard.OnShow();
 
 		///////////////////////////////////////////
 		// Show gamearea						///
@@ -438,7 +357,7 @@ namespace game_framework
 
 			if (!initiating && amountCleared && clickedCandies.size() == 2)
 			{//If there is a combo after swapping candies, initiate click, -1 moves
-				moves.Minus(1);
+				scoreBoard.moves -= 1;
 				InitClickedCandy();
 			}
 			else if (!initiating && !amountCleared && clickedCandies.size() == 2)
@@ -464,12 +383,12 @@ namespace game_framework
 			}
 		}
 
-		if (!moves.GetInteger()) 
+		if (!scoreBoard.moves.GetInteger())
 		{//for temporary use, gameover when move = 0
-			if ((*stage)->lastHighScore < score)
+			if ((*stage)->lastHighScore < scoreBoard.score)
 			{
 				(*(stage + 1))->SetUnlock();
-				(*stage)->lastHighScore = score.GetInteger();
+				(*stage)->lastHighScore = scoreBoard.score.GetInteger();
 				(*stage)->WriteBack();
 			}
 			running = false;
@@ -526,6 +445,8 @@ namespace game_framework
 		loading.LoadBitmap(IDB_LOADING, RGB(0, 0, 0));
 		loading.SetTopLeft((SIZE_X - loading.Width()) / 2, y1 - 2 * loading.Height());
 		loading.ShowBitmap();
+
+		CDDraw::BltBackToPrimary();					// 將 Back Plain 貼到螢幕
 	}
 	void GameArea::InitCandy(bool drop)
 	{
@@ -792,7 +713,7 @@ namespace game_framework
 				superCandy = false;
 				continue;
 			}
-			if (!initiating)score += 60;
+			if (!initiating)scoreBoard.score += 60;
 		}
 		if (linePower)
 		{

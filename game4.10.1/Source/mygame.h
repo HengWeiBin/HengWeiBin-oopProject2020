@@ -41,6 +41,7 @@
 #include "Blast.h"
 #include "Candy.h"
 #include "Stage.h"
+#include "ScoreBoard.h"
 #include "GameArea.h"
 
 namespace game_framework {
