@@ -57,11 +57,14 @@ namespace game_framework
 		void RemoveColumn(unsigned);					//remove whole column of candies
 		void RemoveSquare(int, int, int);				//remove surrounding candies according to level
 		void RemoveStyle(int style = 0);				//remove all specific candy
+		void ShowLoading();								//Show loading image
 		void SwapCandy();								//Swap candies in clickedCandies
 		void UpdateCurPosition();						//update current position of every candy
 
 		const int x, y;									//top left x,y of gameArea
 		int map[MaxHeight][MaxWidth];					//Array of container
+		int delay, delayRemoveStyle;
+		bool delayRemove;
 		Candy* curPosition[MaxHeight][MaxWidth];		//save current position of every candy
 		list<pair<int, int>> spawnArea;					//save position where candy spawn
 		Candy candies[MaxHeight][MaxWidth];				//Array of candy

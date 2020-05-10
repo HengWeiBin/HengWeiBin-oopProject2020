@@ -25,8 +25,9 @@
 #define IDB_MINUS                       148
 #define IDB_CONTINUE                    152
 #define IDC_GAMECURSOR                  153
-#define IDB_BITMAP2                     156
 #define IDB_LOADING                     156
+#define IDB_LOGIN_LOADING				158
+#define IDB_INGAME_LOADING              157
 #define IDB_RED_NOR                     169
 #define IDB_RED_HOR                     170
 #define IDB_RED_HOR_C                   171

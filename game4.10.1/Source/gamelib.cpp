@@ -253,7 +253,7 @@ namespace game_framework {
 			digit++;
 			n /= 10;
 		}
-		return digit;
+		return digit == 0 ? 1 : digit;
 	}
 
 	CInteger::CInteger()
@@ -274,16 +274,6 @@ namespace game_framework {
 	{
 		NUMDIGITS = GetDigit(this->n);
 		isBmpLoaded = false;
-	}
-
-	void CInteger::Add(int x)
-	{
-		n += x;
-	}
-
-	void CInteger::Minus(int x)
-	{
-		n -= x;
 	}
 
 	int CInteger::GetInteger()
@@ -622,6 +612,15 @@ namespace game_framework {
 		// 如果是別的地方用到CDC的話，不要抄以下這行，否則螢幕會閃爍
 		//
 		CDDraw::BltBackToPrimary();					// 將 Back Plain 貼到螢幕
+	}
+
+	void CGameState::ShowLoading()
+	{
+		CMovingBitmap loading;
+		loading.LoadBitmap(IDB_LOGIN_LOADING);
+		loading.SetTopLeft(0, 0);
+		loading.ShowBitmap();
+		CDDraw::BltBackToPrimary();
 	}
 
 	void CGameState::OnDraw() // Template Method

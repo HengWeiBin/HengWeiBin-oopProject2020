@@ -9,7 +9,7 @@
 namespace game_framework
 {
 	ScoreBoard::ScoreBoard()
-		: score(0), moves(0), oneStar(0), twoStar(0), threeStar(0), lastHighScore(0)
+		: score(0), moves(0), oneStar(0), twoStar(0), threeStar(0), lastHighScore(0), mode(0)
 	{}
 
 	void ScoreBoard::OnShow()
@@ -20,6 +20,7 @@ namespace game_framework
 		ShowMoves();
 		ShowScore();
 		ShowStars();
+		ShowTarget();
 	}
 
 	void ScoreBoard::LoadBitmap()
@@ -33,6 +34,21 @@ namespace game_framework
 		redStar.LoadBitmap("Bitmaps\\RedStar1.bmp", RGB(0, 43, 255));
 		emptyStar1.LoadBitmap("Bitmaps\\EmptyStar1.bmp", RGB(0, 43, 255));
 		emptyStar2.LoadBitmap("Bitmaps\\EmptyStar2.bmp", RGB(0, 43, 255));
+		target1.LoadBitmap("Bitmaps\\Target1.bmp", RGB(251, 200, 201));
+		target2.LoadBitmap("Bitmaps\\Target2.bmp", RGB(251, 200, 201));
+	}
+
+	bool ScoreBoard::IsReachedTarget()
+	{
+		switch (mode)
+		{
+		case 1:	//Target reached when score higher than target
+			if (score >= target) return true;
+		case 2:	//Target reached when all jelly cleared
+			if (!target.GetInteger()) return true;
+		default:
+			return false;
+		}
 	}
 
 	void ScoreBoard::ShowStars()
@@ -105,5 +121,23 @@ namespace game_framework
 			score.SetTopLeft((scoreBoard.Left() + 144 - (18 * size)), scoreBoard.Top() + 325);
 			score.ShowBitmap();
 		}
+	}
+
+	void ScoreBoard::ShowTarget()
+	{
+		switch (mode)
+		{
+		case 1:
+			target1.SetTopLeft(10, 90);
+			target1.ShowBitmap();
+			break;
+		case 2:
+			target2.SetTopLeft(10, 90);
+			target2.ShowBitmap();
+			break;
+		}
+
+		target.SetTopLeft(110, 95);
+		target.ShowBitmap();
 	}
 }

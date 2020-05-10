@@ -86,7 +86,11 @@ IDB_MINUS               BITMAP                  "..\\res\\bmp10.bmp"
 
 IDB_CONTINUE            BITMAP                  "..\\res\\continue.bmp"
 
-IDB_LOADING             BITMAP                  "..\\res\\loading.bmp"
+IDB_LOADING				BITMAP					"..\\res\\loading.bmp"
+
+IDB_LOGIN_LOADING		BITMAP					"..\\Bitmaps\\loginLoading.bmp"
+
+IDB_INGAME_LOADING      BITMAP                  "..\\Bitmaps\\inGameLoading.bmp"
 
 IDB_RED_NOR             BITMAP                  "..\\Bitmaps\\RedCandy.bmp"
 

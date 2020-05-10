@@ -265,8 +265,6 @@ namespace game_framework {
 		CInteger();
 		CInteger(int);
 		CInteger(double);
-		void Add(int n);			// 增加整數值
-		void Minus(int n);
 		int  GetInteger();			// 回傳整數值
 		void LoadBitmap();			// 載入0..9及負號之圖形
 		void operator+=(const int rhs);
@@ -326,6 +324,7 @@ namespace game_framework {
 	protected:
 		void GotoGameState(int state);							// 跳躍至指定的state
 		void ShowInitProgress(int percent);						// 顯示初始化的進度
+		void ShowLoading();
 		//
 		// virtual functions, 由繼承者提供implementation
 		//

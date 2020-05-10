@@ -17,7 +17,7 @@
 namespace game_framework
 {
 	GameArea::GameArea() 
-		:x(280), y(35), MAX_RAND_NUM(4), initiating(1), ending(0), running(1)
+		:x(280), y(35), MAX_RAND_NUM(4), initiating(1), ending(0), running(1), delay(0), delayRemoveStyle(0), delayRemove(false)
 	{
 		scoreBoard.score = 0;
 		for (int i = 0; i < MaxHeight; i++)
@@ -45,6 +45,8 @@ namespace game_framework
 
 	void GameArea::LoadStage(vector<Stage*>& stages, int index)
 	{
+		int totalJelly = 0;
+		//Update new spawn area
 		spawnArea.clear();
 		for (int i = 0; i < MaxHeight; i++)
 		{
@@ -53,20 +55,46 @@ namespace game_framework
 				map[i][j] = stages[index]->map[i][j];
 				if (map[i][j] == 1)
 					spawnArea.push_back(pair<int, int>(i, j));
+				else if (map[i][j] == 3)
+					totalJelly += 1;
+				else if (map[i][j] == 4)
+					totalJelly += 2;
 			}
 		}
+
+		//Update new gamedata
 		MAX_RAND_NUM = stages[index]->candyType;
 		scoreBoard.oneStar = stages[index]->scoreOne;
 		scoreBoard.twoStar = stages[index]->scoreTwo;
 		scoreBoard.threeStar = stages[index]->scoreThree;
 		scoreBoard.lastHighScore = stages[index]->lastHighScore;
 		scoreBoard.moves = stages[index]->maxStep;
+		scoreBoard.mode = stages[index]->mode;
+		
+		if (scoreBoard.mode == 1)
+		{
+			if (scoreBoard.lastHighScore < scoreBoard.oneStar)
+				scoreBoard.target = (int)scoreBoard.oneStar;
+			else if (scoreBoard.lastHighScore < scoreBoard.twoStar)
+				scoreBoard.target = (int)scoreBoard.twoStar;
+			else if (scoreBoard.lastHighScore < scoreBoard.threeStar)
+				scoreBoard.target = (int)scoreBoard.threeStar;
+			else scoreBoard.target = (int)scoreBoard.lastHighScore;
+		}
+		else if (scoreBoard.mode == 2)
+		{
+			scoreBoard.target = totalJelly;
+		}
+		else GAME_ASSERT(0, "Game mode unrecognizable!")
+
 		this->stage = find(stages.begin(), stages.end(), stages[index]);
 
 		scoreBoard.score = 0;
 		initiating = true;
 		ending = false;
 		running = true;
+		delay = 0;
+		delayRemove = false;
 		InitCandy(stages[index]->initcandy);
 	}
 
@@ -89,7 +117,11 @@ namespace game_framework
 
 		if (!map[row][column]) return;
 
-		if ((map[row][column] == 3 || map[row][column] == 4) && !initiating) map[row][column]--;
+		if (!initiating && (map[row][column] == 3 || map[row][column] == 4))
+		{	
+			map[row][column]--;
+			scoreBoard.target--;	//deduct total amount of jelly
+		}
 
 		if(candy->GetStyle() && !initiating)
 			blasts.push_back(new NormalBlast(candy->GetStyle(), candy->GetTopLeftX(), candy->GetTopLeftY()));
@@ -261,7 +293,11 @@ namespace game_framework
 					if (power == 1 || power == 2) power = rand() % 2 + 1;
 					candies[i][j].SetPower(power);
 				}
-		if (power == 1 || power == 2) CAudio::Instance()->Play(AUDIO_POWER_ALL, false);
+		CAudio::Instance()->Play(AUDIO_POWER_ALL, false);
+		delay = (int)(1000.0 / GAME_CYCLE_TIME);
+		delayRemoveStyle = style;
+		delayRemove = true;
+
 	}
 
 	int GameArea::GetScore()
@@ -351,23 +387,24 @@ namespace game_framework
 				if(candies[i][j].GetStyle() > 0)
 					candies[i][j].OnMove(initiating);
 
-		if (!IsDropping())
+		if (!initiating && !delayRemove && !IsDropping())
 		{
 			int amountCleared = ClearCombo();
 
-			if (!initiating && amountCleared && clickedCandies.size() == 2)
+			if (amountCleared && clickedCandies.size() == 2)
 			{//If there is a combo after swapping candies, initiate click, -1 moves
 				scoreBoard.moves -= 1;
 				InitClickedCandy();
 			}
-			else if (!initiating && !amountCleared && clickedCandies.size() == 2)
+			else if (!amountCleared && clickedCandies.size() == 2)
 			{ //else swap two candies back to original position
 				CAudio::Instance()->Play(AUDIO_NEG_SWAP, false);
 				SwapCandy();
 				InitClickedCandy();
 			}
-			if(!initiating) Sleep(100);
+			Sleep(100);
 		}
+		else if (!IsDropping() && !delayRemove) ClearCombo();
 
 		for (auto i = blasts.begin(); i != blasts.end();)
 		{
@@ -383,7 +420,7 @@ namespace game_framework
 			}
 		}
 
-		if (!scoreBoard.moves.GetInteger())
+		if (!ending && (!scoreBoard.moves.GetInteger() || scoreBoard.IsReachedTarget()))
 		{//for temporary use, gameover when move = 0
 			if ((*stage)->lastHighScore < scoreBoard.score)
 			{
@@ -391,13 +428,24 @@ namespace game_framework
 				(*stage)->lastHighScore = scoreBoard.score.GetInteger();
 				(*stage)->WriteBack();
 			}
-			running = false;
+			ending = true;
+			running = false;//for temporary use
+		}
+
+		if (delayRemove)
+		{
+			if (delay > 0) delay--;
+			else
+			{
+				RemoveStyle(delayRemoveStyle);
+				delayRemove = false;
+			}
 		}
 	}
 
 	void GameArea::OnLButtonDown(UINT nFlags, CPoint point)
 	{
-		if (!IsDropping())
+		if (!delay && !ending && !IsDropping())
 		{
 			int column = (point.x - 280) / 50;
 			int row = (point.y - 35) / 50;
@@ -423,6 +471,7 @@ namespace game_framework
 				else InitClickedCandy();
 			}
 		}
+		else delay--;
 	}
 
 	void GameArea::OnLButtonUp(UINT nFlags, CPoint point)
@@ -435,19 +484,15 @@ namespace game_framework
 
 	}
 
-	void ShowInitProgress(int percent)
+	void GameArea::ShowLoading()
 	{
-		const int bar_height = SIZE_Y / 20;
-		const int y1 = (SIZE_Y - bar_height) / 2;
-
-		CDDraw::BltBackColor(DEFAULT_BG_COLOR);		// 將 Back Plain 塗上預設的顏色
 		CMovingBitmap loading;						// 貼上loading圖示
-		loading.LoadBitmap(IDB_LOADING, RGB(0, 0, 0));
-		loading.SetTopLeft((SIZE_X - loading.Width()) / 2, y1 - 2 * loading.Height());
+		loading.LoadBitmap(IDB_INGAME_LOADING, RGB(0, 0, 0));
+		loading.SetTopLeft(0, 0);
 		loading.ShowBitmap();
-
 		CDDraw::BltBackToPrimary();					// 將 Back Plain 貼到螢幕
 	}
+
 	void GameArea::InitCandy(bool drop)
 	{
 		for (auto i = blasts.begin(); i != blasts.end();)
@@ -478,7 +523,7 @@ namespace game_framework
 		while (!drop && (ClearCombo() || IsDropping()))
 		{
 			OnMove();
-			ShowInitProgress(100);
+			ShowLoading();
 		}
 
 		initiating = false;
