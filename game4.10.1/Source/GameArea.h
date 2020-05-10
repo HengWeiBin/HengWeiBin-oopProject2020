@@ -65,6 +65,7 @@ namespace game_framework
 		int map[MaxHeight][MaxWidth];					//Array of container
 		int delay, delayRemoveStyle;
 		bool delayRemove;
+		int currentComboSound;
 		Candy* curPosition[MaxHeight][MaxWidth];		//save current position of every candy
 		list<pair<int, int>> spawnArea;					//save position where candy spawn
 		Candy candies[MaxHeight][MaxWidth];				//Array of candy

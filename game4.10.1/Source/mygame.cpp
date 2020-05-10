@@ -132,6 +132,10 @@ namespace game_framework {
 
 	void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 	{
+	}
+
+	void CGameStateInit::OnLButtonUp(UINT nFlags, CPoint point)
+	{
 		int playButTopLX = SIZE_X / 2 - playButton.Width() / 2;		//Top left of play button (x)
 		int playButTopLY = SIZE_Y / 5 * 4 - playButton.Height();	//Top left of play button (y)
 		int playButBotRX = SIZE_X / 2 + playButton.Width() / 2;		//Bottom right of play button(x)
@@ -206,7 +210,7 @@ namespace game_framework {
 		pDC->SetTextColor(RGB(255, 255, 0));
 		char str[80];								// Demo 數字對字串的轉換
 		sprintf(str, "Game Over ! (%d)", counter / 30);
-		pDC->TextOut(240, 210, str);
+		pDC->TextOut(SIZE_X / 2 - 100, SIZE_Y / 2 - 50, str);
 		pDC->SelectObject(fp);						// 放掉 font f (千萬不要漏了放掉)
 		CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
 	}
@@ -330,7 +334,7 @@ namespace game_framework {
 		gameArea.OnShow();
 	}
 
-	CGameStateMenu::CGameStateMenu(CGame *g) : CGameState(g), totalStage(6)
+	CGameStateMenu::CGameStateMenu(CGame *g) : CGameState(g), totalStage(6), drag(false), mouseDisplayment(0)
 	{
 		IsMovingUp = false; IsMovingDown = false;
 		MAX_Y = 0; MIN_Y = -3600;
@@ -362,7 +366,7 @@ namespace game_framework {
 		CAudio::Instance()->Load(AUDIO_STAGE, "sounds\\Overworld_Level_Select.mp3");
 		
 		//load stage
-		for (int i = 0; i < totalStage; i++) {
+		for (int i = 0; i < totalStage + 1; i++) {
 			stages.push_back(new Stage(i+1));
 			stages[i]->LoadStage();
 		}
@@ -397,6 +401,16 @@ namespace game_framework {
 
 	void CGameStateMenu::OnLButtonDown(UINT nFlags, CPoint point)
 	{
+		clickX = point.x;
+		clickY = point.y;
+		clickSY = sy;
+		drag = true;
+	}
+
+	void CGameStateMenu::OnLButtonUp(UINT nFlags, CPoint point)
+	{
+		drag = false;
+
 		int x = point.x;
 		int y = point.y - sy;
 		int StagePos[][2] = { {270,4030},{495,3980},{530,3850},{320,3870},{135,3910},
@@ -415,11 +429,10 @@ namespace game_framework {
 		}
 	}
 
-	void CGameStateMenu::OnLButtonUp(UINT nFlags, CPoint point)
-	{}
-
 	void CGameStateMenu::OnMouseMove(UINT nFlags, CPoint point)
-	{}
+	{
+		if (drag) sy = clickSY + (point.y - clickY);
+	}
 
 	void CGameStateMenu::OnRButtonDown(UINT nFlags, CPoint point)
 	{}
@@ -430,13 +443,13 @@ namespace game_framework {
 	void CGameStateMenu::SetMovingUp(bool status)
 	{
 		if (status && sy <= MAX_Y)
-			sy +=5;
+			sy += 5;
 	}
 
 	void CGameStateMenu::SetMovingDown(bool status)
 	{
 		if (status && sy >= MIN_Y)
-			sy -=5;
+			sy -= 5;
 	}
 
 	void CGameStateMenu::OnMove()
@@ -467,7 +480,4 @@ namespace game_framework {
 			}
 		}
 	}
-
-	void CGameStateMenu::LoadStage()
-	{}
 }

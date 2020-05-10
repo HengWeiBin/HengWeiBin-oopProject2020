@@ -16,8 +16,12 @@
 
 namespace game_framework
 {
+
+	static int audioID[12] = { AUDIO_COMBO1, AUDIO_COMBO2, AUDIO_COMBO3, AUDIO_COMBO4, AUDIO_COMBO5, AUDIO_COMBO6,
+						AUDIO_COMBO7, AUDIO_COMBO8, AUDIO_COMBO9, AUDIO_COMBO10, AUDIO_COMBO11, AUDIO_COMBO12 };
+
 	GameArea::GameArea() 
-		:x(280), y(35), MAX_RAND_NUM(4), initiating(1), ending(0), running(1), delay(0), delayRemoveStyle(0), delayRemove(false)
+		:x(280), y(35), MAX_RAND_NUM(4), initiating(1), ending(0), running(1), delay(0), delayRemoveStyle(0), delayRemove(false), currentComboSound(0)
 	{
 		scoreBoard.score = 0;
 		for (int i = 0; i < MaxHeight; i++)
@@ -71,6 +75,7 @@ namespace game_framework
 		scoreBoard.moves = stages[index]->maxStep;
 		scoreBoard.mode = stages[index]->mode;
 		
+		//Set Target
 		if (scoreBoard.mode == 1)
 		{
 			if (scoreBoard.lastHighScore < scoreBoard.oneStar)
@@ -123,7 +128,7 @@ namespace game_framework
 			scoreBoard.target--;	//deduct total amount of jelly
 		}
 
-		if(candy->GetStyle() && !initiating)
+		if(!initiating && candy->GetStyle())
 			blasts.push_back(new NormalBlast(candy->GetStyle(), candy->GetTopLeftX(), candy->GetTopLeftY()));
 
 		int power = candy->GetPower();
@@ -390,6 +395,12 @@ namespace game_framework
 		if (!initiating && !delayRemove && !IsDropping())
 		{
 			int amountCleared = ClearCombo();
+			if (amountCleared)
+			{
+				currentComboSound > 12 ? 11 : currentComboSound;
+				CAudio::Instance()->Play(audioID[currentComboSound++], false);
+			}
+			else currentComboSound = 0;
 
 			if (amountCleared && clickedCandies.size() == 2)
 			{//If there is a combo after swapping candies, initiate click, -1 moves
@@ -471,7 +482,7 @@ namespace game_framework
 				else InitClickedCandy();
 			}
 		}
-		else delay--;
+		else delay > 0 ? delay-- : 0;
 	}
 
 	void GameArea::OnLButtonUp(UINT nFlags, CPoint point)
@@ -689,8 +700,6 @@ namespace game_framework
 		vector<Candy*> line;
 		char check = axis == 'x' ? 'y' : 'x';
 		int comboDeleted = 0;
-		int audioID[12] = { AUDIO_COMBO1, AUDIO_COMBO2, AUDIO_COMBO3, AUDIO_COMBO4, AUDIO_COMBO5, AUDIO_COMBO6,
-							AUDIO_COMBO7, AUDIO_COMBO8, AUDIO_COMBO9, AUDIO_COMBO10, AUDIO_COMBO11, AUDIO_COMBO12 };
 		while(1)
 		{	
 			GetLine(line, toDelete, check);					//collect candies on a same line
@@ -707,14 +716,12 @@ namespace game_framework
 					RemoveContinuous(line, i - (count - 1), i, axis, temp);
 					count = 1;
 					comboDeleted++;
-					if (!initiating)CAudio::Instance()->Play(audioID[comboDeleted > 12 ? 11 : comboDeleted - 1], false);
 				}
 			}
 			if (count >= 3)
 			{
 				RemoveContinuous(line, line.size() - count, line.size(), axis, temp);
 				comboDeleted++;
-				if (!initiating)CAudio::Instance()->Play(audioID[comboDeleted > 12 ? 11 : comboDeleted - 1], false);
 			}
 			line.clear();
 			if (toDelete.size() < 3) break;	//break if there is not enough candies to form a combo
@@ -725,9 +732,9 @@ namespace game_framework
 
 	void GameArea::RemoveContinuous(vector<Candy*>& line, unsigned offset, unsigned lineSize, char axis, set<Candy*>& temp)
 	{
-		bool packCandy = true;
-		bool linePower = lineSize - offset == 4 ? true : false;
-		bool superCandy = lineSize - offset > 4 ? true : false;
+		bool packCandy = !initiating;
+		bool linePower = !initiating && lineSize - offset == 4 ? true : false;
+		bool superCandy = !initiating && lineSize - offset > 4 ? true : false;
 		for (unsigned int j = offset; j < lineSize; j++)
 		{	
 			ReleasePower(line[j]);

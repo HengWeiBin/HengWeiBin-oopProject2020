@@ -74,6 +74,7 @@ namespace game_framework {
 		void OnBeginState();							// 設定每次重玩所需的變數
 		void OnKeyUp(UINT, UINT, UINT); 				// 處理鍵盤Up的動作
 		void OnLButtonDown(UINT nFlags, CPoint point);  // 處理滑鼠的動作
+		void OnLButtonUp(UINT nFlags, CPoint point);	// 處理滑鼠的動作
 	protected:
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
@@ -131,13 +132,13 @@ namespace game_framework {
 		~CGameStateMenu();
 		void OnInit();
 		void OnBeginState();
-		void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);				// handle keyboard behavior
-		void OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags);					// handle keyboard behavior
-		void OnLButtonDown(UINT nFlags, CPoint point);  // handle mouse behavior
-		void OnLButtonUp(UINT nFlags, CPoint point);	// handle mouse behavior
-		void OnMouseMove(UINT nFlags, CPoint point);	// handle mouse behavior 
-		void OnRButtonDown(UINT nFlags, CPoint point);  // handle mouse behavior
-		void OnRButtonUp(UINT nFlags, CPoint point);	// handle mouse behavior
+		void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);	// handle keyboard behavior
+		void OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags);	// handle keyboard behavior
+		void OnLButtonDown(UINT nFlags, CPoint point);			// handle mouse behavior
+		void OnLButtonUp(UINT nFlags, CPoint point);			// handle mouse behavior
+		void OnMouseMove(UINT nFlags, CPoint point);			// handle mouse behavior 
+		void OnRButtonDown(UINT nFlags, CPoint point);			// handle mouse behavior
+		void OnRButtonUp(UINT nFlags, CPoint point);			// handle mouse behavior
 		void SetMovingUp(bool status);
 		void SetMovingDown(bool status);
 
@@ -146,8 +147,6 @@ namespace game_framework {
 		void OnShow();
 
 	private:
-		void LoadStage();
-
 		CMovingBitmap menuBackground, woodBackgourd, unlockIcon;
 		const int totalStage;
 		vector<Stage*> stages;
@@ -155,5 +154,9 @@ namespace game_framework {
 		int MAX_Y, MIN_Y;
 		bool IsMovingUp, IsMovingDown;
 		int StagePos[15][2];
+
+		LONG clickX, clickY, clickSY;	//save position of mouse and menu when mouse clicked
+		bool drag;
+		int mouseDisplayment;
 	};
 }
