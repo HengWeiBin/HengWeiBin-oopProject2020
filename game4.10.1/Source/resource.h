@@ -266,20 +266,20 @@
 #define IDB_PUR_SHAT13                  405
 #define IDB_PUR_SHAT14                  406
 #define IDB_PUR_SHAT15                  407
+#define IDB_TIFFY_2						408
+#define IDB_TIFFY_3						409
+#define IDB_TIFFY_4						410
+#define IDB_TIFFY_5						411
+#define IDB_TIFFY_6						412
+#define IDB_TIFFY_7						413
+#define IDB_TIFFY_8						414
+#define IDB_TIFFY_9						415
 #define IDC_README                      1001
 #define ID_FILE_PAUSE                   32771
 #define ID_TOGGLE_FULLSCREEN            32772
 #define ID_BUTTON_FULLSCREEN            32773
 #define ID_BUTTON_PAUSE                 32774
 #define ID_BUTTON_UNITTEST              32775
-#define IDB_TIFFY_2						32776
-#define IDB_TIFFY_3						32777
-#define IDB_TIFFY_4						32778
-#define IDB_TIFFY_5						32779
-#define IDB_TIFFY_6						32780
-#define IDB_TIFFY_7						32781
-#define IDB_TIFFY_8						32782
-#define IDB_TIFFY_9						32783
 
 // Next default values for new objects
 // 

@@ -89,31 +89,16 @@ namespace game_framework {
 		//
 		// 此OnInit動作會接到CGameStaterRun::OnInit()，所以進度還沒到100%
 		//
-		/*
+		
 		static int TiffyBitmap[10] = { IDB_TIFFY_0 , IDB_TIFFY_1 ,IDB_TIFFY_2,IDB_TIFFY_3,IDB_TIFFY_4,IDB_TIFFY_5,IDB_TIFFY_6,IDB_TIFFY_7,IDB_TIFFY_8,IDB_TIFFY_9 };
 		for (int i = 0; i < 10; i++) {
 			tiffy.AddBitmap(TiffyBitmap[i], RGB(255, 255, 255));
-		}*/
-
-		tiffy.AddBitmap("Bitmaps/Tiffy_0.bmp", RGB(255, 255, 255));
-		tiffy.AddBitmap("Bitmaps/Tiffy_1.bmp", RGB(255, 255, 255));
-		tiffy.AddBitmap("Bitmaps/Tiffy_2.bmp", RGB(255, 255, 255));
-		tiffy.AddBitmap("Bitmaps/Tiffy_3.bmp", RGB(255, 255, 255));
-		tiffy.AddBitmap("Bitmaps/Tiffy_4.bmp", RGB(255, 255, 255));
-		tiffy.AddBitmap("Bitmaps/Tiffy_5.bmp", RGB(255, 255, 255));
-		tiffy.AddBitmap("Bitmaps/Tiffy_6.bmp", RGB(255, 255, 255));
-		tiffy.AddBitmap("Bitmaps/Tiffy_7.bmp", RGB(255, 255, 255));
-		tiffy.AddBitmap("Bitmaps/Tiffy_8.bmp", RGB(255, 255, 255));
-		tiffy.AddBitmap("Bitmaps/Tiffy_9.bmp", RGB(255, 255, 255));
-		tiffy.AddBitmap("Bitmaps/Tiffy_8.bmp", RGB(255, 255, 255));
-		tiffy.AddBitmap("Bitmaps/Tiffy_7.bmp", RGB(255, 255, 255));
-		tiffy.AddBitmap("Bitmaps/Tiffy_6.bmp", RGB(255, 255, 255));
-		tiffy.AddBitmap("Bitmaps/Tiffy_5.bmp", RGB(255, 255, 255));
-		tiffy.AddBitmap("Bitmaps/Tiffy_4.bmp", RGB(255, 255, 255));
-		tiffy.AddBitmap("Bitmaps/Tiffy_3.bmp", RGB(255, 255, 255));
-		tiffy.AddBitmap("Bitmaps/Tiffy_2.bmp", RGB(255, 255, 255));
-		tiffy.AddBitmap("Bitmaps/Tiffy_1.bmp", RGB(255, 255, 255));
-		tiffy.SetDelayCount(3);
+		}
+		for (int i = 8; i > 0; i--)
+		{
+			tiffy.AddBitmap(TiffyBitmap[i], RGB(255, 255, 255));
+		}
+		tiffy.SetDelayCount(2);
 	}
 
 	void CGameStateInit::OnBeginState()
@@ -361,9 +346,14 @@ namespace game_framework {
 		woodBackgourd.LoadBitmap("Bitmaps/WoodBackground.bmp");
 		menuBackground.LoadBitmap("Bitmaps/stage_map.bmp");
 
-		//temporary unlock icon
+		//tunlock ion
 		unlockIcon.LoadBitmap("Bitmaps/Unlock_Level .bmp");
 		CAudio::Instance()->Load(AUDIO_STAGE, "sounds\\Overworld_Level_Select.mp3");
+
+		//star icon
+		star1.LoadBitmap("Bitmaps/SmallRedStar.bmp", RGB(255, 255, 255));
+		star2.LoadBitmap("Bitmaps/SmallGreenStar.bmp", RGB(255, 255, 255));
+		star3.LoadBitmap("Bitmaps/SmallYellowStar.bmp", RGB(255, 255, 255));
 		
 		//load stage
 		for (int i = 0; i < totalStage + 1; i++) {
@@ -475,8 +465,27 @@ namespace game_framework {
 		//show unlock icon
 		for (int i = 0; i < totalStage; i++) {
 			if (!stages[i]->IsUnlock()) {
-				unlockIcon.SetTopLeft(StagePos[i][0], StagePos[i][1] + sy);
+				unlockIcon.SetTopLeft(StagePos[i][0] - 3, StagePos[i][1] + sy);
 				unlockIcon.ShowBitmap();
+			}
+			else {
+				int xTemp = StagePos[i][0] - 15;
+				int yTemp = StagePos[i][1] + sy + 50;
+				if (stages[i]->GetLastScoreHistory() >= stages[i]->GetScoreOne())
+				{
+					star1.SetTopLeft(xTemp, yTemp);
+					star1.ShowBitmap();
+				}
+				if (stages[i]->GetLastScoreHistory() >= stages[i]->GetScoreTwo())
+				{
+					star2.SetTopLeft(xTemp + 30, yTemp);
+					star2.ShowBitmap();
+				}
+				if (stages[i]->GetLastScoreHistory() >= stages[i]->GetScoreThree())
+				{
+					star3.SetTopLeft(xTemp + 60, yTemp);
+					star3.ShowBitmap();
+				}
 			}
 		}
 	}

@@ -148,6 +148,7 @@ namespace game_framework {
 
 	private:
 		CMovingBitmap menuBackground, woodBackgourd, unlockIcon;
+		CMovingBitmap star1, star2, star3;
 		const int totalStage;
 		vector<Stage*> stages;
 		int sy;

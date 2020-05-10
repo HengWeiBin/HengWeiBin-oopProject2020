@@ -542,6 +542,25 @@ IDB_PUR_SHAT14          BITMAP                  "..\\Bitmaps\\shatter14_PUR.bmp"
 
 IDB_PUR_SHAT15          BITMAP                  "..\\Bitmaps\\shatter15_PUR.bmp"
 
+IDB_TIFFY_0				BITMAP					"..\\Bitmaps\\Tiffy_0.bmp"
+
+IDB_TIFFY_1				BITMAP					"..\\Bitmaps\\Tiffy_1.bmp"
+
+IDB_TIFFY_2				BITMAP					"..\\Bitmaps\\Tiffy_2.bmp"
+
+IDB_TIFFY_3				BITMAP					"..\\Bitmaps\\Tiffy_3.bmp"
+
+IDB_TIFFY_4				BITMAP					"..\\Bitmaps\\Tiffy_4.bmp"
+
+IDB_TIFFY_5				BITMAP					"..\\Bitmaps\\Tiffy_5.bmp"
+
+IDB_TIFFY_6				BITMAP					"..\\Bitmaps\\Tiffy_6.bmp"
+
+IDB_TIFFY_7				BITMAP					"..\\Bitmaps\\Tiffy_7.bmp"
+
+IDB_TIFFY_8				BITMAP					"..\\Bitmaps\\Tiffy_8.bmp"
+
+IDB_TIFFY_9				BITMAP					"..\\Bitmaps\\Tiffy_9.bmp"
 
 /////////////////////////////////////////////////////////////////////////////
 //
