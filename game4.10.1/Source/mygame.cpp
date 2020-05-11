@@ -347,7 +347,7 @@ namespace game_framework {
 		menuBackground.LoadBitmap("Bitmaps/stage_map.bmp");
 
 		//tunlock ion
-		unlockIcon.LoadBitmap("Bitmaps/Unlock_Level .bmp");
+		unlockIcon.LoadBitmap("Bitmaps/Unlock_Level .bmp", RGB(255, 255, 255));
 		CAudio::Instance()->Load(AUDIO_STAGE, "sounds\\Overworld_Level_Select.mp3");
 
 		//star icon
