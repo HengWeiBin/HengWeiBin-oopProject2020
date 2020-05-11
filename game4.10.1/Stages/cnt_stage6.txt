@@ -24,7 +24,3 @@
 0	#initcandy
 0	#LastScore
 0	#IsUnlock
-
-
-
-

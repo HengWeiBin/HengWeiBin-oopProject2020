@@ -319,7 +319,8 @@ namespace game_framework {
 		gameArea.OnShow();
 	}
 
-	CGameStateMenu::CGameStateMenu(CGame *g) : CGameState(g), totalStage(6), drag(false), mouseDisplayment(0)
+	CGameStateMenu::CGameStateMenu(CGame *g) 
+		: CGameState(g), totalStage(6), drag(false), mouseDisplayment(0), inertia(0)
 	{
 		IsMovingUp = false; IsMovingDown = false;
 		MAX_Y = 0; MIN_Y = -3600;
@@ -347,7 +348,7 @@ namespace game_framework {
 		menuBackground.LoadBitmap("Bitmaps/stage_map.bmp");
 
 		//tunlock ion
-		unlockIcon.LoadBitmap("Bitmaps/Unlock_Level .bmp");
+		unlockIcon.LoadBitmap("Bitmaps/Unlock_Level .bmp", RGB(255, 255, 255));
 		CAudio::Instance()->Load(AUDIO_STAGE, "sounds\\Overworld_Level_Select.mp3");
 
 		//star icon
@@ -421,7 +422,12 @@ namespace game_framework {
 
 	void CGameStateMenu::OnMouseMove(UINT nFlags, CPoint point)
 	{
-		if (drag) sy = clickSY + (point.y - clickY);
+		if (drag)
+		{
+			int displayment = point.y - clickY;
+			sy = clickSY + displayment;
+			inertia = displayment < 0 ? -20 : 20;
+		}
 	}
 
 	void CGameStateMenu::OnRButtonDown(UINT nFlags, CPoint point)
@@ -446,6 +452,8 @@ namespace game_framework {
 	{
 		SetMovingUp(IsMovingUp);
 		SetMovingDown(IsMovingDown);
+		if (!drag && inertia > 0) sy += inertia--;
+		else if (!drag && inertia < 0) sy += inertia++;
 	}
 
 	void CGameStateMenu::OnShow()

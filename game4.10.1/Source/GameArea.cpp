@@ -286,7 +286,8 @@ namespace game_framework
 		for (int i = 0; i < MaxHeight; i++)
 			for (int j = 0; j < MaxWidth; j++)
 				if (candies[i][j].GetStyle() == style && candies[i][j].GetPower() != 4)
-					ReleasePower(&candies[i][j]);
+					removeStyle.push_back(&candies[i][j]);
+					//ReleasePower(&candies[i][j]);
 	}
 
 	void GameArea::PowerAll(int style, int power)
@@ -392,7 +393,13 @@ namespace game_framework
 				if(candies[i][j].GetStyle() > 0)
 					candies[i][j].OnMove(initiating);
 
-		if (!initiating && !delayRemove && !IsDropping())
+		if (removeStyle.size())
+		{
+			ReleasePower(*removeStyle.begin());
+			removeStyle.erase(removeStyle.begin());
+		}
+
+		if (!initiating && !delayRemove && !IsDropping() && !removeStyle.size())
 		{
 			int amountCleared = ClearCombo();
 			if (amountCleared)
@@ -415,7 +422,7 @@ namespace game_framework
 			}
 			Sleep(100);
 		}
-		else if (!IsDropping() && !delayRemove) ClearCombo();
+		else if (!IsDropping() && !delayRemove && !removeStyle.size()) ClearCombo();
 
 		for (auto i = blasts.begin(); i != blasts.end();)
 		{

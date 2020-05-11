@@ -158,6 +158,6 @@ namespace game_framework {
 
 		LONG clickX, clickY, clickSY;	//save position of mouse and menu when mouse clicked
 		bool drag;
-		int mouseDisplayment;
+		int mouseDisplayment, inertia;
 	};
 }

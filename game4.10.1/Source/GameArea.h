@@ -72,6 +72,7 @@ namespace game_framework
 		CMovingBitmap area, singleJelly, doubleJelly;	//container bmp
 		vector<Candy*> clickedCandies;
 		list<Blast*> blasts;
+		list<Candy*> removeStyle;
 		ScoreBoard scoreBoard;
 
 		vector<Stage*>::iterator stage;
