@@ -551,11 +551,11 @@ namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
 
 	GameArea CGameState::gameArea;
+	vector<Stage*> CGameState::stages;
 
 	CGameState::CGameState(CGame *g)
 	{
 		game = g; 	// 設定game的pointer
-		stage = NULL;
 	}
 
 	void CGameState::GotoGameState(int state)
