@@ -582,6 +582,30 @@ IDB_TIFFY_8				BITMAP					"..\\Bitmaps\\Tiffy_8.bmp"
 
 IDB_TIFFY_9				BITMAP					"..\\Bitmaps\\Tiffy_9.bmp"
 
+IDB_PLAYBUTTON_1		BITMAP					"..\\Bitmaps\\PlayButton1.bmp"
+
+IDB_PLAYBUTTON_2		BITMAP					"..\\Bitmaps\\PlayButton2.bmp"
+
+IDB_PLAYBUTTON_3		BITMAP					"..\\Bitmaps\\PlayButton3.bmp"
+
+IDB_PLAYBUTTON_4		BITMAP					"..\\Bitmaps\\PlayButton4.bmp"
+
+IDB_PLAYBUTTON_5		BITMAP					"..\\Bitmaps\\PlayButton5.bmp"
+
+IDB_PLAYBUTTON_6		BITMAP					"..\\Bitmaps\\PlayButton6.bmp"
+
+IDB_PLAYBUTTON_7		BITMAP					"..\\Bitmaps\\PlayButton7.bmp"
+
+IDB_PLAYBUTTON_8		BITMAP					"..\\Bitmaps\\PlayButton8.bmp"
+
+IDB_PLAYBUTTON_9		BITMAP					"..\\Bitmaps\\PlayButton9.bmp"
+
+IDB_PLAYBUTTON_10		BITMAP					"..\\Bitmaps\\PlayButton10.bmp"
+
+IDB_PLAYBUTTON_11		BITMAP					"..\\Bitmaps\\PlayButton11.bmp"
+
+IDB_PLAYBUTTON_12		BITMAP					"..\\Bitmaps\\PlayButton12.bmp"
+
 IDB_RED_STAGE			BITMAP					"..\\Bitmaps\\Red_Stage.bmp"
 
 IDB_GREEN_STAGE			BITMAP					"..\\Bitmaps\\Green_Stage.bmp"

@@ -68,29 +68,38 @@ namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
 
 	CGameStateInit::CGameStateInit(CGame *g)
-		: CGameState(g)
+		: CGameState(g), playBtnClicked(false)
 	{
 	}
 
 	void CGameStateInit::OnInit()
 	{
-		//
-		// 當圖很多時，OnInit載入所有的圖要花很多時間。為避免玩遊戲的人
-		//     等的不耐煩，遊戲會出現「Loading ...」，顯示Loading的進度。
-		//
-		//ShowInitProgress(0);	// 一開始的loading進度為0%
 		ShowLoading();
 		//
 		// 開始載入資料
 		//
 		background.LoadBitmap("Bitmaps/InitBackground.bmp");
-		playButton.LoadBitmap("Bitmaps/PlayButton.bmp", RGB(0, 0, 0));
-		//Sleep(300);				// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
-		//
-		// 此OnInit動作會接到CGameStaterRun::OnInit()，所以進度還沒到100%
-		//
-		
-		static int TiffyBitmap[10] = { IDB_TIFFY_0 , IDB_TIFFY_1 ,IDB_TIFFY_2,IDB_TIFFY_3,IDB_TIFFY_4,IDB_TIFFY_5,IDB_TIFFY_6,IDB_TIFFY_7,IDB_TIFFY_8,IDB_TIFFY_9 };
+
+		// Load play button
+		int playBtnBmp[] = { IDB_PLAYBUTTON_1, IDB_PLAYBUTTON_2, IDB_PLAYBUTTON_3, IDB_PLAYBUTTON_4,
+			IDB_PLAYBUTTON_5, IDB_PLAYBUTTON_6, IDB_PLAYBUTTON_7, IDB_PLAYBUTTON_8,
+			IDB_PLAYBUTTON_9, IDB_PLAYBUTTON_10, IDB_PLAYBUTTON_11, IDB_PLAYBUTTON_12 };
+
+		for (int i = 0; i < 12; i++)
+		{
+			playButton.AddBitmap(playBtnBmp[i], RGB(0, 0, 0));
+		}
+		playButton.SetDelayCount(4);
+
+		clickedPlayButton.LoadBitmap("Bitmaps\\PlayButtonClicked.bmp", RGB(0, 0, 0));
+		playButTopLX = SIZE_X / 2 - playButton.Width() / 2;
+		playButTopLY = SIZE_Y / 5 * 4 - playButton.Height();
+		playButBotRX = SIZE_X / 2 + playButton.Width() / 2;
+		playButBotRY = SIZE_Y / 5 * 4;
+
+		//Load tiffy
+		int TiffyBitmap[10] = { IDB_TIFFY_0 , IDB_TIFFY_1 ,IDB_TIFFY_2,IDB_TIFFY_3,IDB_TIFFY_4,
+			IDB_TIFFY_5,IDB_TIFFY_6,IDB_TIFFY_7,IDB_TIFFY_8,IDB_TIFFY_9 };
 		for (int i = 0; i < 10; i++) {
 			tiffy.AddBitmap(TiffyBitmap[i], RGB(255, 255, 255));
 		}
@@ -103,6 +112,7 @@ namespace game_framework {
 
 	void CGameStateInit::OnBeginState()
 	{
+		playBtnClicked = false;
 	}
 
 	void CGameStateInit::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -117,19 +127,20 @@ namespace game_framework {
 
 	void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 	{
+		if (point.x >= playButTopLX && point.y >= playButTopLY && point.x <= playButBotRX && point.y <= playButBotRY)
+		{
+			playBtnClicked = true;
+		}
+		else playBtnClicked = false;
 	}
 
 	void CGameStateInit::OnLButtonUp(UINT nFlags, CPoint point)
 	{
-		int playButTopLX = SIZE_X / 2 - playButton.Width() / 2;		//Top left of play button (x)
-		int playButTopLY = SIZE_Y / 5 * 4 - playButton.Height();	//Top left of play button (y)
-		int playButBotRX = SIZE_X / 2 + playButton.Width() / 2;		//Bottom right of play button(x)
-		int playButBotRY = SIZE_Y / 5 * 4;							//Bottom right of play button(y)
-
 		if (point.x >= playButTopLX && point.y >= playButTopLY && point.x <= playButBotRX && point.y <= playButBotRY)
 		{
 			GotoGameState(GAME_STATE_MENU);		// 切換至GAME_STATE_RUN
 		}
+		else playBtnClicked = false;
 	}
 
 	void CGameStateInit::OnShow()
@@ -139,11 +150,24 @@ namespace game_framework {
 		background.ShowBitmap();
 
 		//貼上Play Button
-		playButton.SetTopLeft(SIZE_X / 2 - playButton.Width() / 2, SIZE_Y / 5 * 4 - playButton.Height());
-		playButton.ShowBitmap();
+		if (playBtnClicked)
+		{
+			clickedPlayButton.SetTopLeft(SIZE_X / 2 - playButton.Width() / 2, SIZE_Y / 5 * 4 - playButton.Height());
+			clickedPlayButton.ShowBitmap();
+		}
+		else
+		{
+			playButton.SetTopLeft(SIZE_X / 2 - playButton.Width() / 2, SIZE_Y / 5 * 4 - playButton.Height());
+			playButton.OnShow();
+		}
 
 		tiffy.SetTopLeft(95, 400);
 		tiffy.OnShow();
+	}
+
+	void CGameStateInit::OnMove()
+	{
+		if (!playBtnClicked) playButton.OnMove();
 		tiffy.OnMove();
 	}
 

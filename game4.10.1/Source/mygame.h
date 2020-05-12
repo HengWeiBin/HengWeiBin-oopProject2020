@@ -77,9 +77,13 @@ namespace game_framework {
 		void OnLButtonUp(UINT nFlags, CPoint point);	// 處理滑鼠的動作
 	protected:
 		void OnShow();									// 顯示這個狀態的遊戲畫面
+		void OnMove();
 	private:
-		CMovingBitmap background, playButton;			// Candycrush starter background, play button
-		CAnimation tiffy;
+		CMovingBitmap background, clickedPlayButton;	// Candycrush starter background, play button
+		CAnimation tiffy, playButton;
+		bool playBtnClicked;
+		int playButTopLX, playButTopLY;					//Top left of play button
+		int playButBotRX, playButBotRY;					//Bottom right of play button
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
