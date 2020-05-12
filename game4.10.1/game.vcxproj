@@ -343,6 +343,7 @@
     <Image Include="Bitmaps\ClickedP2YellowCandy.bmp" />
     <Image Include="Bitmaps\ClickedP3YellowCandy.bmp" />
     <Image Include="Bitmaps\ClickedYellowCandy.bmp" />
+    <Image Include="Bitmaps\Dark_Purple_Stage.bmp" />
     <Image Include="Bitmaps\EmptyStar1.bmp" />
     <Image Include="Bitmaps\EmptyStar2.bmp" />
     <Image Include="Bitmaps\GreenCandy1.bmp" />
@@ -360,6 +361,8 @@
     <Image Include="Bitmaps\GreenExplode8.bmp" />
     <Image Include="Bitmaps\GreenExplode9.bmp" />
     <Image Include="Bitmaps\GreenStar1.bmp" />
+    <Image Include="Bitmaps\Green_Stage.bmp" />
+    <Image Include="Bitmaps\Light_Purple_Stage.bmp" />
     <Image Include="Bitmaps\NormalExplode1.bmp" />
     <Image Include="Bitmaps\NormalExplode10.bmp" />
     <Image Include="Bitmaps\NormalExplode2.bmp" />
@@ -384,6 +387,7 @@
     <Image Include="Bitmaps\OrangeExplode7.bmp" />
     <Image Include="Bitmaps\OrangeExplode8.bmp" />
     <Image Include="Bitmaps\OrangeExplode9.bmp" />
+    <Image Include="Bitmaps\Orange_Stage.bmp" />
     <Image Include="Bitmaps\P1YellowCandy.bmp" />
     <Image Include="Bitmaps\P2YellowCandy.bmp" />
     <Image Include="Bitmaps\P3YellowCandy.bmp" />
@@ -416,6 +420,7 @@
     <Image Include="Bitmaps\RedExplode8.bmp" />
     <Image Include="Bitmaps\RedExplode9.bmp" />
     <Image Include="Bitmaps\RedStar1.bmp" />
+    <Image Include="Bitmaps\Red_Stage.bmp" />
     <Image Include="Bitmaps\ScoreBar.bmp" />
     <Image Include="Bitmaps\BlueCandy.bmp" />
     <Image Include="Bitmaps\ClickedBlueCandy.bmp" />
@@ -566,7 +571,6 @@
     <Image Include="Bitmaps\Tiffy_7.bmp" />
     <Image Include="Bitmaps\Tiffy_8.bmp" />
     <Image Include="Bitmaps\Tiffy_9.bmp" />
-    <Image Include="Bitmaps\Unlock_Level .bmp" />
     <Image Include="Bitmaps\WoodBackground.bmp" />
     <Image Include="Bitmaps\YellowCandy.bmp" />
     <Image Include="Bitmaps\YellowCandy1.bmp" />
@@ -588,6 +592,17 @@
     <Image Include="res\bmp00001.bmp" />
     <Image Include="res\bmp00002.bmp" />
     <Image Include="res\bmp00003.bmp" />
+    <Image Include="RES\bmp0_.bmp" />
+    <Image Include="RES\bmp10_.bmp" />
+    <Image Include="RES\bmp1_.bmp" />
+    <Image Include="RES\bmp2_.bmp" />
+    <Image Include="RES\bmp3_.bmp" />
+    <Image Include="RES\bmp4_.bmp" />
+    <Image Include="RES\bmp5_.bmp" />
+    <Image Include="RES\bmp6_.bmp" />
+    <Image Include="RES\bmp7_.bmp" />
+    <Image Include="RES\bmp8_.bmp" />
+    <Image Include="RES\bmp9_.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

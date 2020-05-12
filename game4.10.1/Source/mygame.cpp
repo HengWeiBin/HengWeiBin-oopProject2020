@@ -68,38 +68,29 @@ namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
 
 	CGameStateInit::CGameStateInit(CGame *g)
-		: CGameState(g), playBtnClicked(false)
+		: CGameState(g)
 	{
 	}
 
 	void CGameStateInit::OnInit()
 	{
+		//
+		// 當圖很多時，OnInit載入所有的圖要花很多時間。為避免玩遊戲的人
+		//     等的不耐煩，遊戲會出現「Loading ...」，顯示Loading的進度。
+		//
+		//ShowInitProgress(0);	// 一開始的loading進度為0%
 		ShowLoading();
 		//
 		// 開始載入資料
 		//
 		background.LoadBitmap("Bitmaps/InitBackground.bmp");
-
-		// Load play button
-		int playBtnBmp[] = { IDB_PLAYBUTTON_1, IDB_PLAYBUTTON_2, IDB_PLAYBUTTON_3, IDB_PLAYBUTTON_4,
-			IDB_PLAYBUTTON_5, IDB_PLAYBUTTON_6, IDB_PLAYBUTTON_7, IDB_PLAYBUTTON_8, 
-			IDB_PLAYBUTTON_9, IDB_PLAYBUTTON_10, IDB_PLAYBUTTON_11, IDB_PLAYBUTTON_12 };
-
-		for (int i = 0; i < 12; i++)
-		{
-			playButton.AddBitmap(playBtnBmp[i], RGB(0, 0, 0));
-		}
-		playButton.SetDelayCount(4);
-
-		clickedPlayButton.LoadBitmap("Bitmaps\\PlayButtonClicked.bmp", RGB(0, 0, 0));
-		playButTopLX = SIZE_X / 2 - playButton.Width() / 2;	
-		playButTopLY = SIZE_Y / 5 * 4 - playButton.Height();
-		playButBotRX = SIZE_X / 2 + playButton.Width() / 2;
-		playButBotRY = SIZE_Y / 5 * 4;
-
-		//Load tiffy
-		int TiffyBitmap[10] = { IDB_TIFFY_0 , IDB_TIFFY_1 ,IDB_TIFFY_2,IDB_TIFFY_3,IDB_TIFFY_4,
-			IDB_TIFFY_5,IDB_TIFFY_6,IDB_TIFFY_7,IDB_TIFFY_8,IDB_TIFFY_9 };
+		playButton.LoadBitmap("Bitmaps/PlayButton.bmp", RGB(0, 0, 0));
+		//Sleep(300);				// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
+		//
+		// 此OnInit動作會接到CGameStaterRun::OnInit()，所以進度還沒到100%
+		//
+		
+		static int TiffyBitmap[10] = { IDB_TIFFY_0 , IDB_TIFFY_1 ,IDB_TIFFY_2,IDB_TIFFY_3,IDB_TIFFY_4,IDB_TIFFY_5,IDB_TIFFY_6,IDB_TIFFY_7,IDB_TIFFY_8,IDB_TIFFY_9 };
 		for (int i = 0; i < 10; i++) {
 			tiffy.AddBitmap(TiffyBitmap[i], RGB(255, 255, 255));
 		}
@@ -112,7 +103,6 @@ namespace game_framework {
 
 	void CGameStateInit::OnBeginState()
 	{
-		playBtnClicked = false;
 	}
 
 	void CGameStateInit::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -127,20 +117,19 @@ namespace game_framework {
 
 	void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 	{
-		if (point.x >= playButTopLX && point.y >= playButTopLY && point.x <= playButBotRX && point.y <= playButBotRY)
-		{
-			playBtnClicked = true;
-		}
-		else playBtnClicked = false;
 	}
 
 	void CGameStateInit::OnLButtonUp(UINT nFlags, CPoint point)
 	{
+		int playButTopLX = SIZE_X / 2 - playButton.Width() / 2;		//Top left of play button (x)
+		int playButTopLY = SIZE_Y / 5 * 4 - playButton.Height();	//Top left of play button (y)
+		int playButBotRX = SIZE_X / 2 + playButton.Width() / 2;		//Bottom right of play button(x)
+		int playButBotRY = SIZE_Y / 5 * 4;							//Bottom right of play button(y)
+
 		if (point.x >= playButTopLX && point.y >= playButTopLY && point.x <= playButBotRX && point.y <= playButBotRY)
 		{
 			GotoGameState(GAME_STATE_MENU);		// 切換至GAME_STATE_RUN
 		}
-		else playBtnClicked = false;
 	}
 
 	void CGameStateInit::OnShow()
@@ -150,24 +139,11 @@ namespace game_framework {
 		background.ShowBitmap();
 
 		//貼上Play Button
-		if (playBtnClicked)
-		{
-			clickedPlayButton.SetTopLeft(SIZE_X / 2 - playButton.Width() / 2, SIZE_Y / 5 * 4 - playButton.Height());
-			clickedPlayButton.ShowBitmap();
-		}
-		else
-		{
-			playButton.SetTopLeft(SIZE_X / 2 - playButton.Width() / 2, SIZE_Y / 5 * 4 - playButton.Height());
-			playButton.OnShow();
-		}
+		playButton.SetTopLeft(SIZE_X / 2 - playButton.Width() / 2, SIZE_Y / 5 * 4 - playButton.Height());
+		playButton.ShowBitmap();
 
 		tiffy.SetTopLeft(95, 400);
 		tiffy.OnShow();
-	}
-
-	void CGameStateInit::OnMove()
-	{
-		if (!playBtnClicked) playButton.OnMove();
 		tiffy.OnMove();
 	}
 
@@ -344,11 +320,12 @@ namespace game_framework {
 	}
 
 	CGameStateMenu::CGameStateMenu(CGame *g) 
-		: CGameState(g), totalStage(9), drag(false), mouseDisplayment(0), inertia(0)
+		: CGameState(g), totalStage(6), drag(false), mouseDisplayment(0), inertia(0)
 	{
 		IsMovingUp = false; IsMovingDown = false;
 		MAX_Y = 0; MIN_Y = -3600;
 		sy = -3600;
+		_stage.SetType(2);
 
 		int Pos[][2] = { {270,4030},{495,3980},{530,3850},{320,3870},{135,3910},
 						 {135,3750},{340,3690},{570,3720},{770,3800},{960,3840},
@@ -370,10 +347,13 @@ namespace game_framework {
 	{
 		woodBackgourd.LoadBitmap("Bitmaps/WoodBackground.bmp");
 		menuBackground.LoadBitmap("Bitmaps/stage_map.bmp");
-
-		//tunlock ion
-		unlockIcon.LoadBitmap("Bitmaps/Unlock_Level .bmp", RGB(255, 255, 255));
 		CAudio::Instance()->Load(AUDIO_STAGE, "sounds\\Overworld_Level_Select.mp3");
+		int unlock_icon[5] = { IDB_RED_STAGE,IDB_GREEN_STAGE,IDB_DARK_PUR_STAGE,IDB_ORANGE_STAGE,IDB_LIGHT_PUR_STAGE};
+		//unlock icon
+		for (int i = 0; i < 5; i++)
+		{
+			unlockIcon[i].LoadBitmap(unlock_icon[i], RGB(255, 255, 255));
+		}
 
 		//star icon
 		star1.LoadBitmap("Bitmaps/SmallRedStar.bmp", RGB(255, 255, 255));
@@ -396,7 +376,7 @@ namespace game_framework {
 	void CGameStateMenu::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
 		const char KEY_UP = 0x26;
-		const char KEY_DOWN = 0x28;
+		const char KEY_DOWN = 0x28; 
 		if (nChar == KEY_UP) {
 			IsMovingUp=true;
 		}
@@ -409,16 +389,9 @@ namespace game_framework {
 	{
 		const char KEY_UP = 0x26;
 		const char KEY_DOWN = 0x28;
-		const char KEY_ESC = 27;
 
 		if (nChar == KEY_UP) IsMovingUp = false;
 		if (nChar == KEY_DOWN) IsMovingDown = false;
-
-		if (nChar == KEY_ESC)
-		{
-			CAudio::Instance()->Stop(AUDIO_STAGE);
-			GotoGameState(GAME_STATE_INIT);
-		}
 	}
 
 	void CGameStateMenu::OnLButtonDown(UINT nFlags, CPoint point)
@@ -503,13 +476,48 @@ namespace game_framework {
 
 		//show unlock icon
 		for (int i = 0; i < totalStage; i++) {
-			if (!stages[i]->IsUnlock()) {
-				unlockIcon.SetTopLeft(StagePos[i][0] - 3, StagePos[i][1] + sy);
-				unlockIcon.ShowBitmap();
-			}
-			else {
+			if (stages[i]->IsUnlock()) {
+				_stage.SetInteger(i + 1);
+				if (_stage.GetInteger() <= 15)
+				{
+					unlockIcon[0].SetTopLeft(StagePos[i][0] - 3, StagePos[i][1] + sy);
+					unlockIcon[0].ShowBitmap();
+					_stage.SetTopLeft(StagePos[i][0] + 25, StagePos[i][1]+40+ sy);
+				}
+				else if (15 < _stage.GetInteger() <= 30) 
+				{
+					unlockIcon[1].SetTopLeft(StagePos[i][0] - 3, StagePos[i][1] + sy);
+					unlockIcon[1].ShowBitmap();
+					_stage.SetTopLeft(StagePos[i][0] + 20, StagePos[i][1] + 40+sy);
+				}
+				else if (30 < _stage.GetInteger() <= 45)
+				{
+					unlockIcon[2].SetTopLeft(StagePos[i][0] - 3, StagePos[i][1] + sy);
+					unlockIcon[2].ShowBitmap();
+					_stage.SetTopLeft(StagePos[i][0] + 20, StagePos[i][1] + 40 + sy);
+				}
+				else if (45 < _stage.GetInteger() <= 60)
+				{
+					unlockIcon[3].SetTopLeft(StagePos[i][0] - 3, StagePos[i][1] + sy);
+					unlockIcon[3].ShowBitmap();
+					_stage.SetTopLeft(StagePos[i][0] + 20, StagePos[i][1] + 40 + sy);
+				}
+				else if (60 < _stage.GetInteger() <= 75)
+				{
+					unlockIcon[1].SetTopLeft(StagePos[i][0] - 3, StagePos[i][1] + sy);
+					unlockIcon[1].ShowBitmap();
+					_stage.SetTopLeft(StagePos[i][0] + 20, StagePos[i][1] + 40 + sy);
+				}
+				else if (75 < _stage.GetInteger() <= 90)
+				{
+					unlockIcon[4].SetTopLeft(StagePos[i][0] - 3, StagePos[i][1] + sy);
+					unlockIcon[4].ShowBitmap();
+					_stage.SetTopLeft(StagePos[i][0] + 20, StagePos[i][1] + 40 + sy);
+				}
+				_stage.ShowBitmap();
+
 				int xTemp = StagePos[i][0] - 15;
-				int yTemp = StagePos[i][1] + sy + 50;
+				int yTemp = StagePos[i][1] + sy + 55;
 				if (stages[i]->GetLastScoreHistory() >= stages[i]->GetScoreOne())
 				{
 					star1.SetTopLeft(xTemp, yTemp);
@@ -517,7 +525,7 @@ namespace game_framework {
 				}
 				if (stages[i]->GetLastScoreHistory() >= stages[i]->GetScoreTwo())
 				{
-					star2.SetTopLeft(xTemp + 30, yTemp);
+					star2.SetTopLeft(xTemp + 30, yTemp+5);
 					star2.ShowBitmap();
 				}
 				if (stages[i]->GetLastScoreHistory() >= stages[i]->GetScoreThree())
