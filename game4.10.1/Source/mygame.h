@@ -77,13 +77,9 @@ namespace game_framework {
 		void OnLButtonUp(UINT nFlags, CPoint point);	// 處理滑鼠的動作
 	protected:
 		void OnShow();									// 顯示這個狀態的遊戲畫面
-		void OnMove();
 	private:
-		CMovingBitmap background, clickedPlayButton;	// Candycrush starter background, play button
-		CAnimation tiffy, playButton;
-		bool playBtnClicked;
-		int playButTopLX, playButTopLY;					//Top left of play button
-		int playButBotRX, playButBotRY;					//Bottom right of play button
+		CMovingBitmap background, playButton;			// Candycrush starter background, play button
+		CAnimation tiffy;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -151,16 +147,18 @@ namespace game_framework {
 		void OnShow();
 
 	private:
-		CMovingBitmap menuBackground, woodBackgourd, unlockIcon;
+		CMovingBitmap menuBackground, woodBackgourd;
+		CMovingBitmap unlockIcon[5];
 		CMovingBitmap star1, star2, star3;
 		const int totalStage;
+		vector<Stage*> stages;
 		int sy;
 		int MAX_Y, MIN_Y;
 		bool IsMovingUp, IsMovingDown;
 		int StagePos[15][2];
-
 		LONG clickX, clickY, clickSY;	//save position of mouse and menu when mouse clicked
 		bool drag;
 		int mouseDisplayment, inertia;
+		CInteger _stage;
 	};
 }
