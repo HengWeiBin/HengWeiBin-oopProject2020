@@ -82,27 +82,7 @@ IDB_8                   BITMAP                  "..\\res\\bmp8.bmp"
 
 IDB_9                   BITMAP                  "..\\res\\bmp9.bmp"
 
-IDB__0                   BITMAP                  "..\\res\\bmp0_.bmp"
-
-IDB__1                   BITMAP                  "..\\res\\bmp1_.bmp"
-
-IDB__2                   BITMAP                  "..\\res\\bmp2_.bmp"
-
-IDB__3                   BITMAP                  "..\\res\\bmp3_.bmp"
-
-IDB__4                   BITMAP                  "..\\res\\bmp4_.bmp"
-
-IDB__5                   BITMAP                  "..\\res\\bmp5_.bmp"
-
-IDB__6                   BITMAP                  "..\\res\\bmp6_.bmp"
-
-IDB__7                   BITMAP                  "..\\res\\bmp7_.bmp"
-
-IDB__8                   BITMAP                  "..\\res\\bmp8_.bmp"
-
-IDB__9                   BITMAP                  "..\\res\\bmp9_.bmp"
-
-IDB_MINUS               BITMAP                  "..\\res\\bmp10_.bmp"
+IDB_MINUS               BITMAP                  "..\\res\\bmp10.bmp"
 
 IDB_CONTINUE            BITMAP                  "..\\res\\continue.bmp"
 
@@ -605,16 +585,6 @@ IDB_PLAYBUTTON_10		BITMAP					"..\\Bitmaps\\PlayButton10.bmp"
 IDB_PLAYBUTTON_11		BITMAP					"..\\Bitmaps\\PlayButton11.bmp"
 
 IDB_PLAYBUTTON_12		BITMAP					"..\\Bitmaps\\PlayButton12.bmp"
-
-IDB_RED_STAGE			BITMAP					"..\\Bitmaps\\Red_Stage.bmp"
-
-IDB_GREEN_STAGE			BITMAP					"..\\Bitmaps\\Green_Stage.bmp"
-
-IDB_DARK_PUR_STAGE		BITMAP					"..\\Bitmaps\\Dark_Purple_Stage.bmp"
-
-IDB_ORANGE_STAGE		BITMAP					"..\\Bitmaps\\Orange_Stage.bmp"
-
-IDB_LIGHT_PUR_STAGE		BITMAP					"..\\Bitmaps\\Light_Purple_Stage.bmp"
 
 IDB_RED_VEXPL1          BITMAP                  "..\\Bitmaps\\RedVLineExplode (1).bmp"
 

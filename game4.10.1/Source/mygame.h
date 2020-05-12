@@ -151,18 +151,16 @@ namespace game_framework {
 		void OnShow();
 
 	private:
-		CMovingBitmap menuBackground, woodBackgourd;
-		CMovingBitmap unlockIcon[5];
+		CMovingBitmap menuBackground, woodBackgourd, unlockIcon;
 		CMovingBitmap star1, star2, star3;
 		const int totalStage;
-		vector<Stage*> stages;
 		int sy;
 		int MAX_Y, MIN_Y;
 		bool IsMovingUp, IsMovingDown;
 		int StagePos[15][2];
+
 		LONG clickX, clickY, clickSY;	//save position of mouse and menu when mouse clicked
 		bool drag;
 		int mouseDisplayment, inertia;
-		CInteger _stage;
 	};
 }

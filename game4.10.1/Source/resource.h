@@ -4,21 +4,6 @@
 //
 #define IDD_ABOUTBOX                    100
 #define IDP_SOCKETS_INIT_FAILED         104
-#define IDB__0                          105
-#define IDB__1                          106
-#define IDB__2                          107
-#define IDB__3                          108
-#define IDB__4                          109
-#define IDB__5                          110
-#define IDB__6                          111
-#define IDB__7                          112
-#define IDB__8                          113
-#define IDB__9							114
-#define IDB_RED_STAGE					115
-#define IDB_GREEN_STAGE					116
-#define IDB_DARK_PUR_STAGE				117
-#define IDB_ORANGE_STAGE				118
-#define IDB_LIGHT_PUR_STAGE				119
 #define IDR_MAINFRAME                   128
 #define IDR_GAMETYPE                    129
 #define IDB_RACKET                      131

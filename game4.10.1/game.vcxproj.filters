@@ -930,6 +930,9 @@
     <Image Include="Bitmaps\GreenStar1.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Bitmaps\Unlock_Level .bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
     <Image Include="Bitmaps\Tiffy_9.bmp">
       <Filter>Resource Files</Filter>
     </Image>
@@ -958,54 +961,6 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Bitmaps\Tiffy_0.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="RES\bmp0_.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="RES\bmp1_.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="RES\bmp2_.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="RES\bmp3_.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="RES\bmp4_.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="RES\bmp5_.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="RES\bmp6_.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="RES\bmp7_.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="RES\bmp8_.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="RES\bmp9_.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="RES\bmp10_.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Bitmaps\Red_Stage.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Bitmaps\Green_Stage.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Bitmaps\Dark_Purple_Stage.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Bitmaps\Light_Purple_Stage.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Bitmaps\Orange_Stage.bmp">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

@@ -257,7 +257,7 @@ namespace game_framework {
 	}
 
 	CInteger::CInteger()
-		: NUMDIGITS(1), n(0), type(1)
+		: NUMDIGITS(1), n(0)
 	{
 		isBmpLoaded = false;
 	}
@@ -285,18 +285,14 @@ namespace game_framework {
 	{
 		NUMDIGITS = digit;
 	}
-	void CInteger::SetType(int type)
-	{
-		this->type = type;
-	}
 	void CInteger::LoadBitmap()
 	{
 		//
 		// digit[i]為class varibale，所以必須避免重複LoadBitmap
 		//
 		if (!isBmpLoaded) {
-			int d[22] = { IDB_0,IDB_1,IDB_2,IDB_3,IDB_4,IDB_5,IDB_6,IDB_7,IDB_8,IDB_9,IDB_MINUS,IDB__0,IDB__1,IDB__2,IDB__3,IDB__4,IDB__5,IDB__6,IDB__7,IDB__8,IDB__9,IDB_MINUS };
-			for (int i = 0; i < 21; i++)
+			int d[11] = { IDB_0,IDB_1,IDB_2,IDB_3,IDB_4,IDB_5,IDB_6,IDB_7,IDB_8,IDB_9,IDB_MINUS };
+			for (int i = 0; i < 11; i++)
 				digit[i].LoadBitmap(d[i], RGB(0, 0, 0));
 			isBmpLoaded = true;
 		}
@@ -360,7 +356,7 @@ namespace game_framework {
 	{
 		n = i;
 	}
-	
+
 	void CInteger::SetTopLeft(int nx, int ny)		// 將動畫的左上角座標移至 (x,y)
 	{
 		x = nx; y = ny;
@@ -371,28 +367,24 @@ namespace game_framework {
 		GAME_ASSERT(NUMDIGITS, "CInteger: 請先執行SetDigit，然後才能ShowBitmap");
 		int nx;		// 待顯示位數的 x 座標
 		int MSB;	// 最左邊(含符號)的位數的數值
-		int BitmapType;
-		if (type == 1)BitmapType = 0;
-		if (type == 2)BitmapType = 11;
-
 		if (n >= 0) {
 			MSB = n;
-			nx = x + digit[0+ BitmapType].Width()*(NUMDIGITS - 1);
+			nx = x + digit[0].Width()*(NUMDIGITS - 1);
 		}
 		else {
 			MSB = -n;
-			nx = x + digit[0+ BitmapType].Width()*NUMDIGITS;
+			nx = x + digit[0].Width()*NUMDIGITS;
 		}
 		for (int i = 0; i < NUMDIGITS; i++) {
 			int d = MSB % 10;
 			MSB /= 10;
-			digit[d+ BitmapType].SetTopLeft(nx, y);
-			digit[d+ BitmapType].ShowBitmap();
-			nx -= digit[d+ BitmapType].Width();
+			digit[d].SetTopLeft(nx, y);
+			digit[d].ShowBitmap();
+			nx -= digit[d].Width();
 		}
 		if (n < 0) { // 如果小於0，則顯示負號
-			digit[10+BitmapType].SetTopLeft(nx, y);
-			digit[10+ BitmapType].ShowBitmap();
+			digit[10].SetTopLeft(nx, y);
+			digit[10].ShowBitmap();
 		}
 	}
 
@@ -559,11 +551,11 @@ namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
 
 	GameArea CGameState::gameArea;
+	vector<Stage*> CGameState::stages;
 
 	CGameState::CGameState(CGame *g)
 	{
 		game = g; 	// 設定game的pointer
-		stage = NULL;
 	}
 
 	void CGameState::GotoGameState(int state)

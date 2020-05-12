@@ -82,7 +82,7 @@ namespace game_framework {
 
 		// Load play button
 		int playBtnBmp[] = { IDB_PLAYBUTTON_1, IDB_PLAYBUTTON_2, IDB_PLAYBUTTON_3, IDB_PLAYBUTTON_4,
-			IDB_PLAYBUTTON_5, IDB_PLAYBUTTON_6, IDB_PLAYBUTTON_7, IDB_PLAYBUTTON_8,
+			IDB_PLAYBUTTON_5, IDB_PLAYBUTTON_6, IDB_PLAYBUTTON_7, IDB_PLAYBUTTON_8, 
 			IDB_PLAYBUTTON_9, IDB_PLAYBUTTON_10, IDB_PLAYBUTTON_11, IDB_PLAYBUTTON_12 };
 
 		for (int i = 0; i < 12; i++)
@@ -92,7 +92,7 @@ namespace game_framework {
 		playButton.SetDelayCount(4);
 
 		clickedPlayButton.LoadBitmap("Bitmaps\\PlayButtonClicked.bmp", RGB(0, 0, 0));
-		playButTopLX = SIZE_X / 2 - playButton.Width() / 2;
+		playButTopLX = SIZE_X / 2 - playButton.Width() / 2;	
 		playButTopLY = SIZE_Y / 5 * 4 - playButton.Height();
 		playButBotRX = SIZE_X / 2 + playButton.Width() / 2;
 		playButBotRY = SIZE_Y / 5 * 4;
@@ -344,12 +344,11 @@ namespace game_framework {
 	}
 
 	CGameStateMenu::CGameStateMenu(CGame *g) 
-		: CGameState(g), totalStage(6), drag(false), mouseDisplayment(0), inertia(0)
+		: CGameState(g), totalStage(9), drag(false), mouseDisplayment(0), inertia(0)
 	{
 		IsMovingUp = false; IsMovingDown = false;
 		MAX_Y = 0; MIN_Y = -3600;
 		sy = -3600;
-		_stage.SetType(2);
 
 		int Pos[][2] = { {270,4030},{495,3980},{530,3850},{320,3870},{135,3910},
 						 {135,3750},{340,3690},{570,3720},{770,3800},{960,3840},
@@ -371,13 +370,10 @@ namespace game_framework {
 	{
 		woodBackgourd.LoadBitmap("Bitmaps/WoodBackground.bmp");
 		menuBackground.LoadBitmap("Bitmaps/stage_map.bmp");
+
+		//tunlock ion
+		unlockIcon.LoadBitmap("Bitmaps/Unlock_Level .bmp", RGB(255, 255, 255));
 		CAudio::Instance()->Load(AUDIO_STAGE, "sounds\\Overworld_Level_Select.mp3");
-		int unlock_icon[5] = { IDB_RED_STAGE,IDB_GREEN_STAGE,IDB_DARK_PUR_STAGE,IDB_ORANGE_STAGE,IDB_LIGHT_PUR_STAGE};
-		//unlock icon
-		for (int i = 0; i < 5; i++)
-		{
-			unlockIcon[i].LoadBitmap(unlock_icon[i], RGB(255, 255, 255));
-		}
 
 		//star icon
 		star1.LoadBitmap("Bitmaps/SmallRedStar.bmp", RGB(255, 255, 255));
@@ -400,7 +396,7 @@ namespace game_framework {
 	void CGameStateMenu::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
 		const char KEY_UP = 0x26;
-		const char KEY_DOWN = 0x28; 
+		const char KEY_DOWN = 0x28;
 		if (nChar == KEY_UP) {
 			IsMovingUp=true;
 		}
@@ -413,9 +409,16 @@ namespace game_framework {
 	{
 		const char KEY_UP = 0x26;
 		const char KEY_DOWN = 0x28;
+		const char KEY_ESC = 27;
 
 		if (nChar == KEY_UP) IsMovingUp = false;
 		if (nChar == KEY_DOWN) IsMovingDown = false;
+
+		if (nChar == KEY_ESC)
+		{
+			CAudio::Instance()->Stop(AUDIO_STAGE);
+			GotoGameState(GAME_STATE_INIT);
+		}
 	}
 
 	void CGameStateMenu::OnLButtonDown(UINT nFlags, CPoint point)
@@ -500,48 +503,13 @@ namespace game_framework {
 
 		//show unlock icon
 		for (int i = 0; i < totalStage; i++) {
-			if (stages[i]->IsUnlock()) {
-				_stage.SetInteger(i + 1);
-				if (_stage.GetInteger() <= 15)
-				{
-					unlockIcon[0].SetTopLeft(StagePos[i][0] - 3, StagePos[i][1] + sy);
-					unlockIcon[0].ShowBitmap();
-					_stage.SetTopLeft(StagePos[i][0] + 25, StagePos[i][1]+40+ sy);
-				}
-				else if (15 < _stage.GetInteger() <= 30) 
-				{
-					unlockIcon[1].SetTopLeft(StagePos[i][0] - 3, StagePos[i][1] + sy);
-					unlockIcon[1].ShowBitmap();
-					_stage.SetTopLeft(StagePos[i][0] + 20, StagePos[i][1] + 40+sy);
-				}
-				else if (30 < _stage.GetInteger() <= 45)
-				{
-					unlockIcon[2].SetTopLeft(StagePos[i][0] - 3, StagePos[i][1] + sy);
-					unlockIcon[2].ShowBitmap();
-					_stage.SetTopLeft(StagePos[i][0] + 20, StagePos[i][1] + 40 + sy);
-				}
-				else if (45 < _stage.GetInteger() <= 60)
-				{
-					unlockIcon[3].SetTopLeft(StagePos[i][0] - 3, StagePos[i][1] + sy);
-					unlockIcon[3].ShowBitmap();
-					_stage.SetTopLeft(StagePos[i][0] + 20, StagePos[i][1] + 40 + sy);
-				}
-				else if (60 < _stage.GetInteger() <= 75)
-				{
-					unlockIcon[1].SetTopLeft(StagePos[i][0] - 3, StagePos[i][1] + sy);
-					unlockIcon[1].ShowBitmap();
-					_stage.SetTopLeft(StagePos[i][0] + 20, StagePos[i][1] + 40 + sy);
-				}
-				else if (75 < _stage.GetInteger() <= 90)
-				{
-					unlockIcon[4].SetTopLeft(StagePos[i][0] - 3, StagePos[i][1] + sy);
-					unlockIcon[4].ShowBitmap();
-					_stage.SetTopLeft(StagePos[i][0] + 20, StagePos[i][1] + 40 + sy);
-				}
-				_stage.ShowBitmap();
-
+			if (!stages[i]->IsUnlock()) {
+				unlockIcon.SetTopLeft(StagePos[i][0] - 3, StagePos[i][1] + sy);
+				unlockIcon.ShowBitmap();
+			}
+			else {
 				int xTemp = StagePos[i][0] - 15;
-				int yTemp = StagePos[i][1] + sy + 55;
+				int yTemp = StagePos[i][1] + sy + 50;
 				if (stages[i]->GetLastScoreHistory() >= stages[i]->GetScoreOne())
 				{
 					star1.SetTopLeft(xTemp, yTemp);
@@ -549,7 +517,7 @@ namespace game_framework {
 				}
 				if (stages[i]->GetLastScoreHistory() >= stages[i]->GetScoreTwo())
 				{
-					star2.SetTopLeft(xTemp + 30, yTemp+5);
+					star2.SetTopLeft(xTemp + 30, yTemp);
 					star2.ShowBitmap();
 				}
 				if (stages[i]->GetLastScoreHistory() >= stages[i]->GetScoreThree())
