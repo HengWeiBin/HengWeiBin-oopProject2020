@@ -280,12 +280,14 @@ namespace game_framework {
 		void SetTopLeft(int, int);	// 將動畫的左上角座標移至 (x,y)
 		void ShowBitmap();			// 將動畫貼到螢幕	
 		void SetDigit(int digit);   // set the size of the number
+		void SetType(int type);
 	private:
 		int NUMDIGITS;			// 共顯示NUMDIGITS個位數
 		static CMovingBitmap digit[11]; // 儲存0..9及負號之圖形(bitmap)
 		int x, y;						// 顯示的座標
 		int n;							// 整數值
 		bool isBmpLoaded;				// 是否已經載入圖形
+		int type;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -331,8 +333,8 @@ namespace game_framework {
 		virtual void OnMove() {}								// 移動這個狀態的遊戲元素
 		virtual void OnShow() = 0;								// 顯示這個狀態的遊戲畫面
 		CGame *game;
+		Stage *stage;											//Selected stage
 		static GameArea gameArea;	//游戲區
-		static vector<Stage*> stages;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
