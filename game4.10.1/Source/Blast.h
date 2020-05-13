@@ -17,9 +17,10 @@ namespace game_framework
 		virtual void LoadBitmap() {};
 		virtual void OnShow() {};
 		virtual void OnMove() {};
-		virtual void SetTopLeft() {};
+		virtual void SetTopLeft(int, int);
 		virtual bool IsLast() = 0;
 	protected:
+		void GetBmpId(int*&, int style);
 		int x, y;
 	};
 
@@ -31,10 +32,8 @@ namespace game_framework
 		void LoadBitmap(int);
 		void OnMove();
 		void OnShow();
-		void SetTopLeft(int, int);
 		bool IsLast();
 	private:
-		void GetBmpId(int*&, int style);
 
 		CMovingBitmap candy[4];
 		CMovingBitmap normalBlast[10];
@@ -43,21 +42,23 @@ namespace game_framework
 		int shift[3][3];				//move direction/ moving speed/ spin direction
 		int shatPosition[3][2];			//every shatter current position
 		int shatShow[3];				//shatter current frame
-		const int totalShow;
+		const int totalShow;			//total shatter spawned
 		double size;					//current size
 	};
 
-	class HorizonBlast :public Blast
+	class LineBlast :public Blast
 	{
 	public:
-		HorizonBlast();
-		void LoadBitmap();
+		LineBlast(int, int, int, int);
+		void LoadBitmap(int);
 		void OnMove();
 		void OnShow();
-		void SetTopLeft(int, int);
+		bool IsLast();
 	private:
-		CMovingBitmap bmp;
-		double zoom;
+		CMovingBitmap horizontal[30];
+		CMovingBitmap vertical[30];
+		int curShow;
+		int powStyle;
 	};
 }
 
