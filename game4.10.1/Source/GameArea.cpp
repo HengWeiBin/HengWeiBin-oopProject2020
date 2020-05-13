@@ -131,7 +131,7 @@ namespace game_framework
 		if(!initiating && candy->GetStyle())
 			blasts.push_back(new NormalBlast(candy->GetStyle(), candy->GetTopLeftX(), candy->GetTopLeftY()));
 
-		int power = candy->GetPower();
+		int power = candy->GetPower(), style = candy->GetStyle();
 		candy->SetStyle(0);
 		candy->SetPower(0);
 
@@ -140,12 +140,20 @@ namespace game_framework
 		case 0:
 			break;
 		case 1:
+			if (!initiating && style)
+			{
+				blasts.push_back(new LineBlast(style, candy->GetTopLeftX(), candy->GetTopLeftY(), 1));
+				CAudio::Instance()->Play(AUDIO_LINE_BLAST, false);
+			}
 			RemoveRow(row);
-			if (!initiating)CAudio::Instance()->Play(AUDIO_LINE_BLAST, false);
 			break;
 		case 2:
+			if (!initiating && style)
+			{
+				blasts.push_back(new LineBlast(style, candy->GetTopLeftX(), candy->GetTopLeftY(), 2));
+				CAudio::Instance()->Play(AUDIO_LINE_BLAST, false);
+			}
 			RemoveColumn(column);
-			if (!initiating)CAudio::Instance()->Play(AUDIO_LINE_BLAST, false);
 			break;
 		case 3:
 			RemoveSquare(row, column, 1);
@@ -393,18 +401,45 @@ namespace game_framework
 				if(candies[i][j].GetStyle() > 0)
 					candies[i][j].OnMove(initiating);
 
+		FindCombo();
+		ShowBlasts();
+
+		if (!ending && (!scoreBoard.moves.GetInteger() || scoreBoard.IsReachedTarget()))
+		{//for temporary use, gameover when move = 0
+			if ((*stage)->lastHighScore < scoreBoard.score)
+			{
+				(*(stage + 1))->SetUnlock();
+				(*stage)->lastHighScore = scoreBoard.score.GetInteger();
+				(*stage)->WriteBack();
+			}
+			ending = true;
+			running = false;//for temporary use
+		}
+
 		if (removeStyle.size())
 		{
 			ReleasePower(*removeStyle.begin());
 			removeStyle.erase(removeStyle.begin());
 		}
+		if (delayRemove)
+		{
+			if (delay > 0) delay--;
+			else
+			{
+				RemoveStyle(delayRemoveStyle);
+				delayRemove = false;
+			}
+		}
+	}
 
+	void GameArea::FindCombo()
+	{
 		if (!initiating && !delayRemove && !IsDropping() && !removeStyle.size())
 		{
 			int amountCleared = ClearCombo();
 			if (amountCleared)
-			{
-				currentComboSound > 12 ? 11 : currentComboSound;
+			{	//play combo sound
+				currentComboSound = currentComboSound > 11 ? 11 : currentComboSound;
 				CAudio::Instance()->Play(audioID[currentComboSound++], false);
 			}
 			else currentComboSound = 0;
@@ -423,7 +458,10 @@ namespace game_framework
 			Sleep(100);
 		}
 		else if (!IsDropping() && !delayRemove && !removeStyle.size()) ClearCombo();
+	}
 
+	void GameArea::ShowBlasts()
+	{
 		for (auto i = blasts.begin(); i != blasts.end();)
 		{
 			if ((*i)->IsLast())
@@ -435,28 +473,6 @@ namespace game_framework
 			{
 				(*i)->OnMove();
 				i++;
-			}
-		}
-
-		if (!ending && (!scoreBoard.moves.GetInteger() || scoreBoard.IsReachedTarget()))
-		{//for temporary use, gameover when move = 0
-			if ((*stage)->lastHighScore < scoreBoard.score)
-			{
-				(*(stage + 1))->SetUnlock();
-				(*stage)->lastHighScore = scoreBoard.score.GetInteger();
-				(*stage)->WriteBack();
-			}
-			ending = true;
-			running = false;//for temporary use
-		}
-
-		if (delayRemove)
-		{
-			if (delay > 0) delay--;
-			else
-			{
-				RemoveStyle(delayRemoveStyle);
-				delayRemove = false;
 			}
 		}
 	}

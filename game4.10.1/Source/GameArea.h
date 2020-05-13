@@ -42,6 +42,7 @@ namespace game_framework
 		int DropCandySide();
 		int DeleteCombo(set<Candy*>&);					//analyze and delete combo
 		void Find(Candy*, unsigned&, unsigned&);		//find candy and return row and column
+		void FindCombo();
 		void GetCandies(set<Candy*>&, int, int, int);	//get continuous candies
 		void GetLine(vector<Candy*>&, vector<Candy*>&, char check);									//collect candies on a same line
 		void InitClickedCandy();						//unclick & clear candies in clickedCandies
@@ -58,6 +59,7 @@ namespace game_framework
 		void RemoveSquare(int, int, int);				//remove surrounding candies according to level
 		void RemoveStyle(int style = 0);				//remove all specific candy
 		void ShowLoading();								//Show loading image
+		void ShowBlasts();
 		void SwapCandy();								//Swap candies in clickedCandies
 		void UpdateCurPosition();						//update current position of every candy
 
