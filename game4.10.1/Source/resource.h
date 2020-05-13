@@ -4,6 +4,17 @@
 //
 #define IDD_ABOUTBOX                    100
 #define IDP_SOCKETS_INIT_FAILED         104
+#define IDB_STAGE_BUTTON_BLUE			105
+#define IDB_STAGE_BUTTON_GREY			106
+#define IDB_STAGE_BUTTON_RED			107
+#define IDB_STAGE_BUTTON_YELLOW			108
+#define IDB_STAGE_BUTTON_GREEN			112
+#define IDB_TOFFEE_14					109
+#define IDB_TOFFEE_15					110
+#define IDB_TOFFEE_16					111
+#define IDB_TOFFEE_6					113
+#define IDB_TOFFEE_7					114
+#define IDB_TOFFEE_8					115
 #define IDR_MAINFRAME                   128
 #define IDR_GAMETYPE                    129
 #define IDB_RACKET                      131
