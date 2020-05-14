@@ -79,7 +79,7 @@ namespace game_framework {
 		//
 		// 開始載入資料
 		//
-		background.LoadBitmap("Bitmaps\\InitBackground.bmp");
+		background.LoadBitmap("Bitmaps\\InitBackground3.bmp");
 
 		// Load play button
 		int playBtnBmp[] = { IDB_PLAYBUTTON_1, IDB_PLAYBUTTON_2, IDB_PLAYBUTTON_3, IDB_PLAYBUTTON_4,
@@ -175,10 +175,10 @@ namespace game_framework {
 			playButton.OnShow();
 		}
 
-		tiffy.SetTopLeft(95, 400);
+		tiffy.SetTopLeft(90, 380);
 		tiffy.OnShow();
 
-		toffee.SetTopLeft(870, 60);
+		toffee.SetTopLeft(800, 60);
 		toffee.OnShow();
 	}
 
@@ -389,16 +389,11 @@ namespace game_framework {
 
 	void CGameStateMenu::OnInit()
 	{
-<<<<<<< HEAD
-		woodBackgourd.LoadBitmap("Bitmaps/WoodBackground.bmp");
-		menuBackground.LoadBitmap("Bitmaps/stage_map.bmp"); 
-		stageNum.SetType(1);
-=======
 		ShowLoading(3);
 		Sleep(500);
 		woodBackgourd.LoadBitmap("Bitmaps\\WoodBackground.bmp");
 		menuBackground.LoadBitmap("Bitmaps\\stage_map.bmp");
->>>>>>> 845a107ffb04e1e0760d481af39e68b1fb2170a6
+		stageNum.SetType(1);
 
 		int StageButton[5] = { IDB_STAGE_BUTTON_BLUE, IDB_STAGE_BUTTON_RED, IDB_STAGE_BUTTON_GREEN, IDB_STAGE_BUTTON_YELLOW, IDB_STAGE_BUTTON_GREY };
 		//unlock icon
