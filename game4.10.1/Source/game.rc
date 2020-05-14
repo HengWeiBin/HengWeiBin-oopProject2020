@@ -1306,6 +1306,27 @@ IDB_PUR_HEXPL29         BITMAP                  "..\\Bitmaps\\PurpleHLineExplode
 
 IDB_PUR_HEXPL30         BITMAP                  "..\\Bitmaps\\PurpleHLineExplode (30).bmp"
 
+IDB_TOFFEE_6			BITMAP					"..\\Bitmaps\\toffee_6.bmp"
+
+IDB_TOFFEE_7			BITMAP					"..\\Bitmaps\\toffee_7.bmp"
+
+IDB_TOFFEE_8			BITMAP					"..\\Bitmaps\\toffee_8.bmp"
+
+IDB_TOFFEE_14			BITMAP					"..\\Bitmaps\\toffee_14.bmp"
+
+IDB_TOFFEE_15			BITMAP					"..\\Bitmaps\\toffee_15.bmp"
+
+IDB_TOFFEE_16			BITMAP					"..\\Bitmaps\\toffee_16.bmp"
+
+IDB_STAGE_BUTTON_BLUE	BITMAP					".\\Bitmaps\\Stage_Button_Blue.bmp"
+
+IDB_STAGE_BUTTON_GREY	BITMAP					".\\Bitmaps\\Stage_Button_Grey.bmp"
+
+IDB_STAGE_BUTTON_RED	BITMAP					".\\Bitmaps\\Stage_Button_Red.bmp"
+
+IDB_STAGE_BUTTON_YELLOW	BITMAP					".\\Bitmaps\\Stage_Button_Yellow.bmp"
+
+IDB_STAGE_BUTTON_GREEN	BITMAP					".\\Bitmaps\\Stage_Button_Green.bmp"
 /////////////////////////////////////////////////////////////////////////////
 //
 // Cursor

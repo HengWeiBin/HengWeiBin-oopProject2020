@@ -108,7 +108,20 @@ namespace game_framework {
 		{
 			tiffy.AddBitmap(TiffyBitmap[i], RGB(255, 255, 255));
 		}
-		tiffy.SetDelayCount(2);
+		tiffy.SetDelayCount(5);
+
+		//Load Toffee
+		int ToffeeBitmap[6] = { IDB_TOFFEE_14, IDB_TOFFEE_6,IDB_TOFFEE_15, IDB_TOFFEE_7,IDB_TOFFEE_16, IDB_TOFFEE_8 };
+
+		for (int i = 0; i < 6; i++) {
+			toffee.AddBitmap(ToffeeBitmap[i], RGB(255, 255, 255));
+		}
+		for (int i = 5; i > 0; i--)
+		{
+			toffee.AddBitmap(ToffeeBitmap[i], RGB(255, 255, 255));
+		}
+
+		toffee.SetDelayCount(5);
 	}
 
 	void CGameStateInit::OnBeginState()
@@ -164,12 +177,16 @@ namespace game_framework {
 
 		tiffy.SetTopLeft(95, 400);
 		tiffy.OnShow();
+
+		toffee.SetTopLeft(870, 60);
+		toffee.OnShow();
 	}
 
 	void CGameStateInit::OnMove()
 	{
 		if (!playBtnClicked) playButton.OnMove();
 		tiffy.OnMove();
+		toffee.OnMove();
 	}
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -377,8 +394,12 @@ namespace game_framework {
 		woodBackgourd.LoadBitmap("Bitmaps\\WoodBackground.bmp");
 		menuBackground.LoadBitmap("Bitmaps\\stage_map.bmp");
 
-		//tunlock ion
-		unlockIcon.LoadBitmap("Bitmaps\\Unlock_Level .bmp", RGB(255, 255, 255));
+		int StageButton[5] = { IDB_STAGE_BUTTON_BLUE, IDB_STAGE_BUTTON_RED, IDB_STAGE_BUTTON_GREEN, IDB_STAGE_BUTTON_YELLOW, IDB_STAGE_BUTTON_GREY };
+		//unlock icon
+		for (int i = 0; i < 5; i++) {
+			stageButton[i].LoadBitmap(StageButton[i], RGB(255, 255, 255));
+		}
+
 		CAudio::Instance()->Load(AUDIO_STAGE, "sounds\\Overworld_Level_Select.mp3");
 
 		//star icon
@@ -386,11 +407,11 @@ namespace game_framework {
 		star2.LoadBitmap("Bitmaps\\SmallGreenStar.bmp", RGB(255, 255, 255));
 		star3.LoadBitmap("Bitmaps\\SmallYellowStar.bmp", RGB(255, 255, 255));
 		
-		/*load stage
+		//load stage
 		for (int i = 0; i < totalStage + 1; i++) {
 			stages.push_back(new Stage(i+1));
 			stages[i]->LoadStage();
-		}*/
+		}
 
 	}
 
@@ -509,28 +530,42 @@ namespace game_framework {
 
 		//show unlock icon
 		for (int i = 0; i < totalStage; i++) {
-			if (!stages[i]->IsUnlock()) {
-				unlockIcon.SetTopLeft(StagePos[i][0] - 3, StagePos[i][1] + sy);
-				unlockIcon.ShowBitmap();
-			}
-			else {
-				int xTemp = StagePos[i][0] - 15;
-				int yTemp = StagePos[i][1] + sy + 50;
+			int xStar = StagePos[i][0] - 10, xButton = StagePos[i][0] - 5;
+			int yStar = StagePos[i][1] + sy + 65, yButton = StagePos[i][1] - 3 + sy;
+			if (stages[i]->IsUnlock()) {
+				if (stages[i]->GetLastScoreHistory() < stages[i]->GetScoreOne()) {
+					stageButton[0].SetTopLeft(xButton, yButton);
+					stageButton[0].ShowBitmap();
+				}
 				if (stages[i]->GetLastScoreHistory() >= stages[i]->GetScoreOne())
 				{
-					star1.SetTopLeft(xTemp, yTemp);
+					stageButton[1].SetTopLeft(xButton, yButton);
+					stageButton[1].ShowBitmap();
+					star1.SetTopLeft(xStar, yStar);
 					star1.ShowBitmap();
 				}
 				if (stages[i]->GetLastScoreHistory() >= stages[i]->GetScoreTwo())
 				{
-					star2.SetTopLeft(xTemp + 30, yTemp);
+					stageButton[2].SetTopLeft(xButton, yButton);
+					stageButton[2].ShowBitmap();
+					star2.SetTopLeft(xStar + 30, yStar + 5);
 					star2.ShowBitmap();
 				}
 				if (stages[i]->GetLastScoreHistory() >= stages[i]->GetScoreThree())
 				{
-					star3.SetTopLeft(xTemp + 60, yTemp);
+					stageButton[3].SetTopLeft(xButton, yButton);
+					stageButton[3].ShowBitmap();
+					star3.SetTopLeft(xStar, yStar);
+					star3.ShowBitmap();
+					star3.SetTopLeft(xStar + 30, yStar + 5);
+					star3.ShowBitmap();
+					star3.SetTopLeft(xStar + 60, yStar);
 					star3.ShowBitmap();
 				}
+			}
+			else {
+				stageButton[4].SetTopLeft(xButton, yButton);
+				stageButton[4].ShowBitmap();
 			}
 		}
 	}

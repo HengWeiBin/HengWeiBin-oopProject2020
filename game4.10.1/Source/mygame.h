@@ -80,7 +80,7 @@ namespace game_framework {
 		void OnMove();
 	private:
 		CMovingBitmap background, clickedPlayButton;	// Candycrush starter background, play button
-		CAnimation tiffy, playButton;
+		CAnimation tiffy, playButton, toffee;
 		bool playBtnClicked;
 		int playButTopLX, playButTopLY;					//Top left of play button
 		int playButBotRX, playButBotRY;					//Bottom right of play button
@@ -151,7 +151,7 @@ namespace game_framework {
 		void OnShow();
 
 	private:
-		CMovingBitmap menuBackground, woodBackgourd, unlockIcon;
+		CMovingBitmap menuBackground, woodBackgourd, stageButton[5];
 		CMovingBitmap star1, star2, star3;
 		const int totalStage;
 		int sy;
