@@ -145,6 +145,7 @@ namespace game_framework {
 		void OnRButtonUp(UINT nFlags, CPoint point);			// handle mouse behavior
 		void SetMovingUp(bool status);
 		void SetMovingDown(bool status);
+		int GetDigit(int n);
 
 	protected:
 		void OnMove();
@@ -158,7 +159,7 @@ namespace game_framework {
 		int MAX_Y, MIN_Y;
 		bool IsMovingUp, IsMovingDown;
 		int StagePos[15][2];
-
+		CInteger stageNum;
 		LONG clickX, clickY, clickSY;	//save position of mouse and menu when mouse clicked
 		bool drag;
 		int mouseDisplayment, inertia;

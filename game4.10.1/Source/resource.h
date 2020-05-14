@@ -15,6 +15,16 @@
 #define IDB_TOFFEE_6					113
 #define IDB_TOFFEE_7					114
 #define IDB_TOFFEE_8					115
+#define IDB_0_1                         116
+#define IDB_1_1                         117
+#define IDB_2_1                         118
+#define IDB_3_1                         119
+#define IDB_4_1                         120
+#define IDB_5_1                         121
+#define IDB_6_1                         122
+#define IDB_7_1                         123
+#define IDB_8_1                         124
+#define IDB_9_1							125
 #define IDR_MAINFRAME                   128
 #define IDR_GAMETYPE                    129
 #define IDB_RACKET                      131

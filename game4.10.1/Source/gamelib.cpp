@@ -241,7 +241,7 @@ namespace game_framework {
 	// 2. 自己寫到運用CMovingBitmap的程式時，可以參考下列程式的寫法
 	/////////////////////////////////////////////////////////////////////////////
 
-	CMovingBitmap CInteger::digit[11];
+	CMovingBitmap CInteger::digit[22];
 
 
 	int GetDigit(int n)
@@ -257,7 +257,7 @@ namespace game_framework {
 	}
 
 	CInteger::CInteger()
-		: NUMDIGITS(1), n(0)
+		: NUMDIGITS(1), n(0), type(0)
 	{
 		isBmpLoaded = false;
 	}
@@ -285,14 +285,18 @@ namespace game_framework {
 	{
 		NUMDIGITS = digit;
 	}
+	void CInteger::SetType(int Type)
+	{
+		type = Type;
+	}
 	void CInteger::LoadBitmap()
 	{
 		//
 		// digit[i]為class varibale，所以必須避免重複LoadBitmap
 		//
 		if (!isBmpLoaded) {
-			int d[11] = { IDB_0,IDB_1,IDB_2,IDB_3,IDB_4,IDB_5,IDB_6,IDB_7,IDB_8,IDB_9,IDB_MINUS };
-			for (int i = 0; i < 11; i++)
+			int d[22] = { IDB_0,IDB_1,IDB_2,IDB_3,IDB_4,IDB_5,IDB_6,IDB_7,IDB_8,IDB_9,IDB_MINUS, IDB_0_1, IDB_1_1, IDB_2_1, IDB_3_1, IDB_4_1, IDB_5_1, IDB_6_1, IDB_7_1, IDB_8_1, IDB_9_1, IDB_MINUS };
+			for (int i = 0; i < 22; i++)
 				digit[i].LoadBitmap(d[i], RGB(0, 0, 0));
 			isBmpLoaded = true;
 		}
@@ -364,27 +368,29 @@ namespace game_framework {
 
 	void CInteger::ShowBitmap()
 	{
+		int Type;
+		type == 1 ? Type = 11 : Type = 0;
 		GAME_ASSERT(NUMDIGITS, "CInteger: 請先執行SetDigit，然後才能ShowBitmap");
 		int nx;		// 待顯示位數的 x 座標
 		int MSB;	// 最左邊(含符號)的位數的數值
 		if (n >= 0) {
 			MSB = n;
-			nx = x + digit[0].Width()*(NUMDIGITS - 1);
+			nx = x + digit[0 + Type].Width()*(NUMDIGITS - 1);
 		}
 		else {
 			MSB = -n;
-			nx = x + digit[0].Width()*NUMDIGITS;
+			nx = x + digit[0 + Type].Width()*NUMDIGITS;
 		}
 		for (int i = 0; i < NUMDIGITS; i++) {
 			int d = MSB % 10;
 			MSB /= 10;
-			digit[d].SetTopLeft(nx, y);
-			digit[d].ShowBitmap();
-			nx -= digit[d].Width();
+			digit[d + Type].SetTopLeft(nx, y);
+			digit[d + Type].ShowBitmap();
+			nx -= digit[d + Type].Width();
 		}
 		if (n < 0) { // 如果小於0，則顯示負號
-			digit[10].SetTopLeft(nx, y);
-			digit[10].ShowBitmap();
+			digit[10 + Type].SetTopLeft(nx, y);
+			digit[10 + Type].ShowBitmap();
 		}
 	}
 

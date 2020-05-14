@@ -64,504 +64,511 @@
 
 namespace game_framework
 {
-/////////////////////////////////////////////////////////////////////////////
-// 這個class為遊戲的遊戲開頭畫面物件
-/////////////////////////////////////////////////////////////////////////////
-
-CGameStateInit::CGameStateInit(CGame* g)
-    : CGameState(g), playBtnClicked(false)
-{
-}
-
-void CGameStateInit::OnInit()
-{
-    ShowLoading();
-    //
-    // 開始載入資料
-    //
-    background.LoadBitmap("Bitmaps\\InitBackground.bmp");
-    // Load play button
-    int playBtnBmp[] = { IDB_PLAYBUTTON_1, IDB_PLAYBUTTON_2, IDB_PLAYBUTTON_3, IDB_PLAYBUTTON_4,
-                         IDB_PLAYBUTTON_5, IDB_PLAYBUTTON_6, IDB_PLAYBUTTON_7, IDB_PLAYBUTTON_8,
-                         IDB_PLAYBUTTON_9, IDB_PLAYBUTTON_10, IDB_PLAYBUTTON_11, IDB_PLAYBUTTON_12
-                       };
-
-    for (int i = 0; i < 12; i++)
-    {
-        playButton.AddBitmap(playBtnBmp[i], RGB(0, 0, 0));
-    }
-
-    playButton.SetDelayCount(4);
-    clickedPlayButton.LoadBitmap("Bitmaps\\PlayButtonClicked.bmp", RGB(0, 0, 0));
-    playButTopLX = SIZE_X / 2 - playButton.Width() / 2;
-    playButTopLY = SIZE_Y / 5 * 4 - playButton.Height();
-    playButBotRX = SIZE_X / 2 + playButton.Width() / 2;
-    playButBotRY = SIZE_Y / 5 * 4;
-    //Load tiffy
-    int TiffyBitmap[10] = { IDB_TIFFY_0, IDB_TIFFY_1, IDB_TIFFY_2, IDB_TIFFY_3, IDB_TIFFY_4,
-                            IDB_TIFFY_5, IDB_TIFFY_6, IDB_TIFFY_7, IDB_TIFFY_8, IDB_TIFFY_9
-                          };
-
-    for (int i = 0; i < 10; i++)
-    {
-        tiffy.AddBitmap(TiffyBitmap[i], RGB(255, 255, 255));
-    }
-
-    for (int i = 8; i > 0; i--)
-    {
-        tiffy.AddBitmap(TiffyBitmap[i], RGB(255, 255, 255));
-    }
-
-    tiffy.SetDelayCount(5);
-    //Load Toffee
-    int ToffeeBitmap[6] = { IDB_TOFFEE_14, IDB_TOFFEE_6, IDB_TOFFEE_15, IDB_TOFFEE_7, IDB_TOFFEE_16, IDB_TOFFEE_8 };
-
-    for (int i = 0; i < 6; i++)
-    {
-        toffee.AddBitmap(ToffeeBitmap[i], RGB(255, 255, 255));
-    }
-
-    for (int i = 5; i > 0; i--)
-    {
-        toffee.AddBitmap(ToffeeBitmap[i], RGB(255, 255, 255));
-    }
-
-    toffee.SetDelayCount(5);
-}
-
-void CGameStateInit::OnBeginState()
-{
-    playBtnClicked = false;
-}
-
-void CGameStateInit::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
-{
-    const char KEY_ESC = 27;
-    const char KEY_SPACE = ' ';
-
-    if (nChar == KEY_SPACE)
-        GotoGameState(GAME_STATE_RUN);							// 切換至GAME_STATE_RUN
-    else if (nChar == KEY_ESC)									// Demo 關閉遊戲的方法
-        PostMessage(AfxGetMainWnd()->m_hWnd, WM_CLOSE, 0, 0);	// 關閉遊戲
-}
-
-void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
-{
-    if (point.x >= playButTopLX && point.y >= playButTopLY && point.x <= playButBotRX && point.y <= playButBotRY)
-    {
-        playBtnClicked = true;
-    }
-    else playBtnClicked = false;
-}
-
-void CGameStateInit::OnLButtonUp(UINT nFlags, CPoint point)
-{
-    if (point.x >= playButTopLX && point.y >= playButTopLY && point.x <= playButBotRX && point.y <= playButBotRY)
-    {
-        GotoGameState(GAME_STATE_MENU);		// 切換至GAME_STATE_RUN
-    }
-    else playBtnClicked = false;
-}
-
-void CGameStateInit::OnShow()
-{
-    // 貼上背景
-    background.SetTopLeft(0, 0);
-    background.ShowBitmap();
-
-    //貼上Play Button
-    if (playBtnClicked)
-    {
-        clickedPlayButton.SetTopLeft(SIZE_X / 2 - playButton.Width() / 2, SIZE_Y / 5 * 4 - playButton.Height());
-        clickedPlayButton.ShowBitmap();
-    }
-    else
-    {
-        playButton.SetTopLeft(SIZE_X / 2 - playButton.Width() / 2, SIZE_Y / 5 * 4 - playButton.Height());
-        playButton.OnShow();
-    }
-
-    tiffy.SetTopLeft(95, 400);
-    tiffy.OnShow();
-    toffee.SetTopLeft(870, 60);
-    toffee.OnShow();
-}
-
-void CGameStateInit::OnMove()
-{
-    if (!playBtnClicked) playButton.OnMove();
-
-    tiffy.OnMove();
-    toffee.OnMove();
-}
-
-/////////////////////////////////////////////////////////////////////////////
-// 這個class為遊戲的結束狀態(Game Over)
-/////////////////////////////////////////////////////////////////////////////
-
-CGameStateOver::CGameStateOver(CGame* g)
-    : CGameState(g)
-{
-}
-
-void CGameStateOver::OnMove()
-{
-    counter--;
-
-    if (counter < 0)
-        GotoGameState(GAME_STATE_MENU);
-}
-
-void CGameStateOver::OnBeginState()
-{
-    counter = 30 * 5; // 5 seconds
-}
-
-void CGameStateOver::OnInit()
-{}
-
-void CGameStateOver::OnShow()
-{
-    CDC* pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC
-    CFont f, *fp;
-    f.CreatePointFont(160, "Times New Roman");	// 產生 font f; 160表示16 point的字
-    fp = pDC->SelectObject(&f);					// 選用 font f
-    pDC->SetBkColor(RGB(0, 0, 0));
-    pDC->SetTextColor(RGB(255, 255, 0));
-    char str[80];								// Demo 數字對字串的轉換
-    sprintf(str, "Game Over ! (%d)", counter / 30);
-    pDC->TextOut(SIZE_X / 2 - 100, SIZE_Y / 2 - 50, str);
-    pDC->SelectObject(fp);						// 放掉 font f (千萬不要漏了放掉)
-    CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
-}
-
-/////////////////////////////////////////////////////////////////////////////
-// 這個class為遊戲的遊戲執行物件，主要的遊戲程式都在這裡
-/////////////////////////////////////////////////////////////////////////////
-
-CGameStateRun::CGameStateRun(CGame* g) : CGameState(g)
-{}
-
-CGameStateRun::~CGameStateRun()
-{}
-
-void CGameStateRun::OnBeginState()
-{
-    background.SetTopLeft(0, 0);						// 設定背景的起始座標
-    CAudio::Instance()->Play(AUDIO_JELLY, true);		// 撥放 MIDI
-}
-
-void CGameStateRun::OnMove()							// 移動遊戲元素
-{
-    //
-    // 如果希望修改cursor的樣式，則將下面程式的commment取消即可
-    //
-    // SetCursor(AfxGetApp()->LoadCursor(IDC_GAMECURSOR));
-    gameArea.OnMove();
-
-    if (gameArea.IsGameOver())
-        GotoGameState(GAME_STATE_OVER);
-}
-
-void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
-{
-    background.LoadBitmap("Bitmaps\\inGameBG1.bmp");// 載入背景的圖形
-
-	//載入游戲音效
-    CAudio::Instance()->Load(AUDIO_JELLY, "sounds\\MovesJellyLevels.mp3");
-    CAudio::Instance()->Load(AUDIO_NEG_SWAP, "sounds\\negative_switch_sound1.wav");
-    CAudio::Instance()->Load(AUDIO_SWAP, "sounds\\switch_sound1.wav");
-    CAudio::Instance()->Load(AUDIO_SUPER_CREATE, "sounds\\colour_bomb_created.wav");
-    CAudio::Instance()->Load(AUDIO_LINE_CREATE, "sounds\\striped_candy_created1.wav");
-    CAudio::Instance()->Load(AUDIO_PACK_CREATE, "sounds\\wrapped_candy_created1.wav");
-    CAudio::Instance()->Load(AUDIO_POWER_ALL, "sounds\\colour_bomb1.wav");
-    CAudio::Instance()->Load(AUDIO_SQUARE_REMOVE1, "sounds\\square_removed1.wav");
-    CAudio::Instance()->Load(AUDIO_SQUARE_REMOVE2, "sounds\\square_removed2.wav");
-    CAudio::Instance()->Load(AUDIO_LINE_BLAST, "sounds\\line_blast1.wav");
-    CAudio::Instance()->Load(AUDIO_CANDY_LAND1, "sounds\\candy_land1.wav");
-    CAudio::Instance()->Load(AUDIO_CANDY_LAND2, "sounds\\candy_land2.wav");
-    CAudio::Instance()->Load(AUDIO_CANDY_LAND3, "sounds\\candy_land3.wav");
-    CAudio::Instance()->Load(AUDIO_CANDY_LAND4, "sounds\\candy_land4.wav");
-
-    for (int i = 0; i < 12; i++)
-    {
-        char sound[30] = { 0 };
-        sprintf(sound, "sounds\\combo_sound%d.wav", i + 1);
-        CAudio::Instance()->Load(AUDIO_COMBO1 + i, sound);
-    }
-
-    gameArea.LoadBitmap();
-}
-
-void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
-{
-    const int KEY_TAB = 0x09;
-
-    if (nChar == KEY_TAB)
-    {
-        CAudio::Instance()->Stop(AUDIO_JELLY);
-        GotoGameState(GAME_STATE_MENU);
-    }
-}
-
-void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
-{}
-
-void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
-{
-    gameArea.OnLButtonDown(nFlags, point);
-}
-
-void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
-{	}
-
-void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動作
-{
-    // 沒事。如果需要處理滑鼠移動的話，寫code在這裡
-}
-
-void CGameStateRun::OnRButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
-{	}
-
-void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
-{}
-
-
-void CGameStateRun::OnShow()
-{
-    //
-    //  注意：Show裡面千萬不要移動任何物件的座標，移動座標的工作應由Move做才對，
-    //        否則當視窗重新繪圖時(OnDraw)，物件就會移動，看起來會很怪。換個術語
-    //        說，Move負責MVC中的Model，Show負責View，而View不應更動Model。
-    //
-    background.ShowBitmap();			// 貼上背景圖
-    gameArea.OnShow();
-}
-
-CGameStateMenu::CGameStateMenu(CGame* g)
-    : CGameState(g), totalStage(9), drag(false), mouseDisplayment(0), inertia(0)
-{
-    IsMovingUp = false;
-    IsMovingDown = false;
-    MAX_Y = 0;
-    MIN_Y = -3600;
-    sy = -3600;
-    int Pos[][2] = { {270, 4030}, {495, 3980}, {530, 3850}, {320, 3870}, {135, 3910},
-        {135, 3750}, {340, 3690}, {570, 3720}, {770, 3800}, {960, 3840},
-        {1085, 3750}, {1010, 3600}, {760, 3540}, {520, 3590}, {280, 3585}
-    };
-
-    for (int i = 0; i < 15; i++)
-    {
-        for (int j = 0; j < 2; j++)
-        {
-            StagePos[i][j] = Pos[i][j];
-        }
-    }
-}
-
-CGameStateMenu::~CGameStateMenu()
-{
-    for (unsigned i = 0; i < stages.size(); i++)
-        delete stages[i];
-}
-
-void CGameStateMenu::OnInit()
-{
-    woodBackgourd.LoadBitmap("Bitmaps\\WoodBackground.bmp");
-    menuBackground.LoadBitmap("Bitmaps\\stage_map.bmp");
-    int StageButton[5] = { IDB_STAGE_BUTTON_BLUE, IDB_STAGE_BUTTON_RED, IDB_STAGE_BUTTON_GREEN, IDB_STAGE_BUTTON_YELLOW, IDB_STAGE_BUTTON_GREY };
-
-    //unlock icon
-    for (int i = 0; i < 5; i++)
-    {
-        stageButton[i].LoadBitmap(StageButton[i], RGB(255, 255, 255));
-    }
-
-    CAudio::Instance()->Load(AUDIO_STAGE, "sounds\\Overworld_Level_Select.mp3");
-    //star icon
-    star1.LoadBitmap("Bitmaps\\SmallRedStar.bmp", RGB(255, 255, 255));
-    star2.LoadBitmap("Bitmaps\\SmallGreenStar.bmp", RGB(255, 255, 255));
-    star3.LoadBitmap("Bitmaps\\SmallYellowStar.bmp", RGB(255, 255, 255));
-
-    //load stage
-    for (int i = 0; i < totalStage + 1; i++)
-    {
-        stages.push_back(new Stage(i + 1));
-        stages[i]->LoadStage();
-    }
-}
-
-void CGameStateMenu::OnBeginState()
-{
-    CAudio::Instance()->Play(AUDIO_STAGE, true);
-}
-
-void CGameStateMenu::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
-{
-    const char KEY_UP = 0x26;
-    const char KEY_DOWN = 0x28;
-
-    if (nChar == KEY_UP)
-    {
-        IsMovingUp = true;
-    }
-
-    if (nChar == KEY_DOWN)
-    {
-        IsMovingDown = true;
-    }
-}
-
-void CGameStateMenu::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
-{
-    const char KEY_UP = 0x26;
-    const char KEY_DOWN = 0x28;
-    const char KEY_ESC = 27;
-
-    if (nChar == KEY_UP) IsMovingUp = false;
-
-    if (nChar == KEY_DOWN) IsMovingDown = false;
-
-    if (nChar == KEY_ESC)
-    {
-        CAudio::Instance()->Stop(AUDIO_STAGE);
-        GotoGameState(GAME_STATE_INIT);
-    }
-}
-
-void CGameStateMenu::OnLButtonDown(UINT nFlags, CPoint point)
-{
-    clickX = point.x;
-    clickY = point.y;
-    clickSY = sy;
-    drag = true;
-}
-
-void CGameStateMenu::OnLButtonUp(UINT nFlags, CPoint point)
-{
-    drag = false;
-    int x = point.x;
-    int y = point.y - sy;
-    int StagePos[][2] = { {270, 4030}, {495, 3980}, {530, 3850}, {320, 3870}, {135, 3910},
-        {135, 3750}, {340, 3690}, {570, 3720}, {770, 3800}, {960, 3840},
-        {1085, 3750}, {1010, 3600}, {760, 3540}, {520, 3590}, {280, 3585}
-    };
-
-    for (int i = 0; i < totalStage; i++)
-    {
-        if (StagePos[i][0] < x && x < (StagePos[i][0] + 60) && StagePos[i][1] < y && (y < StagePos[i][1] + 60))
-        {
-            if (stages[i]->IsUnlock())
-            {
-                gameArea.LoadStage(stages, i);
-                CAudio::Instance()->Stop(AUDIO_STAGE);
-                GotoGameState(GAME_STATE_RUN);
-            }
-        }
-    }
-}
-
-void CGameStateMenu::OnMouseMove(UINT nFlags, CPoint point)
-{
-    if (drag)
-    {
-        int displayment = point.y - clickY;
-        sy = clickSY + displayment;
-        inertia = displayment < 0 ? -20 : 20;
-    }
-}
-
-void CGameStateMenu::OnRButtonDown(UINT nFlags, CPoint point)
-{}
-
-void CGameStateMenu::OnRButtonUp(UINT nFlags, CPoint point)
-{}
-
-void CGameStateMenu::SetMovingUp(bool status)
-{
-    if (status && sy <= MAX_Y)
-        sy += 5;
-}
-
-void CGameStateMenu::SetMovingDown(bool status)
-{
-    if (status && sy >= MIN_Y)
-        sy -= 5;
-}
-
-void CGameStateMenu::OnMove()
-{
-    SetMovingUp(IsMovingUp);
-    SetMovingDown(IsMovingDown);
-
-    if (!drag && inertia > 0) sy += inertia--;
-    else if (!drag && inertia < 0) sy += inertia++;
-}
-
-void CGameStateMenu::OnShow()
-{
-    //show wood background
-    woodBackgourd.SetTopLeft(0, 0);
-    woodBackgourd.ShowBitmap();
-
-    //show stage map
-    if (sy < MAX_Y && sy < MIN_Y)
-        sy = -3600;
-
-    if (sy > MAX_Y && sy > MIN_Y)
-        sy = 0;
-
-    menuBackground.SetTopLeft(40, sy);
-    menuBackground.ShowBitmap();
-
-    //show unlock icon
-    for (int i = 0; i < totalStage; i++)
-    {
-        int xStar = StagePos[i][0] - 10, xButton = StagePos[i][0] - 5;
-        int yStar = StagePos[i][1] + sy + 65, yButton = StagePos[i][1] - 3 + sy;
-
-        if (stages[i]->IsUnlock())
-        {
-            if (stages[i]->GetLastScoreHistory() < stages[i]->GetScoreOne())
-            {
-                stageButton[0].SetTopLeft(xButton, yButton);
-                stageButton[0].ShowBitmap();
-            }
-
-            if (stages[i]->GetLastScoreHistory() >= stages[i]->GetScoreOne())
-            {
-                stageButton[1].SetTopLeft(xButton, yButton);
-                stageButton[1].ShowBitmap();
-                star1.SetTopLeft(xStar, yStar);
-                star1.ShowBitmap();
-            }
-
-            if (stages[i]->GetLastScoreHistory() >= stages[i]->GetScoreTwo())
-            {
-                stageButton[2].SetTopLeft(xButton, yButton);
-                stageButton[2].ShowBitmap();
-                star2.SetTopLeft(xStar + 30, yStar + 5);
-                star2.ShowBitmap();
-            }
-
-            if (stages[i]->GetLastScoreHistory() >= stages[i]->GetScoreThree())
-            {
-                stageButton[3].SetTopLeft(xButton, yButton);
-                stageButton[3].ShowBitmap();
-                star3.SetTopLeft(xStar, yStar);
-                star3.ShowBitmap();
-                star3.SetTopLeft(xStar + 30, yStar + 5);
-                star3.ShowBitmap();
-                star3.SetTopLeft(xStar + 60, yStar);
-                star3.ShowBitmap();
-            }
-        }
-        else
-        {
-            stageButton[4].SetTopLeft(xButton, yButton);
-            stageButton[4].ShowBitmap();
-        }
-    }
-}
+	/////////////////////////////////////////////////////////////////////////////
+	// 這個class為遊戲的遊戲開頭畫面物件
+	/////////////////////////////////////////////////////////////////////////////
+
+	CGameStateInit::CGameStateInit(CGame* g)
+		: CGameState(g), playBtnClicked(false)
+	{
+	}
+
+	void CGameStateInit::OnInit()
+	{
+		ShowLoading();
+		//
+		// 開始載入資料
+		//
+		background.LoadBitmap("Bitmaps\\InitBackground3.bmp");
+		// Load play button
+		int playBtnBmp[] = { IDB_PLAYBUTTON_1, IDB_PLAYBUTTON_2, IDB_PLAYBUTTON_3, IDB_PLAYBUTTON_4,
+							 IDB_PLAYBUTTON_5, IDB_PLAYBUTTON_6, IDB_PLAYBUTTON_7, IDB_PLAYBUTTON_8,
+							 IDB_PLAYBUTTON_9, IDB_PLAYBUTTON_10, IDB_PLAYBUTTON_11, IDB_PLAYBUTTON_12
+		};
+
+		for (int i = 0; i < 12; i++)
+		{
+			playButton.AddBitmap(playBtnBmp[i], RGB(0, 0, 0));
+		}
+
+		playButton.SetDelayCount(4);
+		clickedPlayButton.LoadBitmap("Bitmaps\\PlayButtonClicked.bmp", RGB(0, 0, 0));
+		playButTopLX = SIZE_X / 2 - playButton.Width() / 2;
+		playButTopLY = SIZE_Y / 5 * 4 - playButton.Height();
+		playButBotRX = SIZE_X / 2 + playButton.Width() / 2;
+		playButBotRY = SIZE_Y / 5 * 4;
+		//Load tiffy
+		int TiffyBitmap[10] = { IDB_TIFFY_0, IDB_TIFFY_1, IDB_TIFFY_2, IDB_TIFFY_3, IDB_TIFFY_4,
+								IDB_TIFFY_5, IDB_TIFFY_6, IDB_TIFFY_7, IDB_TIFFY_8, IDB_TIFFY_9
+		};
+
+		for (int i = 0; i < 10; i++)
+		{
+			tiffy.AddBitmap(TiffyBitmap[i], RGB(255, 255, 255));
+		}
+
+		for (int i = 8; i > 0; i--)
+		{
+			tiffy.AddBitmap(TiffyBitmap[i], RGB(255, 255, 255));
+		}
+
+		tiffy.SetDelayCount(5);
+		//Load Toffee
+		int ToffeeBitmap[6] = { IDB_TOFFEE_14, IDB_TOFFEE_6, IDB_TOFFEE_15, IDB_TOFFEE_7, IDB_TOFFEE_16, IDB_TOFFEE_8 };
+
+		for (int i = 0; i < 6; i++)
+		{
+			toffee.AddBitmap(ToffeeBitmap[i], RGB(255, 255, 255));
+		}
+
+		for (int i = 5; i > 0; i--)
+		{
+			toffee.AddBitmap(ToffeeBitmap[i], RGB(255, 255, 255));
+		}
+
+		toffee.SetDelayCount(5);
+	}
+
+	void CGameStateInit::OnBeginState()
+	{
+		playBtnClicked = false;
+	}
+
+	void CGameStateInit::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
+	{
+		const char KEY_ESC = 27;
+		const char KEY_SPACE = ' ';
+
+		if (nChar == KEY_SPACE)
+			GotoGameState(GAME_STATE_RUN);							// 切換至GAME_STATE_RUN
+		else if (nChar == KEY_ESC)									// Demo 關閉遊戲的方法
+			PostMessage(AfxGetMainWnd()->m_hWnd, WM_CLOSE, 0, 0);	// 關閉遊戲
+	}
+
+	void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
+	{
+		if (point.x >= playButTopLX && point.y >= playButTopLY && point.x <= playButBotRX && point.y <= playButBotRY)
+		{
+			playBtnClicked = true;
+		}
+		else playBtnClicked = false;
+	}
+
+	void CGameStateInit::OnLButtonUp(UINT nFlags, CPoint point)
+	{
+		if (point.x >= playButTopLX && point.y >= playButTopLY && point.x <= playButBotRX && point.y <= playButBotRY)
+		{
+			GotoGameState(GAME_STATE_MENU);		// 切換至GAME_STATE_RUN
+		}
+		else playBtnClicked = false;
+	}
+
+	void CGameStateInit::OnShow()
+	{
+		// 貼上背景
+		background.SetTopLeft(0, 0);
+		background.ShowBitmap();
+
+		//貼上Play Button
+		if (playBtnClicked)
+		{
+			clickedPlayButton.SetTopLeft(SIZE_X / 2 - playButton.Width() / 2, SIZE_Y / 5 * 4 - playButton.Height());
+			clickedPlayButton.ShowBitmap();
+		}
+		else
+		{
+			playButton.SetTopLeft(SIZE_X / 2 - playButton.Width() / 2, SIZE_Y / 5 * 4 - playButton.Height());
+			playButton.OnShow();
+		}
+
+		tiffy.SetTopLeft(95, 400);
+		tiffy.OnShow();
+		toffee.SetTopLeft(870, 60);
+		toffee.OnShow();
+	}
+
+	void CGameStateInit::OnMove()
+	{
+		if (!playBtnClicked) playButton.OnMove();
+
+		tiffy.OnMove();
+		toffee.OnMove();
+	}
+
+	/////////////////////////////////////////////////////////////////////////////
+	// 這個class為遊戲的結束狀態(Game Over)
+	/////////////////////////////////////////////////////////////////////////////
+
+	CGameStateOver::CGameStateOver(CGame* g)
+		: CGameState(g)
+	{
+	}
+
+	void CGameStateOver::OnMove()
+	{
+		counter--;
+
+		if (counter < 0)
+			GotoGameState(GAME_STATE_MENU);
+	}
+
+	void CGameStateOver::OnBeginState()
+	{
+		counter = 30 * 5; // 5 seconds
+	}
+
+	void CGameStateOver::OnInit()
+	{}
+
+	void CGameStateOver::OnShow()
+	{
+		CDC* pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC
+		CFont f, *fp;
+		f.CreatePointFont(160, "Times New Roman");	// 產生 font f; 160表示16 point的字
+		fp = pDC->SelectObject(&f);					// 選用 font f
+		pDC->SetBkColor(RGB(0, 0, 0));
+		pDC->SetTextColor(RGB(255, 255, 0));
+		char str[80];								// Demo 數字對字串的轉換
+		sprintf(str, "Game Over ! (%d)", counter / 30);
+		pDC->TextOut(SIZE_X / 2 - 100, SIZE_Y / 2 - 50, str);
+		pDC->SelectObject(fp);						// 放掉 font f (千萬不要漏了放掉)
+		CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
+	}
+
+	/////////////////////////////////////////////////////////////////////////////
+	// 這個class為遊戲的遊戲執行物件，主要的遊戲程式都在這裡
+	/////////////////////////////////////////////////////////////////////////////
+
+	CGameStateRun::CGameStateRun(CGame* g) : CGameState(g)
+	{}
+
+	CGameStateRun::~CGameStateRun()
+	{}
+
+	void CGameStateRun::OnBeginState()
+	{
+		background.SetTopLeft(0, 0);						// 設定背景的起始座標
+		CAudio::Instance()->Play(AUDIO_JELLY, true);		// 撥放 MIDI
+	}
+
+	void CGameStateRun::OnMove()							// 移動遊戲元素
+	{
+		//
+		// 如果希望修改cursor的樣式，則將下面程式的commment取消即可
+		//
+		// SetCursor(AfxGetApp()->LoadCursor(IDC_GAMECURSOR));
+		gameArea.OnMove();
+
+		if (gameArea.IsGameOver())
+			GotoGameState(GAME_STATE_OVER);
+	}
+
+	void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
+	{
+		background.LoadBitmap("Bitmaps\\inGameBG1.bmp");// 載入背景的圖形
+
+		//載入游戲音效
+		CAudio::Instance()->Load(AUDIO_JELLY, "sounds\\MovesJellyLevels.mp3");
+		CAudio::Instance()->Load(AUDIO_NEG_SWAP, "sounds\\negative_switch_sound1.wav");
+		CAudio::Instance()->Load(AUDIO_SWAP, "sounds\\switch_sound1.wav");
+		CAudio::Instance()->Load(AUDIO_SUPER_CREATE, "sounds\\colour_bomb_created.wav");
+		CAudio::Instance()->Load(AUDIO_LINE_CREATE, "sounds\\striped_candy_created1.wav");
+		CAudio::Instance()->Load(AUDIO_PACK_CREATE, "sounds\\wrapped_candy_created1.wav");
+		CAudio::Instance()->Load(AUDIO_POWER_ALL, "sounds\\colour_bomb1.wav");
+		CAudio::Instance()->Load(AUDIO_SQUARE_REMOVE1, "sounds\\square_removed1.wav");
+		CAudio::Instance()->Load(AUDIO_SQUARE_REMOVE2, "sounds\\square_removed2.wav");
+		CAudio::Instance()->Load(AUDIO_LINE_BLAST, "sounds\\line_blast1.wav");
+		CAudio::Instance()->Load(AUDIO_CANDY_LAND1, "sounds\\candy_land1.wav");
+		CAudio::Instance()->Load(AUDIO_CANDY_LAND2, "sounds\\candy_land2.wav");
+		CAudio::Instance()->Load(AUDIO_CANDY_LAND3, "sounds\\candy_land3.wav");
+		CAudio::Instance()->Load(AUDIO_CANDY_LAND4, "sounds\\candy_land4.wav");
+
+		for (int i = 0; i < 12; i++)
+		{
+			char sound[30] = { 0 };
+			sprintf(sound, "sounds\\combo_sound%d.wav", i + 1);
+			CAudio::Instance()->Load(AUDIO_COMBO1 + i, sound);
+		}
+
+		gameArea.LoadBitmap();
+	}
+
+	void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+	{
+		const int KEY_TAB = 0x09;
+
+		if (nChar == KEY_TAB)
+		{
+			CAudio::Instance()->Stop(AUDIO_JELLY);
+			GotoGameState(GAME_STATE_MENU);
+		}
+	}
+
+	void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
+	{}
+
+	void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
+	{
+		gameArea.OnLButtonDown(nFlags, point);
+	}
+
+	void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
+	{	}
+
+	void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動作
+	{
+		// 沒事。如果需要處理滑鼠移動的話，寫code在這裡
+	}
+
+	void CGameStateRun::OnRButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
+	{	}
+
+	void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
+	{}
+
+
+	void CGameStateRun::OnShow()
+	{
+		//
+		//  注意：Show裡面千萬不要移動任何物件的座標，移動座標的工作應由Move做才對，
+		//        否則當視窗重新繪圖時(OnDraw)，物件就會移動，看起來會很怪。換個術語
+		//        說，Move負責MVC中的Model，Show負責View，而View不應更動Model。
+		//
+		background.ShowBitmap();			// 貼上背景圖
+		gameArea.OnShow();
+	}
+
+	CGameStateMenu::CGameStateMenu(CGame *g)
+		: CGameState(g), totalStage(9), drag(false), mouseDisplayment(0), inertia(0)
+	{
+		IsMovingUp = false; IsMovingDown = false;
+		MAX_Y = 0; MIN_Y = -3600;
+		sy = -3600;
+
+		int Pos[][2] = { {270,4030},{495,3980},{530,3850},{320,3870},{135,3910},
+						 {135,3750},{340,3690},{570,3720},{770,3800},{960,3840},
+						 {1085,3750},{1010,3600},{760,3540},{520,3590},{280,3585} };
+		for (int i = 0; i < 15; i++) {
+			for (int j = 0; j < 2; j++) {
+				StagePos[i][j] = Pos[i][j];
+			}
+		}
+	}
+
+	CGameStateMenu::~CGameStateMenu()
+	{
+		for (unsigned i = 0; i < stages.size(); i++)
+			delete stages[i];
+	}
+
+	void CGameStateMenu::OnInit()
+	{
+		woodBackgourd.LoadBitmap("Bitmaps\\WoodBackground.bmp");
+		menuBackground.LoadBitmap("Bitmaps\\stage_map.bmp");
+		stageNum.SetType(1);
+
+		int StageButton[5] = { IDB_STAGE_BUTTON_BLUE, IDB_STAGE_BUTTON_RED, IDB_STAGE_BUTTON_GREEN, IDB_STAGE_BUTTON_YELLOW, IDB_STAGE_BUTTON_GREY };
+		//unlock icon
+		for (int i = 0; i < 5; i++) {
+			stageButton[i].LoadBitmap(StageButton[i], RGB(255, 255, 255));
+		}
+
+		CAudio::Instance()->Load(AUDIO_STAGE, "sounds\\Overworld_Level_Select.mp3");
+
+		//star icon
+		star1.LoadBitmap("Bitmaps\\SmallRedStar.bmp", RGB(255, 255, 255));
+		star2.LoadBitmap("Bitmaps\\SmallGreenStar.bmp", RGB(255, 255, 255));
+		star3.LoadBitmap("Bitmaps\\SmallYellowStar.bmp", RGB(255, 255, 255));
+
+		//load stage
+		for (int i = 0; i < totalStage + 1; i++) {
+			stages.push_back(new Stage(i + 1));
+			stages[i]->LoadStage();
+		}
+
+	}
+
+	void CGameStateMenu::OnBeginState()
+	{
+		CAudio::Instance()->Play(AUDIO_STAGE, true);
+	}
+
+	void CGameStateMenu::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+	{
+		const char KEY_UP = 0x26;
+		const char KEY_DOWN = 0x28;
+		if (nChar == KEY_UP) {
+			IsMovingUp = true;
+		}
+		if (nChar == KEY_DOWN) {
+			IsMovingDown = true;
+		}
+	}
+
+	void CGameStateMenu::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
+	{
+		const char KEY_UP = 0x26;
+		const char KEY_DOWN = 0x28;
+		const char KEY_ESC = 27;
+
+		if (nChar == KEY_UP) IsMovingUp = false;
+		if (nChar == KEY_DOWN) IsMovingDown = false;
+
+		if (nChar == KEY_ESC)
+		{
+			CAudio::Instance()->Stop(AUDIO_STAGE);
+			GotoGameState(GAME_STATE_INIT);
+		}
+	}
+
+	void CGameStateMenu::OnLButtonDown(UINT nFlags, CPoint point)
+	{
+		clickX = point.x;
+		clickY = point.y;
+		clickSY = sy;
+		drag = true;
+	}
+
+	void CGameStateMenu::OnLButtonUp(UINT nFlags, CPoint point)
+	{
+		drag = false;
+
+		int x = point.x;
+		int y = point.y - sy;
+		int StagePos[][2] = { {270,4030},{495,3980},{530,3850},{320,3870},{135,3910},
+							  {135,3750},{340,3690},{570,3720},{770,3800},{960,3840},
+							  {1085,3750},{1010,3600},{760,3540},{520,3590},{280,3585} };
+		for (int i = 0; i < totalStage; i++) {
+			if (StagePos[i][0] < x && x < (StagePos[i][0] + 60) && StagePos[i][1] < y && (y < StagePos[i][1] + 60))
+			{
+				if (stages[i]->IsUnlock())
+				{
+					gameArea.LoadStage(stages, i);
+					CAudio::Instance()->Stop(AUDIO_STAGE);
+					GotoGameState(GAME_STATE_RUN);
+				}
+			}
+		}
+	}
+
+	void CGameStateMenu::OnMouseMove(UINT nFlags, CPoint point)
+	{
+		if (drag)
+		{
+			int displayment = point.y - clickY;
+			sy = clickSY + displayment;
+			inertia = displayment < 0 ? -20 : 20;
+		}
+	}
+
+	void CGameStateMenu::OnRButtonDown(UINT nFlags, CPoint point)
+	{}
+
+	void CGameStateMenu::OnRButtonUp(UINT nFlags, CPoint point)
+	{}
+
+	void CGameStateMenu::SetMovingUp(bool status)
+	{
+		if (status && sy <= MAX_Y)
+			sy += 5;
+	}
+
+	void CGameStateMenu::SetMovingDown(bool status)
+	{
+		if (status && sy >= MIN_Y)
+			sy -= 5;
+	}
+
+	void CGameStateMenu::OnMove()
+	{
+		SetMovingUp(IsMovingUp);
+		SetMovingDown(IsMovingDown);
+		if (!drag && inertia > 0) sy += inertia--;
+		else if (!drag && inertia < 0) sy += inertia++;
+	}
+
+	int CGameStateMenu::GetDigit(int n)
+	{
+		n = abs(n);
+		int digit = 0;
+		while (n > 0)
+		{
+			digit++;
+			n /= 10;
+		}
+		return digit == 0 ? 1 : digit;
+	}
+
+	void CGameStateMenu::OnShow()
+	{
+		//show wood background
+		woodBackgourd.SetTopLeft(0, 0);
+		woodBackgourd.ShowBitmap();
+
+		//show stage map
+		if (sy < MAX_Y && sy < MIN_Y)
+			sy = -3600;
+		if (sy > MAX_Y && sy > MIN_Y)
+			sy = 0;
+		menuBackground.SetTopLeft(40, sy);
+		menuBackground.ShowBitmap();
+
+		//show unlock icon
+		for (int i = 0; i < totalStage; i++) {
+			int xStar = StagePos[i][0] - 10, xButton = StagePos[i][0] - 5;
+			int yStar = StagePos[i][1] + sy + 65, yButton = StagePos[i][1] - 3 + sy;
+			stageNum.SetInteger(i + 1);
+			if (stages[i]->IsUnlock()) {
+				if (stages[i]->GetLastScoreHistory() < stages[i]->GetScoreOne() && stages[i]->GetLastScoreHistory() == 0)
+				{
+					stageButton[0].SetTopLeft(xButton, yButton);
+					stageButton[0].ShowBitmap();
+					stageNum.SetTopLeft(xButton + ((stageButton[0].Width() / 2) - (10 * GetDigit(i) / 2)), yButton + (stageButton[0].Height() / 4));
+					stageNum.ShowBitmap();
+				}
+				if (stages[i]->GetLastScoreHistory() < stages[i]->GetScoreOne() && stages[i]->GetLastScoreHistory() != 0)
+				{
+					stageButton[1].SetTopLeft(xButton, yButton);
+					stageButton[1].ShowBitmap();
+					stageNum.SetTopLeft(xButton + ((stageButton[1].Width() / 2) - (10 * GetDigit(i) / 2)), yButton + (stageButton[1].Height() / 4));
+					stageNum.ShowBitmap();
+				}
+				if (stages[i]->GetLastScoreHistory() >= stages[i]->GetScoreOne())
+				{
+					stageButton[1].SetTopLeft(xButton, yButton);
+					stageButton[1].ShowBitmap();
+					stageNum.SetTopLeft(xButton + ((stageButton[1].Width() / 2) - (10 * GetDigit(i) / 2)), yButton + (stageButton[1].Height() / 4));
+					stageNum.ShowBitmap();
+					star1.SetTopLeft(xStar, yStar);
+					star1.ShowBitmap();
+				}
+				if (stages[i]->GetLastScoreHistory() >= stages[i]->GetScoreTwo())
+				{
+					stageButton[2].SetTopLeft(xButton, yButton);
+					stageButton[2].ShowBitmap();
+					stageNum.SetTopLeft(xButton + ((stageButton[2].Width() / 2) - (10 * GetDigit(i) / 2)), yButton + (stageButton[2].Height() / 4));
+					stageNum.ShowBitmap();
+					star2.SetTopLeft(xStar + 30, yStar + 5);
+					star2.ShowBitmap();
+				}
+				if (stages[i]->GetLastScoreHistory() >= stages[i]->GetScoreThree())
+				{
+					stageButton[3].SetTopLeft(xButton, yButton);
+					stageButton[3].ShowBitmap();
+					stageNum.SetTopLeft(xButton + ((stageButton[3].Width() / 2) - (10 * GetDigit(i) / 2)), yButton + (stageButton[3].Height() / 4));
+					stageNum.ShowBitmap();
+					star3.SetTopLeft(xStar, yStar);
+					star3.ShowBitmap();
+					star3.SetTopLeft(xStar + 30, yStar + 5);
+					star3.ShowBitmap();
+					star3.SetTopLeft(xStar + 60, yStar);
+					star3.ShowBitmap();
+				}
+			}
+			else {
+				stageButton[4].SetTopLeft(xButton, yButton);
+				stageButton[4].ShowBitmap();
+			}
+		}
+	}
 }
