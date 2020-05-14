@@ -140,7 +140,7 @@ namespace game_framework {
 		//
 		// ReadFile returns false when the pipe is closed
 		//
-		while (ReadFile(hRead, ptr, buf + MAX_BUFFER_SIZE - ptr - 1, &dwRead, NULL))
+		while (ReadFile(hRead, ptr, (DWORD)(buf + MAX_BUFFER_SIZE - ptr - 1), &dwRead, NULL))
 		{
 			GAME_ASSERT((buf + MAX_BUFFER_SIZE - ptr - 1) > 0, "MCI Command Internal error: buffer size is too small!");
 			char *ptr_end = ptr + dwRead;
@@ -190,7 +190,7 @@ namespace game_framework {
 		char buf[MAX_MCI_COMMAND_SIZE + 2];
 		DWORD dwWrite;
 		sprintf(buf, "[%s]", command);
-		BOOL bRet = WriteFile(hWriteEnd, buf, strlen(buf), &dwWrite, NULL);
+		BOOL bRet = WriteFile(hWriteEnd, buf, (DWORD)strlen(buf), &dwWrite, NULL);
 		GAME_ASSERT(bRet != NULL, "CAudio Error: cannot write to command pipe!");
 	}
 

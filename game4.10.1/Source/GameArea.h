@@ -74,11 +74,11 @@ namespace game_framework
 		CMovingBitmap area, singleJelly, doubleJelly;	//container bmp
 		vector<Candy*> clickedCandies;
 		list<Blast*> blasts;
-		list<Candy*> removeStyle;
+		list<list<Candy*>*> removeStyle;					//These candies will be removed after delay
 		ScoreBoard scoreBoard;
 
 		vector<Stage*>::iterator stage;
-		int MAX_RAND_NUM;									//types of candies in this games
+		int MAX_RAND_NUM;								//types of candies in this games
 		bool initiating, ending, running;
 	};
 }

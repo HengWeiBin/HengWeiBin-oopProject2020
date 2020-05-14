@@ -620,12 +620,33 @@ namespace game_framework {
 		CDDraw::BltBackToPrimary();					// 將 Back Plain 貼到螢幕
 	}
 
-	void CGameState::ShowLoading()
+	void CGameState::ShowLoading(int n)
 	{
 		CMovingBitmap loading;
-		loading.LoadBitmap(IDB_LOGIN_LOADING);
-		loading.SetTopLeft(0, 0);
-		loading.ShowBitmap();
+		if (n == 0)
+		{
+			loading.LoadBitmap(IDB_LOGIN_LOADING);
+			loading.SetTopLeft(0, 0);
+			loading.ShowBitmap();
+		}
+		else if (n == 1)
+		{
+			loading.LoadBitmap("Bitmaps\\loginLoading1.bmp");
+			loading.SetTopLeft(0, 0);
+			loading.ShowBitmap();
+		}
+		else if (n == 2)
+		{
+			loading.LoadBitmap("Bitmaps\\loginLoading2.bmp");
+			loading.SetTopLeft(0, 0);
+			loading.ShowBitmap();
+		}
+		else if (n == 3)
+		{
+			loading.LoadBitmap("Bitmaps\\loginLoading3.bmp");
+			loading.SetTopLeft(0, 0);
+			loading.ShowBitmap();
+		}
 		CDDraw::BltBackToPrimary();
 	}
 

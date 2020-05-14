@@ -963,5 +963,8 @@
     <Image Include="Bitmaps\Tiffy_0.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Bitmaps\loginLoading3.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
