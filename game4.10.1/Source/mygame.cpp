@@ -386,7 +386,8 @@ namespace game_framework {
 	void CGameStateMenu::OnInit()
 	{
 		woodBackgourd.LoadBitmap("Bitmaps/WoodBackground.bmp");
-		menuBackground.LoadBitmap("Bitmaps/stage_map.bmp");
+		menuBackground.LoadBitmap("Bitmaps/stage_map.bmp"); 
+		stageNum.SetType(1);
 
 		int StageButton[5] = { IDB_STAGE_BUTTON_BLUE, IDB_STAGE_BUTTON_RED, IDB_STAGE_BUTTON_GREEN, IDB_STAGE_BUTTON_YELLOW, IDB_STAGE_BUTTON_GREY };
 		//unlock icon
@@ -507,6 +508,18 @@ namespace game_framework {
 		else if (!drag && inertia < 0) sy += inertia++;
 	}
 
+	int CGameStateMenu::GetDigit(int n)
+	{
+		n = abs(n);
+		int digit = 0;
+		while (n > 0)
+		{
+			digit++;
+			n /= 10;
+		}
+		return digit == 0 ? 1 : digit;
+	}
+
 	void CGameStateMenu::OnShow()
 	{
 		//show wood background
@@ -525,15 +538,28 @@ namespace game_framework {
 		for (int i = 0; i < totalStage; i++) {
 			int xStar = StagePos[i][0] - 10, xButton = StagePos[i][0] - 5;
 			int yStar = StagePos[i][1] + sy + 65, yButton = StagePos[i][1] - 3 + sy;
+			stageNum.SetInteger(i + 1);
 			if (stages[i]->IsUnlock()) {
-				if (stages[i]->GetLastScoreHistory() < stages[i]->GetScoreOne()) {
+				if (stages[i]->GetLastScoreHistory() < stages[i]->GetScoreOne() && stages[i]->GetLastScoreHistory() == 0)
+				{
 					stageButton[0].SetTopLeft(xButton, yButton);
 					stageButton[0].ShowBitmap();
+					stageNum.SetTopLeft(xButton + ((stageButton[0].Width() / 2) - (10 * GetDigit(i) / 2)), yButton + (stageButton[0].Height() / 4));
+					stageNum.ShowBitmap();
+				}
+				if (stages[i]->GetLastScoreHistory() < stages[i]->GetScoreOne() && stages[i]->GetLastScoreHistory() != 0)
+				{
+					stageButton[1].SetTopLeft(xButton, yButton);
+					stageButton[1].ShowBitmap();
+					stageNum.SetTopLeft(xButton + ((stageButton[1].Width() / 2) - (10 * GetDigit(i) / 2)), yButton + (stageButton[1].Height() / 4));
+					stageNum.ShowBitmap();
 				}
 				if (stages[i]->GetLastScoreHistory() >= stages[i]->GetScoreOne())
 				{
 					stageButton[1].SetTopLeft(xButton, yButton);
 					stageButton[1].ShowBitmap();
+					stageNum.SetTopLeft(xButton + ((stageButton[1].Width() / 2) - (10 * GetDigit(i) / 2)), yButton + (stageButton[1].Height() / 4));
+					stageNum.ShowBitmap();
 					star1.SetTopLeft(xStar, yStar);
 					star1.ShowBitmap();
 				}
@@ -541,6 +567,8 @@ namespace game_framework {
 				{
 					stageButton[2].SetTopLeft(xButton, yButton);
 					stageButton[2].ShowBitmap();
+					stageNum.SetTopLeft(xButton + ((stageButton[2].Width() / 2) - (10 * GetDigit(i) / 2)), yButton + (stageButton[2].Height() / 4));
+					stageNum.ShowBitmap();
 					star2.SetTopLeft(xStar + 30, yStar + 5);
 					star2.ShowBitmap();
 				}
@@ -548,6 +576,8 @@ namespace game_framework {
 				{
 					stageButton[3].SetTopLeft(xButton, yButton);
 					stageButton[3].ShowBitmap();
+					stageNum.SetTopLeft(xButton + ((stageButton[3].Width() / 2) - (10 * GetDigit(i) / 2)), yButton + (stageButton[3].Height() / 4));
+					stageNum.ShowBitmap();
 					star3.SetTopLeft(xStar, yStar);
 					star3.ShowBitmap();
 					star3.SetTopLeft(xStar + 30, yStar + 5);

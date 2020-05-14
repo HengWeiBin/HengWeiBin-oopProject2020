@@ -280,12 +280,14 @@ namespace game_framework {
 		void SetTopLeft(int, int);	// 將動畫的左上角座標移至 (x,y)
 		void ShowBitmap();			// 將動畫貼到螢幕	
 		void SetDigit(int digit);   // set the size of the number
+		void SetType(int Type);
 	private:
 		int NUMDIGITS;			// 共顯示NUMDIGITS個位數
-		static CMovingBitmap digit[11]; // 儲存0..9及負號之圖形(bitmap)
+		static CMovingBitmap digit[22]; // 儲存0..9及負號之圖形(bitmap)
 		int x, y;						// 顯示的座標
 		int n;							// 整數值
 		bool isBmpLoaded;				// 是否已經載入圖形
+		int type;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
