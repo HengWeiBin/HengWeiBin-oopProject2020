@@ -23,4 +23,4 @@
 1	#mode
 0	#initcandy
 0	#LastScore
-1	#IsUnlock
+0	#IsUnlock

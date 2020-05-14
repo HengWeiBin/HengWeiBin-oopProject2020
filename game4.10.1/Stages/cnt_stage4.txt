@@ -22,5 +22,5 @@
 5	#candy type
 1	#mode
 1	#initcandy
-8460	#LastScore
-1	#IsUnlock
+0	#LastScore
+0	#IsUnlock
