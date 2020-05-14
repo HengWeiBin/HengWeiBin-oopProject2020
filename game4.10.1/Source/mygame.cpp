@@ -75,10 +75,11 @@ namespace game_framework {
 	void CGameStateInit::OnInit()
 	{
 		ShowLoading();
+		Sleep(500);
 		//
 		// 開始載入資料
 		//
-		background.LoadBitmap("Bitmaps/InitBackground.bmp");
+		background.LoadBitmap("Bitmaps\\InitBackground.bmp");
 
 		// Load play button
 		int playBtnBmp[] = { IDB_PLAYBUTTON_1, IDB_PLAYBUTTON_2, IDB_PLAYBUTTON_3, IDB_PLAYBUTTON_4,
@@ -120,8 +121,8 @@ namespace game_framework {
 		const char KEY_ESC = 27;
 		const char KEY_SPACE = ' ';
 		if (nChar == KEY_SPACE)
-			GotoGameState(GAME_STATE_RUN);						// 切換至GAME_STATE_RUN
-		else if (nChar == KEY_ESC)								// Demo 關閉遊戲的方法
+			GotoGameState(GAME_STATE_RUN);							// 切換至GAME_STATE_RUN
+		else if (nChar == KEY_ESC)									// Demo 關閉遊戲的方法
 			PostMessage(AfxGetMainWnd()->m_hWnd, WM_CLOSE, 0, 0);	// 關閉遊戲
 	}
 
@@ -202,7 +203,8 @@ namespace game_framework {
 		//
 		// 開始載入資料
 		//
-		Sleep(300);				// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
+		ShowLoading(1);
+		Sleep(500);
 		//
 		// 最終進度為100%
 		//
@@ -254,6 +256,8 @@ namespace game_framework {
 
 	void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	{
+		ShowLoading(2);
+		Sleep(500);
 		//
 		// 當圖很多時，OnInit載入所有的圖要花很多時間。為避免玩遊戲的人
 		//     等的不耐煩，遊戲會出現「Loading ...」，顯示Loading的進度。
@@ -263,7 +267,7 @@ namespace game_framework {
 		// 開始載入資料
 		//
 
-		background.LoadBitmap("Bitmaps/inGameBG1.bmp");					// 載入背景的圖形
+		background.LoadBitmap("Bitmaps\\inGameBG1.bmp");					// 載入背景的圖形
 		//
 		// 完成部分Loading動作，提高進度
 		//
@@ -368,23 +372,25 @@ namespace game_framework {
 
 	void CGameStateMenu::OnInit()
 	{
-		woodBackgourd.LoadBitmap("Bitmaps/WoodBackground.bmp");
-		menuBackground.LoadBitmap("Bitmaps/stage_map.bmp");
+		ShowLoading(3);
+		Sleep(500);
+		woodBackgourd.LoadBitmap("Bitmaps\\WoodBackground.bmp");
+		menuBackground.LoadBitmap("Bitmaps\\stage_map.bmp");
 
 		//tunlock ion
-		unlockIcon.LoadBitmap("Bitmaps/Unlock_Level .bmp", RGB(255, 255, 255));
+		unlockIcon.LoadBitmap("Bitmaps\\Unlock_Level .bmp", RGB(255, 255, 255));
 		CAudio::Instance()->Load(AUDIO_STAGE, "sounds\\Overworld_Level_Select.mp3");
 
 		//star icon
-		star1.LoadBitmap("Bitmaps/SmallRedStar.bmp", RGB(255, 255, 255));
-		star2.LoadBitmap("Bitmaps/SmallGreenStar.bmp", RGB(255, 255, 255));
-		star3.LoadBitmap("Bitmaps/SmallYellowStar.bmp", RGB(255, 255, 255));
+		star1.LoadBitmap("Bitmaps\\SmallRedStar.bmp", RGB(255, 255, 255));
+		star2.LoadBitmap("Bitmaps\\SmallGreenStar.bmp", RGB(255, 255, 255));
+		star3.LoadBitmap("Bitmaps\\SmallYellowStar.bmp", RGB(255, 255, 255));
 		
-		//load stage
+		/*load stage
 		for (int i = 0; i < totalStage + 1; i++) {
 			stages.push_back(new Stage(i+1));
 			stages[i]->LoadStage();
-		}
+		}*/
 
 	}
 

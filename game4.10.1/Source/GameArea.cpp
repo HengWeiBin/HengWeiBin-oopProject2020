@@ -33,6 +33,8 @@ namespace game_framework
 	{
 		for (auto i = blasts.begin(); i != blasts.end(); i++)
 			delete *i;
+		for (auto i = removeStyle.begin(); i != removeStyle.end(); i++)
+			delete *i;
 	}
 
 	void GameArea::LoadBitmap()
@@ -291,10 +293,11 @@ namespace game_framework
 	{
 		if (!style) style = rand() % MAX_RAND_NUM + 1;
 
+		removeStyle.push_back(new list<Candy*>);
 		for (int i = 0; i < MaxHeight; i++)
 			for (int j = 0; j < MaxWidth; j++)
 				if (candies[i][j].GetStyle() == style && candies[i][j].GetPower() != 4)
-					removeStyle.push_back(&candies[i][j]);
+					(*removeStyle.rbegin())->push_back(&candies[i][j]);
 					//ReleasePower(&candies[i][j]);
 	}
 
@@ -416,11 +419,19 @@ namespace game_framework
 			running = false;//for temporary use
 		}
 
-		if (removeStyle.size())
+		for (auto i = removeStyle.begin(); i != removeStyle.end();)
 		{
-			ReleasePower(*removeStyle.begin());
-			removeStyle.erase(removeStyle.begin());
+			ReleasePower(*(*i)->begin());
+			(*i)->erase((*i)->begin());
+			if (!(*i)->size())
+			{
+				delete *i;
+				i = removeStyle.erase(i);
+			}
+			else i++;
+
 		}
+
 		if (delayRemove)
 		{
 			if (delay > 0) delay--;
@@ -743,7 +754,7 @@ namespace game_framework
 			}
 			if (count >= 3)
 			{
-				RemoveContinuous(line, line.size() - count, line.size(), axis, temp);
+				RemoveContinuous(line, (unsigned)(line.size() - count), (unsigned)(line.size()), axis, temp);
 				comboDeleted++;
 			}
 			line.clear();
