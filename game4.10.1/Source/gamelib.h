@@ -326,7 +326,7 @@ namespace game_framework {
 	protected:
 		void GotoGameState(int state);							// 跳躍至指定的state
 		void ShowInitProgress(int percent);						// 顯示初始化的進度
-		void ShowLoading(int n = 0);
+		void ShowLoading();
 		//
 		// virtual functions, 由繼承者提供implementation
 		//

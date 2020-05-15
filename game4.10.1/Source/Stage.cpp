@@ -20,13 +20,20 @@ game_framework::Stage::Stage(int files)
 	mode = 0;
 	isUnlock = 0;
 	for (int i = 0; i < 2; i++)
-		stageTxt[i] = ".\\Stages\\cnt_stage" + to_string(files + i) + ".txt";
+		stageTxt[i] = "Stages\\cnt_stage" + to_string(files + i) + ".txt";
 }
 
 void game_framework::Stage::LoadStage()
 {
 	fstream InputStage;
 	InputStage.open(stageTxt[0]);
+	if (!InputStage.is_open())
+	{
+		char fileName[200] = "\nOpen file failed! file: ";
+		strcat(fileName, stageTxt[0].c_str());
+		strcat(fileName, "\nReason: ");
+		GAME_ASSERT(0, strcat(fileName, strerror(errno)));
+	}
 	string data[13];
 	string file;
 	//MAP

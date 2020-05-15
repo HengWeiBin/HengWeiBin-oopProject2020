@@ -62,12 +62,13 @@
 #include "gamelib.h"
 #include "mygame.h"
 
-namespace game_framework {
+namespace game_framework
+{
 	/////////////////////////////////////////////////////////////////////////////
 	// 這個class為遊戲的遊戲開頭畫面物件
 	/////////////////////////////////////////////////////////////////////////////
 
-	CGameStateInit::CGameStateInit(CGame *g)
+	CGameStateInit::CGameStateInit(CGame* g)
 		: CGameState(g), playBtnClicked(false)
 	{
 	}
@@ -75,47 +76,51 @@ namespace game_framework {
 	void CGameStateInit::OnInit()
 	{
 		ShowLoading();
-		Sleep(500);
 		//
 		// 開始載入資料
 		//
 		background.LoadBitmap("Bitmaps\\InitBackground3.bmp");
-
 		// Load play button
 		int playBtnBmp[] = { IDB_PLAYBUTTON_1, IDB_PLAYBUTTON_2, IDB_PLAYBUTTON_3, IDB_PLAYBUTTON_4,
-			IDB_PLAYBUTTON_5, IDB_PLAYBUTTON_6, IDB_PLAYBUTTON_7, IDB_PLAYBUTTON_8, 
-			IDB_PLAYBUTTON_9, IDB_PLAYBUTTON_10, IDB_PLAYBUTTON_11, IDB_PLAYBUTTON_12 };
+							 IDB_PLAYBUTTON_5, IDB_PLAYBUTTON_6, IDB_PLAYBUTTON_7, IDB_PLAYBUTTON_8,
+							 IDB_PLAYBUTTON_9, IDB_PLAYBUTTON_10, IDB_PLAYBUTTON_11, IDB_PLAYBUTTON_12
+		};
 
 		for (int i = 0; i < 12; i++)
 		{
 			playButton.AddBitmap(playBtnBmp[i], RGB(0, 0, 0));
 		}
-		playButton.SetDelayCount(4);
 
+		playButton.SetDelayCount(4);
 		clickedPlayButton.LoadBitmap("Bitmaps\\PlayButtonClicked.bmp", RGB(0, 0, 0));
-		playButTopLX = SIZE_X / 2 - playButton.Width() / 2;	
+		playButTopLX = SIZE_X / 2 - playButton.Width() / 2;
 		playButTopLY = SIZE_Y / 5 * 4 - playButton.Height();
 		playButBotRX = SIZE_X / 2 + playButton.Width() / 2;
 		playButBotRY = SIZE_Y / 5 * 4;
-
 		//Load tiffy
-		int TiffyBitmap[10] = { IDB_TIFFY_0 , IDB_TIFFY_1 ,IDB_TIFFY_2,IDB_TIFFY_3,IDB_TIFFY_4,
-			IDB_TIFFY_5,IDB_TIFFY_6,IDB_TIFFY_7,IDB_TIFFY_8,IDB_TIFFY_9 };
-		for (int i = 0; i < 10; i++) {
+		int TiffyBitmap[10] = { IDB_TIFFY_0, IDB_TIFFY_1, IDB_TIFFY_2, IDB_TIFFY_3, IDB_TIFFY_4,
+								IDB_TIFFY_5, IDB_TIFFY_6, IDB_TIFFY_7, IDB_TIFFY_8, IDB_TIFFY_9
+		};
+
+		for (int i = 0; i < 10; i++)
+		{
 			tiffy.AddBitmap(TiffyBitmap[i], RGB(255, 255, 255));
 		}
+
 		for (int i = 8; i > 0; i--)
 		{
 			tiffy.AddBitmap(TiffyBitmap[i], RGB(255, 255, 255));
 		}
+
 		tiffy.SetDelayCount(5);
-
 		//Load Toffee
-		int ToffeeBitmap[6] = { IDB_TOFFEE_14, IDB_TOFFEE_6,IDB_TOFFEE_15, IDB_TOFFEE_7,IDB_TOFFEE_16, IDB_TOFFEE_8 };
+		int ToffeeBitmap[6] = { IDB_TOFFEE_14, IDB_TOFFEE_6, IDB_TOFFEE_15, IDB_TOFFEE_7, IDB_TOFFEE_16, IDB_TOFFEE_8 };
 
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < 6; i++)
+		{
 			toffee.AddBitmap(ToffeeBitmap[i], RGB(255, 255, 255));
 		}
+
 		for (int i = 5; i > 0; i--)
 		{
 			toffee.AddBitmap(ToffeeBitmap[i], RGB(255, 255, 255));
@@ -133,6 +138,7 @@ namespace game_framework {
 	{
 		const char KEY_ESC = 27;
 		const char KEY_SPACE = ' ';
+
 		if (nChar == KEY_SPACE)
 			GotoGameState(GAME_STATE_RUN);							// 切換至GAME_STATE_RUN
 		else if (nChar == KEY_ESC)									// Demo 關閉遊戲的方法
@@ -175,16 +181,16 @@ namespace game_framework {
 			playButton.OnShow();
 		}
 
-		tiffy.SetTopLeft(90, 380);
+		tiffy.SetTopLeft(95, 400);
 		tiffy.OnShow();
-
-		toffee.SetTopLeft(800, 60);
+		toffee.SetTopLeft(870, 60);
 		toffee.OnShow();
 	}
 
 	void CGameStateInit::OnMove()
 	{
 		if (!playBtnClicked) playButton.OnMove();
+
 		tiffy.OnMove();
 		toffee.OnMove();
 	}
@@ -193,7 +199,7 @@ namespace game_framework {
 	// 這個class為遊戲的結束狀態(Game Over)
 	/////////////////////////////////////////////////////////////////////////////
 
-	CGameStateOver::CGameStateOver(CGame *g)
+	CGameStateOver::CGameStateOver(CGame* g)
 		: CGameState(g)
 	{
 	}
@@ -201,6 +207,7 @@ namespace game_framework {
 	void CGameStateOver::OnMove()
 	{
 		counter--;
+
 		if (counter < 0)
 			GotoGameState(GAME_STATE_MENU);
 	}
@@ -211,26 +218,11 @@ namespace game_framework {
 	}
 
 	void CGameStateOver::OnInit()
-	{
-		//
-		// 當圖很多時，OnInit載入所有的圖要花很多時間。為避免玩遊戲的人
-		//     等的不耐煩，遊戲會出現「Loading ...」，顯示Loading的進度。
-		//
-		//ShowInitProgress(66);	// 接個前一個狀態的進度，此處進度視為66%
-		//
-		// 開始載入資料
-		//
-		ShowLoading(1);
-		Sleep(500);
-		//
-		// 最終進度為100%
-		//
-		//ShowInitProgress(100);
-	}
+	{}
 
 	void CGameStateOver::OnShow()
 	{
-		CDC *pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC 
+		CDC* pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC
 		CFont f, *fp;
 		f.CreatePointFont(160, "Times New Roman");	// 產生 font f; 160表示16 point的字
 		fp = pDC->SelectObject(&f);					// 選用 font f
@@ -247,7 +239,7 @@ namespace game_framework {
 	// 這個class為遊戲的遊戲執行物件，主要的遊戲程式都在這裡
 	/////////////////////////////////////////////////////////////////////////////
 
-	CGameStateRun::CGameStateRun(CGame *g) : CGameState(g)
+	CGameStateRun::CGameStateRun(CGame* g) : CGameState(g)
 	{}
 
 	CGameStateRun::~CGameStateRun()
@@ -265,34 +257,17 @@ namespace game_framework {
 		// 如果希望修改cursor的樣式，則將下面程式的commment取消即可
 		//
 		// SetCursor(AfxGetApp()->LoadCursor(IDC_GAMECURSOR));
-		
 		gameArea.OnMove();
+
 		if (gameArea.IsGameOver())
 			GotoGameState(GAME_STATE_OVER);
 	}
 
 	void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	{
-		ShowLoading(2);
-		Sleep(500);
-		//
-		// 當圖很多時，OnInit載入所有的圖要花很多時間。為避免玩遊戲的人
-		//     等的不耐煩，遊戲會出現「Loading ...」，顯示Loading的進度。
-		//
-		//ShowInitProgress(33);	// 接個前一個狀態的進度，此處進度視為33%
-		//
-		// 開始載入資料
-		//
+		background.LoadBitmap("Bitmaps\\inGameBG1.bmp");// 載入背景的圖形
 
-		background.LoadBitmap("Bitmaps\\inGameBG1.bmp");					// 載入背景的圖形
-		//
-		// 完成部分Loading動作，提高進度
-		//
-		//ShowInitProgress(50);
-		//Sleep(300); // 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
-		//
-		// 繼續載入其他資料
-		//
+		//載入游戲音效
 		CAudio::Instance()->Load(AUDIO_JELLY, "sounds\\MovesJellyLevels.mp3");
 		CAudio::Instance()->Load(AUDIO_NEG_SWAP, "sounds\\negative_switch_sound1.wav");
 		CAudio::Instance()->Load(AUDIO_SWAP, "sounds\\switch_sound1.wav");
@@ -307,21 +282,21 @@ namespace game_framework {
 		CAudio::Instance()->Load(AUDIO_CANDY_LAND2, "sounds\\candy_land2.wav");
 		CAudio::Instance()->Load(AUDIO_CANDY_LAND3, "sounds\\candy_land3.wav");
 		CAudio::Instance()->Load(AUDIO_CANDY_LAND4, "sounds\\candy_land4.wav");
+
 		for (int i = 0; i < 12; i++)
 		{
 			char sound[30] = { 0 };
 			sprintf(sound, "sounds\\combo_sound%d.wav", i + 1);
 			CAudio::Instance()->Load(AUDIO_COMBO1 + i, sound);
 		}
-		//
-		// 此OnInit動作會接到CGameStaterOver::OnInit()，所以進度還沒到100%
-		//
+
 		gameArea.LoadBitmap();
 	}
 
 	void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
 		const int KEY_TAB = 0x09;
+
 		if (nChar == KEY_TAB)
 		{
 			CAudio::Instance()->Stop(AUDIO_JELLY);
@@ -359,12 +334,11 @@ namespace game_framework {
 		//        否則當視窗重新繪圖時(OnDraw)，物件就會移動，看起來會很怪。換個術語
 		//        說，Move負責MVC中的Model，Show負責View，而View不應更動Model。
 		//
-		
 		background.ShowBitmap();			// 貼上背景圖
 		gameArea.OnShow();
 	}
 
-	CGameStateMenu::CGameStateMenu(CGame *g) 
+	CGameStateMenu::CGameStateMenu(CGame *g)
 		: CGameState(g), totalStage(9), drag(false), mouseDisplayment(0), inertia(0)
 	{
 		IsMovingUp = false; IsMovingDown = false;
@@ -389,8 +363,6 @@ namespace game_framework {
 
 	void CGameStateMenu::OnInit()
 	{
-		ShowLoading(3);
-		Sleep(500);
 		woodBackgourd.LoadBitmap("Bitmaps\\WoodBackground.bmp");
 		menuBackground.LoadBitmap("Bitmaps\\stage_map.bmp");
 		stageNum.SetType(1);
@@ -407,10 +379,10 @@ namespace game_framework {
 		star1.LoadBitmap("Bitmaps\\SmallRedStar.bmp", RGB(255, 255, 255));
 		star2.LoadBitmap("Bitmaps\\SmallGreenStar.bmp", RGB(255, 255, 255));
 		star3.LoadBitmap("Bitmaps\\SmallYellowStar.bmp", RGB(255, 255, 255));
-		
+
 		//load stage
 		for (int i = 0; i < totalStage + 1; i++) {
-			stages.push_back(new Stage(i+1));
+			stages.push_back(new Stage(i + 1));
 			stages[i]->LoadStage();
 		}
 
@@ -426,10 +398,10 @@ namespace game_framework {
 		const char KEY_UP = 0x26;
 		const char KEY_DOWN = 0x28;
 		if (nChar == KEY_UP) {
-			IsMovingUp=true;
+			IsMovingUp = true;
 		}
 		if (nChar == KEY_DOWN) {
-			IsMovingDown=true;
+			IsMovingDown = true;
 		}
 	}
 
