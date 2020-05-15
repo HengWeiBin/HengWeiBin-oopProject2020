@@ -409,7 +409,7 @@ namespace game_framework
 
 		if (!ending && (!scoreBoard.moves.GetInteger() || scoreBoard.IsReachedTarget()))
 		{//for temporary use, gameover when move = 0
-			if ((*stage)->lastHighScore < scoreBoard.score)
+			if (scoreBoard.IsReachedTarget() && (*stage)->lastHighScore < scoreBoard.score)
 			{
 				(*(stage + 1))->SetUnlock();
 				(*stage)->lastHighScore = scoreBoard.score.GetInteger();

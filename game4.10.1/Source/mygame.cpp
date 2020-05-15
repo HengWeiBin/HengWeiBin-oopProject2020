@@ -126,7 +126,7 @@ namespace game_framework
 			toffee.AddBitmap(ToffeeBitmap[i], RGB(255, 255, 255));
 		}
 
-		toffee.SetDelayCount(5);
+		toffee.SetDelayCount(4);
 
 		//load candy crush
 		tempCandyCrush.LoadBitmap(IDB_CANDY_CRUSH_32, RGB(255, 255, 255));
@@ -197,7 +197,7 @@ namespace game_framework
 
 		tiffy.SetTopLeft(95, 400);
 		tiffy.OnShow();
-		toffee.SetTopLeft(870, 60);
+		toffee.SetTopLeft(650, 60);
 		toffee.OnShow();
 
 
