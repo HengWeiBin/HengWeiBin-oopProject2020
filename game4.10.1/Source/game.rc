@@ -1347,6 +1347,108 @@ IDB_STAGE_BUTTON_RED	BITMAP					".\\Bitmaps\\Stage_Button_Red.bmp"
 IDB_STAGE_BUTTON_YELLOW	BITMAP					".\\Bitmaps\\Stage_Button_Yellow.bmp"
 
 IDB_STAGE_BUTTON_GREEN	BITMAP					".\\Bitmaps\\Stage_Button_Green.bmp"
+
+IDB_CANDY_CRUSH_0       BITMAP                  ".\\Bitmaps\\candy_crush_0.bmp"
+
+IDB_CANDY_CRUSH_1       BITMAP                  ".\\Bitmaps\\candy_crush_1.bmp"
+
+IDB_CANDY_CRUSH_2       BITMAP                  ".\\Bitmaps\\candy_crush_2.bmp"
+
+IDB_CANDY_CRUSH_3       BITMAP                  ".\\Bitmaps\\candy_crush_3.bmp"
+
+IDB_CANDY_CRUSH_4       BITMAP                  ".\\Bitmaps\\candy_crush_4.bmp"
+
+IDB_CANDY_CRUSH_5       BITMAP                  ".\\Bitmaps\\candy_crush_5.bmp"
+
+IDB_CANDY_CRUSH_6       BITMAP                  ".\\Bitmaps\\candy_crush_6.bmp"
+
+IDB_CANDY_CRUSH_7       BITMAP                  ".\\Bitmaps\\candy_crush_7.bmp"
+
+IDB_CANDY_CRUSH_8       BITMAP                  ".\\Bitmaps\\candy_crush_8.bmp"
+
+IDB_CANDY_CRUSH_9       BITMAP                  ".\\Bitmaps\\candy_crush_9.bmp"
+
+IDB_CANDY_CRUSH_10      BITMAP                  ".\\Bitmaps\\candy_crush_10.bmp"
+
+IDB_CANDY_CRUSH_11      BITMAP                  ".\\Bitmaps\\candy_crush_11.bmp"
+
+IDB_CANDY_CRUSH_12      BITMAP                  ".\\Bitmaps\\candy_crush_12.bmp"
+
+IDB_CANDY_CRUSH_13      BITMAP                  ".\\Bitmaps\\candy_crush_13.bmp"
+
+IDB_CANDY_CRUSH_14      BITMAP                  ".\\Bitmaps\\candy_crush_14.bmp"
+
+IDB_CANDY_CRUSH_15      BITMAP                  ".\\Bitmaps\\candy_crush_15.bmp"
+
+IDB_CANDY_CRUSH_16      BITMAP                  ".\\Bitmaps\\candy_crush_16.bmp"
+
+IDB_CANDY_CRUSH_17      BITMAP                  ".\\Bitmaps\\candy_crush_17.bmp"
+
+IDB_CANDY_CRUSH_18      BITMAP                  ".\\Bitmaps\\candy_crush_18.bmp"
+
+IDB_CANDY_CRUSH_19      BITMAP                  ".\\Bitmaps\\candy_crush_19.bmp"
+
+IDB_CANDY_CRUSH_20      BITMAP                  ".\\Bitmaps\\candy_crush_20.bmp"
+
+IDB_CANDY_CRUSH_21      BITMAP                  ".\\Bitmaps\\candy_crush_21.bmp"
+
+IDB_CANDY_CRUSH_22      BITMAP                  ".\\Bitmaps\\candy_crush_22.bmp"
+
+IDB_CANDY_CRUSH_23      BITMAP                  ".\\Bitmaps\\candy_crush_23.bmp"
+
+IDB_CANDY_CRUSH_24      BITMAP                  ".\\Bitmaps\\candy_crush_24.bmp"
+
+IDB_CANDY_CRUSH_25      BITMAP                  ".\\Bitmaps\\candy_crush_25.bmp"
+
+IDB_CANDY_CRUSH_26      BITMAP                  ".\\Bitmaps\\candy_crush_26.bmp"
+
+IDB_CANDY_CRUSH_27      BITMAP                  ".\\Bitmaps\\candy_crush_27.bmp"
+
+IDB_CANDY_CRUSH_28      BITMAP                  ".\\Bitmaps\\candy_crush_28.bmp"
+
+IDB_CANDY_CRUSH_29      BITMAP                  ".\\Bitmaps\\candy_crush_29.bmp"
+
+IDB_CANDY_CRUSH_30      BITMAP                  ".\\Bitmaps\\candy_crush_30.bmp"
+
+IDB_CANDY_CRUSH_31      BITMAP                  ".\\Bitmaps\\candy_crush_31.bmp"
+
+IDB_CANDY_CRUSH_32      BITMAP                  ".\\Bitmaps\\candy_crush_32.bmp"
+
+IDB_CANDY_CRUSH_33      BITMAP                  ".\\Bitmaps\\candy_crush_33.bmp"
+
+IDB_CANDY_CRUSH_34      BITMAP                  ".\\Bitmaps\\candy_crush_34.bmp"
+
+IDB_CANDY_CRUSH_35      BITMAP                  ".\\Bitmaps\\candy_crush_35.bmp"
+
+IDB_CANDY_CRUSH_36      BITMAP                  ".\\Bitmaps\\candy_crush_36.bmp"
+
+IDB_CANDY_CRUSH_37      BITMAP                  ".\\Bitmaps\\candy_crush_37.bmp"
+
+IDB_CANDY_CRUSH_38      BITMAP                  ".\\Bitmaps\\candy_crush_38.bmp"
+
+IDB_CANDY_CRUSH_39      BITMAP                  ".\\Bitmaps\\candy_crush_39.bmp"
+
+IDB_CANDY_CRUSH_40      BITMAP                  ".\\Bitmaps\\candy_crush_40.bmp"
+
+IDB_CANDY_CRUSH_41      BITMAP                  ".\\Bitmaps\\candy_crush_41.bmp"
+
+IDB_CANDY_CRUSH_42      BITMAP                  ".\\Bitmaps\\candy_crush_42.bmp"
+
+IDB_CANDY_CRUSH_43      BITMAP                  ".\\Bitmaps\\candy_crush_43.bmp"
+
+IDB_CANDY_CRUSH_44      BITMAP                  ".\\Bitmaps\\candy_crush_44.bmp"
+
+IDB_CANDY_CRUSH_45      BITMAP                  ".\\Bitmaps\\candy_crush_45.bmp"
+
+IDB_CANDY_CRUSH_46      BITMAP                  ".\\Bitmaps\\candy_crush_46.bmp"
+
+IDB_CANDY_CRUSH_47      BITMAP                  ".\\Bitmaps\\candy_crush_47.bmp"
+
+IDB_CANDY_CRUSH_48      BITMAP                  ".\\Bitmaps\\candy_crush_48.bmp"
+
+IDB_CANDY_CRUSH_49      BITMAP                  ".\\Bitmaps\\candy_crush_49.bmp"
+
+IDB_CANDY_CRUSH_50      BITMAP                  ".\\Bitmaps\\candy_crush_50.bmp"
 /////////////////////////////////////////////////////////////////////////////
 //
 // Cursor

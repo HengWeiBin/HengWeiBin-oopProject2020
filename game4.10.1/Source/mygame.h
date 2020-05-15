@@ -79,7 +79,7 @@ namespace game_framework {
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 		void OnMove();
 	private:
-		CMovingBitmap background, clickedPlayButton;	// Candycrush starter background, play button
+		CMovingBitmap background, clickedPlayButton,candyCrush[51], tempCandyCrush;	// Candycrush starter background, play button
 		CAnimation tiffy, playButton, toffee;
 		bool playBtnClicked;
 		int playButTopLX, playButTopLY;					//Top left of play button
@@ -127,6 +127,7 @@ namespace game_framework {
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
 		int counter;	// 倒數之計數器
+		CMovingBitmap	backgroundOver;	// 背景圖
 	};
 
 	class CGameStateMenu : public CGameState
