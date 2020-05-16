@@ -283,7 +283,10 @@ namespace game_framework
 		gameArea.OnMove();
 
 		if (gameArea.IsGameOver())
+		{
 			GotoGameState(GAME_STATE_OVER);
+			CAudio::Instance()->Stop(AUDIO_JELLY);
+		}
 	}
 
 	void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
@@ -325,10 +328,14 @@ namespace game_framework
 			CAudio::Instance()->Stop(AUDIO_JELLY);
 			GotoGameState(GAME_STATE_MENU);
 		}
+		
+		gameArea.OnKeyDown(nChar, nRepCnt, nFlags);
 	}
 
 	void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
-	{}
+	{
+		gameArea.OnKeyUp(nChar, nRepCnt, nFlags);
+	}
 
 	void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 	{
@@ -336,7 +343,9 @@ namespace game_framework
 	}
 
 	void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
-	{	}
+	{
+		gameArea.OnLButtonUp(nFlags, point);
+	}
 
 	void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 	{

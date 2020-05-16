@@ -202,6 +202,12 @@ namespace game_framework
 		return onClick;
 	}
 
+	void Candy::Kill()
+	{
+		power = 0;
+		style = 0;
+	}
+
 	Candy* Candy::Click()
 	{
 		onClick = onClick == true ? false : true;

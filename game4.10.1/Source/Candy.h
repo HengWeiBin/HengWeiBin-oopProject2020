@@ -35,6 +35,7 @@ namespace game_framework
 		void InitClick();					//Unclick self
 		bool IsMoving();					//return current coordinate != destination coordinate
 		bool IsClicked();					//return onClick
+		void Kill();						//simple remove without release power
 		void LoadBitmap();					//Load candy's bitmap according to style
 		void OnMove(bool mute = false);		//move if current coordinate != destination coordinate
 		void OnShow();						//display candy
