@@ -18,6 +18,8 @@ game_framework::Stage::Stage(int files)
 	lastHighScore = 0;							//History highest score
 	maxStep = 0;
 	mode = 0;
+	currentScore = 0;
+	currentStage = files;
 	isUnlock = 0;
 	for (int i = 0; i < 2; i++)
 		stageTxt[i] = "Stages\\cnt_stage" + to_string(files + i) + ".txt";
@@ -101,7 +103,14 @@ bool game_framework::Stage::IsUnlock()
 {
 	return isUnlock == 1 ? true : false;
 }
-
+double game_framework::Stage::GetCurrentScore()
+{
+	return currentScore;
+}
+int game_framework::Stage::GetCurrentStage()
+{
+	return currentStage;
+}
 
 /*function to re-create the cnt_stg.txt  
 without last 2 lines(last score and isunlock*/
@@ -148,6 +157,10 @@ void game_framework::Stage::WriteBack()
 		myFile1 << "0\t#LastScore";
 		myFile1 << "\n1\t#IsUnlock";
 		myFile1.close();
+}
+void game_framework::Stage::SetCurrentScore(int score)
+{
+	currentScore = score;
 }
 
 void game_framework::Stage::SetUnlock()

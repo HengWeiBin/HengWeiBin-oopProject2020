@@ -239,6 +239,7 @@ namespace game_framework
 	CGameStateOver::CGameStateOver(CGame* g)
 		: CGameState(g)
 	{
+		stageNum = 0;
 	}
 
 	void CGameStateOver::OnMove()
@@ -251,18 +252,49 @@ namespace game_framework
 
 	void CGameStateOver::OnBeginState()
 	{
+
+		//stageNum = stage - 1;
 		counter = 30 * 5; // 5 seconds
 	}
 
 	void CGameStateOver::OnInit()
 	{
+		//load background
 		backgroundOver.LoadBitmap("Bitmaps/inGameBG1.bmp");
+
+		//load score board
+		scoreBoardOver.LoadBitmap("Bitmaps/score_state_over.bmp", RGB(0, 0, 0));
+
 	}
 
 	void CGameStateOver::OnShow()
 	{
+		//show background
 		backgroundOver.SetTopLeft(0, 0);
 		backgroundOver.ShowBitmap();
+		/*
+		//show score board
+		scoreBoardOver.SetTopLeft((backgroundOver.Width() / 2) - (scoreBoardOver.Width() / 2), (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2));
+		scoreBoardOver.ShowBitmap();
+
+
+		currentStage.SetInteger(stageNum + 1);
+
+		if (stages[stageNum]->GetCurrentScore() != 0) {
+			currentScore.SetInteger(stages[stageNum]->GetCurrentScore());
+		}
+		else
+		{
+			currentScore.SetInteger(stages[stageNum]->GetLastScoreHistory());
+		}
+
+
+		currentScore.SetTopLeft((backgroundOver.Width() / 2), (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 200);
+		currentScore.ShowBitmap();
+
+		currentStage.SetTopLeft((backgroundOver.Width() / 2), (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 150);
+		currentStage.ShowBitmap();
+		*/
 		CDC* pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC
 		CFont f, *fp;
 		f.CreatePointFont(160, "Times New Roman");	// 產生 font f; 160表示16 point的字
