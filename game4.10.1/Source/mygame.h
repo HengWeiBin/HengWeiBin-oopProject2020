@@ -158,11 +158,11 @@ namespace game_framework {
 		const int totalStage;
 		int sy;
 		int MAX_Y, MIN_Y;
-		bool IsMovingUp, IsMovingDown;
+		bool IsMovingUp, IsMovingDown, drag;
+		bool goldFinger;
 		int StagePos[15][2];
 		CInteger stageNum;
 		LONG clickX, clickY, clickSY;	//save position of mouse and menu when mouse clicked
-		bool drag;
 		int mouseDisplayment, inertia;
 	};
 }

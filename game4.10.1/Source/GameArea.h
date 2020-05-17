@@ -44,7 +44,6 @@ namespace game_framework
 		int DropCandyStraight();
 		int DropCandySide();
 		int DeleteCombo(set<Candy*>&);					//analyze and delete combo
-		void PutEndingBonus();
 		void Find(Candy*, unsigned&, unsigned&);		//find candy and return row and column
 		int FindCombo();
 		void GetCandies(set<Candy*>&, int, int, int);	//get continuous candies
@@ -55,6 +54,7 @@ namespace game_framework
 		void OnMoveEnding();
 		void PowerAll(int, int);						//Power all specific candy
 		int PutCandy();									//spawn candies at spawning area
+		void PutEndingBonus();
 		int RemoveContinuous(vector<Candy*>&, char, bool(*Compare)(Candy*, Candy*), set<Candy*>&);	//Find and remove continuous candy
 		void RemoveContinuous(vector<Candy*>&, unsigned, unsigned, char, set<Candy*>&);				//Remove continuous candy
 		void ReleaseInOrder();
@@ -80,7 +80,7 @@ namespace game_framework
 		CMovingBitmap area, singleJelly, doubleJelly;	//container bmp
 		vector<Candy*> clickedCandies;
 		list<Blast*> blasts;
-		list<list<Candy*>*> removeList;				//These candies will be removed after delay
+		list<list<Candy*>*> removeList;					//These candies will be removed after delay
 		list<Candy*> endingBonus;
 		ScoreBoard scoreBoard;
 

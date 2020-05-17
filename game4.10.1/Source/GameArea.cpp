@@ -755,14 +755,15 @@ namespace game_framework
 		
 		do
 		{
-			for (auto i = candy.begin(); i != candy.end(); i++)
+			for (auto i = candy.begin(); i != candy.end();)
 			{
 				if (totalPut > 0 && !(rand() % totalPut))
 				{
 					endingBonus.push_back(*i);
-					candy.erase(i);
+					i = candy.erase(i);
 					totalPut--;
 				}
+				else i++;
 			}
 		} while (totalPut > 0);
 	}

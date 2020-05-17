@@ -131,7 +131,7 @@ namespace game_framework
 
 		//load candy crush
 		tempCandyCrush.LoadBitmap(IDB_CANDY_CRUSH_32, RGB(255, 255, 255));
-		int CandyCrush[93] = { IDB_CANDY_CRUSH_0, IDB_CANDY_CRUSH_1, IDB_CANDY_CRUSH_2, IDB_CANDY_CRUSH_3, IDB_CANDY_CRUSH_4, IDB_CANDY_CRUSH_5,
+		/*int CandyCrush[93] = { IDB_CANDY_CRUSH_0, IDB_CANDY_CRUSH_1, IDB_CANDY_CRUSH_2, IDB_CANDY_CRUSH_3, IDB_CANDY_CRUSH_4, IDB_CANDY_CRUSH_5,
 						IDB_CANDY_CRUSH_6, IDB_CANDY_CRUSH_7, IDB_CANDY_CRUSH_8, IDB_CANDY_CRUSH_9, IDB_CANDY_CRUSH_10,IDB_CANDY_CRUSH_11,
 						IDB_CANDY_CRUSH_12, IDB_CANDY_CRUSH_13, IDB_CANDY_CRUSH_14, IDB_CANDY_CRUSH_15, IDB_CANDY_CRUSH_16, IDB_CANDY_CRUSH_17,
 						IDB_CANDY_CRUSH_18, IDB_CANDY_CRUSH_19, IDB_CANDY_CRUSH_20, IDB_CANDY_CRUSH_21, IDB_CANDY_CRUSH_22, IDB_CANDY_CRUSH_23, IDB_CANDY_CRUSH_24,
@@ -144,10 +144,25 @@ namespace game_framework
 						IDB_CANDY_CRUSH_34, IDB_CANDY_CRUSH_33, IDB_CANDY_CRUSH_32, IDB_CANDY_CRUSH_31, IDB_CANDY_CRUSH_30, IDB_CANDY_CRUSH_29, IDB_CANDY_CRUSH_28,
 						IDB_CANDY_CRUSH_27, IDB_CANDY_CRUSH_26, IDB_CANDY_CRUSH_25, IDB_CANDY_CRUSH_24, IDB_CANDY_CRUSH_23, IDB_CANDY_CRUSH_22, IDB_CANDY_CRUSH_21,
 						IDB_CANDY_CRUSH_20, IDB_CANDY_CRUSH_21, IDB_CANDY_CRUSH_22, IDB_CANDY_CRUSH_23, IDB_CANDY_CRUSH_24, IDB_CANDY_CRUSH_25, IDB_CANDY_CRUSH_26,
-						IDB_CANDY_CRUSH_27, IDB_CANDY_CRUSH_28, IDB_CANDY_CRUSH_29, IDB_CANDY_CRUSH_30, IDB_CANDY_CRUSH_31, IDB_CANDY_CRUSH_32 };
-		for (int i = 0; i < 93; i++) {
+						IDB_CANDY_CRUSH_27, IDB_CANDY_CRUSH_28, IDB_CANDY_CRUSH_29, IDB_CANDY_CRUSH_30, IDB_CANDY_CRUSH_31, IDB_CANDY_CRUSH_32 };*/
+		int CandyCrush[93] = { IDB_CANDY_CRUSH_0, IDB_CANDY_CRUSH_3, 
+						IDB_CANDY_CRUSH_6, IDB_CANDY_CRUSH_9, 
+						IDB_CANDY_CRUSH_12, IDB_CANDY_CRUSH_15, 
+						IDB_CANDY_CRUSH_18, IDB_CANDY_CRUSH_21, IDB_CANDY_CRUSH_22, 
+						IDB_CANDY_CRUSH_25, IDB_CANDY_CRUSH_28, 
+						IDB_CANDY_CRUSH_32, IDB_CANDY_CRUSH_36, 
+						IDB_CANDY_CRUSH_39, IDB_CANDY_CRUSH_41, IDB_CANDY_CRUSH_45,
+						IDB_CANDY_CRUSH_46, IDB_CANDY_CRUSH_48, IDB_CANDY_CRUSH_50,
+						IDB_CANDY_CRUSH_48, IDB_CANDY_CRUSH_46, IDB_CANDY_CRUSH_45, 
+						IDB_CANDY_CRUSH_41, IDB_CANDY_CRUSH_39, IDB_CANDY_CRUSH_36,
+						IDB_CANDY_CRUSH_32, IDB_CANDY_CRUSH_28,
+						IDB_CANDY_CRUSH_25, IDB_CANDY_CRUSH_22, IDB_CANDY_CRUSH_21,
+						IDB_CANDY_CRUSH_21, IDB_CANDY_CRUSH_22,IDB_CANDY_CRUSH_25,
+						IDB_CANDY_CRUSH_28, IDB_CANDY_CRUSH_32 };
+		for (int i = 0; i < 35; i += 2) {
 			candyCrush.AddBitmap(CandyCrush[i], RGB(255, 255, 255));
 		}
+		candyCrush.SetDelayCount(3);
 
 	}
 
@@ -212,7 +227,6 @@ namespace game_framework
 		//candy crush
 		candyCrush.SetTopLeft(60, 0);
 		tempCandyCrush.SetTopLeft(60, 0);
-		candyCrush.SetDelayCount(1);
 		candyCrush.OnShow();
 	}
 
@@ -389,7 +403,7 @@ namespace game_framework
 	}
 
 	CGameStateMenu::CGameStateMenu(CGame *g)
-		: CGameState(g), totalStage(9), drag(false), mouseDisplayment(0), inertia(0)
+		: CGameState(g), totalStage(9), drag(false), mouseDisplayment(0), inertia(0), goldFinger(false)
 	{
 		IsMovingUp = false; IsMovingDown = false;
 		MAX_Y = 0; MIN_Y = -3600;
@@ -448,12 +462,12 @@ namespace game_framework
 	{
 		const char KEY_UP = 0x26;
 		const char KEY_DOWN = 0x28;
-		if (nChar == KEY_UP) {
-			IsMovingUp = true;
-		}
-		if (nChar == KEY_DOWN) {
-			IsMovingDown = true;
-		}
+
+		if (nChar == KEY_UP) IsMovingUp = true;
+
+		if (nChar == KEY_DOWN) IsMovingDown = true;
+
+		if (nChar == VK_F1) goldFinger = true;
 	}
 
 	void CGameStateMenu::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -463,7 +477,10 @@ namespace game_framework
 		const char KEY_ESC = 27;
 
 		if (nChar == KEY_UP) IsMovingUp = false;
+
 		if (nChar == KEY_DOWN) IsMovingDown = false;
+
+		if (nChar == VK_F1) goldFinger = false;
 
 		if (nChar == KEY_ESC)
 		{
@@ -492,7 +509,7 @@ namespace game_framework
 		for (int i = 0; i < totalStage; i++) {
 			if (StagePos[i][0] < x && x < (StagePos[i][0] + 60) && StagePos[i][1] < y && (y < StagePos[i][1] + 60))
 			{
-				if (stages[i]->IsUnlock())
+				if (stages[i]->IsUnlock() || goldFinger)
 				{
 					gameArea.LoadStage(stages, i);
 					CAudio::Instance()->Stop(AUDIO_STAGE);
