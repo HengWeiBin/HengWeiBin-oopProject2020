@@ -89,7 +89,7 @@ namespace game_framework
 		int MAX_RAND_NUM;								//types of candies in this games
 		bool initiating, ending, running, gameOver;
 
-		bool goldFinger;
+		bool goldFinger, normalBlast;
 	};
 }
 

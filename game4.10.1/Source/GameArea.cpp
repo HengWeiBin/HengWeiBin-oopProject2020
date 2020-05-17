@@ -22,7 +22,7 @@ namespace game_framework
 
 	GameArea::GameArea() 
 		:x(280), y(35), MAX_RAND_NUM(4), initiating(1), ending(0), running(1), gameOver(0), delay(0), 
-		delayRemoveStyle(0), delayRemove(0), currentComboSound(0), goldFinger(0), releaseSwap(0)
+		delayRemoveStyle(0), delayRemove(0), currentComboSound(0), goldFinger(0), releaseSwap(0), normalBlast(1)
 	{
 		scoreBoard.score = 0;
 		for (int i = 0; i < MaxHeight; i++)
@@ -106,6 +106,7 @@ namespace game_framework
 		delayRemove = false;
 		releaseSwap = false;
 		goldFinger = false;
+		normalBlast = true;
 		InitCandy(stages[index]->initcandy);
 	}
 
@@ -136,7 +137,7 @@ namespace game_framework
 
 		if (!initiating)scoreBoard.score += 60;
 
-		if(!initiating && candy->GetStyle())
+		if(normalBlast && !initiating && candy->GetStyle())
 			blasts.push_back(new NormalBlast(candy->GetStyle(), candy->GetTopLeftX(), candy->GetTopLeftY()));
 
 		int power = candy->GetPower(), style = candy->GetStyle();
@@ -457,6 +458,8 @@ namespace game_framework
 	void GameArea::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
 		if (nChar == VK_F1) goldFinger = false;
+
+		if (nChar == VK_F11) normalBlast = normalBlast ? false : true;
 	}
 
 	int GameArea::FindCombo()

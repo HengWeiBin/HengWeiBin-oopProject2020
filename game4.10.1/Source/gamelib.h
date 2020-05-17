@@ -221,7 +221,7 @@ namespace game_framework {
 
 	class CAnimation {
 	public:
-		CAnimation(int = 10);				// Constructor (預設動畫播放頻率每1/3秒換一張圖)
+		CAnimation(int = 10, bool cycle = true);				// Constructor (預設動畫播放頻率每1/3秒換一張圖)
 		void  AddBitmap(int, COLORREF = CLR_INVALID);
 		// 增加一張圖形至動畫(圖的編號及透明色)
 		void  AddBitmap(char *, COLORREF = CLR_INVALID);
@@ -233,6 +233,7 @@ namespace game_framework {
 		void  OnMove();					// 依頻率更換bitmap
 		void  OnShow();					// 將動畫貼到螢幕
 		void  Reset();					// 重設播放順序回到第一張圖形
+		void  SetCycle(bool);
 		void  SetDelayCount(int);		// 設定動畫播放速度的常數(越大越慢)
 		void  SetTopLeft(int, int);		// 將動畫的左上角座標移至 (x,y)
 		int   Top();					// 取得動畫的左上角的 y 座標
@@ -244,6 +245,7 @@ namespace game_framework {
 		int								delay_counter;	// 延緩動畫播放速度的計數器
 		int								delay_count;	// 動畫播放速度的常數
 		int								x, y;			// 動畫的座標
+		bool							cycle;			// Animation will stop at last bmp if cycle = false
 	};
 
 	/////////////////////////////////////////////////////////////////////////////

@@ -136,7 +136,7 @@ namespace game_framework {
 	//    不要直接改CAnimation。
 	/////////////////////////////////////////////////////////////////////////////
 
-	CAnimation::CAnimation(int count)
+	CAnimation::CAnimation(int count, bool cycle) :cycle(cycle)
 	{
 		delay_count = count;
 		delay_counter = delay_count;
@@ -190,7 +190,8 @@ namespace game_framework {
 			bmp_iter++;
 			bmp_counter++;
 			if (bmp_iter == bmp.end()) {
-				bmp_iter = bmp.begin();
+				if (cycle) bmp_iter = bmp.begin();
+				else bmp_iter = --bmp.end();
 				bmp_counter = 0;
 			}
 		}
@@ -198,10 +199,15 @@ namespace game_framework {
 
 	void CAnimation::Reset()
 	{
-		GAME_ASSERT(bmp.size() != 0, "CAnimation: Bitmaps must be loaded first.");
+		//GAME_ASSERT(bmp.size() != 0, "CAnimation: Bitmaps must be loaded first.");
 		delay_counter = delay_count;
 		bmp_iter = bmp.begin();
 		bmp_counter = 0;
+	}
+
+	void CAnimation::SetCycle(bool cycle)
+	{
+		this->cycle = cycle;
 	}
 
 	void CAnimation::SetDelayCount(int dc)
