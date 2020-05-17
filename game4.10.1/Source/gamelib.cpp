@@ -568,7 +568,11 @@ namespace game_framework {
 	{
 		game->SetGameState(state);
 	}
-
+	/*
+	void CGameState::GotoGameState(int state,int stage)
+	{
+		game->SetGameState(state,stage);
+	}*/
 	void CGameState::ShowInitProgress(int percent)
 	{
 		if (!SHOW_LOAD_PROGRESS)
@@ -863,7 +867,16 @@ namespace game_framework {
 		CSpecialEffect::SetCurrentTime();
 		running = true;
 	}
-
+	/*
+	void CGame::SetGameState(int state,int stage)
+	{
+		ASSERT(state >= 0 && state < NUM_GAME_STATES);
+		gameState = gameStateTable[state];
+		gameState->OnBeginState(stage);
+		OnDraw();
+		CSpecialEffect::SetCurrentTime();
+		running = true;
+	}*/
 	/////////////////////////////////////////////////////////////////////////////
 	// CSpecialEffect: Specail Effect functions
 	// 一般的遊戲並不需直接操作這個物件，因此可以全部略過不看

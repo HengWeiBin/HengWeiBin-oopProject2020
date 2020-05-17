@@ -314,6 +314,7 @@ namespace game_framework {
 		// virtual functions, 由繼承者提供implementation
 		//
 		virtual ~CGameState();									// virtual destructor
+		//virtual void OnBeginState(int) {}
 		virtual void OnBeginState() {}							// 設定每次進入這個狀態時所需的初值
 		virtual void OnInit() {}								// 狀態的初值及圖形設定
 		virtual void OnKeyDown(UINT, UINT, UINT) {}				// 處理鍵盤Down的動作
@@ -325,6 +326,7 @@ namespace game_framework {
 		virtual void OnRButtonUp(UINT nFlags, CPoint point) {}	// 處理滑鼠的動作
 	protected:
 		void GotoGameState(int state);							// 跳躍至指定的state
+		//void GotoGameState(int state,int);
 		void ShowInitProgress(int percent);						// 顯示初始化的進度
 		void ShowLoading();
 		//
@@ -363,7 +365,8 @@ namespace game_framework {
 		void OnResume();								// 處理自「待命」還原的動作
 		void OnSetFocus();								// 處理Focus
 		void OnSuspend();								// 處理「待命」的動作
-		void SetGameState(int);
+		void SetGameState(int); 
+		//void SetGameState(int,int);
 		static CGame *Instance();
 	private:
 		bool			running;			// 遊戲是否正在進行中(未被Pause)

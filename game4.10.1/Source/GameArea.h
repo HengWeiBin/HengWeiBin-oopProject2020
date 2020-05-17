@@ -27,6 +27,7 @@ namespace game_framework
 		int GetScore();									//Get current score
 		void InitCandy(bool drop = true);				//spawn all candies randomly
 		bool IsGameOver();
+		int GetCurrentStage();
 		void LoadBitmap();								//load game area's background
 		void LoadStage(vector<Stage*>& stages, int);	//read map from file
 		void OnShow();									//Display game area and candy

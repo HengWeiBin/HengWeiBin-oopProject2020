@@ -19,6 +19,9 @@ namespace game_framework
 		void RemoveLine();
 		void WriteBack();
 		void SetUnlock();
+		double GetCurrentScore();
+		int GetCurrentStage();
+		void SetCurrentScore(int score);
 	private:
 		int map[13][20];
 		double scoreOne, scoreTwo, scoreThree;		//Target score for three star
@@ -30,6 +33,8 @@ namespace game_framework
 		bool isUnlock;
 		bool initcandy;
 		string stageTxt[2];
+		int currentStage;
+		int currentScore;
 	};
 }
 #endif

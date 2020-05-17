@@ -591,6 +591,10 @@ namespace game_framework
 	{
 		return !running;
 	}
+	int GameArea::GetCurrentStage()
+	{
+		return ((*stage)->GetCurrentStage());
+	}
 
 	void GameArea::DropCandy()
 	{
@@ -969,6 +973,7 @@ namespace game_framework
 				}
 			}
 			if (gameOver && delay > 0) delay--;
+			//i want t get the current hight score either if it's failed or not for the game state over, i've write a function to write it in stage --> SetCurrentScore(____)
 			else if (gameOver && scoreBoard.IsReachedTarget() && (*stage)->lastHighScore < scoreBoard.score)
 			{
 				(*(stage + 1))->SetUnlock();
