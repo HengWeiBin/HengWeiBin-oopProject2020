@@ -20,7 +20,7 @@
 0	#Teffect
 0	#chocolate
 5	#candy type
-1	#mode
+2	#mode
 1	#initcandy
 0	#LastScore
 0	#IsUnlock
