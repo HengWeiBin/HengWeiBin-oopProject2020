@@ -19,7 +19,7 @@ namespace game_framework
 		void RemoveLine();
 		void WriteBack();
 		void SetUnlock();
-		double GetCurrentScore();
+		int GetCurrentScore();
 		int GetCurrentStage();
 		void SetCurrentScore(int score);
 	private:

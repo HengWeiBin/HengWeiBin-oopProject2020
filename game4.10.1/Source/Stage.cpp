@@ -103,7 +103,7 @@ bool game_framework::Stage::IsUnlock()
 {
 	return isUnlock == 1 ? true : false;
 }
-double game_framework::Stage::GetCurrentScore()
+int game_framework::Stage::GetCurrentScore()
 {
 	return currentScore;
 }

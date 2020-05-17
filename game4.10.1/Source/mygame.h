@@ -157,6 +157,9 @@ namespace game_framework {
 		void OnShow();
 
 	private:
+		void ShowStageButton(int, int, int, int);
+		void ShowStars(int, int, int);
+
 		CMovingBitmap menuBackground, woodBackgourd, stageButton[5];
 		CMovingBitmap star1, star2, star3;
 		const int totalStage;

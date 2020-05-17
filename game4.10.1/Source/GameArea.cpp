@@ -21,7 +21,8 @@ namespace game_framework
 						AUDIO_COMBO7, AUDIO_COMBO8, AUDIO_COMBO9, AUDIO_COMBO10, AUDIO_COMBO11, AUDIO_COMBO12 };
 
 	GameArea::GameArea() 
-		:x(280), y(35), MAX_RAND_NUM(4), initiating(1), ending(0), running(1), gameOver(0), delay(0), delayRemoveStyle(0), delayRemove(0), currentComboSound(0), goldFinger(0)
+		:x(280), y(35), MAX_RAND_NUM(4), initiating(1), ending(0), running(1), gameOver(0), delay(0), 
+		delayRemoveStyle(0), delayRemove(0), currentComboSound(0), goldFinger(0), releaseSwap(0)
 	{
 		scoreBoard.score = 0;
 		for (int i = 0; i < MaxHeight; i++)
@@ -103,6 +104,7 @@ namespace game_framework
 		gameOver = false;
 		delay = 0;
 		delayRemove = false;
+		releaseSwap = false;
 		goldFinger = false;
 		InitCandy(stages[index]->initcandy);
 	}
@@ -205,6 +207,8 @@ namespace game_framework
 		{	//Swap 2 striped candy
 			unsigned row, column;
 			Find(clickedCandies[0], row, column);
+			clickedCandies[0]->Kill();
+			clickedCandies[1]->Kill();
 			RemoveRow(row);
 			RemoveColumn(column);
 		}
@@ -423,7 +427,9 @@ namespace game_framework
 	void GameArea::OnMove()
 	{
 		UpdateCurPosition();
+
 		PutCandy();			//put candy at apawning area if it's empty
+
 		DropCandy();		//drop if candy hvnt touch the ground/other candy
 
 		for (int i = 0; i < MaxHeight; i++)
@@ -431,10 +437,15 @@ namespace game_framework
 				if(candies[i][j].GetStyle() > 0)
 					candies[i][j].OnMove(initiating);
 
-		FindCombo();
+		int comboCleared = IsDropping() ? 0 : FindCombo();
+
 		ShowBlasts();
-		OnMoveEnding();
+
+		if (!comboCleared && !IsDropping())
+			OnMoveEnding();
+
 		ReleaseInOrder();
+
 		Delay();
 	}
 
@@ -450,8 +461,15 @@ namespace game_framework
 
 	int GameArea::FindCombo()
 	{
+		if (releaseSwap)
+		{
+			ReleaseSwap();
+			InitClickedCandy();
+			releaseSwap = false;
+			return 1;
+		}
 		int amountCleared = 0;
-		if (!initiating && !delayRemove && !IsDropping() && !removeList.size())
+		if (!initiating && !delayRemove && !removeList.size())
 		{
 			amountCleared = ClearCombo();
 			if (amountCleared)
@@ -472,9 +490,8 @@ namespace game_framework
 				SwapCandy();
 				InitClickedCandy();
 			}
-			Sleep(100);
 		}
-		else if (!IsDropping() && !delayRemove && !removeList.size()) amountCleared = ClearCombo();
+		else if (!delayRemove && !removeList.size()) amountCleared = ClearCombo();
 
 		return amountCleared;
 	}
@@ -529,9 +546,9 @@ namespace game_framework
 						CAudio::Instance()->Play(AUDIO_SWAP, false);
 						//Release swapPower when each of clickedCandy is superCandy or both are poweredCandy
 						if (clickedCandies[0]->GetPower() == 4 || clickedCandies[1]->GetPower() == 4 || (clickedCandies[0]->GetPower() && clickedCandies[1]->GetPower()))
-							ReleaseSwap();
+							releaseSwap = true;
 					}
-					else InitClickedCandy();
+					else if (!releaseSwap) InitClickedCandy();
 				}
 			}
 		}
@@ -941,14 +958,14 @@ namespace game_framework
 			PutEndingBonus();
 			ending = true;
 		}
-		else if (!IsDropping() && ending && running)
+		else if (ending && running)
 		{
 			if (endingBonus.size())
 			{
 				(*endingBonus.begin())->SetPower(rand() % 2 + 1);
 				endingBonus.pop_front();
 				scoreBoard.moves--;
-				Sleep(50);
+				Sleep(100);
 			}
 			else if (!endingBonus.size())
 			{
@@ -968,7 +985,7 @@ namespace game_framework
 				}
 				if (!removeList.size() && !gameOver)
 				{
-					delay = (int)(1000.0 / GAME_CYCLE_TIME);
+					delay = (int)(700.0 / GAME_CYCLE_TIME);
 					gameOver = true;
 				}
 			}
@@ -977,11 +994,16 @@ namespace game_framework
 			else if (gameOver && scoreBoard.IsReachedTarget() && (*stage)->lastHighScore < scoreBoard.score)
 			{
 				(*(stage + 1))->SetUnlock();
+				(*stage)->currentScore = scoreBoard.score.GetInteger();
 				(*stage)->lastHighScore = scoreBoard.score.GetInteger();
 				(*stage)->WriteBack();
 				running = false;
 			}
-			else if (gameOver) running = false;
+			else if (gameOver)
+			{
+				(*stage)->currentScore = scoreBoard.score.GetInteger();
+				running = false;
+			}
 		}
 	}
 

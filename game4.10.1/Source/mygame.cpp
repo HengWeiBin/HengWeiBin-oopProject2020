@@ -286,7 +286,7 @@ namespace game_framework
 		//show background
 		backgroundOver.SetTopLeft(0, 0);
 		backgroundOver.ShowBitmap();
-		/*
+		
 		//show score board
 		scoreBoardOver.SetTopLeft((backgroundOver.Width() / 2) - (scoreBoardOver.Width() / 2), (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2));
 		scoreBoardOver.ShowBitmap();
@@ -299,7 +299,7 @@ namespace game_framework
 		}
 		else
 		{
-			currentScore.SetInteger(stages[stageNum]->GetLastScoreHistory());
+			currentScore.SetInteger((int)stages[stageNum]->GetLastScoreHistory());
 		}
 
 
@@ -308,7 +308,7 @@ namespace game_framework
 
 		currentStage.SetTopLeft((backgroundOver.Width() / 2), (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 150);
 		currentStage.ShowBitmap();
-		*/
+		/*
 		CDC* pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC
 		CFont f, *fp;
 		f.CreatePointFont(160, "Times New Roman");	// 產生 font f; 160表示16 point的字
@@ -319,7 +319,7 @@ namespace game_framework
 		sprintf(str, "Game Over ! (%d)", counter / 30);
 		pDC->TextOut(SIZE_X / 2 - 100, SIZE_Y / 2 - 50, str);
 		pDC->SelectObject(fp);						// 放掉 font f (千萬不要漏了放掉)
-		CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
+		CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC*/
 	}
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -614,60 +614,69 @@ namespace game_framework
 		menuBackground.ShowBitmap();
 
 		//show unlock icon
-		for (int i = 0; i < totalStage; i++) {
+		for (int i = 0; i < totalStage; i++)
+		{
 			int xStar = StagePos[i][0] - 10, xButton = StagePos[i][0] - 5;
 			int yStar = StagePos[i][1] + sy + 65, yButton = StagePos[i][1] - 3 + sy;
 			stageNum.SetInteger(i + 1);
-			if (stages[i]->IsUnlock()) {
-				if (stages[i]->GetLastScoreHistory() < stages[i]->GetScoreOne() && stages[i]->GetLastScoreHistory() == 0)
-				{
-					stageButton[0].SetTopLeft(xButton, yButton);
-					stageButton[0].ShowBitmap();
-					stageNum.SetTopLeft(xButton + ((stageButton[0].Width() / 2) - (10 * GetDigit(i) / 2)), yButton + (stageButton[0].Height() / 4));
-					stageNum.ShowBitmap();
-				}
-				if (stages[i]->GetLastScoreHistory() < stages[i]->GetScoreOne() && stages[i]->GetLastScoreHistory() != 0)
-				{
-					stageButton[1].SetTopLeft(xButton, yButton);
-					stageButton[1].ShowBitmap();
-					stageNum.SetTopLeft(xButton + ((stageButton[1].Width() / 2) - (10 * GetDigit(i) / 2)), yButton + (stageButton[1].Height() / 4));
-					stageNum.ShowBitmap();
-				}
-				if (stages[i]->GetLastScoreHistory() >= stages[i]->GetScoreOne())
-				{
-					stageButton[1].SetTopLeft(xButton, yButton);
-					stageButton[1].ShowBitmap();
-					stageNum.SetTopLeft(xButton + ((stageButton[1].Width() / 2) - (10 * GetDigit(i) / 2)), yButton + (stageButton[1].Height() / 4));
-					stageNum.ShowBitmap();
-					star1.SetTopLeft(xStar, yStar);
-					star1.ShowBitmap();
-				}
-				if (stages[i]->GetLastScoreHistory() >= stages[i]->GetScoreTwo())
-				{
-					stageButton[2].SetTopLeft(xButton, yButton);
-					stageButton[2].ShowBitmap();
-					stageNum.SetTopLeft(xButton + ((stageButton[2].Width() / 2) - (10 * GetDigit(i) / 2)), yButton + (stageButton[2].Height() / 4));
-					stageNum.ShowBitmap();
-					star2.SetTopLeft(xStar + 30, yStar + 5);
-					star2.ShowBitmap();
-				}
+			if (stages[i]->IsUnlock())
+			{
 				if (stages[i]->GetLastScoreHistory() >= stages[i]->GetScoreThree())
-				{
-					stageButton[3].SetTopLeft(xButton, yButton);
-					stageButton[3].ShowBitmap();
-					stageNum.SetTopLeft(xButton + ((stageButton[3].Width() / 2) - (10 * GetDigit(i) / 2)), yButton + (stageButton[3].Height() / 4));
-					stageNum.ShowBitmap();
-					star3.SetTopLeft(xStar, yStar);
-					star3.ShowBitmap();
-					star3.SetTopLeft(xStar + 30, yStar + 5);
-					star3.ShowBitmap();
-					star3.SetTopLeft(xStar + 60, yStar);
-					star3.ShowBitmap();
+				{	//Show yellow button if history score higher than star three
+					ShowStageButton(3, i, xButton, yButton);
+					ShowStars(3, xStar, yStar);
 				}
-			}
-			else {
-				stageButton[4].SetTopLeft(xButton, yButton);
-				stageButton[4].ShowBitmap();
+				else if (stages[i]->GetLastScoreHistory() >= stages[i]->GetScoreTwo())
+				{	//Show green button if history star three > score higher > star two
+					ShowStageButton(2, i, xButton, yButton);
+					ShowStars(2, xStar, yStar);
+				}
+				else if (stages[i]->GetLastScoreHistory() >= stages[i]->GetScoreOne())
+				{	//Show red button if star two > history score > star one 
+					ShowStageButton(1, i, xButton, yButton);
+					ShowStars(1, xStar, yStar);
+				}
+				else if (stages[i]->GetLastScoreHistory() < stages[i]->GetScoreOne())
+				{	//Show blue button if the stage is unlocked but no history score
+					ShowStageButton(0, i, xButton, yButton);
+				}
+			}	//Show gray button if the stage is locked
+			else ShowStageButton(4, i, xButton, yButton);
+		}
+	}
+
+	void CGameStateMenu::ShowStageButton(int stageBtn, int stage, int xButton, int yButton)
+	{
+		stageButton[stageBtn].SetTopLeft(xButton, yButton);
+		stageButton[stageBtn].ShowBitmap();
+
+		if (stages[stage]->IsUnlock())
+		{
+			stageNum.SetTopLeft(xButton + ((stageButton[stageBtn].Width() / 2) - (10 * GetDigit(stage) / 2)), yButton + (stageButton[stageBtn].Height() / 4));
+			stageNum.ShowBitmap();
+		}
+	}
+
+	void CGameStateMenu::ShowStars(int amount, int xStar, int yStar)
+	{
+		if (amount == 3)
+		{
+			star3.SetTopLeft(xStar, yStar);
+			star3.ShowBitmap();
+			star3.SetTopLeft(xStar + 30, yStar + 5);
+			star3.ShowBitmap();
+			star3.SetTopLeft(xStar + 60, yStar);
+			star3.ShowBitmap();
+		}
+		else if (amount >= 1)
+		{
+			star1.SetTopLeft(xStar, yStar);
+			star1.ShowBitmap();
+
+			if (amount == 2)
+			{
+				star2.SetTopLeft(xStar + 30, yStar + 5);
+				star2.ShowBitmap();
 			}
 		}
 	}
