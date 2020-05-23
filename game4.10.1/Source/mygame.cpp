@@ -278,7 +278,7 @@ namespace game_framework
 
 		currentStage.SetTopLeft((backgroundOver.Width() / 2), (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 150);
 		currentStage.ShowBitmap();
-		/*
+		
 		CDC* pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC
 		CFont f, *fp;
 		f.CreatePointFont(160, "Times New Roman");	// 產生 font f; 160表示16 point的字
@@ -289,7 +289,7 @@ namespace game_framework
 		sprintf(str, "Game Over ! (%d)", counter / 30);
 		pDC->TextOut(SIZE_X / 2 - 100, SIZE_Y / 2 - 50, str);
 		pDC->SelectObject(fp);						// 放掉 font f (千萬不要漏了放掉)
-		CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC*/
+		CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
 	}
 
 	/////////////////////////////////////////////////////////////////////////////
