@@ -112,7 +112,7 @@ namespace game_framework
 			tiffy.AddBitmap(TiffyBitmap[i], RGB(255, 255, 255));
 		}
 
-		tiffy.SetDelayCount(5);
+		tiffy.SetDelayCount(4);
 		//Load Toffee
 		int ToffeeBitmap[6] = { IDB_TOFFEE_1, IDB_TOFFEE_2, IDB_TOFFEE_3, IDB_TOFFEE_4, IDB_TOFFEE_5, IDB_TOFFEE_6 };
 
@@ -265,7 +265,7 @@ namespace game_framework
 		currentStage.SetInteger(stageNum + 1);
 
 		if (stages[stageNum]->GetCurrentScore() != 0) {
-			currentScore.SetInteger(stages[stageNum]->GetCurrentScore());
+			cu
 		}
 		else
 		{
