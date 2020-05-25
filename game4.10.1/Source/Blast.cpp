@@ -8,8 +8,7 @@
 
 namespace game_framework
 {
-	static int	redBmp[89] = {
-	IDB_RED_NOR1, IDB_RED_NOR2, IDB_RED_NOR3, IDB_RED_NOR4,
+	static int	redBmp[] = {
 	IDB_RED_EXPL1, IDB_RED_EXPL2, IDB_RED_EXPL3, IDB_RED_EXPL4, IDB_RED_EXPL5,
 	IDB_RED_EXPL6, IDB_RED_EXPL7, IDB_RED_EXPL8, IDB_RED_EXPL9, IDB_RED_EXPL10,
 	IDB_RED_SHAT1, IDB_RED_SHAT2, IDB_RED_SHAT3, IDB_RED_SHAT4, IDB_RED_SHAT5,
@@ -28,8 +27,7 @@ namespace game_framework
 	IDB_RED_HEXPL21, IDB_RED_HEXPL22, IDB_RED_HEXPL23, IDB_RED_HEXPL24, IDB_RED_HEXPL25,
 	IDB_RED_HEXPL26, IDB_RED_HEXPL27, IDB_RED_HEXPL28, IDB_RED_HEXPL29, IDB_RED_HEXPL30 },
 
-		orangeBmp[89] = {
-	IDB_ORG_NOR1, IDB_ORG_NOR2, IDB_ORG_NOR3, IDB_ORG_NOR4,
+		orangeBmp[] = {
 	IDB_ORG_EXPL1, IDB_ORG_EXPL2, IDB_ORG_EXPL3, IDB_ORG_EXPL4, IDB_ORG_EXPL5,
 	IDB_ORG_EXPL6, IDB_ORG_EXPL7, IDB_ORG_EXPL8, IDB_ORG_EXPL9, IDB_ORG_EXPL10,
 	IDB_ORG_SHAT1, IDB_ORG_SHAT2, IDB_ORG_SHAT3, IDB_ORG_SHAT4, IDB_ORG_SHAT5,
@@ -48,8 +46,7 @@ namespace game_framework
 	IDB_ORG_HEXPL21, IDB_ORG_HEXPL22, IDB_ORG_HEXPL23, IDB_ORG_HEXPL24, IDB_ORG_HEXPL25,
 	IDB_ORG_HEXPL26, IDB_ORG_HEXPL27, IDB_ORG_HEXPL28, IDB_ORG_HEXPL29, IDB_ORG_HEXPL30 },
 
-		yellowBmp[89] = {
-	IDB_YEL_NOR1, IDB_YEL_NOR2, IDB_YEL_NOR3, IDB_YEL_NOR4,
+		yellowBmp[] = {
 	IDB_YEL_EXPL1, IDB_YEL_EXPL2, IDB_YEL_EXPL3, IDB_YEL_EXPL4, IDB_YEL_EXPL5,
 	IDB_YEL_EXPL6, IDB_YEL_EXPL7, IDB_YEL_EXPL8, IDB_YEL_EXPL9, IDB_YEL_EXPL10,
 	IDB_YEL_SHAT1, IDB_YEL_SHAT2, IDB_YEL_SHAT3, IDB_YEL_SHAT4, IDB_YEL_SHAT5,
@@ -68,8 +65,7 @@ namespace game_framework
 	IDB_YEL_HEXPL21, IDB_YEL_HEXPL22, IDB_YEL_HEXPL23, IDB_YEL_HEXPL24, IDB_YEL_HEXPL25,
 	IDB_YEL_HEXPL26, IDB_YEL_HEXPL27, IDB_YEL_HEXPL28, IDB_YEL_HEXPL29, IDB_YEL_HEXPL30 },
 
-		greenBmp[89] = {
-	IDB_GRE_NOR1, IDB_GRE_NOR2, IDB_GRE_NOR3, IDB_GRE_NOR4,
+		greenBmp[] = {
 	IDB_GRE_EXPL1, IDB_GRE_EXPL2, IDB_GRE_EXPL3, IDB_GRE_EXPL4, IDB_GRE_EXPL5,
 	IDB_GRE_EXPL6, IDB_GRE_EXPL7, IDB_GRE_EXPL8, IDB_GRE_EXPL9, IDB_GRE_EXPL10,
 	IDB_GRE_SHAT1, IDB_GRE_SHAT2, IDB_GRE_SHAT3, IDB_GRE_SHAT4, IDB_GRE_SHAT5,
@@ -88,8 +84,7 @@ namespace game_framework
 	IDB_GRE_HEXPL21, IDB_GRE_HEXPL22, IDB_GRE_HEXPL23, IDB_GRE_HEXPL24, IDB_GRE_HEXPL25,
 	IDB_GRE_HEXPL26, IDB_GRE_HEXPL27, IDB_GRE_HEXPL28, IDB_GRE_HEXPL29, IDB_GRE_HEXPL30 },
 
-		blueBmp[89] = {
-	IDB_BLU_NOR1, IDB_BLU_NOR2, IDB_BLU_NOR3, IDB_BLU_NOR4,
+		blueBmp[] = {
 	IDB_BLU_EXPL1, IDB_BLU_EXPL2, IDB_BLU_EXPL3, IDB_BLU_EXPL4, IDB_BLU_EXPL5,
 	IDB_BLU_EXPL6, IDB_BLU_EXPL7, IDB_BLU_EXPL8, IDB_BLU_EXPL9, IDB_BLU_EXPL10,
 	IDB_BLU_SHAT1, IDB_BLU_SHAT2, IDB_BLU_SHAT3, IDB_BLU_SHAT4, IDB_BLU_SHAT5,
@@ -108,8 +103,7 @@ namespace game_framework
 	IDB_BLU_HEXPL21, IDB_BLU_HEXPL22, IDB_BLU_HEXPL23, IDB_BLU_HEXPL24, IDB_BLU_HEXPL25,
 	IDB_BLU_HEXPL26, IDB_BLU_HEXPL27, IDB_BLU_HEXPL28, IDB_BLU_HEXPL29, IDB_BLU_HEXPL30 },
 
-		purpleBmp[89] = {
-	IDB_PUR_NOR1, IDB_PUR_NOR2, IDB_PUR_NOR3, IDB_PUR_NOR4,
+		purpleBmp[] = {
 	IDB_PUR_EXPL1, IDB_PUR_EXPL2, IDB_PUR_EXPL3, IDB_PUR_EXPL4, IDB_PUR_EXPL5,
 	IDB_PUR_EXPL6, IDB_PUR_EXPL7, IDB_PUR_EXPL8, IDB_PUR_EXPL9, IDB_PUR_EXPL10,
 	IDB_PUR_SHAT1, IDB_PUR_SHAT2, IDB_PUR_SHAT3, IDB_PUR_SHAT4, IDB_PUR_SHAT5,
@@ -183,14 +177,11 @@ namespace game_framework
 		int *bmpID;
 		GetBmpId(bmpID, style);
 
-		for (int i = 0; i < 4; i++)
-			candy[i].LoadBitmap(bmpID[i], RGB(255, 255, 255));
-
 		for (int i = 0; i < 10; i++)
-			normalBlast[i].LoadBitmap(bmpID[i + 4], RGB(254, 191, 200));
+			normalBlast[i].LoadBitmap(bmpID[i], RGB(254, 191, 200));
 
 		for (int i = 0; i < 15; i++)
-			shatter[i].LoadBitmap(bmpID[i + 14], RGB(254, 191, 200));
+			shatter[i].LoadBitmap(bmpID[i + 10], RGB(254, 191, 200));
 	}
 
 	void NormalBlast::OnMove()
@@ -218,12 +209,6 @@ namespace game_framework
 		{	//show blast circle
 			normalBlast[curShow].SetTopLeft(x - (normalBlast[curShow].Width() / 2) + 25, y - (normalBlast[curShow].Height() / 2) + 25);
 			normalBlast[curShow].ShowBitmap();
-		}
-
-		if (curShow < 4)
-		{	//show zooming-out-candy
-			candy[curShow].SetTopLeft(x, y);
-			candy[curShow].ShowBitmap();
 		}
 
 		if (curShow >= 4)
@@ -256,11 +241,11 @@ namespace game_framework
 		{
 		case 1:
 			for (int i = 0; i < 30; i++)
-				horizontal[i].LoadBitmap(bmpID[i + 59], RGB(254, 191, 200));
+				horizontal[i].LoadBitmap(bmpID[i + 55], RGB(254, 191, 200));
 			break;
 		case 2:
 			for (int i = 0; i < 30; i++)
-				vertical[i].LoadBitmap(bmpID[i + 29], RGB(254, 191, 200));
+				vertical[i].LoadBitmap(bmpID[i + 25], RGB(254, 191, 200));
 			break;
 		default:
 			GAME_ASSERT(0, "Invalid power style");

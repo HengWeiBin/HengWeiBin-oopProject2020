@@ -114,14 +114,6 @@ IDB_INGAME_LOADING      BITMAP                  "..\\Bitmaps\\inGameLoading.bmp"
 
 IDB_RED_NOR             BITMAP                  "..\\Bitmaps\\RedCandy.bmp"
 
-IDB_RED_NOR1            BITMAP                  "..\\Bitmaps\\RedCandy1.bmp"
-
-IDB_RED_NOR2            BITMAP                  "..\\Bitmaps\\RedCandy2.bmp"
-
-IDB_RED_NOR3            BITMAP                  "..\\Bitmaps\\RedCandy3.bmp"
-
-IDB_RED_NOR4            BITMAP                  "..\\Bitmaps\\RedCandy4.bmp"
-
 IDB_RED_NOR_C           BITMAP                  "..\\Bitmaps\\ClickedRedCandy.bmp"
 
 IDB_RED_HOR             BITMAP                  "..\\Bitmaps\\P1RedCandy.bmp"
@@ -137,14 +129,6 @@ IDB_RED_PAC             BITMAP                  "..\\Bitmaps\\P3RedCandy.bmp"
 IDB_RED_PAC_C           BITMAP                  "..\\Bitmaps\\ClickedP3RedCandy.bmp"
 
 IDB_ORG_NOR             BITMAP                  "..\\Bitmaps\\OrangeCandy.bmp"
-
-IDB_ORG_NOR1            BITMAP                  "..\\Bitmaps\\OrangeCandy1.bmp"
-
-IDB_ORG_NOR2            BITMAP                  "..\\Bitmaps\\OrangeCandy2.bmp"
-
-IDB_ORG_NOR3            BITMAP                  "..\\Bitmaps\\OrangeCandy3.bmp"
-
-IDB_ORG_NOR4            BITMAP                  "..\\Bitmaps\\OrangeCandy4.bmp"
 
 IDB_ORG_NOR_C           BITMAP                  "..\\Bitmaps\\ClickedOrangeCandy.bmp"
 
@@ -162,14 +146,6 @@ IDB_ORG_PAC_C           BITMAP                  "..\\Bitmaps\\ClickedP3OrangeCan
 
 IDB_GRE_NOR             BITMAP                  "..\\Bitmaps\\GreenCandy.bmp"
 
-IDB_GRE_NOR1            BITMAP                  "..\\Bitmaps\\GreenCandy1.bmp"
-
-IDB_GRE_NOR2            BITMAP                  "..\\Bitmaps\\GreenCandy2.bmp"
-
-IDB_GRE_NOR3            BITMAP                  "..\\Bitmaps\\GreenCandy3.bmp"
-
-IDB_GRE_NOR4            BITMAP                  "..\\Bitmaps\\GreenCandy4.bmp"
-
 IDB_GRE_NOR_C           BITMAP                  "..\\Bitmaps\\ClickedGreenCandy.bmp"
 
 IDB_GRE_HOR             BITMAP                  "..\\Bitmaps\\P1GreenCandy.bmp"
@@ -185,14 +161,6 @@ IDB_GRE_PAC             BITMAP                  "..\\Bitmaps\\P3GreenCandy.bmp"
 IDB_GRE_PAC_C           BITMAP                  "..\\Bitmaps\\ClickedP3GreenCandy.bmp"
 
 IDB_BLU_NOR             BITMAP                  "..\\Bitmaps\\BlueCandy.bmp"
-
-IDB_BLU_NOR1            BITMAP                  "..\\Bitmaps\\BlueCandy1.bmp"
-
-IDB_BLU_NOR2            BITMAP                  "..\\Bitmaps\\BlueCandy2.bmp"
-
-IDB_BLU_NOR3            BITMAP                  "..\\Bitmaps\\BlueCandy3.bmp"
-
-IDB_BLU_NOR4            BITMAP                  "..\\Bitmaps\\BlueCandy4.bmp"
 
 IDB_BLU_NOR_C           BITMAP                  "..\\Bitmaps\\ClickedBlueCandy.bmp"
 
@@ -210,14 +178,6 @@ IDB_BLU_PAC_C           BITMAP                  "..\\Bitmaps\\ClickedP3BlueCandy
 
 IDB_PUR_NOR             BITMAP                  "..\\Bitmaps\\PurpleCandy.bmp"
 
-IDB_PUR_NOR1            BITMAP                  "..\\Bitmaps\\PurpleCandy1.bmp"
-
-IDB_PUR_NOR2            BITMAP                  "..\\Bitmaps\\PurpleCandy2.bmp"
-
-IDB_PUR_NOR3            BITMAP                  "..\\Bitmaps\\PurpleCandy3.bmp"
-
-IDB_PUR_NOR4            BITMAP                  "..\\Bitmaps\\PurpleCandy4.bmp"
-
 IDB_PUR_NOR_C           BITMAP                  "..\\Bitmaps\\ClickedPurpleCandy.bmp"
 
 IDB_PUR_HOR             BITMAP                  "..\\Bitmaps\\P1PurpleCandy.bmp"
@@ -233,14 +193,6 @@ IDB_PUR_PAC             BITMAP                  "..\\Bitmaps\\P3PurpleCandy.bmp"
 IDB_PUR_PAC_C           BITMAP                  "..\\Bitmaps\\ClickedP3PurpleCandy.bmp"
 
 IDB_YEL_NOR             BITMAP                  "..\\Bitmaps\\YellowCandy.bmp"
-
-IDB_YEL_NOR1            BITMAP                  "..\\Bitmaps\\YellowCandy1.bmp"
-
-IDB_YEL_NOR2            BITMAP                  "..\\Bitmaps\\YellowCandy2.bmp"
-
-IDB_YEL_NOR3            BITMAP                  "..\\Bitmaps\\YellowCandy3.bmp"
-
-IDB_YEL_NOR4            BITMAP                  "..\\Bitmaps\\YellowCandy4.bmp"
 
 IDB_YEL_NOR_C           BITMAP                  "..\\Bitmaps\\ClickedYellowCandy.bmp"
 

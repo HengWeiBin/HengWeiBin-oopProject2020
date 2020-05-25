@@ -34,8 +34,6 @@ namespace game_framework
 		void OnShow();
 		bool IsLast();
 	private:
-
-		CMovingBitmap candy[4];
 		CMovingBitmap normalBlast[10];
 		CMovingBitmap shatter[15];
 		int curShow;
