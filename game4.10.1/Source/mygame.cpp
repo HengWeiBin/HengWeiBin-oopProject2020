@@ -238,17 +238,10 @@ namespace game_framework
 	{
 
 		//stageNum = stage - 1;
-		counter = 30 * 5; // 5 seconds
+		counter = 60 * 5; // 5 seconds
 
 		currentStage = current_stage;
-
-		if (stages[current_stage - 1]->GetCurrentScore() != 0) {
-			currentScore = (int)stages[current_stage - 1]->GetCurrentScore();
-		}
-		else
-		{
-			currentScore = (int)stages[current_stage - 1]->GetLastScoreHistory();
-		}
+		currentScore = (int)stages[current_stage - 1]->GetCurrentScore();
 	}
 
 	void CGameStateOver::OnInit()
@@ -259,25 +252,114 @@ namespace game_framework
 		//load score board
 		scoreBoardOver.LoadBitmap("Bitmaps/score_state_over.bmp", RGB(0, 0, 0));
 
-	}
+		//load star
+		redStar.LoadBitmap("Bitmaps/RedStar.bmp", RGB(251, 230, 239));
+		greenStar.LoadBitmap("Bitmaps/GreenStar.bmp", RGB(251, 230, 239));
+		yellowStar.LoadBitmap("Bitmaps/YellowStar.bmp", RGB(251, 230, 239));
+		emptyStar.LoadBitmap("Bitmaps/ContainerStar.bmp", RGB(251, 230, 239));
 
+		//load button
+		exitButton.LoadBitmap("Bitmaps/ExitButton.bmp", RGB(255, 255, 255));
+		nextButton.LoadBitmap("Bitmaps/NextButton.bmp", RGB(251, 230, 239));
+		retryButton.LoadBitmap("Bitmaps/RetryButton.bmp", RGB(251, 230, 239));
+	}
+	int CGameStateOver::GetDigit(int n)
+	{
+		n = abs(n);
+		int digit = 0;
+		while (n > 0)
+		{
+			digit++;
+			n /= 10;
+		}
+		return digit == 0 ? 1 : digit;
+	}
+	void CGameStateOver::ShowStars(int amount, int xStar, int yStar)
+	{
+		if (amount == 3)
+		{
+			yellowStar.SetTopLeft(xStar, yStar);
+			yellowStar.ShowBitmap();
+			yellowStar.SetTopLeft(xStar + 110 + 20, yStar - 20);
+			yellowStar.ShowBitmap();
+			yellowStar.SetTopLeft(xStar + 220 + 40, yStar);
+			yellowStar.ShowBitmap();
+		}
+		else if (amount >= 1)
+		{
+			redStar.SetTopLeft(xStar, yStar);
+			redStar.ShowBitmap();
+
+			if (amount == 2)
+			{
+				greenStar.SetTopLeft(xStar + 110 + 20, yStar - 20);
+				greenStar.ShowBitmap();
+			}
+			else {
+				emptyStar.SetTopLeft(xStar + 110 + 20, yStar - 20);
+				emptyStar.ShowBitmap();
+			}
+			emptyStar.SetTopLeft(xStar + 220 + 40, yStar);
+			emptyStar.ShowBitmap();
+		}
+		else {
+			emptyStar.SetTopLeft(xStar, yStar);
+			emptyStar.ShowBitmap();
+			emptyStar.SetTopLeft(xStar + 110 + 20, yStar - 20);
+			emptyStar.ShowBitmap();
+			emptyStar.SetTopLeft(xStar + 220 + 40, yStar);
+			emptyStar.ShowBitmap();
+		}
+	}
 	void CGameStateOver::OnShow()
 	{
 		//show background
 		backgroundOver.SetTopLeft(0, 0);
 		backgroundOver.ShowBitmap();
-		
+
 		//show score board
 		scoreBoardOver.SetTopLeft((backgroundOver.Width() / 2) - (scoreBoardOver.Width() / 2), (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2));
 		scoreBoardOver.ShowBitmap();
 
-		currentScore.SetTopLeft((backgroundOver.Width() / 2), (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 200);
-		currentScore.ShowBitmap();
-
-		currentStage.SetTopLeft((backgroundOver.Width() / 2), (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 150);
+		//show stage 
+		currentStage.SetTopLeft((backgroundOver.Width() / 2) + 60, (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 90);
 		currentStage.ShowBitmap();
 
+		//show star
+		int xStar = (backgroundOver.Width() / 2) - (370 / 2);
+		int yStar = (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 205;
+		if (stages[current_stage]->GetCurrentScore() >= stages[current_stage]->GetScoreThree())
+		{	//Show 3 yellow star if current score higher than star three
+			ShowStars(3, xStar, yStar);
+		}
+		else if (stages[current_stage]->GetCurrentScore() >= stages[current_stage]->GetScoreTwo())
+		{	//Show 2 star if current score higher than star two
+			ShowStars(2, xStar, yStar);
+		}
+		else if (stages[current_stage]->GetCurrentScore() >= stages[current_stage]->GetScoreOne())
+		{	//Show 1 star if current score higher than star one
+			ShowStars(1, xStar, yStar);
+		}
+		else if (stages[current_stage]->GetCurrentScore() < stages[current_stage]->GetScoreOne())
+		{	//Show 0 star if current score higher than star one
+			ShowStars(1, xStar, yStar);
+		}
 
+		//show score
+		currentScore.SetTopLeft((backgroundOver.Width() / 2) - (50 * GetDigit(currentScore.GetInteger()) / 2), (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 400);
+		currentScore.ShowBitmap();
+
+		//show button
+		exitButton.SetTopLeft(scoreBoardOver.Left() + scoreBoardOver.Width() - exitButton.Width(), scoreBoardOver.Top());
+		exitButton.ShowBitmap();
+		retryButton.SetTopLeft((backgroundOver.Width() / 2) - 10 - nextButton.Width(), (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 530);
+		retryButton.ShowBitmap();
+		nextButton.SetTopLeft((backgroundOver.Width() / 2) + 10, (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 530);
+		nextButton.ShowBitmap();
+
+
+
+		/*
 		CDC* pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC
 		CFont f, *fp;
 		f.CreatePointFont(160, "Times New Roman");	// 產生 font f; 160表示16 point的字
@@ -289,6 +371,7 @@ namespace game_framework
 		pDC->TextOut(SIZE_X / 2 - 100, SIZE_Y / 2 - 50, str);
 		pDC->SelectObject(fp);						// 放掉 font f (千萬不要漏了放掉)
 		CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
+		*/
 	}
 
 	/////////////////////////////////////////////////////////////////////////////

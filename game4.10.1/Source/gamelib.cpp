@@ -247,7 +247,7 @@ namespace game_framework {
 	// 2. 自己寫到運用CMovingBitmap的程式時，可以參考下列程式的寫法
 	/////////////////////////////////////////////////////////////////////////////
 
-	CMovingBitmap CInteger::digit[22];
+	CMovingBitmap CInteger::digit[33];
 
 
 	int GetDigit(int n)
@@ -301,8 +301,10 @@ namespace game_framework {
 		// digit[i]為class varibale，所以必須避免重複LoadBitmap
 		//
 		if (!isBmpLoaded) {
-			int d[22] = { IDB_0,IDB_1,IDB_2,IDB_3,IDB_4,IDB_5,IDB_6,IDB_7,IDB_8,IDB_9,IDB_MINUS, IDB_0_1, IDB_1_1, IDB_2_1, IDB_3_1, IDB_4_1, IDB_5_1, IDB_6_1, IDB_7_1, IDB_8_1, IDB_9_1, IDB_MINUS };
-			for (int i = 0; i < 22; i++)
+			int d[33] = { IDB_0,IDB_1,IDB_2,IDB_3,IDB_4,IDB_5,IDB_6,IDB_7,IDB_8,IDB_9,IDB_MINUS,
+						  IDB1_0, IDB1_1, IDB1_2, IDB1_3, IDB1_4, IDB1_5, IDB1_6, IDB1_7, IDB1_8, IDB1_9, IDB_MINUS,
+						  IDB2_0, IDB2_1, IDB2_2, IDB2_3, IDB2_4, IDB2_5, IDB2_6, IDB2_7, IDB2_8, IDB2_9, IDB_MINUS };
+			for (int i = 0; i < 33; i++)
 				digit[i].LoadBitmap(d[i], RGB(0, 0, 0));
 			isBmpLoaded = true;
 		}
@@ -375,8 +377,7 @@ namespace game_framework {
 
 	void CInteger::ShowBitmap()
 	{
-		int Type;
-		type == 1 ? Type = 11 : Type = 0;
+		int Type = type * 11;
 		GAME_ASSERT(NUMDIGITS, "CInteger: 請先執行SetDigit，然後才能ShowBitmap");
 		int nx;		// 待顯示位數的 x 座標
 		int MSB;	// 最左邊(含符號)的位數的數值

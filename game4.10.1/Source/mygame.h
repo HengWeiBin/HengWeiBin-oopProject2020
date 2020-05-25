@@ -121,17 +121,21 @@ namespace game_framework {
 	public:
 		CGameStateOver(CGame *g);
 		void OnBeginState();
-		//void OnBeginState(int);							// 設定每次重玩所需的變數
 		void OnInit();
 	protected:
 		void OnMove();									// 移動遊戲元素
 		void OnShow();									// 顯示這個狀態的遊戲畫面
+		int GetDigit(int);
 	private:
+		void ShowStars(int, int, int);
+
 		int counter, stageNum;	// 倒數之計數器
 		CMovingBitmap	backgroundOver;	// 背景圖
 		CMovingBitmap scoreBoardOver;
 		CInteger currentScore;
 		CInteger currentStage;
+		CMovingBitmap redStar, greenStar, yellowStar, emptyStar;
+		CMovingBitmap exitButton, nextButton, retryButton;
 	};
 
 	class CGameStateMenu : public CGameState
