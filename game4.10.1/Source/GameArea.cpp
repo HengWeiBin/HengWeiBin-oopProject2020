@@ -1012,8 +1012,10 @@ namespace game_framework
 
 	void GameArea::InitClickedCandy()
 	{
-		clickedCandies[0]->InitClick();
-		clickedCandies[1]->InitClick();
+		for (auto i = clickedCandies.begin(); i != clickedCandies.end(); i++)
+		{
+			(*i)->InitClick();
+		}
 		clickedCandies.clear();
 	}
 }
