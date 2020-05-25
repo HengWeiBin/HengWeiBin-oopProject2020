@@ -239,6 +239,16 @@ namespace game_framework
 
 		//stageNum = stage - 1;
 		counter = 30 * 5; // 5 seconds
+
+		currentStage = current_stage;
+
+		if (stages[current_stage - 1]->GetCurrentScore() != 0) {
+			currentScore = (int)stages[current_stage - 1]->GetCurrentScore();
+		}
+		else
+		{
+			currentScore = (int)stages[current_stage - 1]->GetLastScoreHistory();
+		}
 	}
 
 	void CGameStateOver::OnInit()
@@ -256,29 +266,18 @@ namespace game_framework
 		//show background
 		backgroundOver.SetTopLeft(0, 0);
 		backgroundOver.ShowBitmap();
-		/*
+		
 		//show score board
 		scoreBoardOver.SetTopLeft((backgroundOver.Width() / 2) - (scoreBoardOver.Width() / 2), (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2));
 		scoreBoardOver.ShowBitmap();
-
-
-		currentStage.SetInteger(stageNum + 1);
-
-		if (stages[stageNum]->GetCurrentScore() != 0) {
-			cu
-		}
-		else
-		{
-			currentScore.SetInteger((int)stages[stageNum]->GetLastScoreHistory());
-		}
-
 
 		currentScore.SetTopLeft((backgroundOver.Width() / 2), (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 200);
 		currentScore.ShowBitmap();
 
 		currentStage.SetTopLeft((backgroundOver.Width() / 2), (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 150);
 		currentStage.ShowBitmap();
-		*/
+
+
 		CDC* pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC
 		CFont f, *fp;
 		f.CreatePointFont(160, "Times New Roman");	// 產生 font f; 160表示16 point的字
@@ -513,6 +512,7 @@ namespace game_framework
 			{
 				if (stages[i]->IsUnlock() || goldFinger)
 				{
+					current_stage = i + 1;
 					gameArea.LoadStage(stages, i);
 					CAudio::Instance()->Stop(AUDIO_STAGE);
 					GotoGameState(GAME_STATE_RUN);

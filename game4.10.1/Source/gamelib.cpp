@@ -565,6 +565,7 @@ namespace game_framework {
 
 	GameArea CGameState::gameArea;
 	vector<Stage*> CGameState::stages;
+	int CGameState::current_stage;
 
 	CGameState::CGameState(CGame *g)
 	{
