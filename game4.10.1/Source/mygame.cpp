@@ -79,7 +79,7 @@ namespace game_framework
 		//
 		// 開始載入資料
 		//
-		background.LoadBitmap("Bitmaps\\InitBackground3.bmp");
+		background.LoadBitmap("Bitmaps\\InitBackground.bmp");
 		// Load play button
 		int playBtnBmp[] = { IDB_PLAYBUTTON_1, IDB_PLAYBUTTON_2, IDB_PLAYBUTTON_3, IDB_PLAYBUTTON_4,
 							 IDB_PLAYBUTTON_5, IDB_PLAYBUTTON_6, IDB_PLAYBUTTON_7, IDB_PLAYBUTTON_8,
@@ -204,7 +204,7 @@ namespace game_framework
 
 
 		//candy crush
-		candyCrush.SetTopLeft(60, 0);
+		candyCrush.SetTopLeft(250, -50);
 		candyCrush.OnShow();
 	}
 
