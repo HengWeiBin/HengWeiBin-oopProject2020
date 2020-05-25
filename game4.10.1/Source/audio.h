@@ -66,6 +66,7 @@
 #include <vector>
 #include <map>
 using namespace std;
+#include "AudioID.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // 這個class會建立DirectX Audio物件，以提供音效
