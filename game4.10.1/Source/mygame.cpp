@@ -201,9 +201,6 @@ namespace game_framework
 		tiffy.OnShow();
 		toffee.SetTopLeft(700, 60);
 		toffee.OnShow();
-
-
-		//candy crush
 		candyCrush.SetTopLeft(250, -50);
 		candyCrush.OnShow();
 	}

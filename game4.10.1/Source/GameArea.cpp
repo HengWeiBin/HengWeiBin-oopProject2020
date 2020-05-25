@@ -151,7 +151,6 @@ namespace game_framework
 			if (!initiating && style)
 			{
 				blasts.push_back(new LineBlast(style, candy->GetTopLeftX(), candy->GetTopLeftY(), 1));
-				CAudio::Instance()->Play(AUDIO_LINE_BLAST, false);
 			}
 			RemoveRow(row);
 			break;
@@ -159,7 +158,6 @@ namespace game_framework
 			if (!initiating && style)
 			{
 				blasts.push_back(new LineBlast(style, candy->GetTopLeftX(), candy->GetTopLeftY(), 2));
-				CAudio::Instance()->Play(AUDIO_LINE_BLAST, false);
 			}
 			RemoveColumn(column);
 			break;
@@ -208,6 +206,8 @@ namespace game_framework
 		{	//Swap 2 striped candy
 			unsigned row, column;
 			Find(clickedCandies[0], row, column);
+			blasts.push_back(new LineBlast(clickedCandies[0]->GetStyle(), clickedCandies[0]->GetTopLeftX(), clickedCandies[0]->GetTopLeftY(), 1));
+			blasts.push_back(new LineBlast(clickedCandies[0]->GetStyle(), clickedCandies[1]->GetTopLeftX(), clickedCandies[1]->GetTopLeftY(), 2));
 			clickedCandies[0]->Kill();
 			clickedCandies[1]->Kill();
 			RemoveRow(row);

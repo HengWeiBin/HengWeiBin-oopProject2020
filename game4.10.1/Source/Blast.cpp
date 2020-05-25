@@ -223,6 +223,7 @@ namespace game_framework
 
 	void LineBlast::OnShow()
 	{
+		if (curShow == 1) CAudio::Instance()->Play(AUDIO_LINE_BLAST, false);
 		switch (powStyle)
 		{
 		case 1:

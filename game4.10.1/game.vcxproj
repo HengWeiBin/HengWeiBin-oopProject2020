@@ -526,6 +526,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\audio.h" />
+    <ClInclude Include="Source\AudioID.h" />
     <ClInclude Include="Source\Blast.h" />
     <ClInclude Include="Source\Candy.h" />
     <ClInclude Include="Source\GameArea.h" />
