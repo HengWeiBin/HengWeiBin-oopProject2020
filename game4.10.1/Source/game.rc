@@ -82,25 +82,25 @@ IDB_8                   BITMAP                  "..\\res\\bmp_8.bmp"
 
 IDB_9                   BITMAP                  "..\\res\\bmp_9.bmp"
 
-IDB_0_1                 BITMAP                  "..\\res\\bmp0_1.bmp"
+IDB_0_1                 BITMAP                  "..\\res\\bmp1_0.bmp"
 
-IDB_1_1                 BITMAP                  "..\\res\\bmp0_1.bmp"
+IDB_1_1                 BITMAP                  "..\\res\\bmp1_1.bmp"
 
-IDB_2_1                 BITMAP                  "..\\res\\bmp2_1.bmp"
+IDB_2_1                 BITMAP                  "..\\res\\bmp1_2.bmp"
 
-IDB_3_1                 BITMAP                  "..\\res\\bmp3_1.bmp"
+IDB_3_1                 BITMAP                  "..\\res\\bmp1_3.bmp"
 
-IDB_4_1                 BITMAP                  "..\\res\\bmp4_1.bmp"
+IDB_4_1                 BITMAP                  "..\\res\\bmp1_4.bmp"
 
-IDB_5_1                 BITMAP                  "..\\res\\bmp5_1.bmp"
+IDB_5_1                 BITMAP                  "..\\res\\bmp1_5.bmp"
 
-IDB_6_1                 BITMAP                  "..\\res\\bmp6_1.bmp"
+IDB_6_1                 BITMAP                  "..\\res\\bmp1_6.bmp"
 
-IDB_7_1                 BITMAP                  "..\\res\\bmp7_1.bmp"
+IDB_7_1                 BITMAP                  "..\\res\\bmp1_7.bmp"
 
-IDB_8_1                 BITMAP                  "..\\res\\bmp8_1.bmp"
+IDB_8_1                 BITMAP                  "..\\res\\bmp1_8.bmp"
 
-IDB_9_1                 BITMAP                  "..\\res\\bmp9_1.bmp"
+IDB_9_1                 BITMAP                  "..\\res\\bmp1_9.bmp"
 
 IDB_MINUS               BITMAP                  "..\\res\\bmp10.bmp"
 
