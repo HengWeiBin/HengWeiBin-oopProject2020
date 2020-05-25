@@ -365,6 +365,7 @@ namespace game_framework {
 	void CInteger::SetInteger(int i)
 	{
 		n = i;
+		SetDigit(GetDigit(n));
 	}
 
 	void CInteger::SetTopLeft(int nx, int ny)		// 將動畫的左上角座標移至 (x,y)
