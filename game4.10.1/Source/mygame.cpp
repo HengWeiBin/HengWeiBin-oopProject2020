@@ -220,7 +220,9 @@ namespace game_framework
 	CGameStateOver::CGameStateOver(CGame* g)
 		: CGameState(g)
 	{
-		stageNum = 0;
+		currentScore.SetType(2);
+		currentStage.SetType(2);
+
 	}
 
 	void CGameStateOver::OnMove()
@@ -243,10 +245,6 @@ namespace game_framework
 
 	void CGameStateOver::OnInit()
 	{
-
-		//currentScore.SetType(3);
-		//currentStage.SetType(3);
-
 		//load background
 		backgroundOver.LoadBitmap("Bitmaps/inGameBG1.bmp");
 
