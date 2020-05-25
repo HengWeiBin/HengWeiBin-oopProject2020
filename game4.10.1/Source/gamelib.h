@@ -339,6 +339,7 @@ namespace game_framework {
 		CGame *game;
 		static GameArea gameArea;	//游戲區
 		static vector<Stage*> stages;
+		static int current_stage;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
