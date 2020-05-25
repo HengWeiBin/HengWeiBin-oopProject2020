@@ -237,15 +237,15 @@ namespace game_framework
 		//stageNum = stage - 1;
 		counter = 60 * 5; // 5 seconds
 
-		//currentStage = current_stage;
-		//currentScore = (int)stages[current_stage - 1]->GetCurrentScore();
+		currentStage = current_stage;
+		currentScore = (int)stages[current_stage - 1]->GetCurrentScore();
 	}
 
 	void CGameStateOver::OnInit()
 	{
 
-		currentScore.SetType(3);
-		currentStage.SetType(3);
+		//currentScore.SetType(3);
+		//currentStage.SetType(3);
 
 		//load background
 		backgroundOver.LoadBitmap("Bitmaps/inGameBG1.bmp");
