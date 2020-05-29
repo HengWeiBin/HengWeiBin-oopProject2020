@@ -104,6 +104,8 @@ namespace game_framework {
 	public:
 		CGameStateOver(CGame *g);
 		void OnBeginState();
+		void OnLButtonDown(UINT nFlags, CPoint point);			// handle mouse behavior
+		void OnLButtonUp(UINT nFlags, CPoint point);			// handle mouse behavior
 		void OnInit();
 	protected:
 		void OnMove();									// 移動遊戲元素

@@ -242,6 +242,37 @@ namespace game_framework
 		currentStage = current_stage;
 		currentScore = (int)stages[current_stage - 1]->GetCurrentScore();
 	}
+	void CGameStateOver::OnLButtonDown(UINT nFlags, CPoint point)
+	{
+
+	}
+
+	void CGameStateOver::OnLButtonUp(UINT nFlags, CPoint point)
+	{
+		//Exit Button
+		if (exitButton.Left() <= point.x && point.x <= (exitButton.Left() + exitButton.Width()) &&
+			exitButton.Top() <= point.y && point.y <= (exitButton.Top() + exitButton.Height()))
+		{
+			GotoGameState(GAME_STATE_MENU);		// 切換至GAME_STATE_MENU
+		}
+
+		//Retry Button
+		if (retryButton.Left() <= point.x && point.x <= (retryButton.Left() + retryButton.Width()) &&
+			retryButton.Top() <= point.y && point.y <= (retryButton.Top() + retryButton.Height()))
+		{
+			gameArea.LoadStage(stages, current_stage);
+			GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
+		}
+
+		//Next Button
+		if (nextButton.Left() <= point.x && point.x <= (nextButton.Left() + nextButton.Width()) &&
+			nextButton.Top() <= point.y && point.y <= (nextButton.Top() + nextButton.Height()))
+		{
+			current_stage += 1;
+			gameArea.LoadStage(stages, current_stage);
+			GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
+		}
+	}
 
 	void CGameStateOver::OnInit()
 	{
