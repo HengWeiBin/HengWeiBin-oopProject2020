@@ -227,20 +227,12 @@ namespace game_framework
 
 	void CGameStateOver::OnMove()
 	{
-		counter--;
-
-		if (counter < 0)
-			GotoGameState(GAME_STATE_MENU);
 	}
 
 	void CGameStateOver::OnBeginState()
 	{
-
-		//stageNum = stage - 1;
-		counter = 60 * 5; // 5 seconds
-
-		currentStage = current_stage;
-		currentScore = (int)stages[current_stage - 1]->GetCurrentScore();
+		currentStage = current_stage+1;
+		currentScore = (int)stages[current_stage]->GetCurrentScore();
 	}
 	void CGameStateOver::OnLButtonDown(UINT nFlags, CPoint point)
 	{
@@ -372,7 +364,7 @@ namespace game_framework
 		}
 		else if (stages[current_stage]->GetCurrentScore() < stages[current_stage]->GetScoreOne())
 		{	//Show 0 star if current score higher than star one
-			ShowStars(1, xStar, yStar);
+			ShowStars(0, xStar, yStar);
 		}
 
 		//show score
@@ -625,7 +617,7 @@ namespace game_framework
 			{
 				if (stages[i]->IsUnlock() || goldFinger)
 				{
-					current_stage = i + 1;
+					current_stage = i;
 					gameArea.LoadStage(stages, i);
 					CAudio::Instance()->Stop(AUDIO_STAGE);
 					GotoGameState(GAME_STATE_RUN);
