@@ -576,6 +576,7 @@
     <Image Include="Bitmaps\EmptyStar1.bmp" />
     <Image Include="Bitmaps\EmptyStar2.bmp" />
     <Image Include="Bitmaps\ExitButton.bmp" />
+    <Image Include="Bitmaps\Failed.bmp" />
     <Image Include="Bitmaps\GreenCandy1.bmp" />
     <Image Include="Bitmaps\GreenCandy2.bmp" />
     <Image Include="Bitmaps\GreenCandy3.bmp" />

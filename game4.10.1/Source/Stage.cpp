@@ -103,6 +103,14 @@ bool game_framework::Stage::IsUnlock()
 {
 	return isUnlock == 1 ? true : false;
 }
+bool game_framework::Stage::IsFail()
+{
+	return isFail;
+}
+void game_framework::Stage::SetPassOrFail(int fail)
+{
+	isFail = fail == 1 ? 1 : 0;
+}
 int game_framework::Stage::GetCurrentScore()
 {
 	return currentScore;

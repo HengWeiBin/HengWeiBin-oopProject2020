@@ -1011,5 +1011,8 @@
     <Image Include="RES\bmp2_9.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Bitmaps\Failed.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

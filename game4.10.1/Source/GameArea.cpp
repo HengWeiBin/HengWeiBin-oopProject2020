@@ -993,18 +993,19 @@ namespace game_framework
 				}
 			}
 			if (gameOver && delay > 0) delay--;
-			//i want t get the current hight score either if it's failed or not for the game state over, i've write a function to write it in stage --> SetCurrentScore(____)
 			else if (gameOver && scoreBoard.IsReachedTarget() && (*stage)->lastHighScore < scoreBoard.score)
 			{
 				(*(stage + 1))->SetUnlock();
 				(*stage)->currentScore = scoreBoard.score.GetInteger();
 				(*stage)->lastHighScore = scoreBoard.score.GetInteger();
 				(*stage)->WriteBack();
+				(*stage)->SetPassOrFail(0);
 				running = false;
 			}
-			else if (gameOver)
+			else if (gameOver )
 			{
 				(*stage)->currentScore = scoreBoard.score.GetInteger();
+				(*stage)->SetPassOrFail(1);
 				running = false;
 			}
 		}

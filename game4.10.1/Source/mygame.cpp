@@ -233,6 +233,7 @@ namespace game_framework
 	{
 		currentStage = current_stage+1;
 		currentScore = (int)stages[current_stage]->GetCurrentScore();
+		isFail = stages[current_stage]->IsFail();
 	}
 	void CGameStateOver::OnLButtonDown(UINT nFlags, CPoint point)
 	{
@@ -258,7 +259,7 @@ namespace game_framework
 
 		//Next Button
 		if (nextButton.Left() <= point.x && point.x <= (nextButton.Left() + nextButton.Width()) &&
-			nextButton.Top() <= point.y && point.y <= (nextButton.Top() + nextButton.Height()))
+			nextButton.Top() <= point.y && point.y <= (nextButton.Top() + nextButton.Height()) && !isFail )
 		{
 			current_stage += 1;
 			gameArea.LoadStage(stages, current_stage);
@@ -279,6 +280,7 @@ namespace game_framework
 		greenStar.LoadBitmap("Bitmaps/GreenStar.bmp", RGB(251, 230, 239));
 		yellowStar.LoadBitmap("Bitmaps/YellowStar.bmp", RGB(251, 230, 239));
 		emptyStar.LoadBitmap("Bitmaps/ContainerStar.bmp", RGB(251, 230, 239));
+		youFailed.LoadBitmap("Bitmaps/Failed.bmp", RGB(251, 230, 239));
 
 		//load button
 		exitButton.LoadBitmap("Bitmaps/ExitButton.bmp", RGB(255, 255, 255));
@@ -350,19 +352,19 @@ namespace game_framework
 		//show star
 		int xStar = (backgroundOver.Width() / 2) - (370 / 2);
 		int yStar = (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 205;
-		if (stages[current_stage]->GetCurrentScore() >= stages[current_stage]->GetScoreThree())
+		if (stages[current_stage]->GetCurrentScore() >= stages[current_stage]->GetScoreThree() && !isFail)
 		{	//Show 3 yellow star if current score higher than star three
 			ShowStars(3, xStar, yStar);
 		}
-		else if (stages[current_stage]->GetCurrentScore() >= stages[current_stage]->GetScoreTwo())
+		else if (stages[current_stage]->GetCurrentScore() >= stages[current_stage]->GetScoreTwo() && !isFail)
 		{	//Show 2 star if current score higher than star two
 			ShowStars(2, xStar, yStar);
 		}
-		else if (stages[current_stage]->GetCurrentScore() >= stages[current_stage]->GetScoreOne())
+		else if (stages[current_stage]->GetCurrentScore() >= stages[current_stage]->GetScoreOne() && !isFail)
 		{	//Show 1 star if current score higher than star one
 			ShowStars(1, xStar, yStar);
 		}
-		else if (stages[current_stage]->GetCurrentScore() < stages[current_stage]->GetScoreOne())
+		else if (stages[current_stage]->GetCurrentScore() < stages[current_stage]->GetScoreOne() && !isFail)
 		{	//Show 0 star if current score higher than star one
 			ShowStars(0, xStar, yStar);
 		}
@@ -374,10 +376,17 @@ namespace game_framework
 		//show button
 		exitButton.SetTopLeft(scoreBoardOver.Left() + scoreBoardOver.Width() - exitButton.Width(), scoreBoardOver.Top());
 		exitButton.ShowBitmap();
-		retryButton.SetTopLeft((backgroundOver.Width() / 2) - 10 - nextButton.Width(), (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 530);
+		if (!isFail ) {
+			retryButton.SetTopLeft((backgroundOver.Width() / 2) - 10 - nextButton.Width(), (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 530);
+			nextButton.SetTopLeft((backgroundOver.Width() / 2) + 10, (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 530);
+			nextButton.ShowBitmap();
+		}
+		else {
+			retryButton.SetTopLeft((backgroundOver.Width() / 2) - (nextButton.Width()/2), (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 530);
+			youFailed.SetTopLeft((backgroundOver.Width() / 2) - (350 / 2), (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 205);
+			youFailed.ShowBitmap();
+		}
 		retryButton.ShowBitmap();
-		nextButton.SetTopLeft((backgroundOver.Width() / 2) + 10, (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 530);
-		nextButton.ShowBitmap();
 
 
 

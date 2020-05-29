@@ -16,6 +16,8 @@ namespace game_framework
 		double GetScoreThree();
 		double GetLastScoreHistory();
 		bool IsUnlock();
+		bool IsFail();
+		void SetPassOrFail(int);
 		void RemoveLine();
 		void WriteBack();
 		void SetUnlock();
@@ -31,6 +33,7 @@ namespace game_framework
 		int maxStep;
 		int mode;
 		bool isUnlock;
+		bool isFail;
 		bool initcandy;
 		string stageTxt[2];
 		int currentStage;
