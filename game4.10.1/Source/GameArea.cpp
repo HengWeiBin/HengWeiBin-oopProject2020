@@ -993,12 +993,13 @@ namespace game_framework
 				}
 			}
 			if (gameOver && delay > 0) delay--;
-			else if (gameOver && scoreBoard.IsReachedTarget())
+			else if (gameOver && scoreBoard.IsReachedTarget() || 
+				(gameOver && scoreBoard.score > scoreBoard.oneStar && scoreBoard.mode == 1))
 			{
 				
 				(*(stage + 1))->SetUnlock();
 				(*stage)->currentScore = scoreBoard.score.GetInteger();
-				(*stage)->lastHighScore = (*stage)->lastHighScore < scoreBoard.score? scoreBoard.score.GetInteger(): (*stage)->lastHighScore;
+				(*stage)->lastHighScore = scoreBoard.lastHighScore < scoreBoard.score ? scoreBoard.score.GetInteger() : scoreBoard.lastHighScore;
 				(*stage)->WriteBack();
 				(*stage)->SetPassOrFail(0);
 				running = false;

@@ -43,7 +43,7 @@ namespace game_framework
 		switch (mode)
 		{
 		case 1:	//Target reached when score higher than target
-			if (score >= oneStar) return true;
+			if (score >= target) return true;
 		case 2:	//Target reached when all jelly cleared
 			if (!target.GetInteger()) return true;
 		default:
