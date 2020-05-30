@@ -11,7 +11,6 @@ namespace game_framework
 		Candy();
 		~Candy();
 		Candy* Click();						//Change state of onClick if being clicked
-		void GetBmpId(int**);				//Get bitmap directory according to style
 		int GetCurrentX();					//Get current x
 		int GetCurrentY();					//Get current y
 		int GetPower();						//return current power
@@ -23,7 +22,7 @@ namespace game_framework
 		bool IsMoving();					//return current coordinate != destination coordinate
 		bool IsClicked();					//return onClick
 		void Kill();						//simple remove without release power
-		void LoadBitmap();					//Load candy's bitmap according to style
+		static void LoadBitmap();					//Load candy's bitmap according to style
 		void OnMove(bool mute = false);		//move if current coordinate != destination coordinate
 		void OnShow();						//display candy
 		void Push(int, int);				//Push candies around self
@@ -35,11 +34,11 @@ namespace game_framework
 	private:
 		void GetCurrentShow(CMovingBitmap**, CMovingBitmap**);
 
-		CMovingBitmap normal, normalClick;
-		CMovingBitmap horizon, horizonClick;
-		CMovingBitmap vertical, verticalClick;
-		CMovingBitmap pack, packClick;
-		CMovingBitmap super, superClick;
+		static CMovingBitmap normal[6], normalClick[6];
+		static CMovingBitmap horizon[6], horizonClick[6];
+		static CMovingBitmap vertical[6], verticalClick[6];
+		static CMovingBitmap pack[6], packClick[6];
+		static CMovingBitmap super[6], superClick[6];
 		int style, rawStyle;		//0 = non-exist
 		int power;
 		int x, y, dx, dy, pushX, pushY;			//current || destination coordinate

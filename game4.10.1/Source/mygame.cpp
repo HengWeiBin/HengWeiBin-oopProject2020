@@ -69,18 +69,18 @@ namespace game_framework
 	/////////////////////////////////////////////////////////////////////////////
 
 	CGameStateInit::CGameStateInit(CGame* g)
-		: CGameState(g), playBtnClicked(false)
+		: CGameState(g), playBtnClicked(false), finishLoaded(false)
 	{
 	}
 
 	void CGameStateInit::OnInit()
 	{
 		ShowLoading();
-		//
-		// 開始載入資料
-		//
+
+		//Load background image
 		background.LoadBitmap("Bitmaps\\InitBackground.bmp");
-		// Load play button
+
+		/*================== Load play button ======================*/
 		int playBtnBmp[] = { IDB_PLAYBUTTON_1, IDB_PLAYBUTTON_2, IDB_PLAYBUTTON_3, IDB_PLAYBUTTON_4,
 							 IDB_PLAYBUTTON_5, IDB_PLAYBUTTON_6, IDB_PLAYBUTTON_7, IDB_PLAYBUTTON_8,
 							 IDB_PLAYBUTTON_9, IDB_PLAYBUTTON_10, IDB_PLAYBUTTON_11, IDB_PLAYBUTTON_12
@@ -97,7 +97,9 @@ namespace game_framework
 		playButTopLY = SIZE_Y / 5 * 4 - playButton.Height();
 		playButBotRX = SIZE_X / 2 + playButton.Width() / 2;
 		playButBotRY = SIZE_Y / 5 * 4;
-		//Load tiffy
+		/*=========================================================*/
+
+		/*==================== Load tiffy =========================*/
 		int TiffyBitmap[10] = { IDB_TIFFY_0, IDB_TIFFY_1, IDB_TIFFY_2, IDB_TIFFY_3, IDB_TIFFY_4,
 								IDB_TIFFY_5, IDB_TIFFY_6, IDB_TIFFY_7, IDB_TIFFY_8, IDB_TIFFY_9
 		};
@@ -113,7 +115,9 @@ namespace game_framework
 		}
 
 		tiffy.SetDelayCount(4);
-		//Load Toffee
+		/*==========================================================*/
+
+		/*===================== Load Toffee =======================*/
 		int ToffeeBitmap[6] = { IDB_TOFFEE_1, IDB_TOFFEE_2, IDB_TOFFEE_3, IDB_TOFFEE_4, IDB_TOFFEE_5, IDB_TOFFEE_6 };
 
 		for (int i = 0; i < 6; i++)
@@ -127,7 +131,9 @@ namespace game_framework
 		}
 
 		toffee.SetDelayCount(4);
+		/*==========================================================*/
 
+		/*================== Load Candy Crush logo =================*/
 		int CandyCrush[] = { IDB_CANDY_CRUSH_1, IDB_CANDY_CRUSH_2, IDB_CANDY_CRUSH_3, IDB_CANDY_CRUSH_4, IDB_CANDY_CRUSH_5, IDB_CANDY_CRUSH_6, 
 						IDB_CANDY_CRUSH_8, IDB_CANDY_CRUSH_10, IDB_CANDY_CRUSH_12, IDB_CANDY_CRUSH_14, IDB_CANDY_CRUSH_16, IDB_CANDY_CRUSH_18, 
 						IDB_CANDY_CRUSH_20, IDB_CANDY_CRUSH_21, IDB_CANDY_CRUSH_22, IDB_CANDY_CRUSH_23,
@@ -142,12 +148,23 @@ namespace game_framework
 		}
 		candyCrush.SetDelayCount(1);
 		candyCrush.SetCycle(false);
+		/*==========================================================*/
+
+		//load background music
+		CAudio::Instance()->Load(AUDIO_STAGE, "sounds\\Overworld_Level_Select.mp3");
+
+		finishLoaded = true;
+		OnBeginState();
 	}
 
 	void CGameStateInit::OnBeginState()
 	{
-		candyCrush.Reset();
-		playBtnClicked = false;
+		if (finishLoaded)
+		{
+			candyCrush.Reset();
+			playBtnClicked = false;
+			CAudio::Instance()->Play(AUDIO_STAGE, true);
+		}
 	}
 
 	void CGameStateInit::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -222,7 +239,6 @@ namespace game_framework
 	{
 		currentScore.SetType(2);
 		currentStage.SetType(2);
-
 	}
 
 	void CGameStateOver::OnMove()
@@ -387,22 +403,6 @@ namespace game_framework
 			youFailed.ShowBitmap();
 		}
 		retryButton.ShowBitmap();
-
-
-
-		/*
-		CDC* pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC
-		CFont f, *fp;
-		f.CreatePointFont(160, "Times New Roman");	// 產生 font f; 160表示16 point的字
-		fp = pDC->SelectObject(&f);					// 選用 font f
-		pDC->SetBkColor(RGB(0, 0, 0));
-		pDC->SetTextColor(RGB(255, 255, 0));
-		char str[80];								// Demo 數字對字串的轉換
-		sprintf(str, "Game Over ! (%d)", counter / 30);
-		pDC->TextOut(SIZE_X / 2 - 100, SIZE_Y / 2 - 50, str);
-		pDC->SelectObject(fp);						// 放掉 font f (千萬不要漏了放掉)
-		CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
-		*/
 	}
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -508,14 +508,13 @@ namespace game_framework
 
 	void CGameStateRun::OnShow()
 	{
-		//
-		//  注意：Show裡面千萬不要移動任何物件的座標，移動座標的工作應由Move做才對，
-		//        否則當視窗重新繪圖時(OnDraw)，物件就會移動，看起來會很怪。換個術語
-		//        說，Move負責MVC中的Model，Show負責View，而View不應更動Model。
-		//
 		background.ShowBitmap();			// 貼上背景圖
 		gameArea.OnShow();
 	}
+
+	/////////////////////////////////////////////////////////////////////////////
+	// 這個class為遊戲關卡選單(Game menu)
+	/////////////////////////////////////////////////////////////////////////////
 
 	CGameStateMenu::CGameStateMenu(CGame *g)
 		: CGameState(g), totalStage(9), drag(false), mouseDisplayment(0), inertia(0), goldFinger(false)
@@ -552,8 +551,6 @@ namespace game_framework
 			stageButton[i].LoadBitmap(StageButton[i], RGB(255, 255, 255));
 		}
 
-		CAudio::Instance()->Load(AUDIO_STAGE, "sounds\\Overworld_Level_Select.mp3");
-
 		//star icon
 		star1.LoadBitmap("Bitmaps\\SmallRedStar.bmp", RGB(255, 255, 255));
 		star2.LoadBitmap("Bitmaps\\SmallGreenStar.bmp", RGB(255, 255, 255));
@@ -569,9 +566,7 @@ namespace game_framework
 	}
 
 	void CGameStateMenu::OnBeginState()
-	{
-		CAudio::Instance()->Play(AUDIO_STAGE, true);
-	}
+	{ }
 
 	void CGameStateMenu::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{

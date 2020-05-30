@@ -1,4 +1,5 @@
 ﻿#include "stdafx.h"
+#include <omp.h>
 #include "Resource.h"
 #include <mmsystem.h>
 #include <fstream>
@@ -44,10 +45,9 @@ namespace game_framework
 		singleJelly.LoadBitmap("Bitmaps\\Jelly1.bmp");
 		doubleJelly.LoadBitmap("Bitmaps\\Jelly2.bmp");
 		scoreBoard.LoadBitmap();
-		for(int i = 0; i < MaxHeight; i ++)
-			for(int j = 0; j < MaxWidth; j++)
-				if(candies[i][j].GetStyle() > 0)
-					candies[i][j].LoadBitmap();
+		Candy::LoadBitmap();
+		NormalBlast::LoadBitmap();
+		LineBlast::LoadBitmap();
 	}
 
 	void GameArea::LoadStage(vector<Stage*>& stages, int index)
@@ -433,6 +433,7 @@ namespace game_framework
 
 		DropCandy();		//drop if candy hvnt touch the ground/other candy
 
+		#pragma omp parallel for
 		for (int i = 0; i < MaxHeight; i++)
 			for (int j = 0; j < MaxWidth; j++)
 				if(candies[i][j].GetStyle() > 0)
@@ -591,7 +592,6 @@ namespace game_framework
 				default:
 					int id = drop == true ? 0 : rand() % MAX_RAND_NUM + 1;
 					candies[i][j] = Candy(id, j * 50 + x, i * 50 + y);
-					if (candies[i][j].GetStyle() > 0) candies[i][j].LoadBitmap();
 					break;
 				}
 			}
@@ -917,7 +917,6 @@ namespace game_framework
 			{
 				int id = rand() % MAX_RAND_NUM + 1;	//random type of Candy
 				candies[i->first][i->second] = Candy(id, i->second * 50 + x, i->first * 50 + y - 25);
-				candies[i->first][i->second].LoadBitmap();
 				candies[i->first][i->second].SetDestination(i->first * 50 + y);
 				total++;
 			}

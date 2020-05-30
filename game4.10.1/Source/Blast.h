@@ -2,12 +2,7 @@
 #ifndef BLAST_H
 #define BLAST_H
 
-#define REDCANDY 5
-#define YELLOWCANDY 6
-#define ORANGECANDY 3
-#define GREENCANDY 4
-#define BLUECANDY 1
-#define PURPLECANDY 2
+enum CANDY {BLUECANDY, PURPLECANDY, ORANGECANDY, GREENCANDY, REDCANDY, YELLOWCANDY};
 
 namespace game_framework
 {
@@ -20,8 +15,8 @@ namespace game_framework
 		virtual void SetTopLeft(int, int);
 		virtual bool IsLast() = 0;
 	protected:
-		void GetBmpId(int*&, int style);
 		int x, y;
+		int style;
 	};
 
 	class NormalBlast :public Blast
@@ -29,13 +24,13 @@ namespace game_framework
 	public:
 		NormalBlast();
 		NormalBlast(int, int, int);
-		void LoadBitmap(int);
+		static void LoadBitmap();
 		void OnMove();
 		void OnShow();
 		bool IsLast();
 	private:
-		CMovingBitmap normalBlast[10];
-		CMovingBitmap shatter[15];
+		static CMovingBitmap normalBlast[6][10];
+		static CMovingBitmap shatter[6][15];
 		int curShow;
 		int shift[3][3];				//move direction/ moving speed/ spin direction
 		int shatPosition[3][2];			//every shatter current position
@@ -48,13 +43,13 @@ namespace game_framework
 	{
 	public:
 		LineBlast(int, int, int, int);
-		void LoadBitmap(int);
+		static void LoadBitmap();
 		void OnMove();
 		void OnShow();
 		bool IsLast();
 	private:
-		CMovingBitmap horizontal[30];
-		CMovingBitmap vertical[30];
+		static CMovingBitmap horizontal[6][30];
+		static CMovingBitmap vertical[6][30];
 		int curShow;
 		int powStyle;
 	};

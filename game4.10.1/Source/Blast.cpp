@@ -1,4 +1,5 @@
 ﻿#include "stdafx.h"
+#include <omp.h>
 #include "Resource.h"
 #include <mmsystem.h>
 #include <ddraw.h>
@@ -92,26 +93,7 @@ namespace game_framework
 		this->y = y;
 	}
 
-	void Blast::GetBmpId(int*& bmpID, int style)
-	{
-		switch (style)
-		{
-		case REDCANDY:
-			bmpID = redBmp; break;
-		case ORANGECANDY:
-			bmpID = orangeBmp; break;
-		case YELLOWCANDY:
-			bmpID = yellowBmp; break;
-		case GREENCANDY:
-			bmpID = greenBmp; break;
-		case BLUECANDY:
-			bmpID = blueBmp; break;
-		case PURPLECANDY:
-			bmpID = purpleBmp; break;
-		default:
-			GAME_ASSERT(0, "NULL STYLE!");
-		}
-	}
+	CMovingBitmap NormalBlast::normalBlast[6][10], NormalBlast::shatter[6][15];
 
 	NormalBlast::NormalBlast() :curShow(0), totalShow(0)
 	{
@@ -119,10 +101,11 @@ namespace game_framework
 
 	NormalBlast::NormalBlast(int style, int x, int y) :curShow(0), size(1.8), totalShow(rand() % 2 + 2)
 	{
-		LoadBitmap(style);
+		this->style = style;
 		SetTopLeft(x, y);
 
 		int direction[] = { -2, -1, 0, 2, 1 };	//direction & speed for shatter
+		#pragma omp parallel for
 		for (int i = 0; i < totalShow; i++)
 		{
 			//init shatters' position at center
@@ -136,16 +119,18 @@ namespace game_framework
 		}
 	}
 
-	void NormalBlast::LoadBitmap(int style)
+	void NormalBlast::LoadBitmap()
 	{
-		int *bmpID;
-		GetBmpId(bmpID, style);
+		int *bmpID[] = { blueBmp, purpleBmp, orangeBmp, greenBmp , redBmp, yellowBmp};
 
-		for (int i = 0; i < 10; i++)
-			normalBlast[i].LoadBitmap(bmpID[i], RGB(254, 191, 200));
+		for (int i = 0; i < 6; i++)
+		{
+			for (int j = 0; j < 10; j++)
+				normalBlast[i][j].LoadBitmap(bmpID[i][j], RGB(254, 191, 200));
 
-		for (int i = 0; i < 15; i++)
-			shatter[i].LoadBitmap(bmpID[i + 10], RGB(254, 191, 200));
+			for (int j = 0; j < 15; j++)
+				shatter[i][j].LoadBitmap(bmpID[i][j + 10], RGB(254, 191, 200));
+		}
 	}
 
 	void NormalBlast::OnMove()
@@ -153,6 +138,7 @@ namespace game_framework
 		curShow++;
 		if(curShow % 2) size -= 0.1;	//zoom-out shatter
 
+		#pragma omp parallel for
 		for (int i = 0; i < totalShow; i++)
 		{	//move shatters
 			shatPosition[i][0] += shift[i][0];
@@ -171,16 +157,17 @@ namespace game_framework
 	{
 		if (curShow < 10)
 		{	//show blast circle
-			normalBlast[curShow].SetTopLeft(x - (normalBlast[curShow].Width() / 2) + 25, y - (normalBlast[curShow].Height() / 2) + 25);
-			normalBlast[curShow].ShowBitmap();
+			normalBlast[style - 1][curShow].SetTopLeft(x - (normalBlast[style - 1][curShow].Width() / 2) + 25, y - (normalBlast[style - 1][curShow].Height() / 2) + 25);
+			normalBlast[style - 1][curShow].ShowBitmap();
 		}
 
 		if (curShow >= 4)
 		{	//show shatters
+			#pragma omp parallel for
 			for (int i = 0; i < totalShow; i++)
 			{
-				shatter[shatShow[i]].SetTopLeft(shatPosition[i][0], shatPosition[i][1]);
-				shatter[shatShow[i]].ShowBitmap(size);
+				shatter[style - 1][shatShow[i]].SetTopLeft(shatPosition[i][0], shatPosition[i][1]);
+				shatter[style - 1][shatShow[i]].ShowBitmap(size);
 			}
 		}
 	}
@@ -190,29 +177,25 @@ namespace game_framework
 		return (curShow == 25);
 	}
 
+	CMovingBitmap LineBlast::horizontal[6][30], LineBlast::vertical[6][30];
+
 	LineBlast::LineBlast(int style, int x, int y, int power) :powStyle(power), curShow(0)
 	{
-		LoadBitmap(style);
+		this->style = style;
 		SetTopLeft(x, y);
 	}
 
-	void LineBlast::LoadBitmap(int style)
+	void LineBlast::LoadBitmap()
 	{
-		int *bmpID;
-		GetBmpId(bmpID, style);
+		int *bmpID[] = { blueBmp, purpleBmp, orangeBmp, greenBmp , redBmp, yellowBmp };
 
-		switch (powStyle)
+		for (int i = 0; i < 6; i++)
 		{
-		case 1:
-			for (int i = 0; i < 15; i++)
-				horizontal[i].LoadBitmap(bmpID[i + 40], RGB(254, 191, 200));
-			break;
-		case 2:
-			for (int i = 0; i < 15; i++)
-				vertical[i].LoadBitmap(bmpID[i + 25], RGB(254, 191, 200));
-			break;
-		default:
-			GAME_ASSERT(0, "Invalid power style");
+			for (int j = 0; j < 15; j++)
+				horizontal[i][j].LoadBitmap(bmpID[i][j + 40], RGB(254, 191, 200));
+
+			for (int j = 0; j < 15; j++)
+				vertical[i][j].LoadBitmap(bmpID[i][j + 25], RGB(254, 191, 200));
 		}
 	}
 
@@ -227,12 +210,12 @@ namespace game_framework
 		switch (powStyle)
 		{
 		case 1:
-			horizontal[curShow].SetTopLeft(x - (horizontal[curShow].Width() / 2 - 25), y);
-			horizontal[curShow].ShowBitmap();
+			horizontal[style - 1][curShow].SetTopLeft(x - (horizontal[style - 1][curShow].Width() / 2 - 25), y);
+			horizontal[style - 1][curShow].ShowBitmap();
 			break;
 		case 2:
-			vertical[curShow].SetTopLeft(x, y - (vertical[curShow].Height() / 2 - 25));
-			vertical[curShow].ShowBitmap();
+			vertical[style - 1][curShow].SetTopLeft(x, y - (vertical[style - 1][curShow].Height() / 2 - 25));
+			vertical[style - 1][curShow].ShowBitmap();
 			break;
 		default:
 			GAME_ASSERT(0, "Invalid power style");

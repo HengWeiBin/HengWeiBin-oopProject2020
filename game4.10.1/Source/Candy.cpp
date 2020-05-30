@@ -23,6 +23,13 @@ namespace game_framework
 			audioID[4] = {
 		AUDIO_CANDY_LAND1, AUDIO_CANDY_LAND2, AUDIO_CANDY_LAND3, AUDIO_CANDY_LAND4 };
 
+	CMovingBitmap
+		Candy::normal[6], Candy::normalClick[6],
+		Candy::horizon[6], Candy::horizonClick[6],
+		Candy::vertical[6], Candy::verticalClick[6],
+		Candy::pack[6], Candy::packClick[6],
+		Candy::super[6], Candy::superClick[6];
+
 	Candy::Candy(int id, int x, int y)
 		: style(id), rawStyle(id), x(x), y(y), dx(x), dy(y), onClick(false), fallingSpeed(0), power(0),
 		pushX(0), pushY(0)
@@ -43,23 +50,25 @@ namespace game_framework
 
 	void Candy::LoadBitmap()
 	{
-		int *bmpID;
-		GetBmpId(&bmpID);
+		int *bmpID[] = { blueBmpId, purpleBmpId, orangeBmpId, greenBmpId , redBmpId, yellowBmpId };
 
-		normal.LoadBitmap(bmpID[0], RGB(255, 255, 255));
-		normalClick.LoadBitmap(bmpID[1], RGB(255, 255, 255));
+		for (int i = 0; i < 6; i++)
+		{
+			normal[i].LoadBitmap(bmpID[i][0], RGB(255, 255, 255));
+			normalClick[i].LoadBitmap(bmpID[i][1], RGB(255, 255, 255));
 
-		horizon.LoadBitmap(bmpID[2], RGB(255, 255, 255));
-		horizonClick.LoadBitmap(bmpID[3], RGB(255, 255, 255));
+			horizon[i].LoadBitmap(bmpID[i][2], RGB(255, 255, 255));
+			horizonClick[i].LoadBitmap(bmpID[i][3], RGB(255, 255, 255));
 
-		vertical.LoadBitmap(bmpID[4], RGB(255, 255, 255));
-		verticalClick.LoadBitmap(bmpID[5], RGB(255, 255, 255));
+			vertical[i].LoadBitmap(bmpID[i][4], RGB(255, 255, 255));
+			verticalClick[i].LoadBitmap(bmpID[i][5], RGB(255, 255, 255));
 
-		pack.LoadBitmap(bmpID[6], RGB(255, 255, 255));
-		packClick.LoadBitmap(bmpID[7], RGB(255, 255, 255));
+			pack[i].LoadBitmap(bmpID[i][6], RGB(255, 255, 255));
+			packClick[i].LoadBitmap(bmpID[i][7], RGB(255, 255, 255));
 
-		super.LoadBitmap(IDB_SUPER, RGB(255, 255, 255));
-		superClick.LoadBitmap(IDB_SUPER_C, RGB(255, 255, 255));
+			super[i].LoadBitmap(IDB_SUPER, RGB(255, 255, 255));
+			superClick[i].LoadBitmap(IDB_SUPER_C, RGB(255, 255, 255));
+		}
 	}
 
 	void Candy::OnMove(bool mute)
@@ -106,6 +115,8 @@ namespace game_framework
 
 	void Candy::OnShow()
 	{
+		if (!style) return;
+
 		CMovingBitmap *idle, *click;
 		GetCurrentShow(&idle, &click);
 
@@ -140,25 +151,6 @@ namespace game_framework
 	void Candy::SetStyle(int style)
 	{
 		this->style = style;
-	}
-
-	void Candy::GetBmpId(int** bmpID)
-	{
-		switch (rawStyle)
-		{
-		case 5:
-			*bmpID = redBmpId; break;
-		case 6:
-			*bmpID = yellowBmpId; break;
-		case 3:
-			*bmpID = orangeBmpId; break;
-		case 4:
-			*bmpID = greenBmpId; break;
-		case 1:
-			*bmpID = blueBmpId; break;
-		case 2:
-			*bmpID = purpleBmpId; break;
-		}
 	}
 
 	int Candy::GetTopLeftX()
@@ -245,24 +237,24 @@ namespace game_framework
 		switch (power)
 		{
 		case 0:
-			*idle = &normal;
-			*click = &normalClick;
+			*idle = &normal[style - 1];
+			*click = &normalClick[style - 1];
 			break;
 		case 1:
-			*idle = &horizon;
-			*click = &horizonClick;
+			*idle = &horizon[style - 1];
+			*click = &horizonClick[style - 1];
 			break;
 		case 2:
-			*idle = &vertical;
-			*click = &verticalClick;
+			*idle = &vertical[style - 1];
+			*click = &verticalClick[style - 1];
 			break;
 		case 3:
-			*idle = &pack;
-			*click = &packClick;
+			*idle = &pack[style - 1];
+			*click = &packClick[style - 1];
 			break;
 		case 4:
-			*idle = &super;
-			*click = &superClick;
+			*idle = &super[style - 1];
+			*click = &superClick[style - 1];
 			break;
 		}
 	}

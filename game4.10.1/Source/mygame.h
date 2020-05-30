@@ -64,7 +64,7 @@ namespace game_framework {
 	private:
 		CMovingBitmap background, clickedPlayButton;	// Candycrush starter background, play button
 		CAnimation tiffy, playButton, toffee,candyCrush;
-		bool playBtnClicked;
+		bool playBtnClicked, finishLoaded;
 		int playButTopLX, playButTopLY;					//Top left of play button
 		int playButBotRX, playButBotRY;					//Bottom right of play button
 	};
