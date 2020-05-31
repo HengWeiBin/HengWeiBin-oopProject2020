@@ -239,7 +239,9 @@ namespace game_framework
 	}
 
 	SuperBlast::~SuperBlast()
-	{}
+	{
+		CAudio::Instance()->Stop(AUDIO_SUPER_REMOVE);
+	}
 
 	void SuperBlast::OnMove()
 	{
@@ -287,7 +289,7 @@ namespace game_framework
 		// Restore the previous pen.
 		pDC->SelectObject(pPen);
 		CDDraw::ReleaseBackCDC();
-		Sleep(5);
+		Sleep(10);
 	}
 
 	void SuperBlast::AddPoint(int x, int y)
@@ -297,7 +299,7 @@ namespace game_framework
 
 	bool SuperBlast::IsLast()
 	{
-		return ((curShow >= target.size() - lightningDelay - 1) || (showAll && curShow >= 5));
+		return ((curShow >= target.size() + lightningDelay) || (showAll && curShow >= 5));
 	}
 
 }

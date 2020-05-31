@@ -112,7 +112,9 @@ namespace game_framework {
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 		int GetDigit(int);
 	private:
+		void ShowButtons();
 		void ShowStars(int, int, int);
+
 		int counter, stageNum;	// 倒數之計數器
 		bool isFail;
 		CMovingBitmap backgroundOver;	// 背景圖
@@ -120,9 +122,9 @@ namespace game_framework {
 		CInteger currentScore;
 		CInteger currentStage;
 		CMovingBitmap redStar, greenStar, yellowStar, emptyStar , youFailed;
-		CMovingBitmap exitButton, nextButtonClicked, retryButtonClicked;
-		CAnimation nextButton, retryButton;
-		bool nextBtnClicked, retryBtnClicked;
+		CMovingBitmap exitButtonClicked, nextButtonClicked, retryButtonClicked;
+		CAnimation exitButton, nextButton, retryButton;
+		bool exitBtnClicked, nextBtnClicked, retryBtnClicked;
 	};
 
 	class CGameStateMenu : public CGameState
