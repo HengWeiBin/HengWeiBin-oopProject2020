@@ -1004,6 +1004,51 @@ IDB_CANDY_CRUSH_21      BITMAP                  "..\\Bitmaps\\candy_crush (21).b
 IDB_CANDY_CRUSH_22      BITMAP                  "..\\Bitmaps\\candy_crush (22).bmp"
 
 IDB_CANDY_CRUSH_23      BITMAP                  "..\\Bitmaps\\candy_crush (23).bmp"
+
+IDB_NEXTBTN_0           BITMAP                  "..\\Bitmaps\\NextButton-0.bmp"
+
+IDB_NEXTBTN_1           BITMAP                  "..\\Bitmaps\\NextButton-1.bmp"
+
+IDB_NEXTBTN_2           BITMAP                  "..\\Bitmaps\\NextButton-2.bmp"
+
+IDB_NEXTBTN_3           BITMAP                  "..\\Bitmaps\\NextButton-3.bmp"
+
+IDB_NEXTBTN_4           BITMAP                  "..\\Bitmaps\\NextButton-4.bmp"
+
+IDB_NEXTBTN_5           BITMAP                  "..\\Bitmaps\\NextButton-5.bmp"
+
+IDB_NEXTBTN_6           BITMAP                  "..\\Bitmaps\\NextButton-6.bmp"
+
+IDB_NEXTBTN_7           BITMAP                  "..\\Bitmaps\\NextButton-7.bmp"
+
+IDB_NEXTBTN_8           BITMAP                  "..\\Bitmaps\\NextButton-8.bmp"
+
+IDB_NEXTBTN_9           BITMAP                  "..\\Bitmaps\\NextButton-9.bmp"
+
+IDB_NEXTBTN_c           BITMAP                  "..\\Bitmaps\\NextButtonClicked.bmp"
+
+IDB_RETRYBTN_0          BITMAP                  "..\\Bitmaps\\RetryButton-0.bmp"
+
+IDB_RETRYBTN_1          BITMAP                  "..\\Bitmaps\\RetryButton-1.bmp"
+
+IDB_RETRYBTN_2          BITMAP                  "..\\Bitmaps\\RetryButton-2.bmp"
+
+IDB_RETRYBTN_3          BITMAP                  "..\\Bitmaps\\RetryButton-3.bmp"
+
+IDB_RETRYBTN_4          BITMAP                  "..\\Bitmaps\\RetryButton-4.bmp"
+
+IDB_RETRYBTN_5          BITMAP                  "..\\Bitmaps\\RetryButton-5.bmp"
+
+IDB_RETRYBTN_6          BITMAP                  "..\\Bitmaps\\RetryButton-6.bmp"
+
+IDB_RETRYBTN_7          BITMAP                  "..\\Bitmaps\\RetryButton-7.bmp"
+
+IDB_RETRYBTN_8          BITMAP                  "..\\Bitmaps\\RetryButton-8.bmp"
+
+IDB_RETRYBTN_9          BITMAP                  "..\\Bitmaps\\RetryButton-9.bmp"
+
+IDB_RETRYBTN_c          BITMAP                  "..\\Bitmaps\\RetryButtonClicked.bmp"
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // Cursor

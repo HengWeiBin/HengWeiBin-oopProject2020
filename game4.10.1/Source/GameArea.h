@@ -41,7 +41,7 @@ namespace game_framework
 		bool IsNeighbour(Candy&, Candy&);				//return are candies in clickedCandies is neighbour
 		void OnMoveBlasts();
 		void OnMoveEnding();
-		void PowerAll(int, int);						//Power all specific candy
+		void PowerAll(int style, int power, int x, int y);	//Power all specific candy
 		int PutCandy();									//spawn candies at spawning area
 		void PutEndingBonus();
 		int RemoveContinuous(vector<Candy*>&, char, bool(*Compare)(Candy*, Candy*), set<Candy*>&);	//Find and remove continuous candy
@@ -49,6 +49,7 @@ namespace game_framework
 		void ReleaseInOrder();
 		void ReleasePower(Candy*, unsigned row = 0, unsigned column = 0);							//remove candy with consider its' power
 		void ReleaseSwap();								//activate power of candy when 2 powered candy swapped
+		void RemoveAll(int row, int column);			//remove all candies
 		void RemoveRow(unsigned);						//remove whole row of candies
 		void RemoveColumn(unsigned);					//remove whole column of candies
 		void RemoveSquare(int, int, int);				//remove surrounding candies according to level

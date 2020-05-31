@@ -235,7 +235,7 @@ namespace game_framework
 	/////////////////////////////////////////////////////////////////////////////
 
 	CGameStateOver::CGameStateOver(CGame* g)
-		: CGameState(g)
+		: CGameState(g), nextBtnClicked(false), retryBtnClicked(false)
 	{
 		currentScore.SetType(2);
 		currentStage.SetType(2);
@@ -243,6 +243,8 @@ namespace game_framework
 
 	void CGameStateOver::OnMove()
 	{
+		nextButton.OnMove();
+		retryButton.OnMove();
 	}
 
 	void CGameStateOver::OnBeginState()
@@ -250,10 +252,23 @@ namespace game_framework
 		currentStage = current_stage+1;
 		currentScore = (int)stages[current_stage]->GetCurrentScore();
 		isFail = stages[current_stage]->IsFail();
+		nextBtnClicked = retryBtnClicked = false;
 	}
 	void CGameStateOver::OnLButtonDown(UINT nFlags, CPoint point)
 	{
+		//Retry Button
+		if (retryButton.Left() <= point.x && point.x <= (retryButton.Left() + retryButton.Width()) &&
+			retryButton.Top() <= point.y && point.y <= (retryButton.Top() + retryButton.Height()))
+		{
+			retryBtnClicked = true;
+		}
 
+		//Next Button
+		if (nextButton.Left() <= point.x && point.x <= (nextButton.Left() + nextButton.Width()) &&
+			nextButton.Top() <= point.y && point.y <= (nextButton.Top() + nextButton.Height()) && !isFail)
+		{
+			nextBtnClicked = true;
+		}
 	}
 
 	void CGameStateOver::OnLButtonUp(UINT nFlags, CPoint point)
@@ -281,6 +296,8 @@ namespace game_framework
 			gameArea.LoadStage(stages, current_stage);
 			GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
 		}
+		nextBtnClicked = false;
+		retryBtnClicked = false;
 	}
 
 	void CGameStateOver::OnInit()
@@ -300,9 +317,24 @@ namespace game_framework
 
 		//load button
 		exitButton.LoadBitmap("Bitmaps/ExitButton.bmp", RGB(255, 255, 255));
-		nextButton.LoadBitmap("Bitmaps/NextButton.bmp", RGB(251, 230, 239));
-		retryButton.LoadBitmap("Bitmaps/RetryButton.bmp", RGB(251, 230, 239));
+
+		int nextBtn[] = { IDB_NEXTBTN_0, IDB_NEXTBTN_1, IDB_NEXTBTN_2, IDB_NEXTBTN_3, IDB_NEXTBTN_4,
+			IDB_NEXTBTN_5, IDB_NEXTBTN_6, IDB_NEXTBTN_7, IDB_NEXTBTN_8, IDB_NEXTBTN_9 };
+		int retryBtn[] = { IDB_RETRYBTN_0, IDB_RETRYBTN_1, IDB_RETRYBTN_2, IDB_RETRYBTN_3, IDB_RETRYBTN_4,
+			IDB_RETRYBTN_5, IDB_RETRYBTN_6, IDB_RETRYBTN_7, IDB_RETRYBTN_8, IDB_RETRYBTN_9 };
+
+		for (int i = 0; i < 10; i++)
+		{
+			nextButton.AddBitmap(nextBtn[i], RGB(251, 230, 239));
+			retryButton.AddBitmap(retryBtn[i], RGB(251, 230, 239));
+		}
+		nextButton.SetDelayCount(4);
+		retryButton.SetDelayCount(4);
+
+		nextButtonClicked.LoadBitmap("Bitmaps\\NextButtonClicked.bmp", RGB(251, 230, 239));
+		retryButtonClicked.LoadBitmap("Bitmaps\\RetryButtonClicked.bmp", RGB(251, 230, 239));
 	}
+
 	int CGameStateOver::GetDigit(int n)
 	{
 		n = abs(n);
@@ -314,6 +346,7 @@ namespace game_framework
 		}
 		return digit == 0 ? 1 : digit;
 	}
+
 	void CGameStateOver::ShowStars(int amount, int xStar, int yStar)
 	{
 		if (amount == 3)
@@ -351,6 +384,7 @@ namespace game_framework
 			emptyStar.ShowBitmap();
 		}
 	}
+
 	void CGameStateOver::OnShow()
 	{
 		//show background
@@ -392,17 +426,44 @@ namespace game_framework
 		//show button
 		exitButton.SetTopLeft(scoreBoardOver.Left() + scoreBoardOver.Width() - exitButton.Width(), scoreBoardOver.Top());
 		exitButton.ShowBitmap();
-		if (!isFail ) {
-			retryButton.SetTopLeft((backgroundOver.Width() / 2) - 10 - nextButton.Width(), (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 530);
-			nextButton.SetTopLeft((backgroundOver.Width() / 2) + 10, (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 530);
-			nextButton.ShowBitmap();
+		if (!isFail )
+		{
+			if (retryBtnClicked)
+			{
+				retryButtonClicked.SetTopLeft((backgroundOver.Width() / 2) + 20 - nextButton.Width(), (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 530);
+				retryButtonClicked.ShowBitmap();
+			}
+			else
+			{
+				retryButton.SetTopLeft((backgroundOver.Width() / 2) + 20 - nextButton.Width(), (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 530);
+				retryButton.OnShow();
+			}
+			if (nextBtnClicked)
+			{
+				nextButtonClicked.SetTopLeft((backgroundOver.Width() / 2) - 20, (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 530);
+				nextButtonClicked.ShowBitmap();
+			}
+			else
+			{
+				nextButton.SetTopLeft((backgroundOver.Width() / 2) - 20, (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 530);
+				nextButton.OnShow();
+			}
 		}
-		else {
-			retryButton.SetTopLeft((backgroundOver.Width() / 2) - (nextButton.Width()/2), (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 530);
+		else
+		{
+			if (retryBtnClicked)
+			{
+				retryButtonClicked.SetTopLeft((backgroundOver.Width() / 2) - (nextButton.Width() / 2), (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 530);
+				retryButtonClicked.ShowBitmap();
+			}
+			else
+			{
+				retryButton.SetTopLeft((backgroundOver.Width() / 2) - (nextButton.Width() / 2), (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 530);
+				retryButton.OnShow();
+			}
 			youFailed.SetTopLeft((backgroundOver.Width() / 2) - (350 / 2), (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 205);
 			youFailed.ShowBitmap();
 		}
-		retryButton.ShowBitmap();
 	}
 
 	/////////////////////////////////////////////////////////////////////////////

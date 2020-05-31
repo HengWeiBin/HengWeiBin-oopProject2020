@@ -232,7 +232,7 @@ namespace game_framework
 		return curShow >= 14;
 	}
 
-	SuperBlast::SuperBlast(int x, int y, int delay) :curShow(0), lightningDelay(delay)
+	SuperBlast::SuperBlast(int x, int y, int delay, bool showAll) :curShow(0), lightningDelay(delay), showAll(showAll)
 	{
 		this->x = x;
 		this->y = y;
@@ -250,6 +250,11 @@ namespace game_framework
 	{
 		if (!target.size()) return;
 
+		showAll ? DrawLine(true) : DrawLine();
+	}
+
+	void SuperBlast::DrawLine(bool showAll)
+	{
 		CDC *pDC = CDDraw::GetBackCDC();
 
 		CPen penLighting;
@@ -259,12 +264,23 @@ namespace game_framework
 
 		pPen = pDC->SelectObject(&penLighting);
 
-		for (int i = lightningDelay; i >= 0; i--)
+		if (showAll)
 		{
-			if (curShow - i >= 0 && curShow - i < target.size())
+			for (auto i = target.begin(); i != target.end(); i++)
 			{
 				pDC->MoveTo(x + 25, y + 25);
-				pDC->LineTo(target[curShow - i]);
+				pDC->LineTo(*i);
+			}
+		}
+		else
+		{
+			for (int i = lightningDelay; i >= 0; i--)
+			{
+				if (curShow - i >= 0 && curShow - i < target.size())
+				{
+					pDC->MoveTo(x + 25, y + 25);
+					pDC->LineTo(target[curShow - i]);
+				}
 			}
 		}
 
@@ -281,7 +297,7 @@ namespace game_framework
 
 	bool SuperBlast::IsLast()
 	{
-		return curShow >= target.size() - lightningDelay - 1;
+		return ((curShow >= target.size() - lightningDelay - 1) || (showAll && curShow >= 5));
 	}
 
 }

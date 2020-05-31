@@ -115,12 +115,14 @@ namespace game_framework {
 		void ShowStars(int, int, int);
 		int counter, stageNum;	// 倒數之計數器
 		bool isFail;
-		CMovingBitmap	backgroundOver;	// 背景圖
+		CMovingBitmap backgroundOver;	// 背景圖
 		CMovingBitmap scoreBoardOver;
 		CInteger currentScore;
 		CInteger currentStage;
 		CMovingBitmap redStar, greenStar, yellowStar, emptyStar , youFailed;
-		CMovingBitmap exitButton, nextButton, retryButton;
+		CMovingBitmap exitButton, nextButtonClicked, retryButtonClicked;
+		CAnimation nextButton, retryButton;
+		bool nextBtnClicked, retryBtnClicked;
 	};
 
 	class CGameStateMenu : public CGameState

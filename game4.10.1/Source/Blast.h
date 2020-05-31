@@ -56,16 +56,19 @@ namespace game_framework
 	class SuperBlast :public Blast
 	{
 	public:
-		SuperBlast(int x, int y, int delay = 0);
+		SuperBlast(int x, int y, int delay = 0, bool showAll = false);
 		~SuperBlast();
-		void OnMove();
-		void OnShow();
 		void AddPoint(int x, int y);
 		bool IsLast();
+		void OnMove();
+		void OnShow();
 	private:
+		void DrawLine(bool showAll = false);
+
 		vector<CPoint> target;
 		int curShow;
 		int lightningDelay;		//delay time of lightning exist
+		bool showAll;			//Show all lightning in one-time
 	};
 }
 

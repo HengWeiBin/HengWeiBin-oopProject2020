@@ -496,12 +496,35 @@
 #define IDB2_7                          591
 #define IDB2_8                          592
 #define IDB2_9							593
+#define IDB_NEXTBTN_0                   594
+#define IDB_NEXTBTN_1                   595
+#define IDB_NEXTBTN_2                   596
+#define IDB_NEXTBTN_3                   597
+#define IDB_NEXTBTN_4                   598
+#define IDB_NEXTBTN_5                   599
+#define IDB_NEXTBTN_6                   600
+#define IDB_NEXTBTN_7                   601
+#define IDB_NEXTBTN_8                   602
+#define IDB_NEXTBTN_9                   603
+#define IDB_NEXTBTN_c                   604
+#define IDB_RETRYBTN_0                  605
+#define IDB_RETRYBTN_1                  606
+#define IDB_RETRYBTN_2                  607
+#define IDB_RETRYBTN_3                  608
+#define IDB_RETRYBTN_4                  609
+#define IDB_RETRYBTN_5                  610
+#define IDB_RETRYBTN_6                  611
+#define IDB_RETRYBTN_7                  612
+#define IDB_RETRYBTN_8                  613
+#define IDB_RETRYBTN_9                  614
+#define IDB_RETRYBTN_c                  615
 #define IDC_README                      1001
 #define ID_FILE_PAUSE                   32771
 #define ID_TOGGLE_FULLSCREEN            32772
 #define ID_BUTTON_FULLSCREEN            32773
 #define ID_BUTTON_PAUSE                 32774
 #define ID_BUTTON_UNITTEST              32775
+
 
 // Next default values for new objects
 // 
