@@ -166,7 +166,7 @@ namespace game_framework
 			if (!initiating)CAudio::Instance()->Play(AUDIO_SQUARE_REMOVE1, false);
 			break;
 		case 4:
-			RemoveStyle();
+			RemoveStyle(candy->GetTopLeftX(), candy->GetTopLeftY());
 			break;
 		}
 	}
@@ -194,12 +194,12 @@ namespace game_framework
 		}
 		else if (firstPow == 4 && !secondPow)
 		{	//Swap 1 super candy with normal candy
-			RemoveStyle(clickedCandies[1]->GetStyle());
+			RemoveStyle(clickedCandies[0]->GetTopLeftX(), clickedCandies[0]->GetTopLeftY(), clickedCandies[1]->GetStyle());
 			clickedCandies[0]->Kill();
 		}
 		else if (secondPow == 4 && !firstPow)
 		{	//Swap 1 super candy with normal candy
-			RemoveStyle(clickedCandies[0]->GetStyle());
+			RemoveStyle(clickedCandies[1]->GetTopLeftX(), clickedCandies[1]->GetTopLeftY(), clickedCandies[0]->GetStyle());
 			clickedCandies[1]->Kill();
 		}
 		else if (firstPow > 0 && firstPow < 3 && secondPow > 0 && secondPow < 3)
@@ -292,32 +292,52 @@ namespace game_framework
 		{
 			for (int i = 0; i < MaxHeight; i++)
 			{
+				SuperBlast* superBlast = new SuperBlast(column * 50 + 280, row * 50 + 35);
 				removeList.push_back(new list<Candy*>);
 				for (int j = 0; j < MaxWidth; j++)
-					if (map[i][j]) (*removeList.back()).push_back(&candies[i][j]);
+				{
+					if (map[i][j])
+					{
+						(*removeList.back()).push_back(&candies[i][j]);
+						superBlast->AddPoint(candies[i][j].GetTopLeftX() + 25, candies[i][j].GetTopLeftY() + 25);
+					}
+				}
+				blasts.push_back(superBlast);
+					
 				if (!(*removeList.back()).size())
 				{	//to avoid game crash, delete list if there's no candy to be removed in this row
 					delete removeList.back();
 					removeList.pop_back();
+					delete blasts.back();
+					blasts.pop_back();
 				}
 			}
 		}
 	}
 
-	void GameArea::RemoveStyle(int style)
+	void GameArea::RemoveStyle(int x, int y, int style)
 	{
 		if (!style) style = rand() % MAX_RAND_NUM + 1;
 
 		removeList.push_back(new list<Candy*>);
+		SuperBlast* superBlast = (x || y) ? new SuperBlast(x, y, 4) : NULL;
+
 		for (int i = 0; i < MaxHeight; i++)
 			for (int j = 0; j < MaxWidth; j++)
 				if (candies[i][j].GetStyle() == style && candies[i][j].GetPower() != 4)
+				{
 					(*removeList.rbegin())->push_back(&candies[i][j]);
-		if (!(*removeList.back()).size())
-				{	//to avoid game crash, delete list if there's no candy to be removed in this row
-					delete removeList.back();
-					removeList.pop_back();
+					if (superBlast != NULL) superBlast->AddPoint(candies[i][j].GetTopLeftX() + 25, candies[i][j].GetTopLeftY() + 25);
 				}
+
+		if (superBlast != NULL) blasts.push_back(superBlast);
+					
+		if (!(*removeList.back()).size())
+		{	//to avoid game crash, delete list if there's no candy to be removed in this row
+			delete removeList.back();
+			removeList.pop_back();
+		}
+		else CAudio::Instance()->Play(AUDIO_SUPER_REMOVE, false);
 	}
 
 	void GameArea::PowerAll(int style, int power)
@@ -353,7 +373,7 @@ namespace game_framework
 			if (delay > 0) delay--;
 			else
 			{
-				RemoveStyle(delayRemoveStyle);
+				RemoveStyle(0, 0, delayRemoveStyle);
 				delayRemove = false;
 			}
 		}
@@ -441,7 +461,7 @@ namespace game_framework
 
 		int comboCleared = IsDropping() ? 0 : FindCombo();
 
-		ShowBlasts();
+		OnMoveBlasts();
 
 		if (!comboCleared && !IsDropping())
 			OnMoveEnding();
@@ -500,7 +520,7 @@ namespace game_framework
 		return amountCleared;
 	}
 
-	void GameArea::ShowBlasts()
+	void GameArea::OnMoveBlasts()
 	{
 		for (auto i = blasts.begin(); i != blasts.end();)
 		{

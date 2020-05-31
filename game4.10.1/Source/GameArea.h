@@ -39,6 +39,7 @@ namespace game_framework
 		void InitClickedCandy();						//unclick & clear candies in clickedCandies
 		bool IsDropping();								//check all candies are still
 		bool IsNeighbour(Candy&, Candy&);				//return are candies in clickedCandies is neighbour
+		void OnMoveBlasts();
 		void OnMoveEnding();
 		void PowerAll(int, int);						//Power all specific candy
 		int PutCandy();									//spawn candies at spawning area
@@ -51,9 +52,8 @@ namespace game_framework
 		void RemoveRow(unsigned);						//remove whole row of candies
 		void RemoveColumn(unsigned);					//remove whole column of candies
 		void RemoveSquare(int, int, int);				//remove surrounding candies according to level
-		void RemoveStyle(int style = 0);				//remove all specific candy
+		void RemoveStyle(int x, int y, int style = 0);	//remove all specific candy
 		void ShowLoading();								//Show loading image
-		void ShowBlasts();
 		void SwapCandy();								//Swap candies in clickedCandies
 		void UpdateCurPosition();						//update current position of every candy
 

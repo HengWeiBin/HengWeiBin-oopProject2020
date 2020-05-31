@@ -577,11 +577,7 @@ namespace game_framework {
 	{
 		game->SetGameState(state);
 	}
-	/*
-	void CGameState::GotoGameState(int state,int stage)
-	{
-		game->SetGameState(state,stage);
-	}*/
+
 	void CGameState::ShowInitProgress(int percent)
 	{
 		if (!SHOW_LOAD_PROGRESS)

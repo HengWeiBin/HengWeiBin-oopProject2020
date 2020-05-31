@@ -2,17 +2,16 @@
 #ifndef BLAST_H
 #define BLAST_H
 
-enum CANDY {BLUECANDY, PURPLECANDY, ORANGECANDY, GREENCANDY, REDCANDY, YELLOWCANDY};
-
 namespace game_framework
 {
 	class Blast
 	{
 	public:
+		virtual ~Blast() {};
 		virtual void LoadBitmap() {};
 		virtual void OnShow() {};
 		virtual void OnMove() {};
-		virtual void SetTopLeft(int, int);
+		virtual void SetTopLeft(int x, int y);
 		virtual bool IsLast() = 0;
 	protected:
 		int x, y;
@@ -23,7 +22,7 @@ namespace game_framework
 	{
 	public:
 		NormalBlast();
-		NormalBlast(int, int, int);
+		NormalBlast(int style, int x, int y);
 		static void LoadBitmap();
 		void OnMove();
 		void OnShow();
@@ -42,7 +41,7 @@ namespace game_framework
 	class LineBlast :public Blast
 	{
 	public:
-		LineBlast(int, int, int, int);
+		LineBlast(int style, int x, int y, int power);
 		static void LoadBitmap();
 		void OnMove();
 		void OnShow();
@@ -50,8 +49,23 @@ namespace game_framework
 	private:
 		static CMovingBitmap horizontal[6][30];
 		static CMovingBitmap vertical[6][30];
-		int curShow;
+		int curShow, delay;
 		int powStyle;
+	};
+
+	class SuperBlast :public Blast
+	{
+	public:
+		SuperBlast(int x, int y, int delay = 0);
+		~SuperBlast();
+		void OnMove();
+		void OnShow();
+		void AddPoint(int x, int y);
+		bool IsLast();
+	private:
+		vector<CPoint> target;
+		int curShow;
+		int lightningDelay;		//delay time of lightning exist
 	};
 }
 

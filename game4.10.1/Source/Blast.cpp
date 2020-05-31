@@ -179,7 +179,7 @@ namespace game_framework
 
 	CMovingBitmap LineBlast::horizontal[6][30], LineBlast::vertical[6][30];
 
-	LineBlast::LineBlast(int style, int x, int y, int power) :powStyle(power), curShow(0)
+	LineBlast::LineBlast(int style, int x, int y, int power) :powStyle(power), curShow(0), delay(0)
 	{
 		this->style = style;
 		SetTopLeft(x, y);
@@ -201,7 +201,12 @@ namespace game_framework
 
 	void LineBlast::OnMove()
 	{
-		curShow ++;
+		if (!delay)
+		{
+			curShow++;
+			delay = 1;
+		}
+		else delay = 0;
 	}
 
 	void LineBlast::OnShow()
@@ -226,4 +231,57 @@ namespace game_framework
 	{
 		return curShow >= 14;
 	}
+
+	SuperBlast::SuperBlast(int x, int y, int delay) :curShow(0), lightningDelay(delay)
+	{
+		this->x = x;
+		this->y = y;
+	}
+
+	SuperBlast::~SuperBlast()
+	{}
+
+	void SuperBlast::OnMove()
+	{
+		curShow++;
+	}
+
+	void SuperBlast::OnShow()
+	{
+		if (!target.size()) return;
+
+		CDC *pDC = CDDraw::GetBackCDC();
+
+		CPen penLighting;
+		CPen *pPen;
+
+		penLighting.CreatePen(PS_SOLID | PS_COSMETIC, 8, RGB(207, 249, 245));
+
+		pPen = pDC->SelectObject(&penLighting);
+
+		for (int i = lightningDelay; i >= 0; i--)
+		{
+			if (curShow - i >= 0 && curShow - i < target.size())
+			{
+				pDC->MoveTo(x + 25, y + 25);
+				pDC->LineTo(target[curShow - i]);
+			}
+		}
+
+		// Restore the previous pen.
+		pDC->SelectObject(pPen);
+		CDDraw::ReleaseBackCDC();
+		Sleep(5);
+	}
+
+	void SuperBlast::AddPoint(int x, int y)
+	{
+		target.push_back(CPoint(x, y));
+	}
+
+	bool SuperBlast::IsLast()
+	{
+		return curShow >= target.size() - lightningDelay - 1;
+	}
+
 }

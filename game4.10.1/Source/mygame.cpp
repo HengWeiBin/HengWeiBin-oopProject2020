@@ -455,6 +455,7 @@ namespace game_framework
 		CAudio::Instance()->Load(AUDIO_CANDY_LAND2, "sounds\\candy_land2.wav");
 		CAudio::Instance()->Load(AUDIO_CANDY_LAND3, "sounds\\candy_land3.wav");
 		CAudio::Instance()->Load(AUDIO_CANDY_LAND4, "sounds\\candy_land4.wav");
+		CAudio::Instance()->Load(AUDIO_SUPER_REMOVE, "sounds\\super_colour_bomb1.wav");
 
 		for (int i = 0; i < 12; i++)
 		{
