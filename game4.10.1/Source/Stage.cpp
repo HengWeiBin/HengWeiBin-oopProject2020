@@ -21,18 +21,22 @@ game_framework::Stage::Stage(int files)
 	currentScore = 0;
 	currentStage = files;
 	isUnlock = 0;
-	for (int i = 0; i < 2; i++)
-		stageTxt[i] = "Stages\\cnt_stage" + to_string(files + i) + ".txt";
+	stageTxt = "Stages\\cnt_stage" + to_string(files) + ".txt";
+}
+
+game_framework::Stage::~Stage()
+{
+	WriteBack();
 }
 
 void game_framework::Stage::LoadStage()
 {
 	fstream InputStage;
-	InputStage.open(stageTxt[0]);
+	InputStage.open(stageTxt);
 	if (!InputStage.is_open())
 	{
 		char fileName[200] = "\nOpen file failed! file: ";
-		strcat(fileName, stageTxt[0].c_str());
+		strcat(fileName, stageTxt.c_str());
 		strcat(fileName, "\nReason: ");
 		GAME_ASSERT(0, strcat(fileName, strerror(errno)));
 	}
@@ -124,13 +128,10 @@ int game_framework::Stage::GetCurrentStage()
 without last 2 lines(last score and isunlock*/
 void game_framework::Stage::RemoveLine()
 {
-
-	for (int i = 0; i < 2; i++)
-	{
-		ifstream read(stageTxt[i]);
+		ifstream read(stageTxt);
 		ofstream myFile;
 		string file;
-		const char* data = stageTxt[i].data();
+		const char* data = stageTxt.data();
 		myFile.open("temp.txt", ofstream::out);
 		int line_no = 1, n = 26;
 		while (!read.eof())
@@ -149,22 +150,17 @@ void game_framework::Stage::RemoveLine()
 		read.close();
 		remove(data);
 		rename("temp.txt", data);
-	}
+
 
 }
 
 void game_framework::Stage::WriteBack()
 {
 		RemoveLine();
-		ofstream myFile(stageTxt[0], ofstream::app);
-		myFile << lastHighScore << "\t#LastScore";
-		myFile << "\n1\t#IsUnlock";
+		ofstream myFile(stageTxt, ofstream::app);
+		myFile << lastHighScore << "\t#LastScore\n";
+		myFile << isUnlock <<"\t#IsUnlock";
 		myFile.close();
-
-		ofstream myFile1(stageTxt[1], ofstream::app);
-		myFile1 << "0\t#LastScore";
-		myFile1 << "\n1\t#IsUnlock";
-		myFile1.close();
 }
 void game_framework::Stage::SetCurrentScore(int score)
 {

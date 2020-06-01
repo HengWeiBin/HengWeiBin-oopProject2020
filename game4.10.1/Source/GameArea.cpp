@@ -1021,7 +1021,6 @@ namespace game_framework
 				(*(stage + 1))->SetUnlock();
 				(*stage)->currentScore = scoreBoard.score.GetInteger();
 				(*stage)->lastHighScore = scoreBoard.lastHighScore < scoreBoard.score ? scoreBoard.score.GetInteger() : scoreBoard.lastHighScore;
-				(*stage)->WriteBack();
 				(*stage)->SetPassOrFail(0);
 				running = false;
 			}
