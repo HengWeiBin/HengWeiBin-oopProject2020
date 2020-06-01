@@ -1,9 +1,0 @@
-diff a/game4.10.1/Stages/cnt_stage3.txt b/game4.10.1/Stages/cnt_stage3.txt	(rejected hunks)
-@@ -23,4 +23,4 @@
- 2	#mode
- 0	#initcandy
- 0	#LastScore
--0	#IsUnlock
-\ No newline at end of file
-+1	#IsUnlock
-\ No newline at end of file
