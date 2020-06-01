@@ -10,6 +10,7 @@ namespace game_framework
 		friend class GameArea;
 	public:
 		Stage(int);
+		~Stage();
 		void LoadStage();
 		double GetScoreOne();
 		double GetScoreTwo();
@@ -35,7 +36,7 @@ namespace game_framework
 		bool isUnlock;
 		bool isFail;
 		bool initcandy;
-		string stageTxt[2];
+		string stageTxt;
 		int currentStage;
 		int currentScore;
 	};
