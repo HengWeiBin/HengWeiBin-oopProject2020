@@ -364,7 +364,7 @@ namespace game_framework
 	void CGameStateOver::ShowButtons()
 	{
 		int exitBtnTopLX = scoreBoardOver.Left() + scoreBoardOver.Width() - exitButton.Width();
-		int exitBtnTopLY = scoreBoardOver.Top();
+		int exitBtnTopLY = scoreBoardOver.Top() + 30;
 		int retryBtnTopLX = (backgroundOver.Width() / 2) + (isFail ? -nextButton.Width() / 2 : 20 - nextButton.Width());
 		int retryBtnTopLY = (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 530;
 		int nextBtnTopLX = (backgroundOver.Width() / 2) - 20;
@@ -397,7 +397,7 @@ namespace game_framework
 		//Show "Failed" if fail, show next button else
 		if (isFail)
 		{
-			youFailed.SetTopLeft((backgroundOver.Width() / 2) - (350 / 2), (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 205);
+			youFailed.SetTopLeft((backgroundOver.Width() / 2) - (youFailed.Width() / 2), (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 180);
 			youFailed.ShowBitmap();
 		}
 		else
@@ -469,7 +469,7 @@ namespace game_framework
 
 		//show star
 		int xStar = (backgroundOver.Width() / 2) - (370 / 2);
-		int yStar = (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 205;
+		int yStar = (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 180;
 		if (stages[current_stage]->GetCurrentScore() >= stages[current_stage]->GetScoreThree() && !isFail)
 		{	//Show 3 yellow star if current score higher than star three
 			ShowStars(3, xStar, yStar);
@@ -488,7 +488,7 @@ namespace game_framework
 		}
 
 		//show score
-		currentScore.SetTopLeft((backgroundOver.Width() / 2) - (60 * GetDigit(currentScore.GetInteger()) / 2), (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 400);
+		currentScore.SetTopLeft((backgroundOver.Width() / 2) - (60 * GetDigit(currentScore.GetInteger()) / 2), (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 390);
 		currentScore.ShowBitmap();
 
 		ShowButtons();
@@ -633,6 +633,7 @@ namespace game_framework
 	{
 		woodBackgourd.LoadBitmap("Bitmaps\\WoodBackground.bmp");
 		menuBackground.LoadBitmap("Bitmaps\\stage_map.bmp");
+		comingSoon.LoadBitmap("Bitmaps\\ComingSoon.bmp", RGB(0, 0, 0));
 		stageNum.SetType(1);
 
 		int StageButton[5] = { IDB_STAGE_BUTTON_BLUE, IDB_STAGE_BUTTON_RED, IDB_STAGE_BUTTON_GREEN, IDB_STAGE_BUTTON_YELLOW, IDB_STAGE_BUTTON_GREY };
@@ -781,6 +782,11 @@ namespace game_framework
 			sy = 0;
 		menuBackground.SetTopLeft(40, sy);
 		menuBackground.ShowBitmap();
+		if (sy > -3000)
+		{
+			comingSoon.SetTopLeft(SIZE_X / 2 - comingSoon.Width() / 2, SIZE_Y / 2 - comingSoon.Height() / 2);
+			comingSoon.ShowBitmap();
+		}
 
 		//show unlock icon
 		for (int i = 0; i < totalStage; i++)

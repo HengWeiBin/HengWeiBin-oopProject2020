@@ -154,7 +154,7 @@ namespace game_framework {
 		void ShowStars(int, int, int);
 
 		CMovingBitmap menuBackground, woodBackgourd, stageButton[5];
-		CMovingBitmap star1, star2, star3;
+		CMovingBitmap star1, star2, star3, comingSoon;
 		const int totalStage;
 		int sy;
 		int MAX_Y, MIN_Y;
