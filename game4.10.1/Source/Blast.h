@@ -53,6 +53,22 @@ namespace game_framework
 		int powStyle;
 	};
 
+	class MagicBlast :public Blast
+	{
+	public:
+		MagicBlast(int x, int y);
+		MagicBlast(CPoint);
+		bool IsLast();
+		static void LoadBitmap();
+		void OnMove();
+		void OnShow();
+	private:
+		static CMovingBitmap bmp[4];
+		int curShow;
+		int delay;
+		int x, y;
+	};
+
 	class SuperBlast :public Blast
 	{
 	public:
@@ -60,12 +76,17 @@ namespace game_framework
 		~SuperBlast();
 		void AddPoint(int x, int y);
 		bool IsLast();
+		static void LoadBitmap();
 		void OnMove();
 		void OnShow();
 	private:
-		void DrawLine(bool showAll = false);
+		void ShowLightning(bool showAll = false);
+		void DrawLine(CDC*, const CPoint&, const CPoint&);
+		list<CPoint>* GetRoutePoints(CPoint, CPoint);
 
+		static CAnimation chocalate;
 		vector<CPoint> target;
+		list<MagicBlast> magicBlasts;
 		int curShow;
 		int lightningDelay;		//delay time of lightning exist
 		bool showAll;			//Show all lightning in one-time

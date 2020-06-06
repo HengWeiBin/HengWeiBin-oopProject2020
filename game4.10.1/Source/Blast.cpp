@@ -232,10 +232,13 @@ namespace game_framework
 		return curShow >= 14;
 	}
 
+	CAnimation SuperBlast::chocalate;
+
 	SuperBlast::SuperBlast(int x, int y, int delay, bool showAll) :curShow(0), lightningDelay(delay), showAll(showAll)
 	{
 		this->x = x;
 		this->y = y;
+		chocalate.SetDelayCount(3);
 	}
 
 	SuperBlast::~SuperBlast()
@@ -246,23 +249,41 @@ namespace game_framework
 	void SuperBlast::OnMove()
 	{
 		curShow++;
+		chocalate.OnMove();
+
+		for (auto i = magicBlasts.begin(); i != magicBlasts.end();)
+		{
+			if ((*i).IsLast()) i = magicBlasts.erase(i);
+			else
+			{
+				(*i).OnMove();
+				i++;
+			}
+		}
 	}
 
 	void SuperBlast::OnShow()
 	{
 		if (!target.size()) return;
 
-		showAll ? DrawLine(true) : DrawLine();
+		showAll ? ShowLightning(true) : ShowLightning();
+
+		for (auto i = magicBlasts.begin(); i != magicBlasts.end(); i++)
+		{
+			(*i).OnShow();
+		}
 	}
 
-	void SuperBlast::DrawLine(bool showAll)
+	void SuperBlast::ShowLightning(bool showAll)
 	{
+		chocalate.SetTopLeft(x, y);
+		chocalate.OnShow();
 		CDC *pDC = CDDraw::GetBackCDC();
 
 		CPen penLighting;
 		CPen *pPen;
 
-		penLighting.CreatePen(PS_SOLID | PS_COSMETIC, 8, RGB(207, 249, 245));
+		penLighting.CreatePen(PS_SOLID | PS_COSMETIC, showAll ? 5 : rand() % 10 + 1, RGB(207, 249, 245));
 
 		pPen = pDC->SelectObject(&penLighting);
 
@@ -270,8 +291,8 @@ namespace game_framework
 		{
 			for (auto i = target.begin(); i != target.end(); i++)
 			{
-				pDC->MoveTo(x + 25, y + 25);
-				pDC->LineTo(*i);
+				DrawLine(pDC, CPoint(x + 25, y + 25), *i);
+				magicBlasts.push_back(MagicBlast(*i));
 			}
 		}
 		else
@@ -280,16 +301,51 @@ namespace game_framework
 			{
 				if (curShow - i >= 0 && curShow - i < target.size())
 				{
-					pDC->MoveTo(x + 25, y + 25);
-					pDC->LineTo(target[curShow - i]);
+					DrawLine(pDC, CPoint(x + 25, y + 25), target[curShow - i]);
+					magicBlasts.push_back(MagicBlast(target[curShow - i]));
 				}
 			}
 		}
-
 		// Restore the previous pen.
 		pDC->SelectObject(pPen);
 		CDDraw::ReleaseBackCDC();
-		Sleep(10);
+		Sleep(5);
+	}
+
+	void SuperBlast::DrawLine(CDC* pDC, const CPoint& start, const CPoint& end)
+	{
+		list<CPoint>* route = GetRoutePoints(start, end);
+		pDC->MoveTo(*route->begin());
+		for (auto j = route->begin()++; j != route->end(); j++)
+		{
+			pDC->LineTo(*j);
+		}
+		delete route;
+	}
+
+	list<CPoint>* SuperBlast::GetRoutePoints(CPoint start, CPoint end)
+	{
+		list<CPoint>* route = new list<CPoint>();
+		int interval = abs(start.x - end.x) / (abs(start.x - end.x) > 10 ? abs(start.x - end.x) / 10 : abs(start.x - end.x) > 0 ? abs(start.x - end.x) : 1);
+		int totalPoint = abs(start.x - end.x) > 10 ? abs(start.x - end.x) / 10 : abs(start.x - end.x);
+		int reverse = start.x > end.x ? -1 : 1;
+		for (int i = 0; i < totalPoint; i++)
+		{
+			CPoint point;
+			point.x = start.x + interval * i * reverse;
+			point.y = (point.x * end.y - point.x * start.y - start.x * end.y + end.x * start.y) / (end.x - start.x);
+			route->push_back(point);
+		}
+		route->push_back(end);
+
+		int j = 0;
+		for (auto i = route->begin(); i != route->end(); i++, j++)
+		{
+			if (j % 2) i->x += rand() % 20 - 10;
+			else i->y += rand() % 20 - 10;
+		}
+
+		return route;
 	}
 
 	void SuperBlast::AddPoint(int x, int y)
@@ -299,7 +355,52 @@ namespace game_framework
 
 	bool SuperBlast::IsLast()
 	{
-		return ((curShow >= target.size() + lightningDelay) || (showAll && curShow >= 5));
+		return ((curShow >= target.size() + lightningDelay) || (showAll && curShow >= 10));
+	}
+
+	void SuperBlast::LoadBitmap()
+	{
+		chocalate.AddBitmap("Bitmaps\\BlastSuperCandy1.bmp", RGB(254, 191, 200));
+		chocalate.AddBitmap("Bitmaps\\BlastSuperCandy2.bmp", RGB(254, 191, 200));
+		chocalate.AddBitmap("Bitmaps\\BlastSuperCandy3.bmp", RGB(254, 191, 200));
+		chocalate.AddBitmap("Bitmaps\\BlastSuperCandy4.bmp", RGB(254, 191, 200));
+		chocalate.AddBitmap("Bitmaps\\BlastSuperCandy5.bmp", RGB(254, 191, 200));
+	}
+
+	CMovingBitmap MagicBlast::bmp[4];
+
+	MagicBlast::MagicBlast(int x, int y) :x(x), y(y), curShow(0)
+	{ }
+
+	MagicBlast::MagicBlast(CPoint p) :x(p.x), y(p.y), curShow(0)
+	{ }
+
+	bool MagicBlast::IsLast()
+	{
+		return curShow == 3;
+	}
+
+	void MagicBlast::LoadBitmap()
+	{
+		bmp[0].LoadBitmap("Bitmaps\\MagicBlast1.bmp", RGB(254, 191, 200));
+		bmp[1].LoadBitmap("Bitmaps\\MagicBlast2.bmp", RGB(254, 191, 200));
+		bmp[2].LoadBitmap("Bitmaps\\MagicBlast3.bmp", RGB(254, 191, 200));
+		bmp[3].LoadBitmap("Bitmaps\\MagicBlast4.bmp", RGB(254, 191, 200));
+	}
+
+	void MagicBlast::OnMove()
+	{
+		delay = delay == 1 ? 0 : 1;
+		if (delay) curShow++;
+	}
+
+	void MagicBlast::OnShow()
+	{
+		if (!delay)
+		{
+			bmp[curShow].SetTopLeft(x - bmp[curShow].Width() / 2, y - bmp[curShow].Height() / 2);
+			bmp[curShow].ShowBitmap();
+		}
 	}
 
 }

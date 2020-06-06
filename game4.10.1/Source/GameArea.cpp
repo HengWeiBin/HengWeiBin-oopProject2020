@@ -48,6 +48,8 @@ namespace game_framework
 		Candy::LoadBitmap();
 		NormalBlast::LoadBitmap();
 		LineBlast::LoadBitmap();
+		SuperBlast::LoadBitmap();
+		MagicBlast::LoadBitmap();
 	}
 
 	void GameArea::LoadStage(vector<Stage*>& stages, int index)
