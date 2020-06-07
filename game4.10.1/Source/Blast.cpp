@@ -292,7 +292,17 @@ namespace game_framework
 			for (auto i = target.begin(); i != target.end(); i++)
 			{
 				DrawLine(pDC, CPoint(x + 25, y + 25), *i);
-				magicBlasts.push_back(MagicBlast(*i));
+				MagicBlast blast(*i);
+				bool blastExists = false;
+				for (auto i = magicBlasts.begin(); i != magicBlasts.end(); i++)
+				{
+					if ((*i) == blast)
+					{
+						blastExists = true;
+						break;
+					}
+				}
+				if (!blastExists) magicBlasts.push_back(blast);
 			}
 		}
 		else
@@ -302,7 +312,17 @@ namespace game_framework
 				if (curShow - i >= 0 && curShow - i < target.size())
 				{
 					DrawLine(pDC, CPoint(x + 25, y + 25), target[curShow - i]);
-					magicBlasts.push_back(MagicBlast(target[curShow - i]));
+					MagicBlast blast(target[curShow - i]);
+					bool blastExists = false;
+					for (auto i = magicBlasts.begin(); i != magicBlasts.end(); i++)
+					{
+						if ((*i) == blast)
+						{
+							blastExists = true;
+							break;
+						}
+					}
+					if (!blastExists) magicBlasts.push_back(blast);
 				}
 			}
 		}
@@ -382,10 +402,10 @@ namespace game_framework
 
 	void MagicBlast::LoadBitmap()
 	{
-		bmp[0].LoadBitmap("Bitmaps\\MagicBlast1.bmp", RGB(254, 191, 200));
-		bmp[1].LoadBitmap("Bitmaps\\MagicBlast2.bmp", RGB(254, 191, 200));
-		bmp[2].LoadBitmap("Bitmaps\\MagicBlast3.bmp", RGB(254, 191, 200));
-		bmp[3].LoadBitmap("Bitmaps\\MagicBlast4.bmp", RGB(254, 191, 200));
+		bmp[0].LoadBitmap("Bitmaps\\MagicBlast1.bmp", RGB(255, 255, 255));
+		bmp[1].LoadBitmap("Bitmaps\\MagicBlast2.bmp", RGB(255, 255, 255));
+		bmp[2].LoadBitmap("Bitmaps\\MagicBlast3.bmp", RGB(255, 255, 255));
+		bmp[3].LoadBitmap("Bitmaps\\MagicBlast4.bmp", RGB(255, 255, 255));
 	}
 
 	void MagicBlast::OnMove()
@@ -396,11 +416,16 @@ namespace game_framework
 
 	void MagicBlast::OnShow()
 	{
-		if (!delay)
+		if (delay)
 		{
 			bmp[curShow].SetTopLeft(x - bmp[curShow].Width() / 2, y - bmp[curShow].Height() / 2);
 			bmp[curShow].ShowBitmap();
 		}
+	}
+
+	bool MagicBlast::operator==(const MagicBlast & rhs)
+	{
+		return rhs.x == x && rhs.y == y;
 	}
 
 }

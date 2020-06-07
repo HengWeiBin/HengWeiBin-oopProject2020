@@ -62,6 +62,7 @@ namespace game_framework
 		static void LoadBitmap();
 		void OnMove();
 		void OnShow();
+		bool operator==(const MagicBlast& rhs);
 	private:
 		static CMovingBitmap bmp[4];
 		int curShow;
