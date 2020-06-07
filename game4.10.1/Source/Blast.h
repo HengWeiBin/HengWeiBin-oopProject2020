@@ -49,7 +49,7 @@ namespace game_framework
 	private:
 		static CMovingBitmap horizontal[6][30];
 		static CMovingBitmap vertical[6][30];
-		int curShow, delay;
+		int curShow;
 		int powStyle;
 	};
 
