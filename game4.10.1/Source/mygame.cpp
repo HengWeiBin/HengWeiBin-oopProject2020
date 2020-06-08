@@ -365,7 +365,7 @@ namespace game_framework
 	{
 		int exitBtnTopLX = scoreBoardOver.Left() + scoreBoardOver.Width() - exitButton.Width();
 		int exitBtnTopLY = scoreBoardOver.Top() + 30;
-		int retryBtnTopLX = (backgroundOver.Width() / 2) + (isFail ? -nextButton.Width() / 2 : 20 - nextButton.Width());
+		int retryBtnTopLX = (backgroundOver.Width() / 2) + (isFail || (current_stage+1 == 15) ? -nextButton.Width() / 2 : 20 - nextButton.Width());
 		int retryBtnTopLY = (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 530;
 		int nextBtnTopLX = (backgroundOver.Width() / 2) - 20;
 		int nextBtnTopLY = (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 530;
@@ -400,7 +400,7 @@ namespace game_framework
 			youFailed.SetTopLeft((backgroundOver.Width() / 2) - (youFailed.Width() / 2), (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 180);
 			youFailed.ShowBitmap();
 		}
-		else
+		else if(current_stage + 1 != 15)
 		{
 			if (nextBtnClicked)
 			{
@@ -607,7 +607,7 @@ namespace game_framework
 	/////////////////////////////////////////////////////////////////////////////
 
 	CGameStateMenu::CGameStateMenu(CGame *g)
-		: CGameState(g), totalStage(9), drag(false), mouseDisplayment(0), inertia(0), goldFinger(false)
+		: CGameState(g), totalStage(15), drag(false), mouseDisplayment(0), inertia(0), goldFinger(false)
 	{
 		IsMovingUp = false; IsMovingDown = false;
 		MAX_Y = 0; MIN_Y = -3600;
@@ -648,7 +648,7 @@ namespace game_framework
 		star3.LoadBitmap("Bitmaps\\SmallYellowStar.bmp", RGB(255, 255, 255));
 
 		//load stage
-		for (int i = 0; i < totalStage + 1; i++) {
+		for (int i = 0; i < totalStage+1; i++) {
 			stages.push_back(new Stage(i + 1));
 			stages[i]->LoadStage();
 		}
