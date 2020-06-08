@@ -572,10 +572,12 @@ namespace game_framework {
 	GameArea CGameState::gameArea;
 	vector<Stage*> CGameState::stages;
 	int CGameState::current_stage;
+	bool CGameState::sound, CGameState::music;
 
 	CGameState::CGameState(CGame *g)
 	{
 		game = g; 	// 設定game的pointer
+		sound = music = true;
 	}
 
 	void CGameState::GotoGameState(int state)

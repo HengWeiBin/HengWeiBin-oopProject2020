@@ -128,10 +128,17 @@ namespace game_framework
 	IDB_PUR_HEXPL21, IDB_PUR_HEXPL22, IDB_PUR_HEXPL23, IDB_PUR_HEXPL24, IDB_PUR_HEXPL25,
 	IDB_PUR_HEXPL26, IDB_PUR_HEXPL27, IDB_PUR_HEXPL28, IDB_PUR_HEXPL29, IDB_PUR_HEXPL30 };
 
+	bool Blast::sound;
+
 	void Blast::SetTopLeft(int x, int y)
 	{
 		this->x = x;
 		this->y = y;
+	}
+
+	void Blast::SetSound(bool sound)
+	{
+		Blast::sound = sound;
 	}
 
 	CMovingBitmap NormalBlast::normalBlast[6][10], NormalBlast::shatter[6][15];
@@ -247,7 +254,7 @@ namespace game_framework
 
 	void LineBlast::OnShow()
 	{
-		if (curShow == 1) CAudio::Instance()->Play(AUDIO_LINE_BLAST, false);
+		if (sound && curShow == 1) CAudio::Instance()->Play(AUDIO_LINE_BLAST, false);
 		switch (powStyle)
 		{
 		case 1:

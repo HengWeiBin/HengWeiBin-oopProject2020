@@ -17,7 +17,6 @@
 
 namespace game_framework
 {
-
 	static int audioID[12] = { AUDIO_COMBO1, AUDIO_COMBO2, AUDIO_COMBO3, AUDIO_COMBO4, AUDIO_COMBO5, AUDIO_COMBO6,
 						AUDIO_COMBO7, AUDIO_COMBO8, AUDIO_COMBO9, AUDIO_COMBO10, AUDIO_COMBO11, AUDIO_COMBO12 };
 
@@ -165,7 +164,7 @@ namespace game_framework
 			break;
 		case 3:
 			RemoveSquare(row, column, 1);
-			if (!initiating)CAudio::Instance()->Play(AUDIO_SQUARE_REMOVE1, false);
+			if (!initiating && sound)CAudio::Instance()->Play(AUDIO_SQUARE_REMOVE1, false);
 			break;
 		case 4:
 			RemoveStyle(candy->GetTopLeftX(), candy->GetTopLeftY());
@@ -220,7 +219,7 @@ namespace game_framework
 			unsigned row, column;
 			Find(clickedCandies[0], row, column);
 			RemoveSquare(row, column, 2);
-			CAudio::Instance()->Play(AUDIO_SQUARE_REMOVE2, false);
+			if (sound) CAudio::Instance()->Play(AUDIO_SQUARE_REMOVE2, false);
 		}
 		else if (firstPow == 3 && secondPow > 0 && secondPow < 3)
 		{	//Swap 1 wrapped candy with striped candy
@@ -339,7 +338,12 @@ namespace game_framework
 			delete removeList.back();
 			removeList.pop_back();
 		}
-		else if (superBlast != NULL) CAudio::Instance()->Play(AUDIO_SUPER_REMOVE, false);
+		else if (superBlast != NULL && sound) CAudio::Instance()->Play(AUDIO_SUPER_REMOVE, false);
+	}
+
+	void GameArea::SetSound(bool s)
+	{
+		sound = s;
 	}
 
 	void GameArea::PowerAll(int style, int power, int x, int y)
@@ -354,7 +358,7 @@ namespace game_framework
 					superBlast->AddPoint(candies[i][j].GetTopLeftX() + 25, candies[i][j].GetTopLeftY() + 25);
 				}
 		blasts.push_back(superBlast);
-		CAudio::Instance()->Play(AUDIO_POWER_ALL, false);
+		if (sound) CAudio::Instance()->Play(AUDIO_POWER_ALL, false);
 		delay = (int)(1000.0 / GAME_CYCLE_TIME);
 		delayRemoveStyle = style;
 		delayRemove = true;
@@ -504,14 +508,14 @@ namespace game_framework
 			if (amountCleared)
 			{	//play combo sound
 				currentComboSound = currentComboSound > 11 ? 11 : currentComboSound;
-				CAudio::Instance()->Play(audioID[currentComboSound++], false);
+				if (sound) CAudio::Instance()->Play(audioID[currentComboSound++], false);
 			}
 			else
 			{
-				if (currentComboSound > 11) CAudio::Instance()->Play(AUDIO_DIVINE, false);
-				else if (currentComboSound > 7) CAudio::Instance()->Play(AUDIO_DELICIOUS, false);
-				else if (currentComboSound > 4) CAudio::Instance()->Play(AUDIO_TASTY, false);
-				else if (currentComboSound > 2) CAudio::Instance()->Play(AUDIO_SWEET, false);
+				if (currentComboSound > 11 && sound) CAudio::Instance()->Play(AUDIO_DIVINE, false);
+				else if (currentComboSound > 7 && sound) CAudio::Instance()->Play(AUDIO_DELICIOUS, false);
+				else if (currentComboSound > 4 && sound) CAudio::Instance()->Play(AUDIO_TASTY, false);
+				else if (currentComboSound > 2 && sound) CAudio::Instance()->Play(AUDIO_SWEET, false);
 				currentComboSound = 0;
 			}
 
@@ -522,7 +526,7 @@ namespace game_framework
 			}
 			else if (!amountCleared && clickedCandies.size() == 2)
 			{ //else swap two candies back to original position
-				CAudio::Instance()->Play(AUDIO_NEG_SWAP, false);
+				if (sound) CAudio::Instance()->Play(AUDIO_NEG_SWAP, false);
 				SwapCandy();
 				InitClickedCandy();
 			}
@@ -579,7 +583,7 @@ namespace game_framework
 					if (IsNeighbour(*clickedCandies[0], *clickedCandies[1]))
 					{
 						SwapCandy();
-						CAudio::Instance()->Play(AUDIO_SWAP, false);
+						if (sound) CAudio::Instance()->Play(AUDIO_SWAP, false);
 						//Release swapPower when each of clickedCandy is superCandy or both are poweredCandy
 						if (clickedCandies[0]->GetPower() == 4 || clickedCandies[1]->GetPower() == 4 || (clickedCandies[0]->GetPower() && clickedCandies[1]->GetPower()))
 							releaseSwap = true;
@@ -872,7 +876,7 @@ namespace game_framework
 			if (axis == 'y') temp.insert(line[j]);
 			else if(packCandy && find(temp.begin(), temp.end(), line[j]) != temp.end())
 			{
-				if (!initiating)CAudio::Instance()->Play(AUDIO_PACK_CREATE, false);
+				if (!initiating && sound)CAudio::Instance()->Play(AUDIO_PACK_CREATE, false);
 				line[j]->SetPower(3);
 				line[j]->Relive();
 				superCandy = linePower = packCandy = false;
@@ -881,7 +885,7 @@ namespace game_framework
 
 			if (linePower && find(clickedCandies.begin(), clickedCandies.end(), line[j]) != clickedCandies.end())
 			{
-				if (!initiating)CAudio::Instance()->Play(AUDIO_LINE_CREATE, false);
+				if (!initiating && sound)CAudio::Instance()->Play(AUDIO_LINE_CREATE, false);
 				line[j]->Relive();
 				line[j]->SetPower(axis == 'x' ? 2 : 1);
 				linePower = false;
@@ -890,7 +894,7 @@ namespace game_framework
 
 			if (superCandy && find(clickedCandies.begin(), clickedCandies.end(), line[j]) != clickedCandies.end())
 			{
-				if (!initiating)CAudio::Instance()->Play(AUDIO_SUPER_CREATE, false);
+				if (!initiating && sound)CAudio::Instance()->Play(AUDIO_SUPER_CREATE, false);
 				line[j]->Relive();
 				line[j]->SetPower(4);
 				superCandy = false;
@@ -899,13 +903,13 @@ namespace game_framework
 		}
 		if (linePower)
 		{
-			if (!initiating)CAudio::Instance()->Play(AUDIO_LINE_CREATE, false);
+			if (!initiating && sound)CAudio::Instance()->Play(AUDIO_LINE_CREATE, false);
 			line[offset]->SetPower(axis == 'x' ? 2 : 1);
 			line[offset]->Relive();
 		}
 		if (superCandy)
 		{
-			if (!initiating)CAudio::Instance()->Play(AUDIO_SUPER_CREATE, false);
+			if (!initiating && sound) CAudio::Instance()->Play(AUDIO_SUPER_CREATE, false);
 			line[offset]->SetPower(4);
 			line[offset]->Relive();
 		}

@@ -336,9 +336,10 @@ namespace game_framework {
 		virtual void OnMove() {}								// 移動這個狀態的遊戲元素
 		virtual void OnShow() = 0;								// 顯示這個狀態的遊戲畫面
 		CGame *game;
-		static GameArea gameArea;	//游戲區
-		static vector<Stage*> stages;
-		static int current_stage;
+		static GameArea gameArea;								// 游戲的主要控制
+		static vector<Stage*> stages;							// 游戲中所有關卡資料
+		static int current_stage;								// 當前/上一次玩過的關卡
+		static bool sound, music;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////

@@ -22,7 +22,7 @@ namespace game_framework
 		bool IsMoving();					//return current coordinate != destination coordinate
 		bool IsClicked();					//return onClick
 		void Kill();						//simple remove without release power
-		static void LoadBitmap();					//Load candy's bitmap according to style
+		static void LoadBitmap();			//Load candy's bitmap according to style
 		void OnMove(bool mute = false);		//move if current coordinate != destination coordinate
 		void OnShow();						//display candy
 		void Push(int, int);				//Push candies around self
@@ -30,6 +30,7 @@ namespace game_framework
 		void SetDestination(int, int);		//set destination x,y
 		void SetDestination(int);			//set destination y
 		void SetStyle(int);					//change current style
+		static void SetSound(bool);			//switch sound on/off
 		void SetPower(int);					//Set current power
 	private:
 		void GetCurrentShow(CMovingBitmap**, CMovingBitmap**);
@@ -39,6 +40,7 @@ namespace game_framework
 		static CMovingBitmap vertical[6], verticalClick[6];
 		static CMovingBitmap pack[6], packClick[6];
 		static CMovingBitmap super[6], superClick[6];
+		static bool sound;
 		int style, rawStyle;		//0 = non-exist
 		int power;
 		int x, y, dx, dy, pushX, pushY;			//current || destination coordinate

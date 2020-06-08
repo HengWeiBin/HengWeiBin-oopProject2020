@@ -24,6 +24,7 @@ namespace game_framework
 		void OnLButtonDown(UINT nFlags, CPoint point);	//handle mouse click
 		void OnLButtonUp(UINT nFlags, CPoint point);	//handle mouse unclick
 		void OnMouseMove(UINT nFlags, CPoint point);	//handle mouse move
+		void SetSound(bool);							//switch sound on/off
 	private:
 		int ClearCombo();								//search and delete all combo
 		int Compare(int, int);							//Compare two int
@@ -59,6 +60,7 @@ namespace game_framework
 		void UpdateCurPosition();						//update current position of every candy
 
 		const int x, y;									//top left x,y of gameArea
+		bool sound;
 		int map[MaxHeight][MaxWidth];					//Array of container
 		int delay, delayRemoveStyle;
 		bool delayRemove, releaseSwap;

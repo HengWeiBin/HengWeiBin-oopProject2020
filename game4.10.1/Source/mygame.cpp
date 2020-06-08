@@ -163,7 +163,7 @@ namespace game_framework
 		{
 			candyCrush.Reset();
 			playBtnClicked = false;
-			CAudio::Instance()->Play(AUDIO_STAGE, true);
+			if (music) CAudio::Instance()->Play(AUDIO_STAGE, true);
 		}
 	}
 
@@ -507,7 +507,7 @@ namespace game_framework
 	void CGameStateRun::OnBeginState()
 	{
 		background.SetTopLeft(0, 0);						// 設定背景的起始座標
-		CAudio::Instance()->Play(AUDIO_JELLY, true);		// 撥放 MIDI
+		if (music) CAudio::Instance()->Play(AUDIO_JELLY, true);		// 撥放 MIDI
 	}
 
 	void CGameStateRun::OnMove()							// 移動遊戲元素
@@ -661,7 +661,11 @@ namespace game_framework
 	}
 
 	void CGameStateMenu::OnBeginState()
-	{ }
+	{
+		gameArea.SetSound(sound);
+		Candy::SetSound(sound);
+		Blast::SetSound(sound);
+	}
 
 	void CGameStateMenu::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
