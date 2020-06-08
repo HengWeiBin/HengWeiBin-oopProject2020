@@ -39,6 +39,8 @@ namespace game_framework
 		string stageTxt;
 		int currentStage;
 		int currentScore;
+		bool hasPortal;
+		list<pair<CPoint, CPoint>> portalList;
 	};
 }
 #endif

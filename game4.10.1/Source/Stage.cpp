@@ -41,6 +41,7 @@ void game_framework::Stage::LoadStage()
 		GAME_ASSERT(0, strcat(fileName, strerror(errno)));
 	}
 	string data[13];
+	string tempPortal;
 	string file;
 	//MAP
 	for (int i = 0; i < 13; i++) {
@@ -60,6 +61,27 @@ void game_framework::Stage::LoadStage()
 	for (int i = 2; i < 13; i++) {
 		getline(InputStage, file, '\n');
 		data[i] = file.substr(0, file.find('\t'));
+	}
+	//PORTAL
+	int portal;
+	string portalLoc;
+	getline(InputStage, file, '\n');
+	portal = stoi(file.substr(0, file.find('\t')));
+	if (portal == 1) {
+		hasPortal = true;
+		getline(InputStage, file, '\n');
+		tempPortal = file.substr(0, file.find('\t'));
+		portal = stoi(tempPortal.substr(0, tempPortal.find(' ')));
+		tempPortal.erase(0, tempPortal.find(' '));
+		for (int i = 0; i < portal; i++) {
+			portalLoc = tempPortal.substr(0, tempPortal.find(' '));
+			CPoint begin, end;
+			begin.x = (tempPortal.at(1)) - '0';
+			begin.y = (tempPortal.at(2)) - '0';
+			end.x = (tempPortal.at(3)) - '0';
+			end.y = (tempPortal.at(4)) - '0';
+			portalList.push_back(pair<CPoint, CPoint>(begin, end));
+		}
 	}
 	//LAST SCORE
 	getline(InputStage, file, '\n');
@@ -133,7 +155,8 @@ void game_framework::Stage::RemoveLine()
 		string file;
 		const char* data = stageTxt.data();
 		myFile.open("temp.txt", ofstream::out);
-		int line_no = 1, n = 26;
+		int line_no = 0, n = 26;
+		n += hasPortal ? 1 : 0;
 		while (!read.eof())
 		{
 			getline(read, file, '\n');

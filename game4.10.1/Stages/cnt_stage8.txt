@@ -22,5 +22,6 @@
 6	#candy type
 2	#mode
 0	#initcandy
+0	#portal
 0	#LastScore
 0	#IsUnlock
