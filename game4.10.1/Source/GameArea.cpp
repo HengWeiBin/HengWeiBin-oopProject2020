@@ -499,13 +499,21 @@ namespace game_framework
 		int amountCleared = 0;
 		if (!initiating && !delayRemove && !removeList.size())
 		{
+
 			amountCleared = ClearCombo();
 			if (amountCleared)
 			{	//play combo sound
 				currentComboSound = currentComboSound > 11 ? 11 : currentComboSound;
 				CAudio::Instance()->Play(audioID[currentComboSound++], false);
 			}
-			else currentComboSound = 0;
+			else
+			{
+				if (currentComboSound > 11) CAudio::Instance()->Play(AUDIO_DIVINE, false);
+				else if (currentComboSound > 7) CAudio::Instance()->Play(AUDIO_DELICIOUS, false);
+				else if (currentComboSound > 4) CAudio::Instance()->Play(AUDIO_TASTY, false);
+				else if (currentComboSound > 2) CAudio::Instance()->Play(AUDIO_SWEET, false);
+				currentComboSound = 0;
+			}
 
 			if (amountCleared && clickedCandies.size() == 2)
 			{//If there is a combo after swapping candies, initiate click, -1 moves
