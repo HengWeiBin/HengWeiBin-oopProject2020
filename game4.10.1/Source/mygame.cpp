@@ -69,7 +69,7 @@ namespace game_framework
 	/////////////////////////////////////////////////////////////////////////////
 
 	CGameStateInit::CGameStateInit(CGame* g)
-		: CGameState(g), playBtnClicked(false), finishLoaded(false)
+		: CGameState(g), playBtnClicked(false), finishLoaded(false), onSetting(false)
 	{
 	}
 
@@ -155,6 +155,9 @@ namespace game_framework
 
 		finishLoaded = true;
 		OnBeginState();
+
+		//load setting button
+		settingButton.LoadBitmap("Bitmaps/ExitButton-1.bmp", RGB(255, 255, 255));
 	}
 
 	void CGameStateInit::OnBeginState()
@@ -185,6 +188,11 @@ namespace game_framework
 			playBtnClicked = true;
 		}
 		else playBtnClicked = false;
+		if (settingButton.Left() <= point.x && point.x <= (settingButton.Left() + settingButton.Width()) &&
+			settingButton.Top() <= point.y && point.y <= (settingButton.Top() + settingButton.Height()))
+		{
+			onSetting = onSetting ? false : true;
+		}
 	}
 
 	void CGameStateInit::OnLButtonUp(UINT nFlags, CPoint point)
@@ -202,24 +210,35 @@ namespace game_framework
 		background.SetTopLeft(0, 0);
 		background.ShowBitmap();
 
-		//貼上Play Button
-		if (playBtnClicked)
+		if (onSetting) 
 		{
-			clickedPlayButton.SetTopLeft(SIZE_X / 2 - playButton.Width() / 2, SIZE_Y / 5 * 4 - playButton.Height());
-			clickedPlayButton.ShowBitmap();
+			//setting button
+			settingButton.SetTopLeft(background.Width() - settingButton.Width(), 0);
+			settingButton.ShowBitmap();
 		}
-		else
-		{
-			playButton.SetTopLeft(SIZE_X / 2 - playButton.Width() / 2, SIZE_Y / 5 * 4 - playButton.Height());
-			playButton.OnShow();
-		}
+		else {
+			//貼上Play Button
+			if (playBtnClicked)
+			{
+				clickedPlayButton.SetTopLeft(SIZE_X / 2 - playButton.Width() / 2, SIZE_Y / 5 * 4 - playButton.Height());
+				clickedPlayButton.ShowBitmap();
+			}
+			else
+			{
+				playButton.SetTopLeft(SIZE_X / 2 - playButton.Width() / 2, SIZE_Y / 5 * 4 - playButton.Height());
+				playButton.OnShow();
+			}
 
-		tiffy.SetTopLeft(95, 400);
-		tiffy.OnShow();
-		toffee.SetTopLeft(700, 60);
-		toffee.OnShow();
-		candyCrush.SetTopLeft(250, -50);
-		candyCrush.OnShow();
+			tiffy.SetTopLeft(95, 400);
+			tiffy.OnShow();
+			toffee.SetTopLeft(700, 60);
+			toffee.OnShow();
+			candyCrush.SetTopLeft(250, -50);
+			candyCrush.OnShow();
+			//setting button
+			settingButton.SetTopLeft(background.Width() - settingButton.Width(), 0);
+			settingButton.ShowBitmap();
+		}
 	}
 
 	void CGameStateInit::OnMove()
@@ -239,7 +258,7 @@ namespace game_framework
 	{
 		currentScore.SetType(2);
 		currentStage.SetType(2);
-		nextBtnClicked = retryBtnClicked = exitBtnClicked = false;
+		nextBtnClicked = retryBtnClicked = exitBtnClicked = onSetting = false;
 	}
 
 	void CGameStateOver::OnMove()
@@ -305,7 +324,13 @@ namespace game_framework
 			gameArea.LoadStage(stages, current_stage);
 			GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
 		}
-		
+
+		//setting button
+		if (settingButton.Left() <= point.x && point.x <= (settingButton.Left() + settingButton.Width()) &&
+			settingButton.Top() <= point.y && point.y <= (settingButton.Top() + settingButton.Height()))
+		{
+			onSetting = onSetting ? false : true;
+		}
 		nextBtnClicked = retryBtnClicked = exitBtnClicked = false;
 	}
 
@@ -347,6 +372,8 @@ namespace game_framework
 
 		nextButtonClicked.LoadBitmap("Bitmaps\\NextButtonClicked.bmp", RGB(251, 230, 239));
 		retryButtonClicked.LoadBitmap("Bitmaps\\RetryButtonClicked.bmp", RGB(251, 230, 239));
+		//load setting button
+		settingButton.LoadBitmap("Bitmaps/ExitButton-1.bmp", RGB(255, 255, 255));
 	}
 
 	int CGameStateOver::GetDigit(int n)
@@ -459,39 +486,49 @@ namespace game_framework
 		backgroundOver.SetTopLeft(0, 0);
 		backgroundOver.ShowBitmap();
 
-		//show score board
-		scoreBoardOver.SetTopLeft((backgroundOver.Width() / 2) - (scoreBoardOver.Width() / 2), (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2));
-		scoreBoardOver.ShowBitmap();
+		//setting button
+		settingButton.SetTopLeft(backgroundOver.Width() - settingButton.Width(), 0);
+		settingButton.ShowBitmap();
 
-		//show stage 
-		currentStage.SetTopLeft((backgroundOver.Width() / 2) + 60, (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 90);
-		currentStage.ShowBitmap();
+		if (onSetting)
+		{
+			
+		}
+		else
+		{
+			//show score board
+			scoreBoardOver.SetTopLeft((backgroundOver.Width() / 2) - (scoreBoardOver.Width() / 2), (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2));
+			scoreBoardOver.ShowBitmap();
 
-		//show star
-		int xStar = (backgroundOver.Width() / 2) - (370 / 2);
-		int yStar = (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 180;
-		if (stages[current_stage]->GetCurrentScore() >= stages[current_stage]->GetScoreThree() && !isFail)
-		{	//Show 3 yellow star if current score higher than star three
-			ShowStars(3, xStar, yStar);
-		}
-		else if (stages[current_stage]->GetCurrentScore() >= stages[current_stage]->GetScoreTwo() && !isFail)
-		{	//Show 2 star if current score higher than star two
-			ShowStars(2, xStar, yStar);
-		}
-		else if (stages[current_stage]->GetCurrentScore() >= stages[current_stage]->GetScoreOne() && !isFail)
-		{	//Show 1 star if current score higher than star one
-			ShowStars(1, xStar, yStar);
-		}
-		else if (stages[current_stage]->GetCurrentScore() < stages[current_stage]->GetScoreOne() && !isFail)
-		{	//Show 0 star if current score higher than star one
-			ShowStars(0, xStar, yStar);
-		}
+			//show stage 
+			currentStage.SetTopLeft((backgroundOver.Width() / 2) + 60, (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 90);
+			currentStage.ShowBitmap();
 
-		//show score
-		currentScore.SetTopLeft((backgroundOver.Width() / 2) - (60 * GetDigit(currentScore.GetInteger()) / 2), (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 390);
-		currentScore.ShowBitmap();
+			//show star
+			int xStar = (backgroundOver.Width() / 2) - (370 / 2);
+			int yStar = (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 180;
+			if (stages[current_stage]->GetCurrentScore() >= stages[current_stage]->GetScoreThree() && !isFail)
+			{	//Show 3 yellow star if current score higher than star three
+				ShowStars(3, xStar, yStar);
+			}
+			else if (stages[current_stage]->GetCurrentScore() >= stages[current_stage]->GetScoreTwo() && !isFail)
+			{	//Show 2 star if current score higher than star two
+				ShowStars(2, xStar, yStar);
+			}
+			else if (stages[current_stage]->GetCurrentScore() >= stages[current_stage]->GetScoreOne() && !isFail)
+			{	//Show 1 star if current score higher than star one
+				ShowStars(1, xStar, yStar);
+			}
+			else if (stages[current_stage]->GetCurrentScore() < stages[current_stage]->GetScoreOne() && !isFail)
+			{	//Show 0 star if current score higher than star one
+				ShowStars(0, xStar, yStar);
+			}
 
-		ShowButtons();
+			//show score
+			currentScore.SetTopLeft((backgroundOver.Width() / 2) - (60 * GetDigit(currentScore.GetInteger()) / 2), (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 390);
+			currentScore.ShowBitmap();
+			ShowButtons();
+		}
 	}
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -611,7 +648,7 @@ namespace game_framework
 	/////////////////////////////////////////////////////////////////////////////
 
 	CGameStateMenu::CGameStateMenu(CGame *g)
-		: CGameState(g), totalStage(15), drag(false), mouseDisplayment(0), inertia(0), goldFinger(false)
+		: CGameState(g), totalStage(15), drag(false), mouseDisplayment(0), inertia(0), goldFinger(false), onSetting(false)
 	{
 		IsMovingUp = false; IsMovingDown = false;
 		MAX_Y = 0; MIN_Y = -3600;
@@ -657,6 +694,8 @@ namespace game_framework
 			stages[i]->LoadStage();
 		}
 
+		//load setting button
+		settingButton.LoadBitmap("Bitmaps/ExitButton-1.bmp", RGB(255, 255, 255));
 
 	}
 
@@ -726,6 +765,13 @@ namespace game_framework
 					GotoGameState(GAME_STATE_RUN);
 				}
 			}
+		}
+
+		//setting button
+		if (settingButton.Left() <= point.x && point.x <= (settingButton.Left() + settingButton.Width()) &&
+			settingButton.Top() <= point.y && point.y <= (settingButton.Top() + settingButton.Height()))
+		{
+			onSetting = onSetting ? false : true;
 		}
 	}
 
@@ -825,6 +871,15 @@ namespace game_framework
 				}
 			}	//Show gray button if the stage is locked
 			else ShowStageButton(4, i, xButton, yButton);
+		}
+
+		//setting button
+		settingButton.SetTopLeft(woodBackgourd.Width() - settingButton.Width(), 0);
+		settingButton.ShowBitmap();
+
+		//show setting
+		if (onSetting) {
+
 		}
 	}
 

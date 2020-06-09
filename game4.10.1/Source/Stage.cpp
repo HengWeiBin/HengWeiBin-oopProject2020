@@ -155,7 +155,7 @@ void game_framework::Stage::RemoveLine()
 		string file;
 		const char* data = stageTxt.data();
 		myFile.open("temp.txt", ofstream::out);
-		int line_no = 0, n = 26;
+		int line_no = 0, n = 25;
 		n += hasPortal ? 1 : 0;
 		while (!read.eof())
 		{

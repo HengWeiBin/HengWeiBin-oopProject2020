@@ -24,5 +24,4 @@
 0	#initcandy
 0 	#portal
 3480	#LastScore
-3480	#LastScore
 1	#IsUnlock
