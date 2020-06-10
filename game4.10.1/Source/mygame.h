@@ -62,9 +62,9 @@ namespace game_framework {
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 		void OnMove();
 	private:
-		CMovingBitmap background, clickedPlayButton, settingButton;	// Candycrush starter background, play button
-		CAnimation tiffy, playButton, toffee,candyCrush;
-		bool playBtnClicked, finishLoaded, onSetting;
+		CMovingBitmap background, clickedPlayButton, helpButtonClicked;	// Candycrush starter background, play button
+		CAnimation tiffy, playButton, toffee,candyCrush, helpButton;
+		bool playBtnClicked, finishLoaded, helpBtnClicked;
 		int playButTopLX, playButTopLY;					//Top left of play button
 		int playButBotRX, playButBotRY;					//Bottom right of play button
 	};
@@ -122,9 +122,9 @@ namespace game_framework {
 		CInteger currentScore;
 		CInteger currentStage;
 		CMovingBitmap redStar, greenStar, yellowStar, emptyStar , youFailed;
-		CMovingBitmap exitButtonClicked, nextButtonClicked, retryButtonClicked, settingButton;
+		CMovingBitmap exitButtonClicked, nextButtonClicked, retryButtonClicked;
 		CAnimation exitButton, nextButton, retryButton;
-		bool exitBtnClicked, nextBtnClicked, retryBtnClicked, onSetting;
+		bool exitBtnClicked, nextBtnClicked, retryBtnClicked;
 	};
 
 	class CGameStateMenu : public CGameState
@@ -153,12 +153,12 @@ namespace game_framework {
 		void ShowStageButton(int, int, int, int);
 		void ShowStars(int, int, int);
 
-		CMovingBitmap menuBackground, woodBackgourd, stageButton[5], settingButton;
+		CMovingBitmap menuBackground, woodBackgourd, stageButton[5];
 		CMovingBitmap star1, star2, star3, comingSoon;
 		const int totalStage;
 		int sy;
 		int MAX_Y, MIN_Y;
-		bool IsMovingUp, IsMovingDown, drag, onSetting;
+		bool IsMovingUp, IsMovingDown, drag;
 		bool goldFinger;
 		int StagePos[15][2];
 		CInteger stageNum;

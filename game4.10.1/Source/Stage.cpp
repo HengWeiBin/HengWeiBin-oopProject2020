@@ -74,12 +74,19 @@ void game_framework::Stage::LoadStage()
 		portal = stoi(tempPortal.substr(0, tempPortal.find(' ')));
 		tempPortal.erase(0, tempPortal.find(' '));
 		for (int i = 0; i < portal; i++) {
-			portalLoc = tempPortal.substr(0, tempPortal.find(' '));
 			CPoint begin, end;
-			begin.x = (tempPortal.at(1)) - '0';
-			begin.y = (tempPortal.at(2)) - '0';
-			end.x = (tempPortal.at(3)) - '0';
-			end.y = (tempPortal.at(4)) - '0';
+			portalLoc = tempPortal.substr(0, tempPortal.find(' '));
+			tempPortal.erase(0, tempPortal.find(' '));
+			begin.x = stoi(portalLoc);
+			portalLoc = tempPortal.substr(0, tempPortal.find(' '));
+			tempPortal.erase(0, tempPortal.find(' '));
+			begin.y = stoi(portalLoc);
+			portalLoc = tempPortal.substr(0, tempPortal.find(' '));
+			tempPortal.erase(0, tempPortal.find(' '));
+			end.x = stoi(portalLoc);
+			portalLoc = tempPortal.substr(0, tempPortal.find(' '));
+			tempPortal.erase(0, tempPortal.find(' '));
+			end.y = stoi(portalLoc);
 			portalList.push_back(pair<CPoint, CPoint>(begin, end));
 		}
 	}
