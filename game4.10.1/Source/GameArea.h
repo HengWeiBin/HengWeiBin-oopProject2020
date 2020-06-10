@@ -19,8 +19,8 @@ namespace game_framework
 		void LoadStage(vector<Stage*>& stages, int);	//read map from file
 		void OnShow();									//Display game area and candy
 		void OnMove();
-		void OnKeyDown(UINT, UINT, UINT);
-		void OnKeyUp(UINT, UINT, UINT);
+		void OnKeyDown(UINT, UINT, UINT);				//handle keyboard press
+		void OnKeyUp(UINT, UINT, UINT);					//handle keyboard unpress
 		void OnLButtonDown(UINT nFlags, CPoint point);	//handle mouse click
 		void OnLButtonUp(UINT nFlags, CPoint point);	//handle mouse unclick
 		void OnMouseMove(UINT nFlags, CPoint point);	//handle mouse move
@@ -28,7 +28,7 @@ namespace game_framework
 	private:
 		int ClearCombo();								//search and delete all combo
 		int Compare(int, int);							//Compare two int
-		void Delay();
+		void Delay();									//pause game state for (delay)secs
 		void DropCandy();
 		int DropCandyStraight();
 		int DropCandySide();
@@ -42,6 +42,7 @@ namespace game_framework
 		bool IsNeighbour(Candy&, Candy&);				//return are candies in clickedCandies is neighbour
 		void OnMoveBlasts();
 		void OnMoveEnding();
+		void PortalCandy();
 		void PowerAll(int style, int power, int x, int y);	//Power all specific candy
 		int PutCandy();									//spawn candies at spawning area
 		void PutEndingBonus();
@@ -69,7 +70,7 @@ namespace game_framework
 		list<pair<int, int>> spawnArea;					//save position where candy spawn
 		Candy candies[MaxHeight][MaxWidth];				//Array of candy
 		CMovingBitmap area, singleJelly, doubleJelly;	//container bmp
-		vector<Candy*> clickedCandies;
+		vector<Candy*> clickedCandies;					//save clicked candy/ies maximun size = 2
 		list<Blast*> blasts;
 		list<list<Candy*>*> removeList;					//These candies will be removed after delay
 		list<Candy*> endingBonus;
@@ -79,7 +80,7 @@ namespace game_framework
 		int MAX_RAND_NUM;								//types of candies in this games
 		bool initiating, ending, running, gameOver;
 
-		bool goldFinger, normalBlast;
+		bool goldFinger;
 	};
 }
 

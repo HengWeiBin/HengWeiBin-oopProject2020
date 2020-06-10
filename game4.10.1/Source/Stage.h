@@ -40,7 +40,7 @@ namespace game_framework
 		int currentStage;
 		int currentScore;
 		bool hasPortal;
-		list<pair<CPoint, CPoint>> portalList;
+		vector<pair<CPoint, CPoint>> portalList;
 	};
 }
 #endif

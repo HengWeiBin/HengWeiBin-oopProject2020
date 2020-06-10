@@ -121,10 +121,11 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	//
 	// 如果是Full Screen的話，隱藏ToolBar, StatusBar, Menu
 	//
-	if (isFullScreen) {
+	//if (isFullScreen) 
+	{
 		m_wndToolBar.ShowWindow(SW_HIDE);
 		m_wndStatusBar.ShowWindow(SW_HIDE);
-		ModifyStyle(WS_DLGFRAME, 0);
+		//ModifyStyle(WS_DLGFRAME, 0);
 		SetMenu(NULL);
 	}
 	return 0;
@@ -198,11 +199,11 @@ void CMainFrame::SetFullScreen(bool isFull)
 		//
 		// Recover menu, tool bar, and status bar
 		//
-		SetMenu(pMenu);
+		/*SetMenu(pMenu);
 		if (isToolBarVisible)
 			m_wndToolBar.ShowWindow(SW_NORMAL);
 		if (isStatusBarVisible)
-			m_wndStatusBar.ShowWindow(SW_NORMAL);
+			m_wndStatusBar.ShowWindow(SW_NORMAL);*/
 		ModifyStyle(0, WS_DLGFRAME);
 		//
 		// Restore window position

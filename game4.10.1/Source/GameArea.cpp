@@ -22,7 +22,7 @@ namespace game_framework
 
 	GameArea::GameArea() 
 		:x(280), y(35), MAX_RAND_NUM(4), initiating(1), ending(0), running(1), gameOver(0), delay(0), 
-		delayRemoveStyle(0), delayRemove(0), currentComboSound(0), goldFinger(0), releaseSwap(0), normalBlast(1)
+		delayRemoveStyle(0), delayRemove(0), currentComboSound(0), goldFinger(0), releaseSwap(0)
 	{
 		scoreBoard.score = 0;
 		for (int i = 0; i < MaxHeight; i++)
@@ -107,7 +107,6 @@ namespace game_framework
 		delayRemove = false;
 		releaseSwap = false;
 		goldFinger = false;
-		normalBlast = true;
 		InitCandy(stages[index]->initcandy);
 	}
 
@@ -138,7 +137,7 @@ namespace game_framework
 
 		if (!initiating)scoreBoard.score += 60;
 
-		if(normalBlast && !initiating && candy->GetStyle())
+		if(!initiating && candy->GetStyle())
 			blasts.push_back(new NormalBlast(candy->GetStyle(), candy->GetTopLeftX(), candy->GetTopLeftY()));
 
 		int power = candy->GetPower(), style = candy->GetStyle();
@@ -461,8 +460,11 @@ namespace game_framework
 
 		DropCandy();		//drop if candy hvnt touch the ground/other candy
 
+		PortalCandy();
+
 		#pragma omp parallel for
 		for (int i = 0; i < MaxHeight; i++)
+			#pragma omp parallel for
 			for (int j = 0; j < MaxWidth; j++)
 				if(candies[i][j].GetStyle() > 0)
 					candies[i][j].OnMove(initiating);
@@ -487,8 +489,6 @@ namespace game_framework
 	void GameArea::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
 		if (nChar == VK_F1) goldFinger = false;
-
-		if (nChar == VK_F11) normalBlast = normalBlast ? false : true;
 	}
 
 	int GameArea::FindCombo()
@@ -1044,6 +1044,28 @@ namespace game_framework
 				(*stage)->SetPassOrFail(1);
 				running = false;
 			}
+		}
+	}
+
+	void GameArea::PortalCandy()
+	{
+		vector<pair<CPoint, CPoint>>* portalList = &(*stage)->portalList;
+
+		#pragma omp parallel for
+		for (int i = 0; i < (int)portalList->size(); i++)
+		{
+			Candy* from = curPosition[(*portalList)[i].first.y][(*portalList)[i].first.x];
+			Candy* to = curPosition[(*portalList)[i].second.y][(*portalList)[i].second.x];
+			if (from != NULL && !(from->IsMoving()) && to == NULL)
+			{
+				from->SetDestination(from->GetCurrentY() + 24);
+				candies[(*portalList)[i].second.y][(*portalList)[i].second.x] = Candy(from->GetStyle(), (*portalList)[i].second.x * 50 + x, (*portalList)[i].second.y * 50 + y - 25);
+				candies[(*portalList)[i].second.y][(*portalList)[i].second.x].SetDestination((*portalList)[i].second.y * 50 + y);
+				candies[(*portalList)[i].second.y][(*portalList)[i].second.x].SetPower(from->GetPower());
+				candies[(*portalList)[i].second.y][(*portalList)[i].second.x].SetStyle(from->GetStyle());
+			}
+			if (from != NULL && from->GetCurrentY() >= (*portalList)[i].first.y * 50 + y + 24)
+				from->Kill();
 		}
 	}
 
