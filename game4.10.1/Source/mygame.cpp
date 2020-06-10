@@ -319,7 +319,7 @@ namespace game_framework
 		: CGameState(g)
 	{
 		currentScore.SetType(2);
-		currentStage.SetType(2);
+		currentStage.SetType(3);
 		nextBtnClicked = retryBtnClicked = exitBtnClicked = onSetting = false;
 	}
 
@@ -404,13 +404,6 @@ namespace game_framework
 				current_stage += 1;
 				gameArea.LoadStage(stages, current_stage);
 				GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
-			}
-
-			//setting button
-			if (settingButton.Left() <= point.x && point.x <= (settingButton.Left() + settingButton.Width()) &&
-				settingButton.Top() <= point.y && point.y <= (settingButton.Top() + settingButton.Height()))
-			{
-				onSetting = onSetting ? false : true;
 			}
 			nextBtnClicked = retryBtnClicked = exitBtnClicked = false;
 		}
@@ -578,41 +571,40 @@ namespace game_framework
 		{
 			ShowSettingMenu();
 		}
-		else
-		{
-			//show score board
-			scoreBoardOver.SetTopLeft((backgroundOver.Width() / 2) - (scoreBoardOver.Width() / 2), (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2));
-			scoreBoardOver.ShowBitmap();
+		
+		//show score board
+		scoreBoardOver.SetTopLeft((backgroundOver.Width() / 2) - (scoreBoardOver.Width() / 2), (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2));
+		scoreBoardOver.ShowBitmap();
+		
+		//show stage 
+		currentStage.SetTopLeft((backgroundOver.Width() / 2) + 60, (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 55);
+		currentStage.ShowBitmap();
 
-			//show stage 
-			currentStage.SetTopLeft((backgroundOver.Width() / 2) + 60, (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 90);
-			currentStage.ShowBitmap();
-
-			//show star
-			int xStar = (backgroundOver.Width() / 2) - (370 / 2);
-			int yStar = (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 180;
-			if (stages[current_stage]->GetCurrentScore() >= stages[current_stage]->GetScoreThree() && !isFail)
-			{	//Show 3 yellow star if current score higher than star three
-				ShowStars(3, xStar, yStar);
-			}
-			else if (stages[current_stage]->GetCurrentScore() >= stages[current_stage]->GetScoreTwo() && !isFail)
-			{	//Show 2 star if current score higher than star two
-				ShowStars(2, xStar, yStar);
-			}
-			else if (stages[current_stage]->GetCurrentScore() >= stages[current_stage]->GetScoreOne() && !isFail)
-			{	//Show 1 star if current score higher than star one
-				ShowStars(1, xStar, yStar);
-			}
-			else if (stages[current_stage]->GetCurrentScore() < stages[current_stage]->GetScoreOne() && !isFail)
-			{	//Show 0 star if current score higher than star one
-				ShowStars(0, xStar, yStar);
-			}
-
-			//show score
-			currentScore.SetTopLeft((backgroundOver.Width() / 2) - (60 * GetDigit(currentScore.GetInteger()) / 2), (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 390);
-			currentScore.ShowBitmap();
-			ShowButtons();
+		//show star
+		int xStar = (backgroundOver.Width() / 2) - (370 / 2);
+		int yStar = (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 180;
+		if (stages[current_stage]->GetCurrentScore() >= stages[current_stage]->GetScoreThree() && !isFail)
+		{	//Show 3 yellow star if current score higher than star three
+			ShowStars(3, xStar, yStar);
 		}
+		else if (stages[current_stage]->GetCurrentScore() >= stages[current_stage]->GetScoreTwo() && !isFail)
+		{	//Show 2 star if current score higher than star two
+			ShowStars(2, xStar, yStar);
+		}
+		else if (stages[current_stage]->GetCurrentScore() >= stages[current_stage]->GetScoreOne() && !isFail)
+		{	//Show 1 star if current score higher than star one
+			ShowStars(1, xStar, yStar);
+		}
+		else if (stages[current_stage]->GetCurrentScore() < stages[current_stage]->GetScoreOne() && !isFail)
+		{	//Show 0 star if current score higher than star one
+			ShowStars(0, xStar, yStar);
+		}
+
+		//show score
+		currentScore.SetTopLeft((backgroundOver.Width() / 2) - (60 * GetDigit(currentScore.GetInteger()) / 2), (backgroundOver.Height() / 2) - (scoreBoardOver.Height() / 2) + 390);
+		currentScore.ShowBitmap();
+		ShowButtons();
+		
 	}
 
 	/////////////////////////////////////////////////////////////////////////////

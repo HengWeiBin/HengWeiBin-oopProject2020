@@ -1014,5 +1014,50 @@
     <Image Include="Bitmaps\Failed.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="RES\bmp3_0.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\bmp3_1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\bmp3_2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\bmp3_3.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\bmp3_4.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\bmp3_5.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\bmp3_6.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\bmp3_7.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\bmp3_8.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\bmp3_9.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\setting.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\TabHowToPlay.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\TabsAbout.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\Right.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\Left.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

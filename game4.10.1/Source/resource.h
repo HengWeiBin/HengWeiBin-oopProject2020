@@ -698,6 +698,16 @@
 #define IDB_RETRYBTN_8                  793
 #define IDB_RETRYBTN_9                  794
 #define IDB_RETRYBTN_c                  795
+#define IDB3_0                          796
+#define IDB3_1                          797
+#define IDB3_2                          798
+#define IDB3_3                          799
+#define IDB3_4                          800
+#define IDB3_5                          801
+#define IDB3_6                          802
+#define IDB3_7                          803
+#define IDB3_8                          804
+#define IDB3_9                          805
 #define IDC_README                      1001
 #define ID_FILE_PAUSE                   32771
 #define ID_TOGGLE_FULLSCREEN            32772
