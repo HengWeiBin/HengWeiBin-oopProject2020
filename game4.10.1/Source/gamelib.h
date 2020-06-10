@@ -329,6 +329,14 @@ namespace game_framework {
 	protected:
 		void GotoGameState(int state);							// 跳躍至指定的state
 		void ShowInitProgress(int percent);						// 顯示初始化的進度
+		void ShowSettingMenu();
+		void ShowSettingButton();
+		void SettingOnLButtonDown(CPoint point);
+		void SettingOnLButtonUp(CPoint point);
+		void SettingMenuOnLButtonDown(CPoint point);
+		void SettingMenuOnLButtonUp(CPoint point);
+		void settingMenuOnMove();
+		void SettingOnMove();
 		void ShowLoading();
 		//
 		// virtual functions, 由繼承者提供implementation
@@ -339,7 +347,10 @@ namespace game_framework {
 		static GameArea gameArea;								// 游戲的主要控制
 		static vector<Stage*> stages;							// 游戲中所有關卡資料
 		static int current_stage;								// 當前/上一次玩過的關卡
-		static bool sound, music;
+		static bool sound, music,onSetting;
+		static bool  settingBtnCLicked, soundOnBtnCLicked, soundOffBtnCLicked, musicOnBtnCLicked, musicOffBtnCLicked;
+		static CMovingBitmap settingMenu, settingButtonClicked, soundOnClicked, soundOffClicked, musicOnClicked, musicOffClicked;
+		static CAnimation settingButton, soundOn, soundOff, musicOn, musicOff;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////

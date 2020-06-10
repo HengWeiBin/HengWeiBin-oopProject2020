@@ -69,7 +69,7 @@ namespace game_framework
 	/////////////////////////////////////////////////////////////////////////////
 
 	CGameStateInit::CGameStateInit(CGame* g)
-		: CGameState(g), playBtnClicked(false), finishLoaded(false), onSetting(false)
+		: CGameState(g), playBtnClicked(false), finishLoaded(false)
 	{
 	}
 
@@ -157,7 +157,58 @@ namespace game_framework
 		OnBeginState();
 
 		//load setting button
-		settingButton.LoadBitmap("Bitmaps/ExitButton-1.bmp", RGB(255, 255, 255));
+		settingButton.AddBitmap("Bitmaps/SettingButton-0.bmp", RGB(0, 0, 0));
+		settingButton.AddBitmap("Bitmaps/SettingButton-1.bmp", RGB(0, 0, 0));
+		settingButton.AddBitmap("Bitmaps/SettingButton-2.bmp", RGB(0, 0, 0));
+		settingButton.AddBitmap("Bitmaps/SettingButton-1.bmp", RGB(0, 0, 0));
+		settingButton.SetDelayCount(8);
+		settingButtonClicked.LoadBitmap("Bitmaps\\settingButtonClicked.bmp", RGB(0, 0, 0));
+
+		//setting menu
+		settingMenu.LoadBitmap("Bitmaps\\setting_0.bmp", RGB(255, 255, 255));
+
+		helpButton.AddBitmap("Bitmaps/HelpButton-0.bmp", RGB(0, 0, 0));
+		helpButton.AddBitmap("Bitmaps/HelpButton-1.bmp", RGB(0, 0, 0));
+		helpButton.AddBitmap("Bitmaps/HelpButton-1.bmp", RGB(0, 0, 0));
+		helpButton.SetDelayCount(8);
+		helpButtonClicked.LoadBitmap("Bitmaps/HelpButtonClicked.bmp", RGB(0, 0, 0));
+
+		/*==========================================================*/
+
+		/*===================== Load Setting Item =======================*/
+
+		//load music on button
+		musicOn.AddBitmap("Bitmaps/MusicOnButton-0.bmp", RGB(0, 0, 0));
+		musicOn.AddBitmap("Bitmaps/MusicOnButton-1.bmp", RGB(0, 0, 0));
+		musicOn.AddBitmap("Bitmaps/MusicOnButton-2.bmp", RGB(0, 0, 0));
+		musicOn.AddBitmap("Bitmaps/MusicOnButton-1.bmp", RGB(0, 0, 0));
+		musicOn.SetDelayCount(8);
+		musicOnClicked.LoadBitmap("Bitmaps\\MusicOnButtonClicked.bmp", RGB(0, 0, 0));
+
+		//load music off button
+		musicOff.AddBitmap("Bitmaps/MusicOffButton-0.bmp", RGB(0, 0, 0));
+		musicOff.AddBitmap("Bitmaps/MusicOffButton-1.bmp", RGB(0, 0, 0));
+		musicOff.AddBitmap("Bitmaps/MusicOffButton-2.bmp", RGB(0, 0, 0));
+		musicOff.AddBitmap("Bitmaps/MusicOffButton-1.bmp", RGB(0, 0, 0));
+		musicOff.SetDelayCount(8);
+		musicOffClicked.LoadBitmap("Bitmaps\\MusicOffButtonClicked.bmp", RGB(0, 0, 0));
+
+		//loud sound on button
+		soundOn.AddBitmap("Bitmaps/SoundOnButton-0.bmp", RGB(0, 0, 0));
+		soundOn.AddBitmap("Bitmaps/SoundOnButton-1.bmp", RGB(0, 0, 0));
+		soundOn.AddBitmap("Bitmaps/SoundOnButton-2.bmp", RGB(0, 0, 0));
+		soundOn.AddBitmap("Bitmaps/SoundOnButton-1.bmp", RGB(0, 0, 0));
+		soundOn.SetDelayCount(8);
+		soundOnClicked.LoadBitmap("Bitmaps\\SoundOnButtonClicked.bmp", RGB(0, 0, 0));
+
+		//loud sound off button
+		soundOff.AddBitmap("Bitmaps/SoundOffButton-0.bmp", RGB(0, 0, 0));
+		soundOff.AddBitmap("Bitmaps/SoundOffButton-1.bmp", RGB(0, 0, 0));
+		soundOff.AddBitmap("Bitmaps/SoundOffButton-2.bmp", RGB(0, 0, 0));
+		soundOff.AddBitmap("Bitmaps/SoundOffButton-1.bmp", RGB(0, 0, 0));
+		soundOff.SetDelayCount(8);
+		soundOffClicked.LoadBitmap("Bitmaps\\SoundOffButtonClicked.bmp", RGB(0, 0, 0));
+
 	}
 
 	void CGameStateInit::OnBeginState()
@@ -183,25 +234,36 @@ namespace game_framework
 
 	void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 	{
-		if (point.x >= playButTopLX && point.y >= playButTopLY && point.x <= playButBotRX && point.y <= playButBotRY)
+		if (onSetting)
 		{
-			playBtnClicked = true;
+			SettingMenuOnLButtonDown(point);
 		}
-		else playBtnClicked = false;
-		if (settingButton.Left() <= point.x && point.x <= (settingButton.Left() + settingButton.Width()) &&
-			settingButton.Top() <= point.y && point.y <= (settingButton.Top() + settingButton.Height()))
+		else
 		{
-			onSetting = onSetting ? false : true;
+			if (point.x >= playButTopLX && point.y >= playButTopLY && point.x <= playButBotRX && point.y <= playButBotRY)
+			{
+				playBtnClicked = true;
+			}
+			else playBtnClicked = false;
 		}
+		SettingOnLButtonDown(point);
 	}
 
 	void CGameStateInit::OnLButtonUp(UINT nFlags, CPoint point)
 	{
-		if (point.x >= playButTopLX && point.y >= playButTopLY && point.x <= playButBotRX && point.y <= playButBotRY)
+		if (onSetting)
 		{
-			GotoGameState(GAME_STATE_MENU);		// 切換至GAME_STATE_RUN
+			SettingMenuOnLButtonUp(point);
 		}
-		else playBtnClicked = false;
+		else
+		{
+			if (point.x >= playButTopLX && point.y >= playButTopLY && point.x <= playButBotRX && point.y <= playButBotRY)
+			{
+				GotoGameState(GAME_STATE_MENU);		// 切換至GAME_STATE_RUN
+			}
+			else playBtnClicked = false;
+		}
+		SettingOnLButtonUp(point);
 	}
 
 	void CGameStateInit::OnShow()
@@ -210,43 +272,43 @@ namespace game_framework
 		background.SetTopLeft(0, 0);
 		background.ShowBitmap();
 
-		if (onSetting) 
+		if (onSetting)
 		{
-			//setting button
-			settingButton.SetTopLeft(background.Width() - settingButton.Width(), 0);
-			settingButton.ShowBitmap();
+			ShowSettingMenu();
 		}
-		else {
-			//貼上Play Button
-			if (playBtnClicked)
-			{
-				clickedPlayButton.SetTopLeft(SIZE_X / 2 - playButton.Width() / 2, SIZE_Y / 5 * 4 - playButton.Height());
-				clickedPlayButton.ShowBitmap();
-			}
-			else
-			{
-				playButton.SetTopLeft(SIZE_X / 2 - playButton.Width() / 2, SIZE_Y / 5 * 4 - playButton.Height());
-				playButton.OnShow();
-			}
-
-			tiffy.SetTopLeft(95, 400);
-			tiffy.OnShow();
-			toffee.SetTopLeft(700, 60);
-			toffee.OnShow();
-			candyCrush.SetTopLeft(250, -50);
-			candyCrush.OnShow();
-			//setting button
-			settingButton.SetTopLeft(background.Width() - settingButton.Width(), 0);
-			settingButton.ShowBitmap();
+		//貼上Play Button
+		if (playBtnClicked)
+		{
+			clickedPlayButton.SetTopLeft(SIZE_X / 2 - playButton.Width() / 2, SIZE_Y / 5 * 4 - playButton.Height());
+			clickedPlayButton.ShowBitmap();
 		}
+		else
+		{
+			playButton.SetTopLeft(SIZE_X / 2 - playButton.Width() / 2, SIZE_Y / 5 * 4 - playButton.Height());
+			playButton.OnShow();
+		}
+		tiffy.SetTopLeft(95, 400);
+		tiffy.OnShow();
+		toffee.SetTopLeft(700, 60);
+		toffee.OnShow();
+		candyCrush.SetTopLeft(250, -50);
+		candyCrush.OnShow();
+		//setting button
+		ShowSettingButton();
 	}
 
 	void CGameStateInit::OnMove()
 	{
+		SettingOnMove();
+		if (onSetting)
+		{
+			settingMenuOnMove();
+		}
 		candyCrush.OnMove();
 		if (!playBtnClicked) playButton.OnMove();
 		tiffy.OnMove();
 		toffee.OnMove();
+		
 	}
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -263,6 +325,11 @@ namespace game_framework
 
 	void CGameStateOver::OnMove()
 	{
+		SettingOnMove();
+		if (onSetting)
+		{
+			settingMenuOnMove();
+		}
 		exitButton.OnMove();
 		nextButton.OnMove();
 		retryButton.OnMove();
@@ -277,61 +344,77 @@ namespace game_framework
 	}
 	void CGameStateOver::OnLButtonDown(UINT nFlags, CPoint point)
 	{
-		//Exit Button
-		if (exitButton.Left() <= point.x && point.x <= (exitButton.Left() + exitButton.Width()) &&
-			exitButton.Top() <= point.y && point.y <= (exitButton.Top() + exitButton.Height()))
+		if (onSetting)
 		{
-			exitBtnClicked = true;
+			SettingMenuOnLButtonDown(point);
 		}
+		else 
+		{
+			//Exit Button
+			if (exitButton.Left() <= point.x && point.x <= (exitButton.Left() + exitButton.Width()) &&
+				exitButton.Top() <= point.y && point.y <= (exitButton.Top() + exitButton.Height()))
+			{
+				exitBtnClicked = true;
+			}
 
-		//Retry Button
-		if (retryButton.Left() <= point.x && point.x <= (retryButton.Left() + retryButton.Width()) &&
-			retryButton.Top() <= point.y && point.y <= (retryButton.Top() + retryButton.Height()))
-		{
-			retryBtnClicked = true;
-		}
+			//Retry Button
+			if (retryButton.Left() <= point.x && point.x <= (retryButton.Left() + retryButton.Width()) &&
+				retryButton.Top() <= point.y && point.y <= (retryButton.Top() + retryButton.Height()))
+			{
+				retryBtnClicked = true;
+			}
 
-		//Next Button
-		if (nextButton.Left() <= point.x && point.x <= (nextButton.Left() + nextButton.Width()) &&
-			nextButton.Top() <= point.y && point.y <= (nextButton.Top() + nextButton.Height()) && !isFail)
-		{
-			nextBtnClicked = true;
+			//Next Button
+			if (nextButton.Left() <= point.x && point.x <= (nextButton.Left() + nextButton.Width()) &&
+				nextButton.Top() <= point.y && point.y <= (nextButton.Top() + nextButton.Height()) && !isFail)
+			{
+				nextBtnClicked = true;
+			}
 		}
+		SettingOnLButtonDown(point);
 	}
 
 	void CGameStateOver::OnLButtonUp(UINT nFlags, CPoint point)
 	{
-		//Exit Button
-		if (exitButton.Left() <= point.x && point.x <= (exitButton.Left() + exitButton.Width()) &&
-			exitButton.Top() <= point.y && point.y <= (exitButton.Top() + exitButton.Height()))
+		if (onSetting)
 		{
-			GotoGameState(GAME_STATE_MENU);		// 切換至GAME_STATE_MENU
+			SettingMenuOnLButtonUp(point);
 		}
+		else
+		{
+			//Exit Button
+			if (exitButton.Left() <= point.x && point.x <= (exitButton.Left() + exitButton.Width()) &&
+				exitButton.Top() <= point.y && point.y <= (exitButton.Top() + exitButton.Height()))
+			{
+				GotoGameState(GAME_STATE_MENU);		// 切換至GAME_STATE_MENU
+			}
 
-		//Retry Button
-		if (retryButton.Left() <= point.x && point.x <= (retryButton.Left() + retryButton.Width()) &&
-			retryButton.Top() <= point.y && point.y <= (retryButton.Top() + retryButton.Height()))
-		{
-			gameArea.LoadStage(stages, current_stage);
-			GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
-		}
+			//Retry Button
+			if (retryButton.Left() <= point.x && point.x <= (retryButton.Left() + retryButton.Width()) &&
+				retryButton.Top() <= point.y && point.y <= (retryButton.Top() + retryButton.Height()))
+			{
+				gameArea.LoadStage(stages, current_stage);
+				GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
+			}
 
-		//Next Button
-		if (nextButton.Left() <= point.x && point.x <= (nextButton.Left() + nextButton.Width()) &&
-			nextButton.Top() <= point.y && point.y <= (nextButton.Top() + nextButton.Height()) && !isFail )
-		{
-			current_stage += 1;
-			gameArea.LoadStage(stages, current_stage);
-			GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
-		}
+			//Next Button
+			if (nextButton.Left() <= point.x && point.x <= (nextButton.Left() + nextButton.Width()) &&
+				nextButton.Top() <= point.y && point.y <= (nextButton.Top() + nextButton.Height()) && !isFail)
+			{
+				current_stage += 1;
+				gameArea.LoadStage(stages, current_stage);
+				GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
+			}
 
-		//setting button
-		if (settingButton.Left() <= point.x && point.x <= (settingButton.Left() + settingButton.Width()) &&
-			settingButton.Top() <= point.y && point.y <= (settingButton.Top() + settingButton.Height()))
-		{
-			onSetting = onSetting ? false : true;
+			//setting button
+			if (settingButton.Left() <= point.x && point.x <= (settingButton.Left() + settingButton.Width()) &&
+				settingButton.Top() <= point.y && point.y <= (settingButton.Top() + settingButton.Height()))
+			{
+				onSetting = onSetting ? false : true;
+			}
+			nextBtnClicked = retryBtnClicked = exitBtnClicked = false;
 		}
-		nextBtnClicked = retryBtnClicked = exitBtnClicked = false;
+		SettingOnLButtonUp(point);
 	}
 
 	void CGameStateOver::OnInit()
@@ -372,8 +455,6 @@ namespace game_framework
 
 		nextButtonClicked.LoadBitmap("Bitmaps\\NextButtonClicked.bmp", RGB(251, 230, 239));
 		retryButtonClicked.LoadBitmap("Bitmaps\\RetryButtonClicked.bmp", RGB(251, 230, 239));
-		//load setting button
-		settingButton.LoadBitmap("Bitmaps/ExitButton-1.bmp", RGB(255, 255, 255));
 	}
 
 	int CGameStateOver::GetDigit(int n)
@@ -440,6 +521,10 @@ namespace game_framework
 				nextButton.OnShow();
 			}
 		}
+		if (onSetting)
+		{
+			ShowSettingMenu();
+		}
 	}
 
 	void CGameStateOver::ShowStars(int amount, int xStar, int yStar)
@@ -486,13 +571,12 @@ namespace game_framework
 		backgroundOver.SetTopLeft(0, 0);
 		backgroundOver.ShowBitmap();
 
-		//setting button
-		settingButton.SetTopLeft(backgroundOver.Width() - settingButton.Width(), 0);
-		settingButton.ShowBitmap();
 
+		//setting button
+		ShowSettingButton();
 		if (onSetting)
 		{
-			
+			ShowSettingMenu();
 		}
 		else
 		{
@@ -553,6 +637,11 @@ namespace game_framework
 		// 如果希望修改cursor的樣式，則將下面程式的commment取消即可
 		//
 		// SetCursor(AfxGetApp()->LoadCursor(IDC_GAMECURSOR));
+		SettingOnMove();
+		if (onSetting)
+		{
+			settingMenuOnMove();
+		}
 		gameArea.OnMove();
 
 		if (gameArea.IsGameOver())
@@ -617,12 +706,28 @@ namespace game_framework
 
 	void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 	{
-		gameArea.OnLButtonDown(nFlags, point);
+		SettingOnLButtonDown(point);
+		if (onSetting)
+		{
+			SettingMenuOnLButtonDown(point);
+		}
+		else
+		{
+			gameArea.OnLButtonDown(nFlags, point);
+		}
 	}
 
 	void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 	{
-		gameArea.OnLButtonUp(nFlags, point);
+		SettingOnLButtonUp(point);
+		if (onSetting)
+		{
+			SettingMenuOnLButtonUp(point);
+		}
+		else
+		{
+			gameArea.OnLButtonUp(nFlags, point);
+		}
 	}
 
 	void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動作
@@ -640,6 +745,13 @@ namespace game_framework
 	void CGameStateRun::OnShow()
 	{
 		background.ShowBitmap();			// 貼上背景圖
+
+		//setting button
+		ShowSettingButton();
+		if (onSetting)
+		{
+			ShowSettingMenu();
+		}
 		gameArea.OnShow();
 	}
 
@@ -648,7 +760,7 @@ namespace game_framework
 	/////////////////////////////////////////////////////////////////////////////
 
 	CGameStateMenu::CGameStateMenu(CGame *g)
-		: CGameState(g), totalStage(15), drag(false), mouseDisplayment(0), inertia(0), goldFinger(false), onSetting(false)
+		: CGameState(g), totalStage(15), drag(false), mouseDisplayment(0), inertia(0), goldFinger(false)
 	{
 		IsMovingUp = false; IsMovingDown = false;
 		MAX_Y = 0; MIN_Y = -3600;
@@ -694,9 +806,6 @@ namespace game_framework
 			stages[i]->LoadStage();
 		}
 
-		//load setting button
-		settingButton.LoadBitmap("Bitmaps/ExitButton-1.bmp", RGB(255, 255, 255));
-
 	}
 
 	void CGameStateMenu::OnBeginState()
@@ -739,39 +848,49 @@ namespace game_framework
 
 	void CGameStateMenu::OnLButtonDown(UINT nFlags, CPoint point)
 	{
-		clickX = point.x;
-		clickY = point.y;
-		clickSY = sy;
+
 		drag = true;
+		SettingOnLButtonDown(point);
+		if (onSetting) 
+		{
+			SettingMenuOnLButtonDown(point);
+		}
+		else
+		{
+			clickX = point.x;
+			clickY = point.y;
+			clickSY = sy;
+		}
 	}
 
 	void CGameStateMenu::OnLButtonUp(UINT nFlags, CPoint point)
 	{
 		drag = false;
+		SettingOnLButtonUp(point);
+		if (onSetting)
+		{
+			SettingMenuOnLButtonUp(point);
+		}
+		else
+		{
 
-		int x = point.x;
-		int y = point.y - sy;
-		int StagePos[][2] = { {270,4030},{495,3980},{530,3850},{320,3870},{135,3910},
-							  {135,3750},{340,3690},{570,3720},{770,3800},{960,3840},
-							  {1085,3750},{1010,3600},{760,3540},{520,3590},{280,3585} };
-		for (int i = 0; i < totalStage; i++) {
-			if (StagePos[i][0] < x && x < (StagePos[i][0] + 60) && StagePos[i][1] < y && (y < StagePos[i][1] + 60))
-			{
-				if (stages[i]->IsUnlock() || goldFinger)
+			int x = point.x;
+			int y = point.y - sy;
+			int StagePos[][2] = { {270,4030},{495,3980},{530,3850},{320,3870},{135,3910},
+								  {135,3750},{340,3690},{570,3720},{770,3800},{960,3840},
+								  {1085,3750},{1010,3600},{760,3540},{520,3590},{280,3585} };
+			for (int i = 0; i < totalStage; i++) {
+				if (StagePos[i][0] < x && x < (StagePos[i][0] + 60) && StagePos[i][1] < y && (y < StagePos[i][1] + 60))
 				{
-					current_stage = i;
-					gameArea.LoadStage(stages, i);
-					CAudio::Instance()->Stop(AUDIO_STAGE);
-					GotoGameState(GAME_STATE_RUN);
+					if (stages[i]->IsUnlock() || goldFinger)
+					{
+						current_stage = i;
+						gameArea.LoadStage(stages, i);
+						CAudio::Instance()->Stop(AUDIO_STAGE);
+						GotoGameState(GAME_STATE_RUN);
+					}
 				}
 			}
-		}
-
-		//setting button
-		if (settingButton.Left() <= point.x && point.x <= (settingButton.Left() + settingButton.Width()) &&
-			settingButton.Top() <= point.y && point.y <= (settingButton.Top() + settingButton.Height()))
-		{
-			onSetting = onSetting ? false : true;
 		}
 	}
 
@@ -805,6 +924,11 @@ namespace game_framework
 
 	void CGameStateMenu::OnMove()
 	{
+		SettingOnMove();
+		if (onSetting)
+		{
+			settingMenuOnMove();
+		}
 		SetMovingUp(IsMovingUp);
 		SetMovingDown(IsMovingDown);
 		if (!drag && inertia > 0) sy += inertia--;
@@ -842,6 +966,13 @@ namespace game_framework
 			comingSoon.ShowBitmap();
 		}
 
+		//setting button
+		ShowSettingButton();
+		if (onSetting)
+		{
+			ShowSettingMenu();
+		}
+
 		//show unlock icon
 		for (int i = 0; i < totalStage; i++)
 		{
@@ -873,14 +1004,7 @@ namespace game_framework
 			else ShowStageButton(4, i, xButton, yButton);
 		}
 
-		//setting button
-		settingButton.SetTopLeft(woodBackgourd.Width() - settingButton.Width(), 0);
-		settingButton.ShowBitmap();
-
-		//show setting
-		if (onSetting) {
-
-		}
+	
 	}
 
 	void CGameStateMenu::ShowStageButton(int stageBtn, int stage, int xButton, int yButton)

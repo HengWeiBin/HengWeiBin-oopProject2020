@@ -572,12 +572,19 @@ namespace game_framework {
 	GameArea CGameState::gameArea;
 	vector<Stage*> CGameState::stages;
 	int CGameState::current_stage;
-	bool CGameState::sound, CGameState::music;
+	bool CGameState::sound, CGameState::music, CGameState::onSetting, CGameState::settingBtnCLicked,
+		CGameState::soundOnBtnCLicked, CGameState::soundOffBtnCLicked, CGameState::musicOnBtnCLicked,
+		CGameState::musicOffBtnCLicked;
+	CMovingBitmap CGameState::settingButtonClicked, CGameState::soundOnClicked, CGameState::settingMenu,
+		CGameState::soundOffClicked, CGameState::musicOnClicked, CGameState::musicOffClicked;
+	CAnimation CGameState::settingButton, CGameState::soundOn, CGameState::soundOff,
+		CGameState::musicOn, CGameState::musicOff;
 
 	CGameState::CGameState(CGame *g)
 	{
 		game = g; 	// 設定game的pointer
-		sound = music = true;
+		sound = music = onSetting = true;
+		settingBtnCLicked = soundOnBtnCLicked = soundOffBtnCLicked = musicOnBtnCLicked = musicOffBtnCLicked = false;
 	}
 
 	void CGameState::GotoGameState(int state)
@@ -634,6 +641,190 @@ namespace game_framework {
 		// 如果是別的地方用到CDC的話，不要抄以下這行，否則螢幕會閃爍
 		//
 		CDDraw::BltBackToPrimary();					// 將 Back Plain 貼到螢幕
+	}
+
+	void CGameState::ShowSettingMenu()
+	{
+		//show menu
+		settingMenu.SetTopLeft(settingButton.Left() - 5, settingButton.Top() + settingButton.Height());
+		settingMenu.ShowBitmap();
+
+		//show music button
+		if (music)
+		{
+			if (musicOnBtnCLicked)
+			{
+				musicOnClicked.SetTopLeft(settingMenu.Left() + 5, settingMenu.Top() + 5);
+				musicOnClicked.ShowBitmap();
+			}
+			else
+			{
+				musicOn.SetTopLeft(settingMenu.Left() + 5, settingMenu.Top() + 5);
+				musicOn.OnShow();
+			}
+		}
+		else
+		{
+			if (musicOffBtnCLicked)
+			{
+				musicOffClicked.SetTopLeft(settingMenu.Left() + 5, settingMenu.Top() + 5);
+				musicOffClicked.ShowBitmap();
+			}
+			else
+			{
+				musicOff.SetTopLeft(settingMenu.Left() + 5, settingMenu.Top() + 5);
+				musicOff.OnShow();
+			}
+		}
+		if (sound)
+		{
+			if (soundOnBtnCLicked)
+			{
+				soundOnClicked.SetTopLeft(settingMenu.Left() + 5, settingMenu.Top() + 90);
+				soundOnClicked.ShowBitmap();
+			}
+			else
+			{
+				soundOn.SetTopLeft(settingMenu.Left() + 5, settingMenu.Top() + 90);
+				soundOn.OnShow();
+			}
+		}
+		else
+		{
+			if (soundOffBtnCLicked)
+			{
+				soundOffClicked.SetTopLeft(settingMenu.Left() + 5, settingMenu.Top() + 90);
+				soundOffClicked.ShowBitmap();
+			}
+			else
+			{
+				soundOff.SetTopLeft(settingMenu.Left() + 5, settingMenu.Top() + 90);
+				soundOff.OnShow();
+			}
+		}
+	}
+
+	void CGameState::ShowSettingButton()
+	{
+		if (settingBtnCLicked)
+		{
+			settingButtonClicked.SetTopLeft(SIZE_X - settingButton.Width(), 0);
+			settingButtonClicked.ShowBitmap();
+		}
+		else
+		{
+			settingButton.SetTopLeft(SIZE_X - settingButton.Width(), 0);
+			settingButton.OnShow();
+		}
+	}
+
+	void CGameState::SettingOnLButtonDown(CPoint point)
+	{
+		if (settingButton.Left() <= point.x && point.x <= (settingButton.Left() + settingButton.Width()) &&
+			settingButton.Top() <= point.y && point.y <= (settingButton.Top() + settingButton.Height()))
+		{
+			settingBtnCLicked = true;
+		}
+	}
+
+	void CGameState::SettingOnLButtonUp(CPoint point)
+	{
+		if (settingButton.Left() <= point.x && point.x <= (settingButton.Left() + settingButton.Width()) &&
+			settingButton.Top() <= point.y && point.y <= (settingButton.Top() + settingButton.Height()))
+		{
+			onSetting = onSetting ? false : true;
+		}
+		settingBtnCLicked = false;
+	}
+
+	void CGameState::SettingMenuOnLButtonDown(CPoint point)
+	{
+		if (music)
+		{
+			if (musicOn.Left() <= point.x && point.x <= (musicOn.Left() + musicOn.Width()) &&
+				musicOn.Top() <= point.y && point.y <= (musicOn.Top() + musicOn.Height()))
+			{
+				musicOnBtnCLicked = true;
+			}
+		}
+		else
+		{
+			if (musicOff.Left() <= point.x && point.x <= (musicOff.Left() + musicOff.Width()) &&
+				musicOff.Top() <= point.y && point.y <= (musicOff.Top() + musicOff.Height()))
+			{
+				musicOffBtnCLicked = true;
+			}
+		}
+		if (sound)
+		{
+			if (soundOn.Left() <= point.x && point.x <= (soundOn.Left() + soundOn.Width()) &&
+				soundOn.Top() <= point.y && point.y <= (soundOn.Top() + soundOn.Height()))
+			{
+				soundOnBtnCLicked = true;
+			}
+		}
+		else
+		{
+			if (soundOff.Left() <= point.x && point.x <= (soundOff.Left() + soundOff.Width()) &&
+				soundOff.Top() <= point.y && point.y <= (soundOff.Top() + soundOff.Height()))
+			{
+				soundOffBtnCLicked = true;
+			}
+		}
+	}
+
+	void CGameState::SettingMenuOnLButtonUp(CPoint point)
+	{
+		if (music)
+		{
+			if (musicOn.Left() <= point.x && point.x <= (musicOn.Left() + musicOn.Width()) &&
+				musicOn.Top() <= point.y && point.y <= (musicOn.Top() + musicOn.Height()))
+			{
+				music = false;
+			}
+			musicOnBtnCLicked = false;
+		}
+		else
+		{
+			if (musicOff.Left() <= point.x && point.x <= (musicOff.Left() + musicOff.Width()) &&
+				musicOff.Top() <= point.y && point.y <= (musicOff.Top() + musicOff.Height()))
+			{
+				music = true;
+			}
+			musicOffBtnCLicked = false;
+		}
+		if (sound)
+		{
+			if (soundOn.Left() <= point.x && point.x <= (soundOn.Left() + soundOn.Width()) &&
+				soundOn.Top() <= point.y && point.y <= (soundOn.Top() + soundOn.Height()))
+			{
+				sound = false;
+			}
+			soundOnBtnCLicked = false;
+		}
+		else
+		{
+			if (soundOff.Left() <= point.x && point.x <= (soundOff.Left() + soundOff.Width()) &&
+				soundOff.Top() <= point.y && point.y <= (soundOff.Top() + soundOff.Height()))
+			{
+				sound = true;
+			}
+			soundOffBtnCLicked = false;
+		}
+
+	}
+
+	void CGameState::settingMenuOnMove()
+	{
+		if (!musicOnBtnCLicked) musicOn.OnMove();
+		if (!musicOffBtnCLicked) musicOff.OnMove();
+		if (!soundOnBtnCLicked) soundOn.OnMove();
+		if (!soundOffBtnCLicked) soundOff.OnMove();
+	}
+
+	void CGameState::SettingOnMove()
+	{
+		if (!settingBtnCLicked) settingButton.OnMove();
 	}
 
 	void CGameState::ShowLoading()
