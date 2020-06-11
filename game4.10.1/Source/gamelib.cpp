@@ -247,7 +247,7 @@ namespace game_framework {
 	// 2. 自己寫到運用CMovingBitmap的程式時，可以參考下列程式的寫法
 	/////////////////////////////////////////////////////////////////////////////
 
-	CMovingBitmap CInteger::digit[33];
+	CMovingBitmap CInteger::digit[44];
 
 
 	int GetDigit(int n)
@@ -301,14 +301,16 @@ namespace game_framework {
 		// digit[i]為class varibale，所以必須避免重複LoadBitmap
 		//
 		if (!isBmpLoaded) {
-			int d[33] = { IDB_0, IDB_1, IDB_2, IDB_3, IDB_4, IDB_5, IDB_6, IDB_7, IDB_8, IDB_9, IDB_MINUS,
+			int d[44] = { IDB_0, IDB_1, IDB_2, IDB_3, IDB_4, IDB_5, IDB_6, IDB_7, IDB_8, IDB_9, IDB_MINUS,
 						  IDB1_0, IDB1_1, IDB1_2, IDB1_3, IDB1_4, IDB1_5, IDB1_6, IDB1_7, IDB1_8, IDB1_9, IDB_MINUS,
-						  IDB2_0, IDB2_1, IDB2_2, IDB2_3, IDB2_4, IDB2_5, IDB2_6, IDB2_7, IDB2_8, IDB2_9, IDB_MINUS };
-			for (int i = 0; i < 33; i++)
+						  IDB2_0, IDB2_1, IDB2_2, IDB2_3, IDB2_4, IDB2_5, IDB2_6, IDB2_7, IDB2_8, IDB2_9, IDB_MINUS,
+						  IDB3_0, IDB3_1, IDB3_2, IDB3_3, IDB3_4, IDB3_5, IDB3_6, IDB3_7, IDB3_8, IDB3_9, IDB_MINUS };
+			for (int i = 0; i < 44; i++)
 			{
 				if (i < 11) digit[i].LoadBitmap(d[i], RGB(253, 191, 200));
 				else if (i < 22) digit[i].LoadBitmap(d[i], RGB(0, 0, 0));
-				else digit[i].LoadBitmap(d[i], RGB(251, 230, 239));
+				else if (i < 33) digit[i].LoadBitmap(d[i], RGB(251, 230, 239));
+				else if (i < 44) digit[i].LoadBitmap(d[i], RGB(255, 255, 255));
 			}
 				
 			isBmpLoaded = true;
@@ -739,37 +741,44 @@ namespace game_framework {
 
 	void CGameState::SettingMenuOnLButtonDown(CPoint point)
 	{
-		if (music)
+		if (settingButton.Left() <= point.x && point.x <= (settingButton.Left() + settingButton.Width()) &&
+			settingButton.Top() <= point.y && point.y <= (settingButton.Top() + settingButton.Height() + settingMenu.Height()))
 		{
-			if (musicOn.Left() <= point.x && point.x <= (musicOn.Left() + musicOn.Width()) &&
-				musicOn.Top() <= point.y && point.y <= (musicOn.Top() + musicOn.Height()))
+			if (music)
 			{
-				musicOnBtnCLicked = true;
+				if (musicOn.Left() <= point.x && point.x <= (musicOn.Left() + musicOn.Width()) &&
+					musicOn.Top() <= point.y && point.y <= (musicOn.Top() + musicOn.Height()))
+				{
+					musicOnBtnCLicked = true;
+				}
+			}
+			else
+			{
+				if (musicOff.Left() <= point.x && point.x <= (musicOff.Left() + musicOff.Width()) &&
+					musicOff.Top() <= point.y && point.y <= (musicOff.Top() + musicOff.Height()))
+				{
+					musicOffBtnCLicked = true;
+				}
+			}
+			if (sound)
+			{
+				if (soundOn.Left() <= point.x && point.x <= (soundOn.Left() + soundOn.Width()) &&
+					soundOn.Top() <= point.y && point.y <= (soundOn.Top() + soundOn.Height()))
+				{
+					soundOnBtnCLicked = true;
+				}
+			}
+			else
+			{
+				if (soundOff.Left() <= point.x && point.x <= (soundOff.Left() + soundOff.Width()) &&
+					soundOff.Top() <= point.y && point.y <= (soundOff.Top() + soundOff.Height()))
+				{
+					soundOffBtnCLicked = true;
+				}
 			}
 		}
-		else
-		{
-			if (musicOff.Left() <= point.x && point.x <= (musicOff.Left() + musicOff.Width()) &&
-				musicOff.Top() <= point.y && point.y <= (musicOff.Top() + musicOff.Height()))
-			{
-				musicOffBtnCLicked = true;
-			}
-		}
-		if (sound)
-		{
-			if (soundOn.Left() <= point.x && point.x <= (soundOn.Left() + soundOn.Width()) &&
-				soundOn.Top() <= point.y && point.y <= (soundOn.Top() + soundOn.Height()))
-			{
-				soundOnBtnCLicked = true;
-			}
-		}
-		else
-		{
-			if (soundOff.Left() <= point.x && point.x <= (soundOff.Left() + soundOff.Width()) &&
-				soundOff.Top() <= point.y && point.y <= (soundOff.Top() + soundOff.Height()))
-			{
-				soundOffBtnCLicked = true;
-			}
+		else {
+			onSetting = false;
 		}
 	}
 
