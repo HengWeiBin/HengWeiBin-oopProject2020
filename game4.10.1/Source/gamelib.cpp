@@ -647,61 +647,64 @@ namespace game_framework {
 
 	void CGameState::ShowSettingMenu()
 	{
-		//show menu
-		settingMenu.SetTopLeft(settingButton.Left() - 5, settingButton.Top() + settingButton.Height());
-		settingMenu.ShowBitmap();
+		if(onSetting)
+		{
+			//show menu
+			settingMenu.SetTopLeft(settingButton.Left() - 5, settingButton.Top() + settingButton.Height());
+			settingMenu.ShowBitmap();
 
-		//show music button
-		if (music)
-		{
-			if (musicOnBtnCLicked)
+			//show music button
+			if (music)
 			{
-				musicOnClicked.SetTopLeft(settingMenu.Left() + 5, settingMenu.Top() + 5);
-				musicOnClicked.ShowBitmap();
+				if (musicOnBtnCLicked)
+				{
+					musicOnClicked.SetTopLeft(settingMenu.Left() + 5, settingMenu.Top() + 5);
+					musicOnClicked.ShowBitmap();
+				}
+				else
+				{
+					musicOn.SetTopLeft(settingMenu.Left() + 5, settingMenu.Top() + 5);
+					musicOn.OnShow();
+				}
 			}
 			else
 			{
-				musicOn.SetTopLeft(settingMenu.Left() + 5, settingMenu.Top() + 5);
-				musicOn.OnShow();
+				if (musicOffBtnCLicked)
+				{
+					musicOffClicked.SetTopLeft(settingMenu.Left() + 5, settingMenu.Top() + 5);
+					musicOffClicked.ShowBitmap();
+				}
+				else
+				{
+					musicOff.SetTopLeft(settingMenu.Left() + 5, settingMenu.Top() + 5);
+					musicOff.OnShow();
+				}
 			}
-		}
-		else
-		{
-			if (musicOffBtnCLicked)
+			if (sound)
 			{
-				musicOffClicked.SetTopLeft(settingMenu.Left() + 5, settingMenu.Top() + 5);
-				musicOffClicked.ShowBitmap();
-			}
-			else
-			{
-				musicOff.SetTopLeft(settingMenu.Left() + 5, settingMenu.Top() + 5);
-				musicOff.OnShow();
-			}
-		}
-		if (sound)
-		{
-			if (soundOnBtnCLicked)
-			{
-				soundOnClicked.SetTopLeft(settingMenu.Left() + 5, settingMenu.Top() + 90);
-				soundOnClicked.ShowBitmap();
-			}
-			else
-			{
-				soundOn.SetTopLeft(settingMenu.Left() + 5, settingMenu.Top() + 90);
-				soundOn.OnShow();
-			}
-		}
-		else
-		{
-			if (soundOffBtnCLicked)
-			{
-				soundOffClicked.SetTopLeft(settingMenu.Left() + 5, settingMenu.Top() + 90);
-				soundOffClicked.ShowBitmap();
+				if (soundOnBtnCLicked)
+				{
+					soundOnClicked.SetTopLeft(settingMenu.Left() + 5, settingMenu.Top() + 90);
+					soundOnClicked.ShowBitmap();
+				}
+				else
+				{
+					soundOn.SetTopLeft(settingMenu.Left() + 5, settingMenu.Top() + 90);
+					soundOn.OnShow();
+				}
 			}
 			else
 			{
-				soundOff.SetTopLeft(settingMenu.Left() + 5, settingMenu.Top() + 90);
-				soundOff.OnShow();
+				if (soundOffBtnCLicked)
+				{
+					soundOffClicked.SetTopLeft(settingMenu.Left() + 5, settingMenu.Top() + 90);
+					soundOffClicked.ShowBitmap();
+				}
+				else
+				{
+					soundOff.SetTopLeft(settingMenu.Left() + 5, settingMenu.Top() + 90);
+					soundOff.OnShow();
+				}
 			}
 		}
 	}
@@ -821,14 +824,18 @@ namespace game_framework {
 			soundOffBtnCLicked = false;
 		}
 
+
 	}
 
-	void CGameState::settingMenuOnMove()
+	void CGameState::SettingMenuOnMove()
 	{
-		if (!musicOnBtnCLicked) musicOn.OnMove();
-		if (!musicOffBtnCLicked) musicOff.OnMove();
-		if (!soundOnBtnCLicked) soundOn.OnMove();
-		if (!soundOffBtnCLicked) soundOff.OnMove();
+		if(onSetting)
+		{
+			if (!musicOnBtnCLicked) musicOn.OnMove();
+			if (!musicOffBtnCLicked) musicOff.OnMove();
+			if (!soundOnBtnCLicked) soundOn.OnMove();
+			if (!soundOffBtnCLicked) soundOff.OnMove();
+		}
 	}
 
 	void CGameState::SettingOnMove()

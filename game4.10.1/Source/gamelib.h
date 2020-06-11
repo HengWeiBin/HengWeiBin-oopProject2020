@@ -335,7 +335,7 @@ namespace game_framework {
 		void SettingOnLButtonUp(CPoint point);
 		void SettingMenuOnLButtonDown(CPoint point);
 		void SettingMenuOnLButtonUp(CPoint point);
-		void settingMenuOnMove();
+		void SettingMenuOnMove();
 		void SettingOnMove();
 		void ShowLoading();
 		//
