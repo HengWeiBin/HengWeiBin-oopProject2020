@@ -20,9 +20,10 @@ namespace game_framework
 	static int audioID[12] = { AUDIO_COMBO1, AUDIO_COMBO2, AUDIO_COMBO3, AUDIO_COMBO4, AUDIO_COMBO5, AUDIO_COMBO6,
 						AUDIO_COMBO7, AUDIO_COMBO8, AUDIO_COMBO9, AUDIO_COMBO10, AUDIO_COMBO11, AUDIO_COMBO12 };
 
-	GameArea::GameArea() 
-		:x(280), y(35), MAX_RAND_NUM(4), initiating(1), ending(0), running(1), gameOver(0), delay(0), 
-		delayRemoveStyle(0), delayRemove(0), currentComboSound(0), goldFinger(0), releaseSwap(0), totalCandyCleared(0)
+	GameArea::GameArea()
+		:x(280), y(35), MAX_RAND_NUM(4), initiating(1), ending(0), running(1), gameOver(0), delay(0),
+		delayRemoveStyle(0), delayRemove(0), currentComboSound(0), goldFinger(0), releaseSwap(0), totalCandyCleared(0),
+		playingVoice(0)
 	{
 		scoreBoard.score = 0;
 		for (int i = 0; i < MaxHeight; i++)
@@ -44,6 +45,11 @@ namespace game_framework
 		singleJelly.LoadBitmap("Bitmaps\\Jelly1.bmp");
 		doubleJelly.LoadBitmap("Bitmaps\\Jelly2.bmp");
 		scoreBoard.LoadBitmap();
+		sweet.LoadBitmap("Bitmaps\\sweet.bmp", RGB(0, 0, 0));
+		tasty.LoadBitmap("Bitmaps\\tasty.bmp", RGB(0, 0, 0));
+		delicious.LoadBitmap("Bitmaps\\delicious.bmp", RGB(0, 0, 0));
+		divine.LoadBitmap("Bitmaps\\divine.bmp", RGB(0, 0, 0));
+		sugarCrush.LoadBitmap("Bitmaps\\SugarCrush.bmp", RGB(0, 0, 0));
 		Candy::LoadBitmap();
 		NormalBlast::LoadBitmap();
 		LineBlast::LoadBitmap();
@@ -453,6 +459,8 @@ namespace game_framework
 
 		for (auto i = blasts.begin(); i != blasts.end(); i++)
 			(*i)->OnShow();
+
+		PlayVoiceEffect(-1);
 	}
 
 	void GameArea::OnMove()
@@ -522,10 +530,10 @@ namespace game_framework
 					TRACE(cc);
 				}
 				
-				if (totalCandyCleared > 30 && sound) CAudio::Instance()->Play(AUDIO_DIVINE, false);
-				else if (totalCandyCleared >= 24 && sound) CAudio::Instance()->Play(AUDIO_DELICIOUS, false);
-				else if (totalCandyCleared > 12 && sound) CAudio::Instance()->Play(AUDIO_TASTY, false);
-				else if (totalCandyCleared == 12 && sound) CAudio::Instance()->Play(AUDIO_SWEET, false);
+				if (totalCandyCleared > 30 && sound) PlayVoiceEffect(AUDIO_DIVINE);
+				else if (totalCandyCleared >= 24 && sound) PlayVoiceEffect(AUDIO_DELICIOUS);
+				else if (totalCandyCleared > 12 && sound) PlayVoiceEffect(AUDIO_TASTY);
+				else if (totalCandyCleared == 12 && sound) PlayVoiceEffect(AUDIO_SWEET);
 				currentComboSound = totalCandyCleared = 0;
 			}
 
@@ -955,6 +963,34 @@ namespace game_framework
 		}
 	}
 
+	void GameArea::GetWordBmp(double** size, int ** frame, CMovingBitmap ** word, int audio_id)
+	{
+		*size = new double(0.2);
+		*frame = new int(0);
+
+		switch (audio_id)
+		{
+		case AUDIO_SWEET:
+			*word = &sweet;
+			break;
+		case AUDIO_TASTY:
+			*word = &tasty;
+			break;
+		case AUDIO_DELICIOUS:
+			*word = &delicious;
+			break;
+		case AUDIO_DIVINE:
+			*word = &divine;
+			break;
+		case AUDIO_SUGAR_CRUSH:
+			*word = &sugarCrush;
+			break;
+		default:
+			GAME_ASSERT(0, "Invalid audio id!");
+		}
+		playingVoice = true;
+	}
+
 	int GameArea::PutCandy()
 	{
 		int total = 0;
@@ -978,7 +1014,7 @@ namespace game_framework
 					return true;
 		}
 
-		if (blasts.size()) return true;
+		if (blasts.size() || playingVoice) return true;
 		return false;
 	}
 
@@ -1003,10 +1039,12 @@ namespace game_framework
 	{
 		if (!ending && (!scoreBoard.moves.GetInteger() || scoreBoard.IsReachedTarget()))
 		{
+			if (scoreBoard.IsReachedTarget() || (scoreBoard.score > scoreBoard.oneStar && scoreBoard.mode == 1))
+				PlayVoiceEffect(AUDIO_SUGAR_CRUSH);
 			PutEndingBonus();
 			ending = true;
 		}
-		else if (ending && running)
+		else if (ending && running && !IsDropping())
 		{
 			if (endingBonus.size())
 			{
@@ -1048,13 +1086,37 @@ namespace game_framework
 				(*stage)->SetPassOrFail(0);
 				running = false;
 			}
-			else if (gameOver )
+			else if (gameOver)
 			{
 				(*stage)->currentScore = scoreBoard.score.GetInteger();
 				(*stage)->SetPassOrFail(1);
 				running = false;
 			}
 		}
+	}
+
+	void GameArea::PlayVoiceEffect(int audio_id)
+	{
+		static double* size;	//current size of word
+		static int* frame;		//current frame of animation
+		static CMovingBitmap* word;
+
+		if (audio_id != -1) GetWordBmp(&size, &frame, &word, audio_id); // reset animation's size, frame & bitmap
+		
+		if (!playingVoice) return;
+
+		word->SetTopLeft(SIZE_X / 2 - (int)(word->Width() * *size) / 2, SIZE_Y / 2 - (int)(word->Height() * *size) / 2);
+		word->ShowBitmap(*size);
+		if (*size < 1) *size += 0.1;
+		if ((*frame)++ > 30)
+		{
+			delete size;
+			delete frame;
+			playingVoice = false;
+		}
+
+		if (!sound || (*frame) != 1) return;
+		CAudio::Instance()->Play(audio_id, false);
 	}
 
 	void GameArea::TeleportCandy()

@@ -36,19 +36,21 @@ namespace game_framework
 		void Find(Candy*, unsigned&, unsigned&);		//find candy and return its' row and column
 		int FindCombo();
 		void GetCandies(set<Candy*>&, int, int, int);	//get continuous candies
-		void GetLine(vector<Candy*>&, vector<Candy*>&, char check);									//collect candies on a same line
+		void GetLine(vector<Candy*>&, vector<Candy*>&, char check);							//collect candies on a same line
+		void GetWordBmp(double**, int**, CMovingBitmap**, int);
 		void InitClickedCandy();						//unclick & clear candies in clickedCandies
 		bool IsDropping();								//check all candies are still
 		bool IsNeighbour(Candy&, Candy&);				//return are candies in clickedCandies is neighbour
 		void OnMoveBlasts();
 		void OnMoveEnding();
+		void PlayVoiceEffect(int audio_id);
 		void PowerAll(int style, int power, int x, int y);	//Power all specific candy
 		int PutCandy();									//spawn candies at spawning area
 		void PutEndingBonus();
-		int RemoveContinuous(vector<Candy*>&, char, bool(*Compare)(Candy*, Candy*), set<Candy*>&);	//Find and remove continuous candy
-		void RemoveContinuous(vector<Candy*>&, unsigned, unsigned, char, set<Candy*>&);				//Remove continuous candy
+		int RemoveContinuous(vector<Candy*>&, char, bool(*)(Candy*, Candy*), set<Candy*>&);	//Find and remove continuous candy
+		void RemoveContinuous(vector<Candy*>&, unsigned, unsigned, char, set<Candy*>&);		//Remove continuous candy
 		void ReleaseInOrder();
-		void ReleasePower(Candy*, unsigned row = 0, unsigned column = 0);							//remove candy with consider its' power
+		void ReleasePower(Candy*, unsigned row = 0, unsigned column = 0);					//remove candy with consider its' power
 		void ReleaseSwap();								//activate power of candy when 2 powered candy swapped
 		void RemoveAll(int row, int column);			//remove all candies
 		void RemoveRow(unsigned);						//remove whole row of candies
@@ -61,26 +63,28 @@ namespace game_framework
 		void UpdateCurPosition();						//update current position of every candy
 
 		const int x, y;									//top left x,y of gameArea
-		bool sound;
 		int map[MaxHeight][MaxWidth];					//Array of container
 		int delay, delayRemoveStyle;
-		bool delayRemove, releaseSwap;
 		int currentComboSound, totalCandyCleared;
+		int MAX_RAND_NUM;								//types of candies in this games
+
+		bool initiating, ending, running, gameOver;
+		bool sound, playingVoice;
+		bool delayRemove, releaseSwap;
+		bool goldFinger;
+
 		Candy* curPosition[MaxHeight][MaxWidth];		//save current position of every candy
-		list<pair<int, int>> spawnArea;					//save position where candy spawn
 		Candy candies[MaxHeight][MaxWidth];				//Array of candy
 		CMovingBitmap area, singleJelly, doubleJelly;	//container bmp
+		CMovingBitmap sweet, tasty, delicious, divine, sugarCrush;
 		vector<Candy*> clickedCandies;					//save clicked candy/ies maximun size = 2
-		list<Blast*> blasts;
+		vector<Stage*>::iterator stage;					//save current stage
+		list<pair<int, int>> spawnArea;					//save position where candy spawn
+		list<Blast*> blasts;							//save blasts pending to play
 		list<list<Candy*>*> removeList;					//These candies will be removed after delay
 		list<Candy*> endingBonus;
 		ScoreBoard scoreBoard;
 
-		vector<Stage*>::iterator stage;
-		int MAX_RAND_NUM;								//types of candies in this games
-		bool initiating, ending, running, gameOver;
-
-		bool goldFinger;
 	};
 }
 

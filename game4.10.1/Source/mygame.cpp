@@ -667,6 +667,7 @@ namespace game_framework
 		CAudio::Instance()->Load(AUDIO_TASTY, "sounds\\tasty.wav");
 		CAudio::Instance()->Load(AUDIO_DELICIOUS, "sounds\\delicious.wav");
 		CAudio::Instance()->Load(AUDIO_DIVINE, "sounds\\divine.wav");
+		CAudio::Instance()->Load(AUDIO_SUGAR_CRUSH, "sounds\\sugar_crush.wav");
 
 		for (int i = 0; i < 12; i++)
 		{
