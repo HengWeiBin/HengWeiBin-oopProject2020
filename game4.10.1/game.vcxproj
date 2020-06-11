@@ -593,6 +593,9 @@
     <Image Include="Bitmaps\GreenExplode8.bmp" />
     <Image Include="Bitmaps\GreenExplode9.bmp" />
     <Image Include="Bitmaps\GreenStar1.bmp" />
+    <Image Include="Bitmaps\howtoplay1.bmp" />
+    <Image Include="Bitmaps\howtoplay2.bmp" />
+    <Image Include="Bitmaps\howtoplay3.bmp" />
     <Image Include="Bitmaps\Left.bmp" />
     <Image Include="Bitmaps\NextButton.bmp" />
     <Image Include="Bitmaps\NormalExplode1.bmp" />
@@ -795,8 +798,8 @@
     <Image Include="Bitmaps\stage_map.bmp" />
     <Image Include="Bitmaps\SuperCandy.bmp" />
     <Image Include="Bitmaps\ClickedSuperCandy.bmp" />
+    <Image Include="Bitmaps\TabAbout.bmp" />
     <Image Include="Bitmaps\TabHowToPlay.bmp" />
-    <Image Include="Bitmaps\TabsAbout.bmp" />
     <Image Include="Bitmaps\Tiffy_0.bmp" />
     <Image Include="Bitmaps\Tiffy_1.bmp" />
     <Image Include="Bitmaps\Tiffy_2.bmp" />

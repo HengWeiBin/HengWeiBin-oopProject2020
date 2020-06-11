@@ -1050,14 +1050,23 @@
     <Image Include="Bitmaps\TabHowToPlay.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Bitmaps\TabsAbout.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="Bitmaps\Right.bmp">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Bitmaps\Left.bmp">
       <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\howtoplay3.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\howtoplay2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\howtoplay1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\TabAbout.bmp">
+      <Filter>MyGame</Filter>
     </Image>
   </ItemGroup>
 </Project>
