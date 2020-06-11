@@ -22,7 +22,7 @@ namespace game_framework
 
 	GameArea::GameArea() 
 		:x(280), y(35), MAX_RAND_NUM(4), initiating(1), ending(0), running(1), gameOver(0), delay(0), 
-		delayRemoveStyle(0), delayRemove(0), currentComboSound(0), goldFinger(0), releaseSwap(0)
+		delayRemoveStyle(0), delayRemove(0), currentComboSound(0), goldFinger(0), releaseSwap(0), totalCandyCleared(0)
 	{
 		scoreBoard.score = 0;
 		for (int i = 0; i < MaxHeight; i++)
@@ -127,7 +127,7 @@ namespace game_framework
 		if(candy != NULL) Find(candy, row, column); //if candy != NULL, get its' position in array
 		else candy = &candies[row][column];			//else, row & column is candy's position
 
-		if (!map[row][column]) return;	//return if candy is out of range in mao
+		if (!map[row][column]) return;	//return if candy is out of range in map
 
 		if (!initiating && (map[row][column] == 3 || map[row][column] == 4))
 		{	//break if there is a jelly at this position
@@ -135,10 +135,13 @@ namespace game_framework
 			scoreBoard.target--;	//deduct total amount of jelly
 		}
 
-		if (!initiating)scoreBoard.score += 60;
+		if (!initiating)scoreBoard.score += 60;	//increase total score
 
-		if(!initiating && candy->GetStyle())
+		if (!initiating && candy->GetStyle())
+		{	//play animation of a candy being destroyed
 			blasts.push_back(new NormalBlast(candy->GetStyle(), candy->GetTopLeftX(), candy->GetTopLeftY()));
+			totalCandyCleared++;
+		}
 
 		int power = candy->GetPower(), style = candy->GetStyle();
 		candy->Kill();
@@ -460,7 +463,7 @@ namespace game_framework
 
 		DropCandy();		//drop if candy hvnt touch the ground/other candy
 
-		PortalCandy();
+		TeleportCandy();
 
 		#pragma omp parallel for
 		for (int i = 0; i < MaxHeight; i++)
@@ -500,40 +503,47 @@ namespace game_framework
 			releaseSwap = false;
 			return 1;
 		}
-		int amountCleared = 0;
 		if (!initiating && !delayRemove && !removeList.size())
 		{
 
-			amountCleared = ClearCombo();
-			if (amountCleared)
+			int candyCleared = ClearCombo();
+
+			if (candyCleared)
 			{	//play combo sound
 				currentComboSound = currentComboSound > 11 ? 11 : currentComboSound;
 				if (sound) CAudio::Instance()->Play(audioID[currentComboSound++], false);
 			}
 			else
 			{
-				if (currentComboSound > 11 && sound) CAudio::Instance()->Play(AUDIO_DIVINE, false);
-				else if (currentComboSound > 7 && sound) CAudio::Instance()->Play(AUDIO_DELICIOUS, false);
-				else if (currentComboSound > 4 && sound) CAudio::Instance()->Play(AUDIO_TASTY, false);
-				else if (currentComboSound > 2 && sound) CAudio::Instance()->Play(AUDIO_SWEET, false);
-				currentComboSound = 0;
+				if (totalCandyCleared)
+				{
+					char cc[50];
+					sprintf(cc, "comboCleared : %d\n", totalCandyCleared);
+					TRACE(cc);
+				}
+				
+				if (totalCandyCleared > 30 && sound) CAudio::Instance()->Play(AUDIO_DIVINE, false);
+				else if (totalCandyCleared >= 24 && sound) CAudio::Instance()->Play(AUDIO_DELICIOUS, false);
+				else if (totalCandyCleared > 12 && sound) CAudio::Instance()->Play(AUDIO_TASTY, false);
+				else if (totalCandyCleared == 12 && sound) CAudio::Instance()->Play(AUDIO_SWEET, false);
+				currentComboSound = totalCandyCleared = 0;
 			}
 
-			if (amountCleared && clickedCandies.size() == 2)
+			if (candyCleared && clickedCandies.size() == 2)
 			{//If there is a combo after swapping candies, initiate click, -1 moves
 				scoreBoard.moves -= 1;
 				InitClickedCandy();
 			}
-			else if (!amountCleared && clickedCandies.size() == 2)
+			else if (!candyCleared && clickedCandies.size() == 2)
 			{ //else swap two candies back to original position
 				if (sound) CAudio::Instance()->Play(AUDIO_NEG_SWAP, false);
 				SwapCandy();
 				InitClickedCandy();
 			}
 		}
-		else if (!delayRemove && !removeList.size()) amountCleared = ClearCombo();
+		else if (!delayRemove && !removeList.size()) ClearCombo();
 
-		return amountCleared;
+		return totalCandyCleared;
 	}
 
 	void GameArea::OnMoveBlasts()
@@ -850,13 +860,13 @@ namespace game_framework
 				{
 					RemoveContinuous(line, i - (count - 1), i, axis, temp);
 					count = 1;
-					comboDeleted++;
+					comboDeleted += count;
 				}
 			}
 			if (count >= 3)
 			{
 				RemoveContinuous(line, (unsigned)(line.size() - count), (unsigned)(line.size()), axis, temp);
-				comboDeleted++;
+				comboDeleted += count;
 			}
 			line.clear();
 			if (toDelete.size() < 3) break;	//break if there is not enough candies to form a combo
@@ -1047,25 +1057,27 @@ namespace game_framework
 		}
 	}
 
-	void GameArea::PortalCandy()
+	void GameArea::TeleportCandy()
 	{
-		vector<pair<CPoint, CPoint>>* portalList = &(*stage)->portalList;
+		vector<pair<CPoint, CPoint>>* portalList = &(*stage)->portalList;	// get portal position
 
 		#pragma omp parallel for
 		for (int i = 0; i < (int)portalList->size(); i++)
 		{
-			Candy* from = curPosition[(*portalList)[i].first.y][(*portalList)[i].first.x];
-			Candy* to = curPosition[(*portalList)[i].second.y][(*portalList)[i].second.x];
+			Candy* from = curPosition[(*portalList)[i].first.y][(*portalList)[i].first.x];	//get candy of starting point
+			Candy* to = curPosition[(*portalList)[i].second.y][(*portalList)[i].second.x];	//get candy of end
 			if (from != NULL && !(from->IsMoving()) && to == NULL)
-			{
-				from->SetDestination(from->GetCurrentY() + 24);
+			{	//teleport if there is a still candy at starting point and no candy at the end
+				from->SetDestination(from->GetCurrentY() + 24);	//drop into portal
+
+				//create a candy come out from portal
 				candies[(*portalList)[i].second.y][(*portalList)[i].second.x] = Candy(from->GetStyle(), (*portalList)[i].second.x * 50 + x, (*portalList)[i].second.y * 50 + y - 25);
 				candies[(*portalList)[i].second.y][(*portalList)[i].second.x].SetDestination((*portalList)[i].second.y * 50 + y);
 				candies[(*portalList)[i].second.y][(*portalList)[i].second.x].SetPower(from->GetPower());
 				candies[(*portalList)[i].second.y][(*portalList)[i].second.x].SetStyle(from->GetStyle());
 			}
 			if (from != NULL && from->GetCurrentY() >= (*portalList)[i].first.y * 50 + y + 24)
-				from->Kill();
+				from->Kill();	//candy disappear when drop into portal
 		}
 	}
 

@@ -33,7 +33,7 @@ namespace game_framework
 		int DropCandyStraight();
 		int DropCandySide();
 		int DeleteCombo(set<Candy*>&);					//analyze and delete combo
-		void Find(Candy*, unsigned&, unsigned&);		//find candy and return row and column
+		void Find(Candy*, unsigned&, unsigned&);		//find candy and return its' row and column
 		int FindCombo();
 		void GetCandies(set<Candy*>&, int, int, int);	//get continuous candies
 		void GetLine(vector<Candy*>&, vector<Candy*>&, char check);									//collect candies on a same line
@@ -42,7 +42,6 @@ namespace game_framework
 		bool IsNeighbour(Candy&, Candy&);				//return are candies in clickedCandies is neighbour
 		void OnMoveBlasts();
 		void OnMoveEnding();
-		void PortalCandy();
 		void PowerAll(int style, int power, int x, int y);	//Power all specific candy
 		int PutCandy();									//spawn candies at spawning area
 		void PutEndingBonus();
@@ -58,6 +57,7 @@ namespace game_framework
 		void RemoveStyle(int x, int y, int style = 0);	//remove all specific candy
 		void ShowLoading();								//Show loading image
 		void SwapCandy();								//Swap candies in clickedCandies
+		void TeleportCandy();
 		void UpdateCurPosition();						//update current position of every candy
 
 		const int x, y;									//top left x,y of gameArea
@@ -65,7 +65,7 @@ namespace game_framework
 		int map[MaxHeight][MaxWidth];					//Array of container
 		int delay, delayRemoveStyle;
 		bool delayRemove, releaseSwap;
-		int currentComboSound;
+		int currentComboSound, totalCandyCleared;
 		Candy* curPosition[MaxHeight][MaxWidth];		//save current position of every candy
 		list<pair<int, int>> spawnArea;					//save position where candy spawn
 		Candy candies[MaxHeight][MaxWidth];				//Array of candy
