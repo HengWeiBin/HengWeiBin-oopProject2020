@@ -71,7 +71,7 @@ namespace game_framework
 	CGameStateInit::CGameStateInit(CGame* g)
 		: CGameState(g)
 	{
-		playBtnClicked = finishLoaded = onHelp = helpBtnClicked = onAbout = onHowToPlay = onSetting = false;
+		playBtnClicked = finishLoaded = onHelp = helpBtnClicked = onAbout = onHowToPlay = onSetting = onCheatPage= false;
 		howToPlayPage = 0;
 	}
 
@@ -211,13 +211,18 @@ namespace game_framework
 		helpBackground.LoadBitmap("Bitmaps/setting.bmp", RGB(0, 0, 0));
 		howToPlayTab.LoadBitmap("Bitmaps/TabHowToPlay.bmp", RGB(255, 255, 255));
 		aboutTab.LoadBitmap("Bitmaps/TabAbout.bmp", RGB(255, 255, 255));
+		cheatTab.LoadBitmap("Bitmaps/TabCheat.bmp", RGB(255, 255, 255));
 		leftButton.LoadBitmap("Bitmaps/Left.bmp", RGB(255, 255, 255));
 		rightButton.LoadBitmap("Bitmaps/Right.bmp", RGB(255, 255, 255));
 		howToPlay[0].LoadBitmap("Bitmaps/howtoplay1.bmp", RGB(255, 255, 255));
 		howToPlay[1].LoadBitmap("Bitmaps/howtoplay2.bmp", RGB(255, 255, 255));
 		howToPlay[2].LoadBitmap("Bitmaps/howtoplay3.bmp", RGB(255, 255, 255));
+		about.LoadBitmap("Bitmaps/About.bmp", RGB(255, 255, 255));
+		cheat.LoadBitmap("Bitmaps/Cheat.bmp", RGB(255, 255, 255));
 		aboutButton.LoadBitmap("Bitmaps/AboutButton.bmp", RGB(255, 255, 255));
 		howToPlayButton.LoadBitmap("Bitmaps/HowToPlayButton.bmp", RGB(255, 255, 255));
+		cheatButton.LoadBitmap("Bitmaps/CheatButton.bmp", RGB(255, 255, 255));
+
 		/*==========================================================*/
 
 		finishLoaded = true;
@@ -253,14 +258,13 @@ namespace game_framework
 		}
 		else
 		{
-			if (point.x >= playButTopLX && point.y >= playButTopLY && point.x <= playButBotRX && point.y <= playButBotRY)
+			if (ButtonOnClick(point, playButton))
 			{
 				playBtnClicked = true;
 			}
 			else playBtnClicked = false;
 
-			if (helpButton.Left() <= point.x && point.x <= (helpButton.Left() + helpButton.Width()) &&
-				helpButton.Top() <= point.y && point.y <= (helpButton.Top() + helpButton.Height()))
+			if (ButtonOnClick(point, helpButton))
 			{
 				helpBtnClicked = true;
 			}
@@ -281,14 +285,13 @@ namespace game_framework
 		}
 		else
 		{
-			if (point.x >= playButTopLX && point.y >= playButTopLY && point.x <= playButBotRX && point.y <= playButBotRY)
+			if (ButtonOnClick(point, playButton))
 			{
 				GotoGameState(GAME_STATE_MENU);		// 切換至GAME_STATE_RUN
 			}
 			else playBtnClicked = false;
 
-			if (helpButton.Left() <= point.x && point.x <= (helpButton.Left() + helpButton.Width()) &&
-				helpButton.Top() <= point.y && point.y <= (helpButton.Top() + helpButton.Height()))
+			if (ButtonOnClick(point,helpButton))
 			{
 				onHelp = onHelp ? false:true;
 				onAbout = true;
@@ -316,17 +319,7 @@ namespace game_framework
 			playButton.OnShow();
 		}
 
-		//help button
-		if (helpBtnClicked)
-		{
-			helpButtonClicked.SetTopLeft(settingButton.Left()-helpButton.Width(),0);
-			helpButtonClicked.ShowBitmap();
-		}
-		else
-		{
-			helpButton.SetTopLeft(settingButton.Left() - helpButton.Width(), 0);
-			helpButton.OnShow();
-		}
+		
 
 		tiffy.SetTopLeft(95, 400);
 		tiffy.OnShow();
@@ -340,6 +333,16 @@ namespace game_framework
 		ShowSettingMenu();
 
 		//help
+		if (helpBtnClicked)
+		{
+			helpButtonClicked.SetTopLeft(settingButton.Left() - helpButton.Width(), 0);
+			helpButtonClicked.ShowBitmap();
+		}
+		else
+		{
+			helpButton.SetTopLeft(settingButton.Left() - helpButton.Width(), 0);
+			helpButton.OnShow();
+		}
 		ShowHelpMenu();
 	}
 
@@ -368,57 +371,75 @@ namespace game_framework
 				//show tab initiate (about tab)
 				aboutTab.SetTopLeft(helpBackground.Left() + (helpBackground.Width() - aboutTab.Width()) / 2, helpBackground.Top() + (helpBackground.Height() - aboutTab.Height()) / 2 + 40);
 				aboutTab.ShowBitmap();
+				//show about page
+				about.SetTopLeft(aboutTab.Left() + 3, aboutTab.Top() + 26);
+				about.ShowBitmap();
 			}
-			else if (onHowToPlay) 
+			if (onHowToPlay) 
 			{
-				//show tab how to play
-				howToPlayTab.SetTopLeft(aboutTab.Left(), aboutTab.Top());
-				howToPlayTab.ShowBitmap();
-				//show initiate how to play page
-				howToPlay[howToPlayPage].SetTopLeft(howToPlayTab.Left() + 3, howToPlayTab.Top() + 26);
-				howToPlay[howToPlayPage].ShowBitmap();
-				//show left right button
-				if (howToPlayPage != 0) {
-					leftButton.SetTopLeft(howToPlay[howToPlayPage].Left() + 20, howToPlay[howToPlayPage].Top() + howToPlay[howToPlayPage].Height() - leftButton.Height() - 20);
-					leftButton.ShowBitmap();
-				}
-				if (howToPlayPage != 2) {
-					rightButton.SetTopLeft(howToPlay[howToPlayPage].Left()+ howToPlay[howToPlayPage].Width()-rightButton.Width() - 20, howToPlay[howToPlayPage].Top() + howToPlay[howToPlayPage].Height() - rightButton.Height() - 20);
-					rightButton.ShowBitmap();
-				}
+				ShowHowToPlay();
+			}
+			if (onCheatPage)
+			{
+				//show tab cheat
+				cheatTab.SetTopLeft(aboutTab.Left(), aboutTab.Top());
+				cheatTab.ShowBitmap();
+				//show cheat page
+				cheat.SetTopLeft(aboutTab.Left() + 3, aboutTab.Top() + 26);
+				cheat.ShowBitmap();
 			}
 			aboutButton.SetTopLeft(aboutTab.Left(), aboutTab.Top());
 			howToPlayButton.SetTopLeft(aboutTab.Left()+aboutButton.Width(), aboutTab.Top());
+			cheatButton.SetTopLeft(howToPlayButton.Left() + howToPlayButton.Width(), aboutTab.Top());
+		}
+	}
+
+	void CGameStateInit::ShowHowToPlay()
+	{
+		//show tab how to play
+		howToPlayTab.SetTopLeft(aboutTab.Left(), aboutTab.Top());
+		howToPlayTab.ShowBitmap();
+		//show initiate how to play page
+		howToPlay[howToPlayPage].SetTopLeft(howToPlayTab.Left() + 3, howToPlayTab.Top() + 26);
+		howToPlay[howToPlayPage].ShowBitmap();
+		//show left right button
+		if (howToPlayPage != 0) {
+			leftButton.SetTopLeft(howToPlay[howToPlayPage].Left() + 20, howToPlay[howToPlayPage].Top() + howToPlay[howToPlayPage].Height() - leftButton.Height() - 20);
+			leftButton.ShowBitmap();
+		}
+		if (howToPlayPage != 2) {
+			rightButton.SetTopLeft(howToPlay[howToPlayPage].Left() + howToPlay[howToPlayPage].Width() - rightButton.Width() - 20, howToPlay[howToPlayPage].Top() + howToPlay[howToPlayPage].Height() - rightButton.Height() - 20);
+			rightButton.ShowBitmap();
 		}
 	}
 
 	void CGameStateInit::HelpMenuOnLButtonUp(CPoint point)
 	{
-		if (helpBackground.Left() <= point.x && point.x <= (helpBackground.Left() + helpBackground.Width()) &&
-			helpBackground.Top() <= point.y && point.y <= (helpBackground.Top() + helpBackground.Height()))
+
+		if (ButtonOnClick(point, helpBackground))
 		{
-			if (aboutButton.Left() <= point.x && point.x <= (aboutButton.Left() + aboutButton.Width()) &&
-				aboutButton.Top() <= point.y && point.y <= (aboutButton.Top() + aboutButton.Height()))
+			if (ButtonOnClick(point, aboutButton))
 			{
 				onAbout = true;
-				onHowToPlay = false;
+				onHowToPlay = onCheatPage = false;
 			}
-			if (howToPlayButton.Left() <= point.x && point.x <= (howToPlayButton.Left() + howToPlayButton.Width()) &&
-				howToPlayButton.Top() <= point.y && point.y <= (howToPlayButton.Top() + howToPlayButton.Height()))
+			if (ButtonOnClick(point, howToPlayButton))
 			{
-				onAbout = false;
 				onHowToPlay = true;
+				onAbout = onCheatPage = false;
 			}
-
+			if (ButtonOnClick(point, cheatButton))
+			{
+				onCheatPage = true;
+				onAbout = onHowToPlay = false;
+			}
 			if (onHowToPlay)
 			{
-				if (leftButton.Left() <= point.x && point.x <= (leftButton.Left() + leftButton.Width()) &&
-					leftButton.Top() <= point.y && point.y <= (leftButton.Top() + leftButton.Height()) && howToPlayPage>0)
+				if (ButtonOnClick(point, leftButton) && howToPlayPage>0)
 				{
 					howToPlayPage--;
 				}
-				if (rightButton.Left() <= point.x && point.x <= (rightButton.Left() + rightButton.Width()) &&
-					rightButton.Top() <= point.y && point.y <= (rightButton.Top() + rightButton.Height()) && howToPlayPage<2)
+				if (ButtonOnClick(point, rightButton) && howToPlayPage<2)
 				{
 					howToPlayPage++;
 				}
@@ -473,22 +494,19 @@ namespace game_framework
 		else 
 		{
 			//Exit Button
-			if (exitButton.Left() <= point.x && point.x <= (exitButton.Left() + exitButton.Width()) &&
-				exitButton.Top() <= point.y && point.y <= (exitButton.Top() + exitButton.Height()))
+			if (ButtonOnClick(point, exitButton))
 			{
 				exitBtnClicked = true;
 			}
 
 			//Retry Button
-			if (retryButton.Left() <= point.x && point.x <= (retryButton.Left() + retryButton.Width()) &&
-				retryButton.Top() <= point.y && point.y <= (retryButton.Top() + retryButton.Height()))
+			if (ButtonOnClick(point, retryButton))
 			{
 				retryBtnClicked = true;
 			}
 
 			//Next Button
-			if (nextButton.Left() <= point.x && point.x <= (nextButton.Left() + nextButton.Width()) &&
-				nextButton.Top() <= point.y && point.y <= (nextButton.Top() + nextButton.Height()) && !isFail)
+			if (ButtonOnClick(point, nextButton) && !isFail)
 			{
 				nextBtnClicked = true;
 			}
@@ -505,16 +523,14 @@ namespace game_framework
 		else
 		{
 			//Exit Button
-			if (exitButton.Left() <= point.x && point.x <= (exitButton.Left() + exitButton.Width()) &&
-				exitButton.Top() <= point.y && point.y <= (exitButton.Top() + exitButton.Height()))
+			if (ButtonOnClick(point, exitButton))
 			{
 				GotoGameState(GAME_STATE_MENU);		// 切換至GAME_STATE_MENU
 				StopAllMusic();
 			}
 
 			//Retry Button
-			if (retryButton.Left() <= point.x && point.x <= (retryButton.Left() + retryButton.Width()) &&
-				retryButton.Top() <= point.y && point.y <= (retryButton.Top() + retryButton.Height()))
+			if (ButtonOnClick(point, retryButton))
 			{
 				gameArea.LoadStage(stages, current_stage);
 				GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
@@ -522,8 +538,7 @@ namespace game_framework
 			}
 
 			//Next Button
-			if (nextButton.Left() <= point.x && point.x <= (nextButton.Left() + nextButton.Width()) &&
-				nextButton.Top() <= point.y && point.y <= (nextButton.Top() + nextButton.Height()) && !isFail)
+			if (ButtonOnClick(point, nextButton) && !isFail)
 			{
 				current_stage += 1;
 				gameArea.LoadStage(stages, current_stage);

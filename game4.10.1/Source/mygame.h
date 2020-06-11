@@ -62,13 +62,15 @@ namespace game_framework {
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 		void OnMove();
 		void ShowHelpMenu(); 
+		void ShowHowToPlay();
 		void HelpMenuOnLButtonUp(CPoint point);
 
 	private:
 		CMovingBitmap background, clickedPlayButton, helpButtonClicked;	// Candycrush starter background, play button
-		CMovingBitmap helpBackground, aboutTab, howToPlayTab, howToPlay[3],leftButton,rightButton,aboutButton,howToPlayButton;
+		CMovingBitmap helpBackground, aboutTab, howToPlayTab, cheatTab, howToPlay[3], about, cheat,
+					  leftButton, rightButton, aboutButton, howToPlayButton, cheatButton;
 		CAnimation tiffy, playButton, toffee,candyCrush, helpButton;
-		bool playBtnClicked, finishLoaded, helpBtnClicked,onHelp,onAbout,onHowToPlay;
+		bool playBtnClicked, finishLoaded, helpBtnClicked,onHelp,onAbout,onHowToPlay,onCheatPage;
 		int playButTopLX, playButTopLY;					//Top left of play button
 		int playButBotRX, playButBotRY;					//Bottom right of play button
 		int howToPlayPage;

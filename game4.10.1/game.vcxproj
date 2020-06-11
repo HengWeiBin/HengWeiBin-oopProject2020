@@ -569,6 +569,7 @@
     <Image Include="Bitmaps\BlueExplode8.bmp" />
     <Image Include="Bitmaps\BlueExplode9.bmp" />
     <Image Include="bitmaps\bmp00001.bmp" />
+    <Image Include="Bitmaps\CheatButton.bmp" />
     <Image Include="Bitmaps\ClickedP1YellowCandy.bmp" />
     <Image Include="Bitmaps\ClickedP2YellowCandy.bmp" />
     <Image Include="Bitmaps\ClickedP3YellowCandy.bmp" />
@@ -799,6 +800,7 @@
     <Image Include="Bitmaps\SuperCandy.bmp" />
     <Image Include="Bitmaps\ClickedSuperCandy.bmp" />
     <Image Include="Bitmaps\TabAbout.bmp" />
+    <Image Include="Bitmaps\TabCheat.bmp" />
     <Image Include="Bitmaps\TabHowToPlay.bmp" />
     <Image Include="Bitmaps\Tiffy_0.bmp" />
     <Image Include="Bitmaps\Tiffy_1.bmp" />

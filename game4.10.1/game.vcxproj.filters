@@ -1068,5 +1068,11 @@
     <Image Include="Bitmaps\TabAbout.bmp">
       <Filter>MyGame</Filter>
     </Image>
+    <Image Include="Bitmaps\CheatButton.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Bitmaps\TabCheat.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

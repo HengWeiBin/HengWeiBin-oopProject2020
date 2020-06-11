@@ -645,6 +645,32 @@ namespace game_framework {
 		CDDraw::BltBackToPrimary();					// 將 Back Plain 貼到螢幕
 	}
 
+	bool CGameState::ButtonOnClick(CPoint point, CMovingBitmap button)
+	{
+		if (button.Left() <= point.x && point.x <= (button.Left() + button.Width()) &&
+			button.Top() <= point.y && point.y <= (button.Top() + button.Height()))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	bool CGameState::ButtonOnClick(CPoint point, CAnimation button)
+	{
+		if (button.Left() <= point.x && point.x <= (button.Left() + button.Width()) &&
+			button.Top() <= point.y && point.y <= (button.Top() + button.Height()))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
 	void CGameState::ShowSettingMenu()
 	{
 		if(onSetting)
@@ -725,8 +751,7 @@ namespace game_framework {
 
 	void CGameState::SettingOnLButtonDown(CPoint point)
 	{
-		if (settingButton.Left() <= point.x && point.x <= (settingButton.Left() + settingButton.Width()) &&
-			settingButton.Top() <= point.y && point.y <= (settingButton.Top() + settingButton.Height()))
+		if (ButtonOnClick(point, settingButton))
 		{
 			settingBtnCLicked = true;
 		}
@@ -734,8 +759,7 @@ namespace game_framework {
 
 	void CGameState::SettingOnLButtonUp(CPoint point)
 	{
-		if (settingButton.Left() <= point.x && point.x <= (settingButton.Left() + settingButton.Width()) &&
-			settingButton.Top() <= point.y && point.y <= (settingButton.Top() + settingButton.Height()))
+		if (ButtonOnClick(point, settingButton))
 		{
 			onSetting = onSetting ? false : true;
 		}
@@ -749,32 +773,28 @@ namespace game_framework {
 		{
 			if (music)
 			{
-				if (musicOn.Left() <= point.x && point.x <= (musicOn.Left() + musicOn.Width()) &&
-					musicOn.Top() <= point.y && point.y <= (musicOn.Top() + musicOn.Height()))
+				if (ButtonOnClick(point, musicOn))
 				{
 					musicOnBtnCLicked = true;
 				}
 			}
 			else
 			{
-				if (musicOff.Left() <= point.x && point.x <= (musicOff.Left() + musicOff.Width()) &&
-					musicOff.Top() <= point.y && point.y <= (musicOff.Top() + musicOff.Height()))
+				if (ButtonOnClick(point, musicOff))
 				{
 					musicOffBtnCLicked = true;
 				}
 			}
 			if (sound)
 			{
-				if (soundOn.Left() <= point.x && point.x <= (soundOn.Left() + soundOn.Width()) &&
-					soundOn.Top() <= point.y && point.y <= (soundOn.Top() + soundOn.Height()))
+				if (ButtonOnClick(point, soundOn))
 				{
 					soundOnBtnCLicked = true;
 				}
 			}
 			else
 			{
-				if (soundOff.Left() <= point.x && point.x <= (soundOff.Left() + soundOff.Width()) &&
-					soundOff.Top() <= point.y && point.y <= (soundOff.Top() + soundOff.Height()))
+				if (ButtonOnClick(point, soundOff))
 				{
 					soundOffBtnCLicked = true;
 				}
@@ -789,8 +809,7 @@ namespace game_framework {
 	{
 		if (music)
 		{
-			if (musicOn.Left() <= point.x && point.x <= (musicOn.Left() + musicOn.Width()) &&
-				musicOn.Top() <= point.y && point.y <= (musicOn.Top() + musicOn.Height()))
+			if (ButtonOnClick(point, musicOn))
 			{
 				music = false;
 			}
@@ -798,8 +817,7 @@ namespace game_framework {
 		}
 		else
 		{
-			if (musicOff.Left() <= point.x && point.x <= (musicOff.Left() + musicOff.Width()) &&
-				musicOff.Top() <= point.y && point.y <= (musicOff.Top() + musicOff.Height()))
+			if (ButtonOnClick(point, musicOff))
 			{
 				music = true;
 			}
@@ -807,8 +825,7 @@ namespace game_framework {
 		}
 		if (sound)
 		{
-			if (soundOn.Left() <= point.x && point.x <= (soundOn.Left() + soundOn.Width()) &&
-				soundOn.Top() <= point.y && point.y <= (soundOn.Top() + soundOn.Height()))
+			if (ButtonOnClick(point, soundOn))
 			{
 				sound = false;
 			}
@@ -816,8 +833,7 @@ namespace game_framework {
 		}
 		else
 		{
-			if (soundOff.Left() <= point.x && point.x <= (soundOff.Left() + soundOff.Width()) &&
-				soundOff.Top() <= point.y && point.y <= (soundOff.Top() + soundOff.Height()))
+			if (ButtonOnClick(point, soundOff))
 			{
 				sound = true;
 			}
