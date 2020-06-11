@@ -25,6 +25,7 @@ namespace game_framework
 		void OnLButtonUp(UINT nFlags, CPoint point);	//handle mouse unclick
 		void OnMouseMove(UINT nFlags, CPoint point);	//handle mouse move
 		void SetSound(bool);							//switch sound on/off
+		void SetMusic(bool);							//switch music on/off
 	private:
 		int ClearCombo();								//search and delete all combo
 		int Compare(int, int);							//Compare two int
@@ -38,6 +39,7 @@ namespace game_framework
 		void GetCandies(set<Candy*>&, int, int, int);	//get continuous candies
 		void GetLine(vector<Candy*>&, vector<Candy*>&, char check);							//collect candies on a same line
 		void GetWordBmp(double**, int**, CMovingBitmap**, int);
+		void GotoGameStateOver(bool result);
 		void InitClickedCandy();						//unclick & clear candies in clickedCandies
 		bool IsDropping();								//check all candies are still
 		bool IsNeighbour(Candy&, Candy&);				//return are candies in clickedCandies is neighbour
@@ -69,7 +71,7 @@ namespace game_framework
 		int MAX_RAND_NUM;								//types of candies in this games
 
 		bool initiating, ending, running, gameOver;
-		bool sound, playingVoice;
+		bool sound, music, playingVoice;
 		bool delayRemove, releaseSwap;
 		bool goldFinger;
 

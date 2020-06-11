@@ -119,6 +119,7 @@ namespace game_framework {
 	private:
 		void ShowButtons();
 		void ShowStars(int, int, int);
+		void StopAllMusic();
 
 		int counter, stageNum;	// 倒數之計數器
 		bool isFail;

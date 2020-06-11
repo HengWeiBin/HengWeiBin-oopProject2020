@@ -458,6 +458,11 @@ namespace game_framework
 		currentScore = (int)stages[current_stage]->GetCurrentScore();
 		isFail = stages[current_stage]->IsFail();
 		nextBtnClicked = retryBtnClicked = false;
+		if (music)
+		{
+			if (isFail) CAudio::Instance()->Play(AUDIO_STATE_FAIL, true);
+			else CAudio::Instance()->Play(AUDIO_STATE_COMPLETE, true);
+		}
 	}
 	void CGameStateOver::OnLButtonDown(UINT nFlags, CPoint point)
 	{
@@ -504,6 +509,7 @@ namespace game_framework
 				exitButton.Top() <= point.y && point.y <= (exitButton.Top() + exitButton.Height()))
 			{
 				GotoGameState(GAME_STATE_MENU);		// 切換至GAME_STATE_MENU
+				StopAllMusic();
 			}
 
 			//Retry Button
@@ -512,6 +518,7 @@ namespace game_framework
 			{
 				gameArea.LoadStage(stages, current_stage);
 				GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
+				StopAllMusic();
 			}
 
 			//Next Button
@@ -521,6 +528,7 @@ namespace game_framework
 				current_stage += 1;
 				gameArea.LoadStage(stages, current_stage);
 				GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
+				StopAllMusic();
 			}
 			nextBtnClicked = retryBtnClicked = exitBtnClicked = false;
 		}
@@ -565,6 +573,10 @@ namespace game_framework
 
 		nextButtonClicked.LoadBitmap("Bitmaps\\NextButtonClicked.bmp", RGB(251, 230, 239));
 		retryButtonClicked.LoadBitmap("Bitmaps\\RetryButtonClicked.bmp", RGB(251, 230, 239));
+
+		//Load background music
+		CAudio::Instance()->Load(AUDIO_STATE_FAIL, "sounds\\Level_Failed.mp3");
+		CAudio::Instance()->Load(AUDIO_STATE_COMPLETE, "sounds\\Level_Complete.mp3");
 	}
 
 	int CGameStateOver::GetDigit(int n)
@@ -672,6 +684,12 @@ namespace game_framework
 		}
 	}
 
+	void CGameStateOver::StopAllMusic()
+	{
+		CAudio::Instance()->Stop(AUDIO_STATE_FAIL);
+		CAudio::Instance()->Stop(AUDIO_STATE_COMPLETE);
+	}
+
 	void CGameStateOver::OnShow()
 	{
 		//show background
@@ -776,6 +794,8 @@ namespace game_framework
 		CAudio::Instance()->Load(AUDIO_DELICIOUS, "sounds\\delicious.wav");
 		CAudio::Instance()->Load(AUDIO_DIVINE, "sounds\\divine.wav");
 		CAudio::Instance()->Load(AUDIO_SUGAR_CRUSH, "sounds\\sugar_crush.wav");
+		CAudio::Instance()->Load(AUDIO_LEVEL_FAIL, "sounds\\level_failed1.wav");
+		CAudio::Instance()->Load(AUDIO_LEVEL_COMPLETE, "sounds\\level_completed.wav");
 
 		for (int i = 0; i < 12; i++)
 		{
@@ -910,6 +930,7 @@ namespace game_framework
 	void CGameStateMenu::OnBeginState()
 	{
 		gameArea.SetSound(sound);
+		gameArea.SetMusic(music);
 		Candy::SetSound(sound);
 		Blast::SetSound(sound);
 	}

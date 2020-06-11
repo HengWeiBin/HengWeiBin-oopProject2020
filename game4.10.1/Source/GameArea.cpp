@@ -354,6 +354,11 @@ namespace game_framework
 		sound = s;
 	}
 
+	void GameArea::SetMusic(bool s)
+	{
+		music = s;
+	}
+
 	void GameArea::PowerAll(int style, int power, int x, int y)
 	{
 		SuperBlast* superBlast = new SuperBlast(x, y, 0, true);
@@ -991,8 +996,30 @@ namespace game_framework
 		playingVoice = true;
 	}
 
-	int GameArea::PutCandy()
+	void GameArea::GotoGameStateOver(bool result)
 	{
+		// save result and data to stage after delay, then show result in game state over
+		if (delay > 0) delay--;
+		else if (result)
+		{	// Unlock next stage and save score highest history if win
+			if (music) CAudio::Instance()->Play(AUDIO_LEVEL_COMPLETE, false);
+			(*(stage + 1))->SetUnlock();
+			(*stage)->currentScore = scoreBoard.score.GetInteger();
+			(*stage)->lastHighScore = scoreBoard.lastHighScore < scoreBoard.score ? scoreBoard.score.GetInteger() : scoreBoard.lastHighScore;
+			(*stage)->SetPassOrFail(0);
+			running = false;
+		}
+		else
+		{
+			if (music) CAudio::Instance()->Play(AUDIO_LEVEL_FAIL, false);
+			(*stage)->currentScore = scoreBoard.score.GetInteger();
+			(*stage)->SetPassOrFail(1);
+			running = false;
+		}
+	}
+
+	int GameArea::PutCandy()
+	{	// Spawn candy if spawning area is empty
 		int total = 0;
 		for (auto i = spawnArea.begin(); i != spawnArea.end(); i++)
 			if (curPosition[i->first][i->second] == NULL)
@@ -1036,28 +1063,31 @@ namespace game_framework
 	}
 
 	void GameArea::OnMoveEnding()
-	{
+	{	
+		bool result = scoreBoard.IsReachedTarget() || (scoreBoard.score > scoreBoard.oneStar && scoreBoard.mode == 1);	//Win or lose
+
+		// turn all moving step to bonus and release all powered candy if target reached
 		if (!ending && (!scoreBoard.moves.GetInteger() || scoreBoard.IsReachedTarget()))
-		{
-			if (scoreBoard.IsReachedTarget() || (scoreBoard.score > scoreBoard.oneStar && scoreBoard.mode == 1))
-				PlayVoiceEffect(AUDIO_SUGAR_CRUSH);
+		{	// change current state to ending
+			if (result) PlayVoiceEffect(AUDIO_SUGAR_CRUSH);
 			PutEndingBonus();
 			ending = true;
 		}
-		else if (ending && running && !IsDropping())
+		else if (ending && running)
 		{
 			if (endingBonus.size())
-			{
+			{	// Show bonus powered candy
 				(*endingBonus.begin())->SetPower(rand() % 2 + 1);
 				endingBonus.pop_front();
 				scoreBoard.moves--;
 				Sleep(100);
 			}
-			else if (!endingBonus.size())
-			{
+			else if (result)
+			{	// remove all powered candy until no powered candy spwan if player win this game
 				removeList.push_back(new list<Candy*>);
+
 				for (int i = 0; i < MaxHeight; i++)
-				{
+				{	//collect all powered candy
 					for (int j = 0; j < MaxWidth; j++)
 					{
 						if (candies[i][j].GetStyle() > 0 && candies[i][j].GetPower() > 0)
@@ -1065,33 +1095,23 @@ namespace game_framework
 					}
 				}
 				if (!removeList.back()->size())
-				{
+				{	// to avoid memory leak, delete removelist if no powered candy found
 					delete (*removeList.rbegin());
 					removeList.pop_back();
 				}
 				if (!removeList.size() && !gameOver)
-				{
+				{	// change state to gameOver
 					delay = (int)(700.0 / GAME_CYCLE_TIME);
 					gameOver = true;
 				}
 			}
-			if (gameOver && delay > 0) delay--;
-			else if (gameOver && scoreBoard.IsReachedTarget() || 
-				(gameOver && scoreBoard.score > scoreBoard.oneStar && scoreBoard.mode == 1))
-			{
-				
-				(*(stage + 1))->SetUnlock();
-				(*stage)->currentScore = scoreBoard.score.GetInteger();
-				(*stage)->lastHighScore = scoreBoard.lastHighScore < scoreBoard.score ? scoreBoard.score.GetInteger() : scoreBoard.lastHighScore;
-				(*stage)->SetPassOrFail(0);
-				running = false;
+			else if (!result && !gameOver)
+			{	// change state to gameOver
+				delay = (int)(700.0 / GAME_CYCLE_TIME);
+				gameOver = true;
 			}
-			else if (gameOver)
-			{
-				(*stage)->currentScore = scoreBoard.score.GetInteger();
-				(*stage)->SetPassOrFail(1);
-				running = false;
-			}
+
+			if (gameOver) GotoGameStateOver(result);
 		}
 	}
 
@@ -1105,6 +1125,7 @@ namespace game_framework
 		
 		if (!playingVoice) return;
 
+		//Show words from small to big at the center
 		word->SetTopLeft(SIZE_X / 2 - (int)(word->Width() * *size) / 2, SIZE_Y / 2 - (int)(word->Height() * *size) / 2);
 		word->ShowBitmap(*size);
 		if (*size < 1) *size += 0.1;
