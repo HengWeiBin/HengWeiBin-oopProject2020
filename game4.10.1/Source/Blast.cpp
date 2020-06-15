@@ -128,23 +128,17 @@ namespace game_framework
 	IDB_PUR_HEXPL21, IDB_PUR_HEXPL22, IDB_PUR_HEXPL23, IDB_PUR_HEXPL24, IDB_PUR_HEXPL25,
 	IDB_PUR_HEXPL26, IDB_PUR_HEXPL27, IDB_PUR_HEXPL28, IDB_PUR_HEXPL29, IDB_PUR_HEXPL30 };
 
-	bool Blast::sound;
-
 	void Blast::SetTopLeft(int x, int y)
 	{
 		this->x = x;
 		this->y = y;
 	}
 
-	void Blast::SetSound(bool sound)
-	{
-		Blast::sound = sound;
-	}
-
 	CMovingBitmap NormalBlast::normalBlast[6][10], NormalBlast::shatter[6][15];
 
 	NormalBlast::NormalBlast() :curShow(0), totalShow(0)
 	{
+		sound = &CGameState::sound;
 	}
 
 	NormalBlast::NormalBlast(int style, int x, int y) :curShow(0), size(1.8), totalShow(rand() % 2 + 2)
@@ -231,6 +225,7 @@ namespace game_framework
 	{
 		this->style = style;
 		SetTopLeft(x, y);
+		sound = &CGameState::sound;
 	}
 
 	void LineBlast::LoadBitmap()
@@ -254,7 +249,7 @@ namespace game_framework
 
 	void LineBlast::OnShow()
 	{
-		if (sound && curShow == 1) CAudio::Instance()->Play(AUDIO_LINE_BLAST, false);
+		if (*sound && curShow == 1) CAudio::Instance()->Play(AUDIO_LINE_BLAST, false);
 		switch (powStyle)
 		{
 		case 1:
@@ -282,6 +277,7 @@ namespace game_framework
 		this->x = x;
 		this->y = y;
 		chocalate.SetDelayCount(3);
+		sound = &CGameState::sound;
 	}
 
 	SuperBlast::~SuperBlast()
@@ -433,7 +429,9 @@ namespace game_framework
 	CMovingBitmap MagicBlast::bmp[4];
 
 	MagicBlast::MagicBlast(int x, int y) :x(x), y(y), curShow(0)
-	{ }
+	{
+		sound = &CGameState::sound;
+	}
 
 	MagicBlast::MagicBlast(CPoint p) :x(p.x), y(p.y), curShow(0)
 	{ }

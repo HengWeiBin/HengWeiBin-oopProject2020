@@ -326,6 +326,8 @@ namespace game_framework {
 		virtual void OnMouseMove(UINT nFlags, CPoint point) {}  // 處理滑鼠的動作 
 		virtual void OnRButtonDown(UINT nFlags, CPoint point) {}// 處理滑鼠的動作
 		virtual void OnRButtonUp(UINT nFlags, CPoint point) {}	// 處理滑鼠的動作
+
+		static bool sound, music;								//Switches of sound and music
 	protected:
 		void GotoGameState(int state);							// 跳躍至指定的state
 		void ShowInitProgress(int percent);						// 顯示初始化的進度
@@ -345,11 +347,13 @@ namespace game_framework {
 		//
 		virtual void OnMove() {}								// 移動這個狀態的遊戲元素
 		virtual void OnShow() = 0;								// 顯示這個狀態的遊戲畫面
+		virtual void SetMusic(bool) {};							// play or stop all music of each stage
+
 		CGame *game;
 		static GameArea gameArea;								// 游戲的主要控制
 		static vector<Stage*> stages;							// 游戲中所有關卡資料
 		static int current_stage;								// 當前/上一次玩過的關卡
-		static bool sound, music,onSetting;
+		static bool onSetting;
 		static bool  settingBtnCLicked, soundOnBtnCLicked, soundOffBtnCLicked, musicOnBtnCLicked, musicOffBtnCLicked;
 		static CMovingBitmap settingMenu, settingButtonClicked, soundOnClicked, soundOffClicked, musicOnClicked, musicOffClicked;
 		static CAnimation settingButton, soundOn, soundOff, musicOn, musicOff;

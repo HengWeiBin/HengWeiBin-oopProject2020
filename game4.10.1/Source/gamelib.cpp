@@ -811,7 +811,7 @@ namespace game_framework {
 		{
 			if (ButtonOnClick(point, musicOn))
 			{
-				music = false;
+				SetMusic(false);
 			}
 			musicOnBtnCLicked = false;
 		}
@@ -819,7 +819,7 @@ namespace game_framework {
 		{
 			if (ButtonOnClick(point, musicOff))
 			{
-				music = true;
+				SetMusic(true);
 			}
 			musicOffBtnCLicked = false;
 		}

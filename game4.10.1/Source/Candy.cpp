@@ -29,20 +29,18 @@ namespace game_framework
 		Candy::vertical[6], Candy::verticalClick[6],
 		Candy::pack[6], Candy::packClick[6],
 		Candy::super[6], Candy::superClick[6];
-	bool Candy::sound;
 
 	Candy::Candy(int id, int x, int y)
 		: style(id), rawStyle(id), x(x), y(y), dx(x), dy(y), onClick(false), fallingSpeed(0), power(0),
-		pushX(0), pushY(0)
-	{
-	}
+		pushX(0), pushY(0), sound(&CGameState::sound)
+	{ }
 
 	Candy::Candy(int x, int y)
-		: style(-1), x(x), y(y), dx(x), dy(y)
+		: style(-1), x(x), y(y), dx(x), dy(y), sound(&CGameState::sound)
 	{	}
 
 	Candy::Candy()
-		: style(-1)
+		: style(-1), sound(&CGameState::sound)
 	{	}
 
 	Candy::~Candy()
@@ -106,7 +104,7 @@ namespace game_framework
 				y = dy;
 				fallingSpeed = 0;
 				int landingSound = rand() % 4;
-				if (!mute && sound) CAudio::Instance()->Play(audioID[landingSound], false);
+				if (!mute && *sound) CAudio::Instance()->Play(audioID[landingSound], false);
 			}
 		}
 
@@ -151,11 +149,6 @@ namespace game_framework
 	void Candy::SetStyle(int style)
 	{
 		this->style = style;
-	}
-
-	void Candy::SetSound(bool sound)
-	{
-		Candy::sound = sound;
 	}
 
 	int Candy::GetTopLeftX()

@@ -30,7 +30,6 @@ namespace game_framework
 		void SetDestination(int, int);		//set destination x,y
 		void SetDestination(int);			//set destination y
 		void SetStyle(int);					//change current style
-		static void SetSound(bool);			//switch sound on/off
 		void SetPower(int);					//Set current power
 	private:
 		void GetCurrentShow(CMovingBitmap**, CMovingBitmap**);
@@ -40,7 +39,7 @@ namespace game_framework
 		static CMovingBitmap vertical[6], verticalClick[6];
 		static CMovingBitmap pack[6], packClick[6];
 		static CMovingBitmap super[6], superClick[6];
-		static bool sound;
+		bool *sound;
 		int style, rawStyle;		//0 = non-exist
 		int power;
 		int x, y, dx, dy, pushX, pushY;			//current || destination coordinate

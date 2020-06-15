@@ -64,6 +64,7 @@ namespace game_framework {
 		void ShowHelpMenu(); 
 		void ShowHowToPlay();
 		void HelpMenuOnLButtonUp(CPoint point);
+		void SetMusic(bool);
 
 	private:
 		CMovingBitmap background, clickedPlayButton, helpButtonClicked;	// Candycrush starter background, play button
@@ -98,6 +99,8 @@ namespace game_framework {
 	protected:
 		void OnMove();									// 移動遊戲元素
 		void OnShow();									// 顯示這個狀態的遊戲畫面
+		void SetMusic(bool);
+
 	private:
 		CMovingBitmap	background;	// 背景圖
 	};
@@ -118,6 +121,7 @@ namespace game_framework {
 		void OnMove();									// 移動遊戲元素
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 		int GetDigit(int);
+		void SetMusic(bool);
 	private:
 		void ShowButtons();
 		void ShowStars(int, int, int);
@@ -156,6 +160,7 @@ namespace game_framework {
 	protected:
 		void OnMove();
 		void OnShow();
+		void SetMusic(bool);
 
 	private:
 		void ShowStageButton(int, int, int, int);

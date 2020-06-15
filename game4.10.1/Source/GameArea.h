@@ -24,8 +24,6 @@ namespace game_framework
 		void OnLButtonDown(UINT nFlags, CPoint point);	//handle mouse click
 		void OnLButtonUp(UINT nFlags, CPoint point);	//handle mouse unclick
 		void OnMouseMove(UINT nFlags, CPoint point);	//handle mouse move
-		void SetSound(bool);							//switch sound on/off
-		void SetMusic(bool);							//switch music on/off
 	private:
 		int ClearCombo();								//search and delete all combo
 		int Compare(int, int);							//Compare two int
@@ -71,7 +69,8 @@ namespace game_framework
 		int MAX_RAND_NUM;								//types of candies in this games
 
 		bool initiating, ending, running, gameOver;
-		bool sound, music, playingVoice;
+		bool *sound, *music;
+		bool playingVoice;
 		bool delayRemove, releaseSwap;
 		bool goldFinger;
 

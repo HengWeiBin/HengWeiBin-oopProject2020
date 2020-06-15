@@ -12,12 +12,11 @@ namespace game_framework
 		virtual void OnShow() {};
 		virtual void OnMove() {};
 		virtual void SetTopLeft(int x, int y);
-		static void SetSound(bool);
 		virtual bool IsLast() = 0;
 	protected:
 		int x, y;
 		int style;
-		static bool sound;
+		bool *sound;
 	};
 
 	class NormalBlast :public Blast

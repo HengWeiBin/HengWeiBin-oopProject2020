@@ -451,6 +451,14 @@ namespace game_framework
 		}
 	}
 
+	void CGameStateInit::SetMusic(bool music)
+	{
+		this->music = music;
+		if (music)
+			CAudio::Instance()->Play(AUDIO_STAGE, true);
+		else
+			CAudio::Instance()->Stop(AUDIO_STAGE);
+	}
 
 	/////////////////////////////////////////////////////////////////////////////
 	// 這個class為遊戲的結束狀態(Game Over)
@@ -604,6 +612,22 @@ namespace game_framework
 			n /= 10;
 		}
 		return digit == 0 ? 1 : digit;
+	}
+
+	void CGameStateOver::SetMusic(bool music)
+	{
+		this->music = music;
+
+		if (music)
+		{
+			if (isFail) CAudio::Instance()->Play(AUDIO_STATE_FAIL, true);
+			else CAudio::Instance()->Play(AUDIO_STATE_COMPLETE, true);
+		}
+		else
+		{
+			CAudio::Instance()->Stop(AUDIO_STATE_FAIL);
+			CAudio::Instance()->Stop(AUDIO_STATE_COMPLETE);
+		}
 	}
 
 	void CGameStateOver::ShowButtons()
@@ -889,6 +913,16 @@ namespace game_framework
 		gameArea.OnShow();
 	}
 
+	void CGameStateRun::SetMusic(bool music)
+	{
+		this->music = music;
+
+		if (music) 
+			CAudio::Instance()->Play(AUDIO_JELLY, true);
+		else 
+			CAudio::Instance()->Stop(AUDIO_JELLY);
+	}
+
 	/////////////////////////////////////////////////////////////////////////////
 	// 這個class為遊戲關卡選單(Game menu)
 	/////////////////////////////////////////////////////////////////////////////
@@ -943,12 +977,7 @@ namespace game_framework
 	}
 
 	void CGameStateMenu::OnBeginState()
-	{
-		gameArea.SetSound(sound);
-		gameArea.SetMusic(music);
-		Candy::SetSound(sound);
-		Blast::SetSound(sound);
-	}
+	{	}
 
 	void CGameStateMenu::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
@@ -1134,6 +1163,16 @@ namespace game_framework
 		}
 
 	
+	}
+
+	void CGameStateMenu::SetMusic(bool music)
+	{
+		this->music = music;
+
+		if (music) 
+			CAudio::Instance()->Play(AUDIO_STAGE, true);
+		else
+			CAudio::Instance()->Stop(AUDIO_STAGE);
 	}
 
 	void CGameStateMenu::ShowStageButton(int stageBtn, int stage, int xButton, int yButton)
