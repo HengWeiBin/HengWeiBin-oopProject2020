@@ -31,7 +31,6 @@ namespace game_framework
 				curPosition[i][j] = NULL;
 
 		sound = &CGameState::sound;
-		music = &CGameState::music;
 	}
 
 	GameArea::~GameArea()
@@ -995,7 +994,7 @@ namespace game_framework
 		if (delay > 0) delay--;
 		else if (result)
 		{	// Unlock next stage and save score highest history if win
-			if (*music) CAudio::Instance()->Play(AUDIO_LEVEL_COMPLETE, false);
+			if (*sound) CAudio::Instance()->Play(AUDIO_LEVEL_COMPLETE, false);
 			(*(stage + 1))->SetUnlock();
 			(*stage)->currentScore = scoreBoard.score.GetInteger();
 			(*stage)->lastHighScore = scoreBoard.lastHighScore < scoreBoard.score ? scoreBoard.score.GetInteger() : scoreBoard.lastHighScore;
@@ -1004,7 +1003,7 @@ namespace game_framework
 		}
 		else
 		{
-			if (*music) CAudio::Instance()->Play(AUDIO_LEVEL_FAIL, false);
+			if (*sound) CAudio::Instance()->Play(AUDIO_LEVEL_FAIL, false);
 			(*stage)->currentScore = scoreBoard.score.GetInteger();
 			(*stage)->SetPassOrFail(1);
 			running = false;
