@@ -1,4 +1,4 @@
-﻿// Microsoft Visual C++ generated resource script.
+// Microsoft Visual C++ generated resource script.
 //
 #include "resource.h"
 
@@ -61,6 +61,7 @@ END
 //
 // Bitmap
 //
+
 IDB_0                   BITMAP                  "..\\res\\bmp_0.bmp"
 
 IDB_1                   BITMAP                  "..\\res\\bmp_1.bmp"
@@ -81,73 +82,73 @@ IDB_8                   BITMAP                  "..\\res\\bmp_8.bmp"
 
 IDB_9                   BITMAP                  "..\\res\\bmp_9.bmp"
 
-IDB1_0                 BITMAP                  "..\\res\\bmp1_0.bmp"
+IDB1_0                  BITMAP                  "..\\res\\bmp1_0.bmp"
 
-IDB1_1                 BITMAP                  "..\\res\\bmp1_1.bmp"
+IDB1_1                  BITMAP                  "..\\res\\bmp1_1.bmp"
 
-IDB1_2                 BITMAP                  "..\\res\\bmp1_2.bmp"
+IDB1_2                  BITMAP                  "..\\res\\bmp1_2.bmp"
 
-IDB1_3                 BITMAP                  "..\\res\\bmp1_3.bmp"
+IDB1_3                  BITMAP                  "..\\res\\bmp1_3.bmp"
 
-IDB1_4                 BITMAP                  "..\\res\\bmp1_4.bmp"
+IDB1_4                  BITMAP                  "..\\res\\bmp1_4.bmp"
 
-IDB1_5                 BITMAP                  "..\\res\\bmp1_5.bmp"
+IDB1_5                  BITMAP                  "..\\res\\bmp1_5.bmp"
 
-IDB1_6                 BITMAP                  "..\\res\\bmp1_6.bmp"
+IDB1_6                  BITMAP                  "..\\res\\bmp1_6.bmp"
 
-IDB1_7                 BITMAP                  "..\\res\\bmp1_7.bmp"
+IDB1_7                  BITMAP                  "..\\res\\bmp1_7.bmp"
 
-IDB1_8                 BITMAP                  "..\\res\\bmp1_8.bmp"
+IDB1_8                  BITMAP                  "..\\res\\bmp1_8.bmp"
 
-IDB1_9                 BITMAP                  "..\\res\\bmp1_9.bmp"
+IDB1_9                  BITMAP                  "..\\res\\bmp1_9.bmp"
 
-IDB2_0                 BITMAP                  "..\\res\\bmp2_0.bmp"
+IDB2_0                  BITMAP                  "..\\res\\bmp2_0.bmp"
 
-IDB2_1                 BITMAP                  "..\\res\\bmp2_1.bmp"
+IDB2_1                  BITMAP                  "..\\res\\bmp2_1.bmp"
 
-IDB2_2                 BITMAP                  "..\\res\\bmp2_2.bmp"
+IDB2_2                  BITMAP                  "..\\res\\bmp2_2.bmp"
 
-IDB2_3                 BITMAP                  "..\\res\\bmp2_3.bmp"
+IDB2_3                  BITMAP                  "..\\res\\bmp2_3.bmp"
 
-IDB2_4                 BITMAP                  "..\\res\\bmp2_4.bmp"
+IDB2_4                  BITMAP                  "..\\res\\bmp2_4.bmp"
 
-IDB2_5                 BITMAP                  "..\\res\\bmp2_5.bmp"
+IDB2_5                  BITMAP                  "..\\res\\bmp2_5.bmp"
 
-IDB2_6                 BITMAP                  "..\\res\\bmp2_6.bmp"
+IDB2_6                  BITMAP                  "..\\res\\bmp2_6.bmp"
 
-IDB2_7                 BITMAP                  "..\\res\\bmp2_7.bmp"
+IDB2_7                  BITMAP                  "..\\res\\bmp2_7.bmp"
 
-IDB2_8                 BITMAP                  "..\\res\\bmp2_8.bmp"
+IDB2_8                  BITMAP                  "..\\res\\bmp2_8.bmp"
 
-IDB2_9                 BITMAP                  "..\\res\\bmp2_9.bmp"
+IDB2_9                  BITMAP                  "..\\res\\bmp2_9.bmp"
 
-IDB3_0                 BITMAP                  "..\\res\\bmp3_0.bmp"
+IDB3_0                  BITMAP                  "..\\res\\bmp3_0.bmp"
 
-IDB3_1                 BITMAP                  "..\\res\\bmp3_1.bmp"
+IDB3_1                  BITMAP                  "..\\res\\bmp3_1.bmp"
 
-IDB3_2                 BITMAP                  "..\\res\\bmp3_2.bmp"
+IDB3_2                  BITMAP                  "..\\res\\bmp3_2.bmp"
 
-IDB3_3                 BITMAP                  "..\\res\\bmp3_3.bmp"
+IDB3_3                  BITMAP                  "..\\res\\bmp3_3.bmp"
 
-IDB3_4                 BITMAP                  "..\\res\\bmp3_4.bmp"
+IDB3_4                  BITMAP                  "..\\res\\bmp3_4.bmp"
 
-IDB3_5                 BITMAP                  "..\\res\\bmp3_5.bmp"
+IDB3_5                  BITMAP                  "..\\res\\bmp3_5.bmp"
 
-IDB3_6                 BITMAP                  "..\\res\\bmp3_6.bmp"
+IDB3_6                  BITMAP                  "..\\res\\bmp3_6.bmp"
 
-IDB3_7                 BITMAP                  "..\\res\\bmp3_7.bmp"
+IDB3_7                  BITMAP                  "..\\res\\bmp3_7.bmp"
 
-IDB3_8                 BITMAP                  "..\\res\\bmp3_8.bmp"
+IDB3_8                  BITMAP                  "..\\res\\bmp3_8.bmp"
 
-IDB3_9                 BITMAP                  "..\\res\\bmp3_9.bmp"
+IDB3_9                  BITMAP                  "..\\res\\bmp3_9.bmp"
 
 IDB_MINUS               BITMAP                  "..\\res\\bmp10.bmp"
 
 IDB_CONTINUE            BITMAP                  "..\\res\\continue.bmp"
 
-IDB_LOADING				BITMAP					"..\\res\\loading.bmp"
+IDB_LOADING             BITMAP                  "..\\res\\loading.bmp"
 
-IDB_LOGIN_LOADING		BITMAP					"..\\Bitmaps\\loginLoading.bmp"
+IDB_LOGIN_LOADING       BITMAP                  "..\\Bitmaps\\loginLoading.bmp"
 
 IDB_INGAME_LOADING      BITMAP                  "..\\Bitmaps\\inGameLoading.bmp"
 
@@ -553,49 +554,49 @@ IDB_PUR_SHAT14          BITMAP                  "..\\Bitmaps\\shatter14_PUR.bmp"
 
 IDB_PUR_SHAT15          BITMAP                  "..\\Bitmaps\\shatter15_PUR.bmp"
 
-IDB_TIFFY_0				BITMAP					"..\\Bitmaps\\Tiffy_0.bmp"
+IDB_TIFFY_0             BITMAP                  "..\\Bitmaps\\Tiffy_0.bmp"
 
-IDB_TIFFY_1				BITMAP					"..\\Bitmaps\\Tiffy_1.bmp"
+IDB_TIFFY_1             BITMAP                  "..\\Bitmaps\\Tiffy_1.bmp"
 
-IDB_TIFFY_2				BITMAP					"..\\Bitmaps\\Tiffy_2.bmp"
+IDB_TIFFY_2             BITMAP                  "..\\Bitmaps\\Tiffy_2.bmp"
 
-IDB_TIFFY_3				BITMAP					"..\\Bitmaps\\Tiffy_3.bmp"
+IDB_TIFFY_3             BITMAP                  "..\\Bitmaps\\Tiffy_3.bmp"
 
-IDB_TIFFY_4				BITMAP					"..\\Bitmaps\\Tiffy_4.bmp"
+IDB_TIFFY_4             BITMAP                  "..\\Bitmaps\\Tiffy_4.bmp"
 
-IDB_TIFFY_5				BITMAP					"..\\Bitmaps\\Tiffy_5.bmp"
+IDB_TIFFY_5             BITMAP                  "..\\Bitmaps\\Tiffy_5.bmp"
 
-IDB_TIFFY_6				BITMAP					"..\\Bitmaps\\Tiffy_6.bmp"
+IDB_TIFFY_6             BITMAP                  "..\\Bitmaps\\Tiffy_6.bmp"
 
-IDB_TIFFY_7				BITMAP					"..\\Bitmaps\\Tiffy_7.bmp"
+IDB_TIFFY_7             BITMAP                  "..\\Bitmaps\\Tiffy_7.bmp"
 
-IDB_TIFFY_8				BITMAP					"..\\Bitmaps\\Tiffy_8.bmp"
+IDB_TIFFY_8             BITMAP                  "..\\Bitmaps\\Tiffy_8.bmp"
 
-IDB_TIFFY_9				BITMAP					"..\\Bitmaps\\Tiffy_9.bmp"
+IDB_TIFFY_9             BITMAP                  "..\\Bitmaps\\Tiffy_9.bmp"
 
-IDB_PLAYBUTTON_1		BITMAP					"..\\Bitmaps\\PlayButton1.bmp"
+IDB_PLAYBUTTON_1        BITMAP                  "..\\Bitmaps\\PlayButton1.bmp"
 
-IDB_PLAYBUTTON_2		BITMAP					"..\\Bitmaps\\PlayButton2.bmp"
+IDB_PLAYBUTTON_2        BITMAP                  "..\\Bitmaps\\PlayButton2.bmp"
 
-IDB_PLAYBUTTON_3		BITMAP					"..\\Bitmaps\\PlayButton3.bmp"
+IDB_PLAYBUTTON_3        BITMAP                  "..\\Bitmaps\\PlayButton3.bmp"
 
-IDB_PLAYBUTTON_4		BITMAP					"..\\Bitmaps\\PlayButton4.bmp"
+IDB_PLAYBUTTON_4        BITMAP                  "..\\Bitmaps\\PlayButton4.bmp"
 
-IDB_PLAYBUTTON_5		BITMAP					"..\\Bitmaps\\PlayButton5.bmp"
+IDB_PLAYBUTTON_5        BITMAP                  "..\\Bitmaps\\PlayButton5.bmp"
 
-IDB_PLAYBUTTON_6		BITMAP					"..\\Bitmaps\\PlayButton6.bmp"
+IDB_PLAYBUTTON_6        BITMAP                  "..\\Bitmaps\\PlayButton6.bmp"
 
-IDB_PLAYBUTTON_7		BITMAP					"..\\Bitmaps\\PlayButton7.bmp"
+IDB_PLAYBUTTON_7        BITMAP                  "..\\Bitmaps\\PlayButton7.bmp"
 
-IDB_PLAYBUTTON_8		BITMAP					"..\\Bitmaps\\PlayButton8.bmp"
+IDB_PLAYBUTTON_8        BITMAP                  "..\\Bitmaps\\PlayButton8.bmp"
 
-IDB_PLAYBUTTON_9		BITMAP					"..\\Bitmaps\\PlayButton9.bmp"
+IDB_PLAYBUTTON_9        BITMAP                  "..\\Bitmaps\\PlayButton9.bmp"
 
-IDB_PLAYBUTTON_10		BITMAP					"..\\Bitmaps\\PlayButton10.bmp"
+IDB_PLAYBUTTON_10       BITMAP                  "..\\Bitmaps\\PlayButton10.bmp"
 
-IDB_PLAYBUTTON_11		BITMAP					"..\\Bitmaps\\PlayButton11.bmp"
+IDB_PLAYBUTTON_11       BITMAP                  "..\\Bitmaps\\PlayButton11.bmp"
 
-IDB_PLAYBUTTON_12		BITMAP					"..\\Bitmaps\\PlayButton12.bmp"
+IDB_PLAYBUTTON_12       BITMAP                  "..\\Bitmaps\\PlayButton12.bmp"
 
 IDB_RED_VEXPL1          BITMAP                  "..\\Bitmaps\\RedVLineExplode (1).bmp"
 
@@ -1317,27 +1318,27 @@ IDB_PUR_HEXPL29         BITMAP                  "..\\Bitmaps\\PurpleHLineExplode
 
 IDB_PUR_HEXPL30         BITMAP                  "..\\Bitmaps\\PurpleHLineExplode (30).bmp"
 
-IDB_TOFFEE_1			BITMAP					"..\\Bitmaps\\Toffee_1.bmp"
+IDB_TOFFEE_1            BITMAP                  "..\\Bitmaps\\Toffee_1.bmp"
 
-IDB_TOFFEE_2			BITMAP					"..\\Bitmaps\\Toffee_2.bmp"
+IDB_TOFFEE_2            BITMAP                  "..\\Bitmaps\\Toffee_2.bmp"
 
-IDB_TOFFEE_3			BITMAP					"..\\Bitmaps\\Toffee_3.bmp"
+IDB_TOFFEE_3            BITMAP                  "..\\Bitmaps\\Toffee_3.bmp"
 
-IDB_TOFFEE_4			BITMAP					"..\\Bitmaps\\Toffee_4.bmp"
+IDB_TOFFEE_4            BITMAP                  "..\\Bitmaps\\Toffee_4.bmp"
 
-IDB_TOFFEE_5			BITMAP					"..\\Bitmaps\\Toffee_5.bmp"
+IDB_TOFFEE_5            BITMAP                  "..\\Bitmaps\\Toffee_5.bmp"
 
-IDB_TOFFEE_6			BITMAP					"..\\Bitmaps\\Toffee_6.bmp"
+IDB_TOFFEE_6            BITMAP                  "..\\Bitmaps\\Toffee_6.bmp"
 
-IDB_STAGE_BUTTON_BLUE	BITMAP					"..\\Bitmaps\\Stage_Button_Blue.bmp"
+IDB_STAGE_BUTTON_BLUE   BITMAP                  "..\\Bitmaps\\Stage_Button_Blue.bmp"
 
-IDB_STAGE_BUTTON_GREY	BITMAP					"..\\Bitmaps\\Stage_Button_Grey.bmp"
+IDB_STAGE_BUTTON_GREY   BITMAP                  "..\\Bitmaps\\Stage_Button_Grey.bmp"
 
-IDB_STAGE_BUTTON_RED	BITMAP					"..\\Bitmaps\\Stage_Button_Red.bmp"
+IDB_STAGE_BUTTON_RED    BITMAP                  "..\\Bitmaps\\Stage_Button_Red.bmp"
 
-IDB_STAGE_BUTTON_YELLOW	BITMAP					"..\\Bitmaps\\Stage_Button_Yellow.bmp"
+IDB_STAGE_BUTTON_YELLOW BITMAP                  "..\\Bitmaps\\Stage_Button_Yellow.bmp"
 
-IDB_STAGE_BUTTON_GREEN	BITMAP					"..\\Bitmaps\\Stage_Button_Green.bmp"
+IDB_STAGE_BUTTON_GREEN  BITMAP                  "..\\Bitmaps\\Stage_Button_Green.bmp"
 
 IDB_CANDY_CRUSH_1       BITMAP                  "..\\Bitmaps\\candy_crush (1).bmp"
 
@@ -1428,6 +1429,7 @@ IDB_RETRYBTN_8          BITMAP                  "..\\Bitmaps\\RetryButton-8.bmp"
 IDB_RETRYBTN_9          BITMAP                  "..\\Bitmaps\\RetryButton-9.bmp"
 
 IDB_RETRYBTN_c          BITMAP                  "..\\Bitmaps\\RetryButtonClicked.bmp"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1528,7 +1530,7 @@ END
 IDR_MAINFRAME ACCELERATORS
 BEGIN
     "P",            ID_FILE_PAUSE,          VIRTKEY, NOINVERT
-    "F",            ID_TOGGLE_FULLSCREEN,   VIRTKEY, CONTROL, NOINVERT
+    VK_F11,         ID_TOGGLE_FULLSCREEN,   VIRTKEY, NOINVERT
 END
 
 
