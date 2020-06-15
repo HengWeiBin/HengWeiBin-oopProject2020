@@ -72,20 +72,20 @@ void game_framework::Stage::LoadStage()
 		getline(InputStage, file, '\n');
 		tempPortal = file.substr(0, file.find('\t'));
 		portal = stoi(tempPortal.substr(0, tempPortal.find(' ')));
-		tempPortal.erase(0, tempPortal.find(' '));
+		tempPortal.erase(0, tempPortal.find(' ')+1);
 		for (int i = 0; i < portal; i++) {
 			CPoint begin, end;
 			portalLoc = tempPortal.substr(0, tempPortal.find(' '));
-			tempPortal.erase(0, tempPortal.find(' '));
+			tempPortal.erase(0, tempPortal.find(' ') + 1);
 			begin.x = stoi(portalLoc);
 			portalLoc = tempPortal.substr(0, tempPortal.find(' '));
-			tempPortal.erase(0, tempPortal.find(' '));
+			tempPortal.erase(0, tempPortal.find(' ') + 1);
 			begin.y = stoi(portalLoc);
 			portalLoc = tempPortal.substr(0, tempPortal.find(' '));
-			tempPortal.erase(0, tempPortal.find(' '));
+			tempPortal.erase(0, tempPortal.find(' ') + 1);
 			end.x = stoi(portalLoc);
 			portalLoc = tempPortal.substr(0, tempPortal.find(' '));
-			tempPortal.erase(0, tempPortal.find(' '));
+			tempPortal.erase(0, tempPortal.find(' ') + 1);
 			end.y = stoi(portalLoc);
 			portalList.push_back(pair<CPoint, CPoint>(begin, end));
 		}
