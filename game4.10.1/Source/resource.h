@@ -715,7 +715,6 @@
 #define ID_BUTTON_PAUSE                 32774
 #define ID_BUTTON_UNITTEST              32775
 
-
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED

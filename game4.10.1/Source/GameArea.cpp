@@ -1033,7 +1033,7 @@ namespace game_framework
 					return true;
 		}
 
-		if (blasts.size() || playingVoice) return true;
+		if (blasts.size() || playingVoice || delayRemove) return true;
 		return false;
 	}
 
