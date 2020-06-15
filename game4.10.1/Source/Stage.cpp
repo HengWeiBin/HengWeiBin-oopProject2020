@@ -22,6 +22,7 @@ game_framework::Stage::Stage(int files)
 	currentStage = files;
 	isUnlock = 0;
 	stageTxt = "Stages\\cnt_stage" + to_string(files) + ".txt";
+	hasPortal = false;
 }
 
 game_framework::Stage::~Stage()
@@ -162,8 +163,9 @@ void game_framework::Stage::RemoveLine()
 		string file;
 		const char* data = stageTxt.data();
 		myFile.open("temp.txt", ofstream::out);
-		int line_no = 0, n = 25;
-		n += hasPortal ? 1 : 0;
+		int line_no = 0, n = 26;
+		if (hasPortal)
+			n =27;
 		while (!read.eof())
 		{
 			getline(read, file, '\n');
