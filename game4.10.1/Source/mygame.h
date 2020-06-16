@@ -168,7 +168,6 @@ namespace game_framework {
 
 		CMovingBitmap menuBackground, woodBackgourd, stageButton[5];
 		CMovingBitmap star1, star2, star3, comingSoon;
-		const int totalStage;
 		int sy;
 		int MAX_Y, MIN_Y;
 		bool IsMovingUp, IsMovingDown, drag;

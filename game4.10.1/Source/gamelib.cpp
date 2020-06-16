@@ -573,7 +573,7 @@ namespace game_framework {
 
 	GameArea CGameState::gameArea;
 	vector<Stage*> CGameState::stages;
-	int CGameState::current_stage;
+	int CGameState::current_stage, CGameState::MAX_STAGE;
 	bool CGameState::sound, CGameState::music, CGameState::onSetting, CGameState::settingBtnCLicked,
 		CGameState::soundOnBtnCLicked, CGameState::soundOffBtnCLicked, CGameState::musicOnBtnCLicked,
 		CGameState::musicOffBtnCLicked;
@@ -585,6 +585,7 @@ namespace game_framework {
 	CGameState::CGameState(CGame *g)
 	{
 		game = g; 	// 設定game的pointer
+		MAX_STAGE = 15;
 		sound = music = onSetting = true;
 		settingBtnCLicked = soundOnBtnCLicked = soundOffBtnCLicked = musicOnBtnCLicked = musicOffBtnCLicked = false;
 	}

@@ -546,7 +546,7 @@ namespace game_framework
 			}
 
 			//Next Button
-			if (ButtonOnClick(point, nextButton) && !isFail)
+			if (ButtonOnClick(point, nextButton) && !isFail && currentStage.GetInteger() != MAX_STAGE )
 			{
 				current_stage += 1;
 				gameArea.LoadStage(stages, current_stage);
@@ -928,7 +928,7 @@ namespace game_framework
 	/////////////////////////////////////////////////////////////////////////////
 
 	CGameStateMenu::CGameStateMenu(CGame *g)
-		: CGameState(g), totalStage(15), drag(false), mouseDisplayment(0), inertia(0), goldFinger(false)
+		: CGameState(g), drag(false), mouseDisplayment(0), inertia(0), goldFinger(false)
 	{
 		IsMovingUp = false; IsMovingDown = false;
 		MAX_Y = 0; MIN_Y = -3600;
@@ -969,7 +969,7 @@ namespace game_framework
 		star3.LoadBitmap("Bitmaps\\SmallYellowStar.bmp", RGB(255, 255, 255));
 
 		//load stage
-		for (int i = 0; i < totalStage+1; i++) {
+		for (int i = 0; i < MAX_STAGE + 1; i++) {
 			stages.push_back(new Stage(i + 1));
 			stages[i]->LoadStage();
 		}
@@ -1043,7 +1043,7 @@ namespace game_framework
 			int StagePos[][2] = { {270,4030},{495,3980},{530,3850},{320,3870},{135,3910},
 								  {135,3750},{340,3690},{570,3720},{770,3800},{960,3840},
 								  {1085,3750},{1010,3600},{760,3540},{520,3590},{280,3585} };
-			for (int i = 0; i < totalStage; i++) {
+			for (int i = 0; i < MAX_STAGE ; i++) {
 				if (StagePos[i][0] < x && x < (StagePos[i][0] + 60) && StagePos[i][1] < y && (y < StagePos[i][1] + 60))
 				{
 					if (stages[i]->IsUnlock() || goldFinger)
@@ -1132,7 +1132,7 @@ namespace game_framework
 		ShowSettingMenu();
 
 		//show unlock icon
-		for (int i = 0; i < totalStage; i++)
+		for (int i = 0; i < MAX_STAGE ; i++)
 		{
 			int xStar = StagePos[i][0] - 10, xButton = StagePos[i][0] - 5;
 			int yStar = StagePos[i][1] + sy + 65, yButton = StagePos[i][1] - 3 + sy;

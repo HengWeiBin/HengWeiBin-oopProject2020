@@ -353,6 +353,7 @@ namespace game_framework {
 		static GameArea gameArea;								// 游戲的主要控制
 		static vector<Stage*> stages;							// 游戲中所有關卡資料
 		static int current_stage;								// 當前/上一次玩過的關卡
+		static int MAX_STAGE;
 		static bool onSetting;
 		static bool  settingBtnCLicked, soundOnBtnCLicked, soundOffBtnCLicked, musicOnBtnCLicked, musicOffBtnCLicked;
 		static CMovingBitmap settingMenu, settingButtonClicked, soundOnClicked, soundOffClicked, musicOnClicked, musicOffClicked;
