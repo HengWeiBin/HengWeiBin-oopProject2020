@@ -929,8 +929,8 @@ namespace game_framework {
 			// 如果在暫停狀態，則顯示Ctrl-Q...
 			//
 			CMovingBitmap bmp;
-			bmp.LoadBitmap(IDB_CONTINUE);
-			bmp.SetTopLeft(0, 0);
+			bmp.LoadBitmap(IDB_CONTINUE, RGB(255, 255, 255));
+			bmp.SetTopLeft(SIZE_X / 2 - bmp.Width() / 2, SIZE_Y / 2 - bmp.Height() / 2);
 			bmp.ShowBitmap();
 		}
 		CDDraw::BltBackToPrimary();				// 將 Back Plain 貼到螢幕
