@@ -52,6 +52,10 @@ namespace game_framework
 		delicious.LoadBitmap("Bitmaps\\delicious.bmp", RGB(0, 0, 0));
 		divine.LoadBitmap("Bitmaps\\divine.bmp", RGB(0, 0, 0));
 		sugarCrush.LoadBitmap("Bitmaps\\SugarCrush.bmp", RGB(0, 0, 0));
+		portalStart1.LoadBitmap("Bitmaps\\portalStart1.bmp", RGB(0, 0, 0));
+		portalStart2.LoadBitmap("Bitmaps\\portalStart2.bmp", RGB(0, 0, 0));
+		portalEnd1.LoadBitmap("Bitmaps\\portalEnd1.bmp", RGB(0, 0, 0));
+		portalEnd2.LoadBitmap("Bitmaps\\portalEnd2.bmp", RGB(0, 0, 0));
 		Candy::LoadBitmap();
 		NormalBlast::LoadBitmap();
 		LineBlast::LoadBitmap();
@@ -442,6 +446,8 @@ namespace game_framework
 			}
 		}
 
+		ShowPortal(1);
+
 		///////////////////////////////////////////
 		// Show all candy						///
 		///////////////////////////////////////////
@@ -453,6 +459,8 @@ namespace game_framework
 					curPosition[i][j]->OnShow();
 			}
 		}
+
+		ShowPortal(2);
 
 		for (auto i = blasts.begin(); i != blasts.end(); i++)
 			(*i)->OnShow();
@@ -621,6 +629,34 @@ namespace game_framework
 		loading.SetTopLeft(0, 0);
 		loading.ShowBitmap();
 		CDDraw::BltBackToPrimary();					// 將 Back Plain 貼到螢幕
+	}
+
+	void GameArea::ShowPortal(int position)
+	{
+		vector<pair<CPoint, CPoint>>* portalList = &(*stage)->portalList;	// get portal position
+
+		for (int i = 0; i < (int)portalList->size(); i++)
+		{
+			int toTopLeftX = (*portalList)[i].first.x * 50 + x;
+			int toTopLeftY = (*portalList)[i].first.y * 50 + y + 40;
+			int fromTopLeftX = (*portalList)[i].second.x * 50 + x;
+			int fromTopLeftY = (*portalList)[i].second.y * 50 + y - 5;
+			
+			if (position == 1)
+			{
+				portalStart1.SetTopLeft(fromTopLeftX, fromTopLeftY);
+				portalStart1.ShowBitmap();
+				portalEnd1.SetTopLeft(toTopLeftX, toTopLeftY);
+				portalEnd1.ShowBitmap();
+			}
+			else if (position == 2)
+			{
+				portalStart2.SetTopLeft(fromTopLeftX, fromTopLeftY);
+				portalStart2.ShowBitmap();
+				portalEnd2.SetTopLeft(toTopLeftX, toTopLeftY);
+				portalEnd2.ShowBitmap();
+			}
+		}
 	}
 
 	void GameArea::InitCandy(bool drop)

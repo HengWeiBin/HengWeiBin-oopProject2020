@@ -58,6 +58,7 @@ namespace game_framework
 		void RemoveSquare(int, int, int);				//remove surrounding candies according to level
 		void RemoveStyle(int x, int y, int style = 0);	//remove all specific candy
 		void ShowLoading();								//Show loading image
+		void ShowPortal(int position);
 		void SwapCandy();								//Swap candies in clickedCandies
 		void TeleportCandy();
 		void UpdateCurPosition();						//update current position of every candy
@@ -77,7 +78,8 @@ namespace game_framework
 		Candy* curPosition[MaxHeight][MaxWidth];		//save current position of every candy
 		Candy candies[MaxHeight][MaxWidth];				//Array of candy
 		CMovingBitmap area, singleJelly, doubleJelly;	//container bmp
-		CMovingBitmap sweet, tasty, delicious, divine, sugarCrush;
+		CMovingBitmap sweet, tasty, delicious, divine, sugarCrush;	//Voice Effect
+		CMovingBitmap portalStart1, portalStart2, portalEnd1, portalEnd2;
 		vector<Candy*> clickedCandies;					//save clicked candy/ies maximun size = 2
 		vector<Stage*>::iterator stage;					//save current stage
 		list<pair<int, int>> spawnArea;					//save position where candy spawn
