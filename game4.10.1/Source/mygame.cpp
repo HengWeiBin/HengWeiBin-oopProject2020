@@ -95,10 +95,6 @@ namespace game_framework
 
 		playButton.SetDelayCount(4);
 		clickedPlayButton.LoadBitmap("Bitmaps\\PlayButtonClicked.bmp", RGB(0, 0, 0));
-		playButTopLX = SIZE_X / 2 - playButton.Width() / 2;
-		playButTopLY = SIZE_Y / 5 * 4 - playButton.Height();
-		playButBotRX = SIZE_X / 2 + playButton.Width() / 2;
-		playButBotRY = SIZE_Y / 5 * 4;
 		/*=========================================================*/
 
 		/*==================== Load tiffy =========================*/

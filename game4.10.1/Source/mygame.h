@@ -72,8 +72,6 @@ namespace game_framework {
 					  leftButton, rightButton, aboutButton, howToPlayButton, cheatButton;
 		CAnimation tiffy, playButton, toffee,candyCrush, helpButton;
 		bool playBtnClicked, finishLoaded, helpBtnClicked,onHelp,onAbout,onHowToPlay,onCheatPage;
-		int playButTopLX, playButTopLY;					//Top left of play button
-		int playButBotRX, playButBotRY;					//Bottom right of play button
 		int howToPlayPage;
 	};
 
