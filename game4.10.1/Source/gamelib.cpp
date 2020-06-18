@@ -646,7 +646,7 @@ namespace game_framework {
 		CDDraw::BltBackToPrimary();					// 將 Back Plain 貼到螢幕
 	}
 
-	bool CGameState::ButtonOnClick(CPoint point, CMovingBitmap button)
+	bool CGameState::ButtonOnClick(const CPoint& point, CMovingBitmap& button)
 	{
 		if (button.Left() <= point.x && point.x <= (button.Left() + button.Width()) &&
 			button.Top() <= point.y && point.y <= (button.Top() + button.Height()))
@@ -659,7 +659,7 @@ namespace game_framework {
 		}
 	}
 
-	bool CGameState::ButtonOnClick(CPoint point, CAnimation button)
+	bool CGameState::ButtonOnClick(const CPoint& point, CAnimation& button)
 	{
 		if (button.Left() <= point.x && point.x <= (button.Left() + button.Width()) &&
 			button.Top() <= point.y && point.y <= (button.Top() + button.Height()))
@@ -711,12 +711,12 @@ namespace game_framework {
 			{
 				if (soundOnBtnCLicked)
 				{
-					soundOnClicked.SetTopLeft(settingMenu.Left() + 5, settingMenu.Top() + 90);
+					soundOnClicked.SetTopLeft(settingMenu.Left() + 5, settingMenu.Top() + 85);
 					soundOnClicked.ShowBitmap();
 				}
 				else
 				{
-					soundOn.SetTopLeft(settingMenu.Left() + 5, settingMenu.Top() + 90);
+					soundOn.SetTopLeft(settingMenu.Left() + 5, settingMenu.Top() + 85);
 					soundOn.OnShow();
 				}
 			}
@@ -724,12 +724,12 @@ namespace game_framework {
 			{
 				if (soundOffBtnCLicked)
 				{
-					soundOffClicked.SetTopLeft(settingMenu.Left() + 5, settingMenu.Top() + 90);
+					soundOffClicked.SetTopLeft(settingMenu.Left() + 5, settingMenu.Top() + 85);
 					soundOffClicked.ShowBitmap();
 				}
 				else
 				{
-					soundOff.SetTopLeft(settingMenu.Left() + 5, settingMenu.Top() + 90);
+					soundOff.SetTopLeft(settingMenu.Left() + 5, settingMenu.Top() + 85);
 					soundOff.OnShow();
 				}
 			}
@@ -754,6 +754,7 @@ namespace game_framework {
 	{
 		if (ButtonOnClick(point, settingButton))
 		{
+			if (sound) CAudio::Instance()->Play(AUDIO_BTN_CLICK, false);
 			settingBtnCLicked = true;
 		}
 	}
@@ -762,6 +763,7 @@ namespace game_framework {
 	{
 		if (ButtonOnClick(point, settingButton))
 		{
+			if (sound) CAudio::Instance()->Play(AUDIO_BTN_RELEASE, false);
 			onSetting = onSetting ? false : true;
 		}
 		settingBtnCLicked = false;
@@ -772,10 +774,12 @@ namespace game_framework {
 		if (settingButton.Left() <= point.x && point.x <= (settingButton.Left() + settingButton.Width()) &&
 			settingButton.Top() <= point.y && point.y <= (settingButton.Top() + settingButton.Height() + settingMenu.Height()))
 		{
+			if (sound) CAudio::Instance()->Play(AUDIO_BTN_CLICK, false);
 			if (music)
 			{
 				if (ButtonOnClick(point, musicOn))
 				{
+					if (sound) CAudio::Instance()->Play(AUDIO_BTN_CLICK, false);
 					musicOnBtnCLicked = true;
 				}
 			}
@@ -783,6 +787,7 @@ namespace game_framework {
 			{
 				if (ButtonOnClick(point, musicOff))
 				{
+					if (sound) CAudio::Instance()->Play(AUDIO_BTN_CLICK, false);
 					musicOffBtnCLicked = true;
 				}
 			}
@@ -790,6 +795,7 @@ namespace game_framework {
 			{
 				if (ButtonOnClick(point, soundOn))
 				{
+					if (sound) CAudio::Instance()->Play(AUDIO_BTN_CLICK, false);
 					soundOnBtnCLicked = true;
 				}
 			}
@@ -797,11 +803,13 @@ namespace game_framework {
 			{
 				if (ButtonOnClick(point, soundOff))
 				{
+					if (sound) CAudio::Instance()->Play(AUDIO_BTN_CLICK, false);
 					soundOffBtnCLicked = true;
 				}
 			}
 		}
-		else {
+		else 
+		{
 			onSetting = false;
 		}
 	}
@@ -812,6 +820,7 @@ namespace game_framework {
 		{
 			if (ButtonOnClick(point, musicOn))
 			{
+				if (sound) CAudio::Instance()->Play(AUDIO_BTN_RELEASE, false);
 				SetMusic(false);
 			}
 			musicOnBtnCLicked = false;
@@ -820,6 +829,7 @@ namespace game_framework {
 		{
 			if (ButtonOnClick(point, musicOff))
 			{
+				if (sound) CAudio::Instance()->Play(AUDIO_BTN_RELEASE, false);
 				SetMusic(true);
 			}
 			musicOffBtnCLicked = false;
@@ -828,6 +838,7 @@ namespace game_framework {
 		{
 			if (ButtonOnClick(point, soundOn))
 			{
+				CAudio::Instance()->Play(AUDIO_BTN_RELEASE, false);
 				sound = false;
 			}
 			soundOnBtnCLicked = false;

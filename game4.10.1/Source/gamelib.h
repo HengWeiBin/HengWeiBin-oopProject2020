@@ -331,8 +331,8 @@ namespace game_framework {
 	protected:
 		void GotoGameState(int state);							// 跳躍至指定的state
 		void ShowInitProgress(int percent);						// 顯示初始化的進度
-		bool ButtonOnClick(CPoint point,CMovingBitmap button);
-		bool ButtonOnClick(CPoint point, CAnimation button);
+		bool ButtonOnClick(const CPoint& point, CMovingBitmap& button);
+		bool ButtonOnClick(const CPoint& point, CAnimation& button);
 		void ShowSettingMenu();
 		void ShowSettingButton();
 		void SettingOnLButtonDown(CPoint point);

@@ -148,8 +148,10 @@ namespace game_framework
 		candyCrush.SetCycle(false);
 		/*==========================================================*/
 
-		//load background music
+		//load audio
 		CAudio::Instance()->Load(AUDIO_STAGE, "sounds\\Overworld_Level_Select.mp3");
+		CAudio::Instance()->Load(AUDIO_BTN_CLICK, "sounds\\button_press.wav");
+		CAudio::Instance()->Load(AUDIO_BTN_RELEASE, "sounds\\button_release.wav");
 
 		//load setting button
 		settingButton.AddBitmap("Bitmaps/SettingButton-0.bmp", RGB(0, 0, 0));
@@ -159,7 +161,7 @@ namespace game_framework
 		settingButton.SetDelayCount(8);
 		settingButtonClicked.LoadBitmap("Bitmaps\\settingButtonClicked.bmp", RGB(0, 0, 0));
 
-		//setting menu
+		//setting menu background
 		settingMenu.LoadBitmap("Bitmaps\\setting_0.bmp", RGB(255, 255, 255));
 
 		/*===================== Load Setting Item =======================*/
@@ -179,7 +181,7 @@ namespace game_framework
 		musicOff.SetDelayCount(8);
 		musicOffClicked.LoadBitmap("Bitmaps\\MusicOffButtonClicked.bmp", RGB(0, 0, 0));
 
-		//loud sound on button
+		//loud sound-on button
 		soundOn.AddBitmap("Bitmaps/SoundOnButton-0.bmp", RGB(0, 0, 0));
 		soundOn.AddBitmap("Bitmaps/SoundOnButton-1.bmp", RGB(0, 0, 0));
 		soundOn.AddBitmap("Bitmaps/SoundOnButton-2.bmp", RGB(0, 0, 0));
@@ -187,7 +189,7 @@ namespace game_framework
 		soundOn.SetDelayCount(8);
 		soundOnClicked.LoadBitmap("Bitmaps\\SoundOnButtonClicked.bmp", RGB(0, 0, 0));
 
-		//loud sound off button
+		//loud sound-off button
 		soundOff.AddBitmap("Bitmaps/SoundOffButton-0.bmp", RGB(0, 0, 0));
 		soundOff.AddBitmap("Bitmaps/SoundOffButton-1.bmp", RGB(0, 0, 0));
 		soundOff.AddBitmap("Bitmaps/SoundOffButton-2.bmp", RGB(0, 0, 0));
@@ -218,7 +220,6 @@ namespace game_framework
 		aboutButton.LoadBitmap("Bitmaps/AboutButton.bmp", RGB(255, 255, 255));
 		howToPlayButton.LoadBitmap("Bitmaps/HowToPlayButton.bmp", RGB(255, 255, 255));
 		cheatButton.LoadBitmap("Bitmaps/CheatButton.bmp", RGB(255, 255, 255));
-
 		/*==========================================================*/
 
 		finishLoaded = true;
@@ -256,12 +257,14 @@ namespace game_framework
 		{
 			if (ButtonOnClick(point, playButton))
 			{
+				if (sound) CAudio::Instance()->Play(AUDIO_BTN_CLICK, false);
 				playBtnClicked = true;
 			}
 			else playBtnClicked = false;
 
 			if (ButtonOnClick(point, helpButton))
 			{
+				if (sound) CAudio::Instance()->Play(AUDIO_BTN_CLICK, false);
 				helpBtnClicked = true;
 			}
 			else helpBtnClicked = false;
@@ -283,13 +286,15 @@ namespace game_framework
 		{
 			if (ButtonOnClick(point, playButton))
 			{
+				if (sound) CAudio::Instance()->Play(AUDIO_BTN_RELEASE, false);
 				GotoGameState(GAME_STATE_MENU);		// 切換至GAME_STATE_RUN
 			}
 			else playBtnClicked = false;
 
 			if (ButtonOnClick(point,helpButton))
 			{
-				onHelp = onHelp ? false:true;
+				if (sound) CAudio::Instance()->Play(AUDIO_BTN_RELEASE, false);
+				onHelp = onHelp ? false : true;
 				onAbout = true;
 			}
 		    helpBtnClicked = false;
@@ -500,18 +505,21 @@ namespace game_framework
 			//Exit Button
 			if (ButtonOnClick(point, exitButton))
 			{
+				if (sound) CAudio::Instance()->Play(AUDIO_BTN_CLICK);
 				exitBtnClicked = true;
 			}
 
 			//Retry Button
 			if (ButtonOnClick(point, retryButton))
 			{
+				if (sound) CAudio::Instance()->Play(AUDIO_BTN_CLICK);
 				retryBtnClicked = true;
 			}
 
 			//Next Button
 			if (ButtonOnClick(point, nextButton) && !isFail)
 			{
+				if (sound) CAudio::Instance()->Play(AUDIO_BTN_CLICK);
 				nextBtnClicked = true;
 			}
 		}
@@ -529,6 +537,7 @@ namespace game_framework
 			//Exit Button
 			if (ButtonOnClick(point, exitButton))
 			{
+				if (sound) CAudio::Instance()->Play(AUDIO_BTN_RELEASE);
 				GotoGameState(GAME_STATE_MENU);		// 切換至GAME_STATE_MENU
 				StopAllMusic();
 			}
@@ -536,6 +545,7 @@ namespace game_framework
 			//Retry Button
 			if (ButtonOnClick(point, retryButton))
 			{
+				if (sound) CAudio::Instance()->Play(AUDIO_BTN_RELEASE);
 				gameArea.LoadStage(stages, current_stage);
 				GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
 				StopAllMusic();
@@ -544,6 +554,7 @@ namespace game_framework
 			//Next Button
 			if (ButtonOnClick(point, nextButton) && !isFail && currentStage.GetInteger() != MAX_STAGE )
 			{
+				if (sound) CAudio::Instance()->Play(AUDIO_BTN_RELEASE);
 				current_stage += 1;
 				gameArea.LoadStage(stages, current_stage);
 				GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
