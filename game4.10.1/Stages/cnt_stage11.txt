@@ -20,8 +20,8 @@
 0	#Teffect
 0	#chocolate
 6	#candy type
-21	#mode
-1	#initcandy
+2	#mode
+0	#initcandy
 1	#portal
 3 12 9 4 2 13 9 5 2 14 9 6 2	#location
 0	#LastScore

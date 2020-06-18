@@ -637,6 +637,9 @@ namespace game_framework
 
 		for (int i = 0; i < (int)portalList->size(); i++)
 		{
+			if (!map[(*portalList)[i].first.y][(*portalList)[i].first.x] || !map[(*portalList)[i].second.y][(*portalList)[i].second.x])
+				continue;
+
 			int toTopLeftX = (*portalList)[i].first.x * 50 + x;
 			int toTopLeftY = (*portalList)[i].first.y * 50 + y + 40;
 			int fromTopLeftX = (*portalList)[i].second.x * 50 + x;

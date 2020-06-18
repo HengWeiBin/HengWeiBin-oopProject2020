@@ -855,19 +855,17 @@ namespace game_framework
 
 	void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
-		const int KEY_TAB = 0x09;
-
-		if (nChar == KEY_TAB)
-		{
-			CAudio::Instance()->Stop(AUDIO_JELLY);
-			GotoGameState(GAME_STATE_MENU);
-		}
-		
 		gameArea.OnKeyDown(nChar, nRepCnt, nFlags);
 	}
 
 	void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
+		if (nChar == VK_ESCAPE)
+		{
+			CAudio::Instance()->Stop(AUDIO_JELLY);
+			GotoGameState(GAME_STATE_MENU);
+		}
+
 		gameArea.OnKeyUp(nChar, nRepCnt, nFlags);
 	}
 
@@ -984,7 +982,9 @@ namespace game_framework
 	}
 
 	void CGameStateMenu::OnBeginState()
-	{	}
+	{
+		goldFinger = false;
+	}
 
 	void CGameStateMenu::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
