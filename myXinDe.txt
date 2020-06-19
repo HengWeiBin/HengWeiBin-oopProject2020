@@ -1,0 +1,9 @@
+By far the most important lesson I took out of this game is that whenever there's behavior that needs to be repeated around to multiple types of entities, it's better to default to abstracting/generalizing than to copy-pasting. Even if that impulse generally creates more problems than it solves, but later when you want to debug or add some function to your program, it will be much more easy to maintain the program. If the logic of checking permissions was repeated all over the code, it becomes difficult to fix issues that arise in the repeated code. When you fix a problem in one, you could easily forget to fix the problem in other occurrences. Also, if you have to modify the logic, you have to copy-paste all over the place. By having non-repeated code, you only have to maintain the code in a single place. New logic and bug fixes can be made in one place instead of many. 
+Beside, in the making process I've facing quite much error like syntax error and compilation errors. For me I try to solve it by look trough the internet about the problem or ask other people if needed. Even though there's a context mismatch between most programming advice I read on the Internet vs what I actually have learned but read more source might give me a valid answer to the problem I've been facing.
+
+
+
+
+到目前為止，我從該遊戲中學到的最重要的一課是，每當需要對多種類型的實體重複進行某種行為時，最好將其默認為抽象/泛化而不是複制粘貼。即使這種衝動通常會帶來更多無法解決的問題，但是稍後當您想調試或向程序中添加某些功能時，維護程序將變得更加容易。如果在整個代碼中都重複了檢查權限的邏輯，則很難解決在重複的代碼中出現的問題。當您解決一個問題時，您很容易忘記在其他情況下解決該問題。另外，如果必須修改邏輯，則必須在整個位置複製粘貼。通過使用非重複的代碼，您只需要將代碼維護在一個地方。可以在一個地方而不是許多地方進行新的邏輯和錯誤修復。
+
+另外，在製作過程中，我遇到了很多錯誤，例如語法錯誤和編譯錯誤。對我來說，我嘗試通過瀏覽互聯網解決該問題，或者詢問其他人（如果需要）。即使我在Internet上閱讀的大多數編程建議與我實際學到的內容之間存在上下文不匹配的情況，但閱讀更多的資源可能仍可以為我所面臨的問題提供有效的答案。
