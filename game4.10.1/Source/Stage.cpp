@@ -45,9 +45,11 @@ void game_framework::Stage::LoadStage()
 	string tempPortal;
 	string file;
 	//MAP
-	for (int i = 0; i < 13; i++) {
+	for (int i = 0; i < 13; i++) 
+	{
 		getline(InputStage, file);
-		for (int j = 0; j < 20; j++) {
+		for (int j = 0; j < 20; j++) 
+		{
 			switch (file[j])
 			{
 			case '0': map[i][j] = 0; break;		//0 = none, !0 = gameArea
@@ -58,8 +60,9 @@ void game_framework::Stage::LoadStage()
 			}
 		}
 	}
-	//ETC
-	for (int i = 2; i < 13; i++) {
+	//Other stage information
+	for (int i = 2; i < 13; i++) 
+	{
 		getline(InputStage, file, '\n');
 		data[i] = file.substr(0, file.find('\t'));
 	}
@@ -94,7 +97,6 @@ void game_framework::Stage::LoadStage()
 	//LAST SCORE
 	getline(InputStage, file, '\n');
 	data[0] = file.substr(0, file.find('\t'));
-	//data[0] = file;
 	//IS_UNCLOCK
 	getline(InputStage, file, '\n');
 	data[1] = file.substr(0, file.find('\t'));
@@ -170,8 +172,6 @@ void game_framework::Stage::RemoveLine()
 		{
 			getline(read, file, '\n');
 			line_no++;
-			/*REMEMBER CHANGE THESE 2LINE, REMOVE THE +2 
-			WHEN WE'RE DONE CREATE THE GAME_END_STATE*/
 			if (line_no < n )
 			{
 				myFile << file;

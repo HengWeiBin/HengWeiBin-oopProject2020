@@ -251,8 +251,11 @@ namespace game_framework
 	{
 		if (onSetting)
 		{
+			//setting area
 			SettingMenuOnLButtonDown(point);
 		}
+
+		//initiate menu
 		else
 		{
 			if (ButtonOnClick(point, playButton))
@@ -276,12 +279,16 @@ namespace game_framework
 	{
 		if (onSetting)
 		{
+			//setting area
 			SettingMenuOnLButtonUp(point);
 		}
 		else if (onHelp) 
 		{
+			//help area
 			HelpMenuOnLButtonUp(point);
 		}
+
+		//initiate menu
 		else
 		{
 			if (ButtonOnClick(point, playButton))
@@ -319,9 +326,8 @@ namespace game_framework
 			playButton.SetTopLeft(SIZE_X / 2 - playButton.Width() / 2, SIZE_Y / 5 * 4 - playButton.Height());
 			playButton.OnShow();
 		}
-
 		
-
+		//character
 		tiffy.SetTopLeft(95, 400);
 		tiffy.OnShow();
 		toffee.SetTopLeft(700, 60);
@@ -356,7 +362,6 @@ namespace game_framework
 		if (!helpBtnClicked) helpButton.OnMove();
 		tiffy.OnMove();
 		toffee.OnMove();
-		
 	}
 
 	void CGameStateInit::ShowHelpMenu()
@@ -378,6 +383,7 @@ namespace game_framework
 			}
 			if (onHowToPlay) 
 			{
+				//show tab how to play 
 				ShowHowToPlay();
 			}
 			if (onCheatPage)
@@ -389,6 +395,7 @@ namespace game_framework
 				cheat.SetTopLeft(aboutTab.Left() + 3, aboutTab.Top() + 26);
 				cheat.ShowBitmap();
 			}
+			//set loaction of the tab
 			aboutButton.SetTopLeft(aboutTab.Left(), aboutTab.Top());
 			howToPlayButton.SetTopLeft(aboutTab.Left()+aboutButton.Width(), aboutTab.Top());
 			cheatButton.SetTopLeft(howToPlayButton.Left() + howToPlayButton.Width(), aboutTab.Top());
@@ -416,24 +423,28 @@ namespace game_framework
 
 	void CGameStateInit::HelpMenuOnLButtonUp(CPoint point)
 	{
-
+		//on help area
 		if (ButtonOnClick(point, helpBackground))
 		{
+			//about tab
 			if (ButtonOnClick(point, aboutButton))
 			{
 				onAbout = true;
 				onHowToPlay = onCheatPage = false;
 			}
+			//how to play tab
 			if (ButtonOnClick(point, howToPlayButton))
 			{
 				onHowToPlay = true;
 				onAbout = onCheatPage = false;
 			}
+			//cheat tab
 			if (ButtonOnClick(point, cheatButton))
 			{
 				onCheatPage = true;
 				onAbout = onHowToPlay = false;
 			}
+			//left right button
 			if (onHowToPlay)
 			{
 				if (ButtonOnClick(point, leftButton) && howToPlayPage>0)
@@ -451,7 +462,7 @@ namespace game_framework
 			onHelp = false;
 		}
 	}
-
+	
 	void CGameStateInit::SetMusic(bool music)
 	{
 		this->music = music;
@@ -494,6 +505,7 @@ namespace game_framework
 			else CAudio::Instance()->Play(AUDIO_STATE_COMPLETE, true);
 		}
 	}
+
 	void CGameStateOver::OnLButtonDown(UINT nFlags, CPoint point)
 	{
 		if (onSetting)
@@ -639,6 +651,7 @@ namespace game_framework
 
 	void CGameStateOver::ShowButtons()
 	{
+		//set button location
 		int exitBtnTopLX = scoreBoardOver.Left() + scoreBoardOver.Width() - exitButton.Width();
 		int exitBtnTopLY = scoreBoardOver.Top() + 30;
 		int retryBtnTopLX = (backgroundOver.Width() / 2) + (isFail || (current_stage+1 == 15) ? -nextButton.Width() / 2 : 20 - nextButton.Width());
@@ -694,6 +707,7 @@ namespace game_framework
 
 	void CGameStateOver::ShowStars(int amount, int xStar, int yStar)
 	{
+		//show 3 star
 		if (amount == 3)
 		{
 			yellowStar.SetTopLeft(xStar, yStar);
@@ -703,6 +717,7 @@ namespace game_framework
 			yellowStar.SetTopLeft(xStar + 220 + 40, yStar);
 			yellowStar.ShowBitmap();
 		}
+		//show 1/2 star
 		else if (amount >= 1)
 		{
 			redStar.SetTopLeft(xStar, yStar);
@@ -720,6 +735,7 @@ namespace game_framework
 			emptyStar.SetTopLeft(xStar + 220 + 40, yStar);
 			emptyStar.ShowBitmap();
 		}
+		//show 0 star
 		else {
 			emptyStar.SetTopLeft(xStar, yStar);
 			emptyStar.ShowBitmap();
@@ -957,6 +973,7 @@ namespace game_framework
 
 	void CGameStateMenu::OnInit()
 	{
+		//background
 		woodBackgourd.LoadBitmap("Bitmaps\\WoodBackground.bmp");
 		menuBackground.LoadBitmap("Bitmaps\\stage_map.bmp");
 		comingSoon.LoadBitmap("Bitmaps\\ComingSoon.bmp", RGB(0, 0, 0));
@@ -990,9 +1007,8 @@ namespace game_framework
 	{
 		const char KEY_UP = 0x26;
 		const char KEY_DOWN = 0x28;
-
+		//menu control with keyboard
 		if (nChar == KEY_UP) IsMovingUp = true;
-
 		if (nChar == KEY_DOWN) IsMovingDown = true;
 
 		if (nChar == VK_F1) goldFinger = true;
@@ -1003,9 +1019,8 @@ namespace game_framework
 		const char KEY_UP = 0x26;
 		const char KEY_DOWN = 0x28;
 		const char KEY_ESC = 27;
-
+		//menu control with keyboard
 		if (nChar == KEY_UP) IsMovingUp = false;
-
 		if (nChar == KEY_DOWN) IsMovingDown = false;
 
 		if (nChar == VK_F1) goldFinger = false;
@@ -1040,16 +1055,14 @@ namespace game_framework
 		SettingOnLButtonUp(point);
 		if (onSetting)
 		{
+			//setting button
 			SettingMenuOnLButtonUp(point);
 		}
 		else
 		{
-
+			//stage
 			int x = point.x;
 			int y = point.y - sy;
-			int StagePos[][2] = { {270,4030},{495,3980},{530,3850},{320,3870},{135,3910},
-								  {135,3750},{340,3690},{570,3720},{770,3800},{960,3840},
-								  {1085,3750},{1010,3600},{760,3540},{520,3590},{280,3585} };
 			for (int i = 0; i < MAX_STAGE ; i++) {
 				if (StagePos[i][0] < x && x < (StagePos[i][0] + 60) && StagePos[i][1] < y && (y < StagePos[i][1] + 60))
 				{
@@ -1120,14 +1133,15 @@ namespace game_framework
 		//show wood background
 		woodBackgourd.SetTopLeft(0, 0);
 		woodBackgourd.ShowBitmap();
+		//show menu background
+		menuBackground.SetTopLeft(40, sy);
+		menuBackground.ShowBitmap();
 
 		//show stage map
 		if (sy < MAX_Y && sy < MIN_Y)
 			sy = -3600;
 		if (sy > MAX_Y && sy > MIN_Y)
 			sy = 0;
-		menuBackground.SetTopLeft(40, sy);
-		menuBackground.ShowBitmap();
 		if (sy > -3000)
 		{
 			comingSoon.SetTopLeft(SIZE_X / 2 - comingSoon.Width() / 2, SIZE_Y / 2 - comingSoon.Height() / 2);
@@ -1198,6 +1212,7 @@ namespace game_framework
 	{
 		if (amount == 3)
 		{
+			//show 3 star
 			star3.SetTopLeft(xStar, yStar);
 			star3.ShowBitmap();
 			star3.SetTopLeft(xStar + 30, yStar + 5);
@@ -1207,11 +1222,13 @@ namespace game_framework
 		}
 		else if (amount >= 1)
 		{
+			//show 1 star
 			star1.SetTopLeft(xStar, yStar);
 			star1.ShowBitmap();
 
 			if (amount == 2)
 			{
+				//show 2 star
 				star2.SetTopLeft(xStar + 30, yStar + 5);
 				star2.ShowBitmap();
 			}
