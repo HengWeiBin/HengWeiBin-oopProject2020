@@ -29,10 +29,6 @@
 #define IDR_GAMETYPE                    124
 #define IDB_RACKET                      125
 #define IDB_BITMAP1                     126
-#define IDB_BALL1                       127
-#define IDB_BALL2                       128
-#define IDB_BALL3                       129
-#define IDB_BALL4                       130
 #define IDB_0                           131
 #define IDB_1                           132
 #define IDB_2                           133
