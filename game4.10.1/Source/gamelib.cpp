@@ -646,6 +646,8 @@ namespace game_framework {
 		CDDraw::BltBackToPrimary();					// 將 Back Plain 貼到螢幕
 	}
 
+
+	//return true if the cursor located in the button area
 	bool CGameState::ButtonOnClick(const CPoint& point, CMovingBitmap& button)
 	{
 		if (button.Left() <= point.x && point.x <= (button.Left() + button.Width()) &&
@@ -659,6 +661,7 @@ namespace game_framework {
 		}
 	}
 
+	//return true if the cursor located in the button area
 	bool CGameState::ButtonOnClick(const CPoint& point, CAnimation& button)
 	{
 		if (button.Left() <= point.x && point.x <= (button.Left() + button.Width()) &&
@@ -672,6 +675,8 @@ namespace game_framework {
 		}
 	}
 
+
+	//show setting
 	void CGameState::ShowSettingMenu()
 	{
 		if(onSetting)
@@ -707,6 +712,7 @@ namespace game_framework {
 					musicOff.OnShow();
 				}
 			}
+			//show sound button
 			if (sound)
 			{
 				if (soundOnBtnCLicked)
@@ -736,6 +742,7 @@ namespace game_framework {
 		}
 	}
 
+	//show setting button
 	void CGameState::ShowSettingButton()
 	{
 		if (settingBtnCLicked)
@@ -754,21 +761,23 @@ namespace game_framework {
 	{
 		if (ButtonOnClick(point, settingButton))
 		{
+			//play the click sound and show the buttonClicked when left button down
 			if (sound) CAudio::Instance()->Play(AUDIO_BTN_CLICK, false);
-			settingBtnCLicked = true;
+			settingBtnCLicked = true;			
 		}
 	}
-
 	void CGameState::SettingOnLButtonUp(CPoint point)
 	{
 		if (ButtonOnClick(point, settingButton))
 		{
+			//play the release sound and show the button animation when left button up
 			if (sound) CAudio::Instance()->Play(AUDIO_BTN_RELEASE, false);
 			onSetting = onSetting ? false : true;
 		}
 		settingBtnCLicked = false;
 	}
 
+	//play the click sound and show the buttonClicked when left button down
 	void CGameState::SettingMenuOnLButtonDown(CPoint point)
 	{
 		if (settingButton.Left() <= point.x && point.x <= (settingButton.Left() + settingButton.Width()) &&
@@ -814,6 +823,7 @@ namespace game_framework {
 		}
 	}
 
+	//play the release sound and show the button animation when left button up
 	void CGameState::SettingMenuOnLButtonUp(CPoint point)
 	{
 		if (music)
@@ -855,6 +865,7 @@ namespace game_framework {
 
 	}
 
+	//set the button animation on move
 	void CGameState::SettingMenuOnMove()
 	{
 		if(onSetting)
@@ -866,6 +877,8 @@ namespace game_framework {
 		}
 	}
 
+
+	//set the button animation on move
 	void CGameState::SettingOnMove()
 	{
 		if (!settingBtnCLicked) settingButton.OnMove();
