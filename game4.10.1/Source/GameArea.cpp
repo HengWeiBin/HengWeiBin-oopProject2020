@@ -97,6 +97,7 @@ namespace game_framework
 		InitCandy(stages[index]->initcandy);
 	}
 
+	//get candy position
 	void GameArea::Find(Candy *candy, unsigned &row, unsigned &column)
 	{
 		for (unsigned i = 0; i < MaxHeight; i++)
