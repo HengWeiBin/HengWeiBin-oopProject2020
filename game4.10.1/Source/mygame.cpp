@@ -230,9 +230,9 @@ namespace game_framework
 	{
 		if (finishLoaded)
 		{
-			candyCrush.Reset();
-			playBtnClicked = false;
-			if (music) CAudio::Instance()->Play(AUDIO_STAGE, true);
+			candyCrush.Reset();	//reset animation of candy crush logo
+			playBtnClicked = false;	//reset playbutton stste
+			if (music) CAudio::Instance()->Play(AUDIO_STAGE, true);	//play background music
 		}
 	}
 

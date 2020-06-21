@@ -11,16 +11,16 @@ namespace game_framework
 	public:
 		Stage(int);
 		~Stage();
-		void LoadStage();
-		double GetScoreOne();
-		double GetScoreTwo();
-		double GetScoreThree();
-		double GetLastScoreHistory();
+		void LoadStage();							//Load Stage from file
+		double GetScoreOne();						//return score of one star
+		double GetScoreTwo();						//return score of two star
+		double GetScoreThree();						//return score of three star
+		double GetLastScoreHistory();				//Get last highest score
 		bool IsUnlock();
 		bool IsFail();
 		void SetPassOrFail(int);
-		void RemoveLine();
-		void WriteBack();
+		void RemoveLine();							//re-create the cnt_stg.txt without last 2 lines(last score and isunlock)
+		void WriteBack();							//Write game data to file
 		void SetUnlock();
 		int GetCurrentScore();
 		int GetCurrentStage();
@@ -39,8 +39,8 @@ namespace game_framework
 		string stageTxt;
 		int currentStage;
 		int currentScore;
-		bool hasPortal;
-		vector<pair<CPoint, CPoint>> portalList;
+		bool hasPortal;								//is portal exist/s
+		vector<pair<CPoint, CPoint>> portalList;	//list of all teleporter (start point, end point)
 	};
 }
 #endif

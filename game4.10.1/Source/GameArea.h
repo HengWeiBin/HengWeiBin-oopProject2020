@@ -39,6 +39,7 @@ namespace game_framework
 		void GetWordBmp(double**, int**, CMovingBitmap**, int);
 		void GotoGameStateOver(bool result);
 		void InitClickedCandy();						//unclick & clear candies in clickedCandies
+		void InitGameArea(int);
 		bool IsDropping();								//check all candies are still
 		bool IsNeighbour(Candy&, Candy&);				//return are candies in clickedCandies is neighbour
 		void OnMoveBlasts();

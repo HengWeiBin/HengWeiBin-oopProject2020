@@ -308,7 +308,7 @@ namespace game_framework
 		showAll ? ShowLightning(true) : ShowLightning();
 
 		for (auto i = magicBlasts.begin(); i != magicBlasts.end(); i++)
-		{
+		{	//Show magic blast effect on every target
 			(*i).OnShow();
 		}
 	}
@@ -316,7 +316,7 @@ namespace game_framework
 	void SuperBlast::ShowLightning(bool showAll)
 	{
 		chocalate.SetTopLeft(x, y);
-		chocalate.OnShow();
+		chocalate.OnShow();	//Show chocalate
 		CDC *pDC = CDDraw::GetBackCDC();
 
 		CPen penLighting;
@@ -327,21 +327,10 @@ namespace game_framework
 		pPen = pDC->SelectObject(&penLighting);
 
 		if (showAll)
-		{
+		{	// Show all lightning effect at one time
 			for (auto i = target.begin(); i != target.end(); i++)
 			{
-				DrawLine(pDC, CPoint(x + 25, y + 25), *i);
-				MagicBlast blast(*i);
-				bool blastExists = false;
-				for (auto i = magicBlasts.begin(); i != magicBlasts.end(); i++)
-				{
-					if ((*i) == blast)
-					{
-						blastExists = true;
-						break;
-					}
-				}
-				if (!blastExists) magicBlasts.push_back(blast);
+				DrawLine(pDC, CPoint(x + 25, y + 25), *i); //Draw a lightning from current position to target
 			}
 		}
 		else
@@ -350,18 +339,7 @@ namespace game_framework
 			{
 				if (curShow - i >= 0 && curShow - i < target.size())
 				{
-					DrawLine(pDC, CPoint(x + 25, y + 25), target[curShow - i]);
-					MagicBlast blast(target[curShow - i]);
-					bool blastExists = false;
-					for (auto i = magicBlasts.begin(); i != magicBlasts.end(); i++)
-					{
-						if ((*i) == blast)
-						{
-							blastExists = true;
-							break;
-						}
-					}
-					if (!blastExists) magicBlasts.push_back(blast);
+					DrawLine(pDC, CPoint(x + 25, y + 25), target[curShow - i]);//Draw a lightning from current position to target
 				}
 			}
 		}
@@ -373,17 +351,32 @@ namespace game_framework
 
 	void SuperBlast::DrawLine(CDC* pDC, const CPoint& start, const CPoint& end)
 	{
-		list<CPoint>* route = GetRoutePoints(start, end);
+		list<CPoint>* route = GetRoutePoints(start, end); //Get points on lighting route
+
+		//DrawLine
 		pDC->MoveTo(*route->begin());
 		for (auto j = route->begin()++; j != route->end(); j++)
 		{
 			pDC->LineTo(*j);
 		}
 		delete route;
+
+		MagicBlast blast(end);
+		bool blastExists = false;
+		for (auto i = magicBlasts.begin(); i != magicBlasts.end(); i++)
+		{	//to avoid show magic blast repeatly
+			if ((*i) == blast)
+			{
+				blastExists = true;
+				break;
+			}
+		}
+		if (!blastExists) magicBlasts.push_back(blast);//push a new magic blast if it doesn't exists
 	}
 
 	list<CPoint>* SuperBlast::GetRoutePoints(CPoint start, CPoint end)
 	{
+		// Get points on line from start to end by straight line equation
 		list<CPoint>* route = new list<CPoint>();
 		int interval = abs(start.x - end.x) / (abs(start.x - end.x) > 10 ? abs(start.x - end.x) / 10 : abs(start.x - end.x) > 0 ? abs(start.x - end.x) : 1);
 		int totalPoint = abs(start.x - end.x) > 10 ? abs(start.x - end.x) / 10 : abs(start.x - end.x);
@@ -397,6 +390,7 @@ namespace game_framework
 		}
 		route->push_back(end);
 
+		// move position of points in a stable range randomly
 		int j = 0;
 		for (auto i = route->begin(); i != route->end(); i++, j++)
 		{

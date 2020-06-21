@@ -90,35 +90,10 @@ namespace game_framework
 		scoreBoard.lastHighScore = stages[index]->lastHighScore;
 		scoreBoard.moves = stages[index]->maxStep;
 		scoreBoard.mode = stages[index]->mode;
-		
-		//Set Target
-		if (scoreBoard.mode == 1)
-		{
-			if (scoreBoard.lastHighScore < scoreBoard.oneStar)
-				scoreBoard.target = (int)scoreBoard.oneStar;
-			else if (scoreBoard.lastHighScore < scoreBoard.twoStar)
-				scoreBoard.target = (int)scoreBoard.twoStar;
-			else if (scoreBoard.lastHighScore < scoreBoard.threeStar)
-				scoreBoard.target = (int)scoreBoard.threeStar;
-			else scoreBoard.target = (int)scoreBoard.lastHighScore;
-		}
-		else if (scoreBoard.mode == 2)
-		{
-			scoreBoard.target = totalJelly;
-		}
-		else GAME_ASSERT(0, "Game mode unrecognizable!")
-
 		this->stage = find(stages.begin(), stages.end(), stages[index]);
 
-		scoreBoard.score = 0;
-		initiating = true;
-		ending = false;
-		running = true;
-		gameOver = false;
-		delay = 0;
-		delayRemove = false;
-		releaseSwap = false;
-		goldFinger = false;
+		//Init GameArea
+		InitGameArea(totalJelly);
 		InitCandy(stages[index]->initcandy);
 	}
 
@@ -163,25 +138,25 @@ namespace game_framework
 		{
 		case 0:
 			break;
-		case 1:
+		case 1://trigger horizontal Line blast
 			if (!initiating && style)
-			{
+			{	
 				blasts.push_back(new LineBlast(style, candy->GetTopLeftX(), candy->GetTopLeftY(), 1));
 			}
 			RemoveRow(row);
 			break;
-		case 2:
+		case 2://trigger vertical Line Blast
 			if (!initiating && style)
-			{
+			{	
 				blasts.push_back(new LineBlast(style, candy->GetTopLeftX(), candy->GetTopLeftY(), 2));
 			}
 			RemoveColumn(column);
 			break;
-		case 3:
+		case 3://trigger pack blast
 			RemoveSquare(row, column, 1);
 			if (!initiating && *sound)CAudio::Instance()->Play(AUDIO_SQUARE_REMOVE1, false);
 			break;
-		case 4:
+		case 4:	//trigger super Blast
 			RemoveStyle(candy->GetTopLeftX(), candy->GetTopLeftY());
 			break;
 		}
@@ -1203,5 +1178,35 @@ namespace game_framework
 			(*i)->InitClick();
 		}
 		clickedCandies.clear();
+	}
+
+	void GameArea::InitGameArea(int totalJelly)
+	{
+		//Set Target
+		if (scoreBoard.mode == 1)
+		{
+			if (scoreBoard.lastHighScore < scoreBoard.oneStar)
+				scoreBoard.target = (int)scoreBoard.oneStar;
+			else if (scoreBoard.lastHighScore < scoreBoard.twoStar)
+				scoreBoard.target = (int)scoreBoard.twoStar;
+			else if (scoreBoard.lastHighScore < scoreBoard.threeStar)
+				scoreBoard.target = (int)scoreBoard.threeStar;
+			else scoreBoard.target = (int)scoreBoard.lastHighScore;
+		}
+		else if (scoreBoard.mode == 2)
+		{
+			scoreBoard.target = totalJelly;
+		}
+		else GAME_ASSERT(0, "Game mode unrecognizable!")
+
+		scoreBoard.score = 0;
+		initiating = true;
+		ending = false;
+		running = true;
+		gameOver = false;
+		delay = 0;
+		delayRemove = false;
+		releaseSwap = false;
+		goldFinger = false;
 	}
 }
